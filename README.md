@@ -13,12 +13,11 @@ af.info()
 # Generate a uniform random array with a size of 5 elements
 a = af.randu(5, 1)
 
-# Get the minimum value of a
-a_min = af.min(a)
-
 # Print a and its minimum value
 af.print_array(a)
-af.print_array(a_min)
+
+# Print min and max values of a
+print("Minimum, Maximum: ", af.min(a), af.max(a))
 ```
 
 ## Sample outputs
@@ -38,10 +37,7 @@ ArrayFire v3.0.1 (OpenCL, 64-bit Linux, build 17db1c9)
 0.1794
 0.4198
 
-
-Min value of a
-[1 1 1 1]
-0.1794
+Minimum, Maximum:  0.17936542630195618 0.9517996311187744
 ```
 
 On an NVIDIA GPU:
@@ -61,14 +57,7 @@ Generate a random matrix a:
 0.9690
 0.9251
 
-
-Min value of a
-[1 1 1 1]
-0.0390
-
-Max value of a
-[1 1 1 1]
-0.9690
+Minimum, Maximum:  0.039020489901304245 0.9689629077911377
 ```
 
 Fallback to CPU when CUDA and OpenCL are not availabe:
@@ -85,13 +74,7 @@ Generate a random matrix a:
 0.4587
 0.5328
 
-
-Min value of a
-[1 1 1 1]
-0.0000
-
-Max value of a
-[1 1 1 1]
+Minimum, Maximum:  7.825903594493866e-06 0.7556053400039673
 ```
 
 The backend selection is automated currently. Choosing a particular backend will be made available in the future.
