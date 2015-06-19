@@ -10,5 +10,17 @@ def dim4(d0=1, d1=1, d2=1, d3=1):
 
     return out
 
+def dim4_tuple(dims):
+    assert(isinstance(dims, tuple))
+    out = [1]*4
+
+    for i, dim in enumerate(dims):
+        out[i] = dim
+
+    return tuple(out)
+
 def print_array(a):
     clib.af_print_array(a.arr)
+
+def is_valid_scalar(a):
+    return isinstance(a, float) or isinstance(a, int) or isinstance(a, complex)
