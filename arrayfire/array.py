@@ -176,6 +176,7 @@ class array(object):
     def __rmul__(self, other):
         return binary_funcr(other, self, clib.af_mul)
 
+    # Necessary for python3
     def __truediv__(self, other):
         return binary_func(self, other, clib.af_div)
 
@@ -184,6 +185,17 @@ class array(object):
         return self
 
     def __rtruediv__(self, other):
+        return binary_funcr(other, self, clib.af_div)
+
+    # Necessary for python2
+    def __div__(self, other):
+        return binary_func(self, other, clib.af_div)
+
+    def __idiv__(self, other):
+        self =  binary_func(self, other, clib.af_div)
+        return self
+
+    def __rdiv__(self, other):
         return binary_funcr(other, self, clib.af_div)
 
     def __mod__(self, other):
