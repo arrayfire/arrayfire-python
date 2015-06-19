@@ -109,13 +109,13 @@ def sort(a, dim=0, is_ascending=True):
     clib.af_sort(pointer(out.arr), a.arr, c_uint(dim), c_bool(is_ascending))
     return out
 
-def sort_index(a, dim=0, is_is_ascending=True):
+def sort_index(a, dim=0, is_ascending=True):
     out = array()
     idx = array()
     clib.af_sort_index(pointer(out.arr), pointer(idx.arr), a.arr, c_uint(dim), c_bool(is_ascending))
     return out,idx
 
-def sort_by_key(iv, ik, dim=0, is_is_ascending=True):
+def sort_by_key(iv, ik, dim=0, is_ascending=True):
     ov = array()
     ok = array()
     clib.af_sort_by_key(pointer(ov.arr), pointer(ok.arr), \
@@ -129,10 +129,10 @@ def set_unique(a, is_sorted=False):
 
 def set_union(a, b, is_unique=False):
     out = array()
-    clib.af_set_union(pointer(out.arr), a.arr, b.arr, c_bool(is_sorted))
+    clib.af_set_union(pointer(out.arr), a.arr, b.arr, c_bool(is_unique))
     return out
 
 def set_intersect(a, b, is_unique=False):
     out = array()
-    clib.af_set_intersect(pointer(out.arr), a.arr, b.arr, c_bool(is_sorted))
+    clib.af_set_intersect(pointer(out.arr), a.arr, b.arr, c_bool(is_unique))
     return out
