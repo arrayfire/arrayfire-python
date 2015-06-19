@@ -1,16 +1,14 @@
 #!/usr/bin/python
 import arrayfire as af
 
+# Display backend information
 af.info()
 
-print('\nGenerate a random matrix a:')
+# Generate a uniform random array with a size of 5 elements
 a = af.randu(5, 1)
+
+# Print a and its minimum value
 af.print_array(a)
 
-print('\nMin value of a')
-a_min = af.min(a)
-af.print_array(a_min)
-
-print('\nMax value of a')
-a_max = af.max(a)
-af.print_array(a_max)
+# Print min and max values of a
+print("Minimum, Maximum: ", af.min(a), af.max(a))
