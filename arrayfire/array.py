@@ -289,4 +289,7 @@ class array(object):
     #     return self
 
 def print_array(a):
+    expr = inspect.stack()[1][-2]
+    if (expr is not None):
+        print('%s' % expr[0].split('print_array(')[1][:-2])
     safe_call(clib.af_print_array(a.arr))
