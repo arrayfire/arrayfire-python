@@ -30,3 +30,13 @@ def safe_call(af_error):
         c_err_len = c_longlong(0)
         clib.af_get_last_error(pointer(c_err_str), pointer(c_err_len))
         raise RuntimeError(to_str(c_err_str), af_error)
+
+
+to_dtype = {'f' : f32,
+            'd' : f64,
+            'b' : b8,
+            'B' : u8,
+            'i' : s32,
+            'I' : u32,
+            'l' : s64,
+            'L' : u64}

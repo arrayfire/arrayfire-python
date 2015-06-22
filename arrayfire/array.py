@@ -105,22 +105,7 @@ class array(object):
                 idims = [buf_len, 1, 1, 1]
                 numdims = 1
 
-            if type_char == 'f':
-                dtype = f32
-            elif type_char == 'd':
-                dtype = f64
-            elif type_char == 'b':
-                dtype = b8
-            elif type_char == 'B':
-                dtype = u8
-            elif type_char == 'i':
-                dtype = s32
-            elif type_char == 'I':
-                dtype = u32
-            elif type_char == 'l':
-                dtype = s64
-            elif type_char == 'L':
-                dtype = u64
+            dtype = to_dtype[type_char]
 
             self.arr = create_array(buf, numdims, idims, dtype)
 
