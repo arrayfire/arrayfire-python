@@ -31,6 +31,12 @@ def safe_call(af_error):
         clib.af_get_last_error(pointer(c_err_str), pointer(c_err_len))
         raise RuntimeError(to_str(c_err_str), af_error)
 
+def get_version():
+    major=c_int(0)
+    minor=c_int(0)
+    patch=c_int(0)
+    safe_call(clib.af_get_version(pointer(major), pointer(minor), pointer(patch)))
+    return major,minor,patch
 
 to_dtype = {'f' : f32,
             'd' : f64,
