@@ -1,7 +1,6 @@
 from .library import *
 from .array import *
 
-
 def parallel_dim(a, dim, c_func):
     out = array()
     safe_call(c_func(pointer(out.arr), a.arr, c_int(dim)))
