@@ -29,4 +29,4 @@ def safe_call(af_error):
         c_err_str = c_char_p(0)
         c_err_len = c_longlong(0)
         clib.af_get_last_error(pointer(c_err_str), pointer(c_err_len))
-        raise RuntimeError('test', to_str(c_err_str), af_error)
+        raise RuntimeError(to_str(c_err_str), af_error)
