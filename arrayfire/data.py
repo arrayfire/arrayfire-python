@@ -12,8 +12,12 @@ def constant(val, d0, d1=None, d2=None, d3=None, dtype=f32):
 brange = range
 
 def range(d0, d1=None, d2=None, d3=None, dim=-1, dtype=f32):
+
     if not isinstance(dtype, c_int):
-        raise TypeError("Invalid dtype")
+        if isinstance(dtype, int):
+            dtype = c_int(dtype)
+        else:
+            raise TypeError("Invalid dtype")
 
     out = array()
     dims = dim4(d0, d1, d2, d3)
@@ -24,7 +28,10 @@ def range(d0, d1=None, d2=None, d3=None, dim=-1, dtype=f32):
 
 def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=f32):
     if not isinstance(dtype, c_int):
-        raise TypeError("Invalid dtype")
+        if isinstance(dtype, int):
+            dtype = c_int(dtype)
+        else:
+            raise TypeError("Invalid dtype")
 
     out = array()
     dims = dim4(d0, d1, d2, d3)
@@ -42,7 +49,10 @@ def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=f32):
 def randu(d0, d1=None, d2=None, d3=None, dtype=f32):
 
     if not isinstance(dtype, c_int):
-        raise TypeError("Invalid dtype")
+        if isinstance(dtype, int):
+            dtype = c_int(dtype)
+        else:
+            raise TypeError("Invalid dtype")
 
     out = array()
     dims = dim4(d0, d1, d2, d3)
@@ -53,7 +63,10 @@ def randu(d0, d1=None, d2=None, d3=None, dtype=f32):
 def randn(d0, d1=None, d2=None, d3=None, dtype=f32):
 
     if not isinstance(dtype, c_int):
-        raise TypeError("Invalid dtype")
+        if isinstance(dtype, int):
+            dtype = c_int(dtype)
+        else:
+            raise TypeError("Invalid dtype")
 
     out = array()
     dims = dim4(d0, d1, d2, d3)
@@ -72,7 +85,10 @@ def get_seed():
 def identity(d0, d1=None, d2=None, d3=None, dtype=f32):
 
     if not isinstance(dtype, c_int):
-        raise TypeError("Invalid dtype")
+        if isinstance(dtype, int):
+            dtype = c_int(dtype)
+        else:
+            raise TypeError("Invalid dtype")
 
     out = array()
     dims = dim4(d0, d1, d2, d3)

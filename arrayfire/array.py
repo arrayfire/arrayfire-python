@@ -11,8 +11,12 @@ def create_array(buf, numdims, idims, dtype):
     return out_arr
 
 def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
+
     if not isinstance(dtype, c_int):
-        raise TypeError("Invalid dtype")
+        if isinstance(dtype, int):
+            dtype = c_int(dtype)
+        else:
+            raise TypeError("Invalid dtype")
 
     out = c_longlong(0)
     dims = dim4(d0, d1, d2, d3)
@@ -130,7 +134,7 @@ class array(object):
     def type(self):
         dty = c_int(f32.value)
         safe_call(clib.af_get_type(pointer(dty), self.arr))
-        return dty
+        return dty.value
 
     def __add__(self, other):
         return binary_func(self, other, clib.af_add)
