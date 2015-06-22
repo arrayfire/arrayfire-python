@@ -143,7 +143,7 @@ class array(object):
         return dims[:self.numdims()]
 
     def type(self):
-        dty = f32
+        dty = c_int(f32.value)
         safe_call(clib.af_get_type(pointer(dty), self.arr))
         return dty
 
