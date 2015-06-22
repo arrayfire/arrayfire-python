@@ -1,5 +1,5 @@
+import inspect
 from .library import *
-from .array import *
 
 def dim4(d0=1, d1=1, d2=1, d3=1):
     c_dim4 = c_longlong * 4
@@ -19,8 +19,12 @@ def dim4_tuple(dims):
 
     return tuple(out)
 
-def print_array(a):
-    clib.af_print_array(a.arr)
-
 def is_valid_scalar(a):
     return isinstance(a, float) or isinstance(a, int) or isinstance(a, complex)
+
+def safe_call(af_error):
+    if (af_error != AF_SUCCESS.value):
+        c_err_str = c_char_p(0)
+        c_err_len = c_longlong(0)
+        clib.af_get_last_error(pointer(c_err_str), pointer(c_err_len))
+        raise RuntimeError(c_err_str.value, af_error)

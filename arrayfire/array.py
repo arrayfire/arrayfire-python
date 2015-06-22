@@ -6,7 +6,7 @@ from .data import *
 def create_array(buf, numdims, idims, dtype):
     out_arr = c_longlong(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
-    clib.af_create_array(pointer(out_arr), c_longlong(buf), numdims, pointer(c_dims), dtype)
+    safe_call(clib.af_create_array(pointer(out_arr), c_longlong(buf), numdims, pointer(c_dims), dtype))
     return out_arr
 
 def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
@@ -23,16 +23,16 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
         if (dtype != c32 and dtype != c64):
             dtype = c32
 
-        clib.af_constant_complex(pointer(out), c_real, c_imag, 4, pointer(dims), dtype)
+        safe_call(clib.af_constant_complex(pointer(out), c_real, c_imag, 4, pointer(dims), dtype))
     elif dtype == s64:
         c_val = c_longlong(val.real)
-        clib.af_constant_long(pointer(out), c_val, 4, pointer(dims))
+        safe_call(clib.af_constant_long(pointer(out), c_val, 4, pointer(dims)))
     elif dtype == u64:
         c_val = c_ulonglong(val.real)
-        clib.af_constant_ulong(pointer(out), c_val, 4, pointer(dims))
+        safe_call(clib.af_constant_ulong(pointer(out), c_val, 4, pointer(dims)))
     else:
         c_val = c_double(val)
-        clib.af_constant(pointer(out), c_val, 4, pointer(dims), dtype)
+        safe_call(clib.af_constant(pointer(out), c_val, 4, pointer(dims), dtype))
 
     return out
 
@@ -49,7 +49,7 @@ def binary_func(lhs, rhs, c_func):
     elif not isinstance(rhs, array):
         TypeError("Invalid parameter to binary function")
 
-    c_func(pointer(out.arr), lhs.arr, other.arr, False)
+    safe_call(c_func(pointer(out.arr), lhs.arr, other.arr, False))
 
     return out
 
@@ -129,7 +129,7 @@ class array(object):
 
     def numdims(self):
         nd = c_uint(0)
-        clib.af_get_numdims(pointer(nd), self.arr)
+        safe_call(clib.af_get_numdims(pointer(nd), self.arr))
         return nd.value
 
     def dims(self):
@@ -137,13 +137,13 @@ class array(object):
         d1 = c_longlong(0)
         d2 = c_longlong(0)
         d3 = c_longlong(0)
-        clib.af_get_dims(pointer(d0), pointer(d1), pointer(d2), pointer(d3), self.arr)
+        safe_call(clib.af_get_dims(pointer(d0), pointer(d1), pointer(d2), pointer(d3), self.arr))
         dims = (d0.value,d1.value,d2.value,d3.value)
         return dims[:self.numdims()]
 
     def type(self):
         dty = f32
-        clib.af_get_type(pointer(dty), self.arr)
+        safe_call(clib.af_get_type(pointer(dty), self.arr))
         return dty
 
     def __add__(self, other):
@@ -286,3 +286,6 @@ class array(object):
     # TODO:
     # def __abs__(self):
     #     return self
+
+def print_array(a):
+    safe_call(clib.af_print_array(a.arr))
