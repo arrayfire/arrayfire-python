@@ -5,3 +5,4 @@ from .algorithm import *
 from .device import *
 from .blas import *
 from .arith import *
+from .statistics import *
