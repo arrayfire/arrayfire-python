@@ -1,4 +1,13 @@
 #!/usr/bin/python
+#######################################################
+# Copyright (c) 2014, ArrayFire
+# All rights reserved.
+#
+# This file is distributed under 3-clause BSD license.
+# The complete license agreement can be obtained at:
+# http://arrayfire.com/licenses/BSD-3-Clause
+########################################################
+
 import arrayfire as af
 
 af.print_array(af.constant(100, 3,3, dtype=af.f32))

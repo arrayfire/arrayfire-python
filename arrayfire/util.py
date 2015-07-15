@@ -1,3 +1,12 @@
+#######################################################
+# Copyright (c) 2014, ArrayFire
+# All rights reserved.
+#
+# This file is distributed under 3-clause BSD license.
+# The complete license agreement can be obtained at:
+# http://arrayfire.com/licenses/BSD-3-Clause
+########################################################
+
 from .library import *
 
 def dim4(d0=1, d1=1, d2=1, d3=1):
