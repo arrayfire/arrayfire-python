@@ -7,12 +7,13 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
-from .library import *
-from .data import *
-from .util import *
-from .algorithm import *
-from .device import *
-from .blas import *
-from .arith import *
+from .library    import *
+from .data       import *
+from .util       import *
+from .algorithm  import *
+from .device     import *
+from .blas       import *
+from .arith      import *
 from .statistics import *
-from .lapack import *
+from .lapack     import *
+from .signal     import *

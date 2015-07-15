@@ -8,6 +8,7 @@
 ########################################################
 
 from .library import *
+import numbers
 
 def dim4(d0=1, d1=1, d2=1, d3=1):
     c_dim4 = c_longlong * 4
@@ -18,9 +19,13 @@ def dim4(d0=1, d1=1, d2=1, d3=1):
 
     return out
 
-def dim4_tuple(dims):
+def dim4_tuple(dims, default=1):
     assert(isinstance(dims, tuple))
-    out = [1]*4
+
+    if (default is not None):
+        assert(isinstance(default, numbers.Number))
+
+    out = [default]*4
 
     for i, dim in enumerate(dims):
         out[i] = dim
