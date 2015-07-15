@@ -19,3 +19,4 @@ from .lapack     import *
 from .signal     import *
 from .image      import *
 from .features   import *
+from .vision     import *
