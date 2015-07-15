@@ -1,6 +1,6 @@
 #!/usr/bin/python
 #######################################################
-# Copyright (c) 2014, ArrayFire
+# Copyright (c) 2015, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
