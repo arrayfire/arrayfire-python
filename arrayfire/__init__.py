@@ -17,3 +17,4 @@ from .arith      import *
 from .statistics import *
 from .lapack     import *
 from .signal     import *
+from .image      import *
