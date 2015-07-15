@@ -16,6 +16,24 @@ def matmul(lhs, rhs, lhs_opts=AF_MAT_NONE, rhs_opts=AF_MAT_NONE):
                              lhs_opts, rhs_opts))
     return out
 
+def matmulTN(lhs, rhs):
+    out = array()
+    safe_call(clib.af_matmul(pointer(out.arr), lhs.arr, rhs.arr,\
+                             AF_MAT_TRANS, AF_MAT_NONE))
+    return out
+
+def matmulNT(lhs, rhs):
+    out = array()
+    safe_call(clib.af_matmul(pointer(out.arr), lhs.arr, rhs.arr,\
+                             AF_MAT_NONE, AF_MAT_TRANS))
+    return out
+
+def matmulTT(lhs, rhs):
+    out = array()
+    safe_call(clib.af_matmul(pointer(out.arr), lhs.arr, rhs.arr,\
+                             AF_MAT_TRANS, AF_MAT_TRANS))
+    return out
+
 def dot(lhs, rhs, lhs_opts=AF_MAT_NONE, rhs_opts=AF_MAT_NONE):
     out = array()
     safe_call(clib.af_dot(pointer(out.arr), lhs.arr, rhs.arr,\

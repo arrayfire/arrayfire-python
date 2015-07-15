@@ -15,3 +15,4 @@ from .device import *
 from .blas import *
 from .arith import *
 from .statistics import *
+from .lapack import *
