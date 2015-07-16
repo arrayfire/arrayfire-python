@@ -21,6 +21,7 @@ from .signal     import *
 from .image      import *
 from .features   import *
 from .vision     import *
+from .graphics   import *
 
 # do not export default modules as part of arrayfire
 del ct
@@ -32,6 +33,7 @@ del os
 del uidx
 del seq
 del index
+del cell
 
 #do not export internal functions
 del binary_func

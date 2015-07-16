@@ -21,7 +21,8 @@ def gradient(image):
 def load_image(file_name, is_color=False):
     assert(os.path.isfile(file_name))
     image = array()
-    safe_call(clib.af_load_image(ct.pointer(image.arr), ct.c_char_p(file_name.encode('ascii')), is_color))
+    safe_call(clib.af_load_image(ct.pointer(image.arr), \
+                                 ct.c_char_p(file_name.encode('ascii')), is_color))
     return image
 
 def save_image(image, file_name):
