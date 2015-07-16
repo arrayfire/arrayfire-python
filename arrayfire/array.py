@@ -55,13 +55,13 @@ def binary_func(lhs, rhs, c_func):
     out = array()
     other = rhs
 
-    if (is_valid_scalar(rhs)):
+    if (is_number(rhs)):
         ldims = dim4_tuple(lhs.dims())
         lty = lhs.type()
         other = array()
         other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], lty)
     elif not isinstance(rhs, array):
-        TypeError("Invalid parameter to binary function")
+        raise TypeError("Invalid parameter to binary function")
 
     safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, False))
 
@@ -71,17 +71,132 @@ def binary_funcr(lhs, rhs, c_func):
     out = array()
     other = lhs
 
-    if (is_valid_scalar(lhs)):
+    if (is_number(lhs)):
         rdims = dim4_tuple(rhs.dims())
         rty = rhs.type()
         other = array()
         other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], rty)
     elif not isinstance(lhs, array):
-        TypeError("Invalid parameter to binary function")
+        raise TypeError("Invalid parameter to binary function")
 
     c_func(ct.pointer(out.arr), other.arr, rhs.arr, False)
 
     return out
+
+class seq(ct.Structure):
+    _fields_ = [("begin", ct.c_double),
+                ("end"  , ct.c_double),
+                ("step" , ct.c_double)]
+
+    def __init__ (self, S):
+        num = __import__("numbers")
+
+        self.begin = ct.c_double( 0)
+        self.end   = ct.c_double(-1)
+        self.step  = ct.c_double( 1)
+
+        if is_number(S):
+            self.begin = ct.c_double(S)
+            self.end   = ct.c_double(S)
+        elif isinstance(S, slice):
+            if (S.start is not None):
+                self.begin = ct.c_double(S.start)
+            if (S.stop is not None):
+                self.end   = ct.c_double(S.stop - 1) if S.stop >= 0 else ct.c_double(S.stop)
+            if (S.step is not None):
+                self.step  = ct.c_double(S.step)
+        else:
+            raise IndexError("Invalid type while indexing arrayfire.array")
+
+class uidx(ct.Union):
+    _fields_ = [("arr", ct.c_longlong),
+                ("seq", seq)]
+
+class index(ct.Structure):
+    _fields_ = [("idx", uidx),
+                ("isSeq", ct.c_bool),
+                ("isBatch", ct.c_bool)]
+
+    def __init__ (self, idx):
+
+        self.idx     = uidx()
+        self.isBatch = False
+        self.isSeq   = True
+
+        if isinstance(idx, array):
+            self.idx.arr = idx.arr
+            self.isSeq   = False
+        else:
+            self.idx.seq = seq(idx)
+
+def get_indices(key, n_dims):
+    index_vec = index * n_dims
+    inds = index_vec()
+
+    for n in range(n_dims):
+        inds[n] = index(slice(0, -1))
+
+    if isinstance(key, tuple):
+        num_idx = len(key)
+        for n in range(n_dims):
+            inds[n] = index(key[n]) if (n < num_idx) else index(slice(0, -1))
+    else:
+        inds[0] = index(key)
+
+    return inds
+
+def slice_to_length(key, dim):
+    tkey = [key.start, key.stop, key.step]
+
+    if tkey[0] is None:
+        tkey[0] = 0
+    elif tkey[0] < 0:
+        tkey[0] = dim - tkey[0]
+
+    if tkey[1] is None:
+        tkey[1] = dim
+    elif tkey[1] < 0:
+        tkey[1] = dim - tkey[1]
+
+    if tkey[2] is None:
+        tkey[2] = 1
+
+    return int(((tkey[1] - tkey[0] - 1) / tkey[2]) + 1)
+
+def get_assign_dims(key, idims):
+    dims = [1]*4
+
+    for n in range(len(idims)):
+        dims[n] = idims[n]
+
+    if is_number(key):
+        dims[0] = 1
+        return dims
+    elif isinstance(key, slice):
+        dims[0] = slice_to_length(key, idims[0])
+        return dims
+    elif isinstance(key, array):
+        dims[0] = key.elements()
+        return dims
+    elif isinstance(key, tuple):
+        n_inds = len(key)
+
+        if (n_inds > len(idims)):
+            raise IndexError("Number of indices greater than array dimensions")
+
+        for n in range(n_inds):
+            if (is_number(key[n])):
+                dims[n] = 1
+            elif (isinstance(key[n], array)):
+                dims[n] = key[n].elements()
+            elif (isinstance(key[n], slice)):
+                dims[n] = slice_to_length(key[n], idims[n])
+            else:
+                raise IndexError("Invalid type while assigning to arrayfire.array")
+
+        return dims
+    else:
+        raise IndexError("Invalid type while assigning to arrayfire.array")
 
 class array(object):
 
@@ -152,7 +267,8 @@ class array(object):
         d1 = ct.c_longlong(0)
         d2 = ct.c_longlong(0)
         d3 = ct.c_longlong(0)
-        safe_call(clib.af_get_dims(ct.pointer(d0), ct.pointer(d1), ct.pointer(d2), ct.pointer(d3), self.arr))
+        safe_call(clib.af_get_dims(ct.pointer(d0), ct.pointer(d1),\
+                                   ct.pointer(d2), ct.pointer(d3), self.arr))
         dims = (d0.value,d1.value,d2.value,d3.value)
         return dims[:self.numdims()]
 
@@ -366,6 +482,41 @@ class array(object):
     # TODO:
     # def __abs__(self):
     #     return self
+
+    def __getitem__(self, key):
+        try:
+            out = array()
+            n_dims = self.numdims()
+            inds = get_indices(key, n_dims)
+
+            safe_call(clib.af_index_gen(ct.pointer(out.arr),\
+                                        self.arr, ct.c_longlong(n_dims), ct.pointer(inds)))
+            return out
+        except RuntimeError as e:
+            raise IndexError(str(e))
+
+
+    def __setitem__(self, key, val):
+        try:
+            n_dims = self.numdims()
+
+            if (is_number(val)):
+                tdims = get_assign_dims(key, self.dims())
+                other_arr = constant_array(val, tdims[0], tdims[1], tdims[2], tdims[3])
+            else:
+                other_arr = val.arr
+
+            out_arr = ct.c_longlong(0)
+            inds  = get_indices(key, n_dims)
+
+            safe_call(clib.af_assign_gen(ct.pointer(out_arr),\
+                                         self.arr, ct.c_longlong(n_dims), ct.pointer(inds),\
+                                         other_arr))
+            safe_call(clib.af_release_array(self.arr))
+            self.arr = out_arr
+
+        except RuntimeError as e:
+            raise IndexError(str(e))
 
 def print_array(a):
     expr = inspect.stack()[1][-2]

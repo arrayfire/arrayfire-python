@@ -27,3 +27,27 @@ del ct
 del inspect
 del numbers
 del os
+
+#do not export internal classes
+del uidx
+del seq
+del index
+
+#do not export internal functions
+del binary_func
+del binary_funcr
+del create_array
+del constant_array
+del parallel_dim
+del reduce_all
+del arith_unary_func
+del arith_binary_func
+del brange
+del load_backend
+del dim4_tuple
+del is_number
+del to_str
+del safe_call
+del get_indices
+del get_assign_dims
+del slice_to_length

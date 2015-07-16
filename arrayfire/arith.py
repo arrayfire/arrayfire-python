@@ -22,7 +22,7 @@ def arith_binary_func(lhs, rhs, c_func):
     elif (is_left_array and is_right_array):
         safe_call(c_func(ct.pointer(out.arr), lhs.arr, rhs.arr, False))
 
-    elif (is_valid_scalar(rhs)):
+    elif (is_number(rhs)):
         ldims = dim4_tuple(lhs.dims())
         lty = lhs.type()
         other = array()

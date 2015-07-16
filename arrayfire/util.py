@@ -19,11 +19,14 @@ def dim4(d0=1, d1=1, d2=1, d3=1):
 
     return out
 
+def is_number(a):
+    return isinstance(a, numbers.Number)
+
 def dim4_tuple(dims, default=1):
     assert(isinstance(dims, tuple))
 
     if (default is not None):
-        assert(isinstance(default, numbers.Number))
+        assert(is_number(default))
 
     out = [default]*4
 
@@ -31,9 +34,6 @@ def dim4_tuple(dims, default=1):
         out[i] = dim
 
     return tuple(out)
-
-def is_valid_scalar(a):
-    return isinstance(a, float) or isinstance(a, int) or isinstance(a, complex)
 
 def to_str(c_str):
     return str(c_str.value.decode('utf-8'))

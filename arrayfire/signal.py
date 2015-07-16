@@ -12,7 +12,8 @@ from .array import *
 
 def approx1(signal, pos0, method=AF_INTERP_LINEAR, off_grid=0.0):
     output = array()
-    safe_call(clib.af_approx1(ct.pointer(output.arr), signal.arr, pos0.arr, method, ct.c_double(off_grid)))
+    safe_call(clib.af_approx1(ct.pointer(output.arr), signal.arr, pos0.arr,\
+                              method, ct.c_double(off_grid)))
     return output
 
 def approx2(signal, pos0, pos1, method=AF_INTERP_LINEAR, off_grid=0.0):
