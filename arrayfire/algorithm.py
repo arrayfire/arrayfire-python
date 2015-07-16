@@ -12,13 +12,13 @@ from .array import *
 
 def parallel_dim(a, dim, c_func):
     out = array()
-    safe_call(c_func(pointer(out.arr), a.arr, c_int(dim)))
+    safe_call(c_func(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
     return out
 
 def reduce_all(a, c_func):
-    real = c_double(0)
-    imag = c_double(0)
-    safe_call(c_func(pointer(real), pointer(imag), a.arr))
+    real = ct.c_double(0)
+    imag = ct.c_double(0)
+    safe_call(c_func(ct.pointer(real), ct.pointer(imag), a.arr))
     real = real.value
     imag = imag.value
     return real if imag == 0 else real + imag * 1j
@@ -69,13 +69,13 @@ def imin(a, dim=None):
     if dim is not None:
         out = array()
         idx = array()
-        safe_call(clib.af_imin(pointer(out.arr), pointer(idx.arr), a.arr, c_int(dim)))
+        safe_call(clib.af_imin(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr, ct.c_int(dim)))
         return out,idx
     else:
-        real = c_double(0)
-        imag = c_double(0)
-        idx  = c_uint(0)
-        safe_call(clib.af_imin_all(pointer(real), pointer(imag), pointer(idx), a.arr))
+        real = ct.c_double(0)
+        imag = ct.c_double(0)
+        idx  = ct.c_uint(0)
+        safe_call(clib.af_imin_all(ct.pointer(real), ct.pointer(imag), ct.pointer(idx), a.arr))
         real = real.value
         imag = imag.value
         val = real if imag == 0 else real + imag * 1j
@@ -85,13 +85,13 @@ def imax(a, dim=None):
     if dim is not None:
         out = array()
         idx = array()
-        safe_call(clib.af_imax(pointer(out.arr), pointer(idx.arr), a.arr, c_int(dim)))
+        safe_call(clib.af_imax(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr, ct.c_int(dim)))
         return out,idx
     else:
-        real = c_double(0)
-        imag = c_double(0)
-        idx  = c_uint(0)
-        safe_call(clib.af_imax_all(pointer(real), pointer(imag), pointer(idx), a.arr))
+        real = ct.c_double(0)
+        imag = ct.c_double(0)
+        idx  = ct.c_uint(0)
+        safe_call(clib.af_imax_all(ct.pointer(real), ct.pointer(imag), ct.pointer(idx), a.arr))
         real = real.value
         imag = imag.value
         val = real if imag == 0 else real + imag * 1j
@@ -103,7 +103,7 @@ def accum(a, dim=0):
 
 def where(a):
     out = array()
-    safe_call(clib.af_where(pointer(out.arr), a.arr))
+    safe_call(clib.af_where(ct.pointer(out.arr), a.arr))
     return out
 
 def diff1(a, dim=0):
@@ -114,34 +114,34 @@ def diff2(a, dim=0):
 
 def sort(a, dim=0, is_ascending=True):
     out = array()
-    safe_call(clib.af_sort(pointer(out.arr), a.arr, c_uint(dim), c_bool(is_ascending)))
+    safe_call(clib.af_sort(ct.pointer(out.arr), a.arr, ct.c_uint(dim), ct.c_bool(is_ascending)))
     return out
 
 def sort_index(a, dim=0, is_ascending=True):
     out = array()
     idx = array()
-    safe_call(clib.af_sort_index(pointer(out.arr), pointer(idx.arr), a.arr, \
-                                 c_uint(dim), c_bool(is_ascending)))
+    safe_call(clib.af_sort_index(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr, \
+                                 ct.c_uint(dim), ct.c_bool(is_ascending)))
     return out,idx
 
 def sort_by_key(iv, ik, dim=0, is_ascending=True):
     ov = array()
     ok = array()
-    safe_call(clib.af_sort_by_key(pointer(ov.arr), pointer(ok.arr), \
-                                  iv.arr, ik.arr, c_uint(dim), c_bool(is_ascending)))
+    safe_call(clib.af_sort_by_key(ct.pointer(ov.arr), ct.pointer(ok.arr), \
+                                  iv.arr, ik.arr, ct.c_uint(dim), ct.c_bool(is_ascending)))
     return ov,ok
 
 def set_unique(a, is_sorted=False):
     out = array()
-    safe_call(clib.af_set_unique(pointer(out.arr), a.arr, c_bool(is_sorted)))
+    safe_call(clib.af_set_unique(ct.pointer(out.arr), a.arr, ct.c_bool(is_sorted)))
     return out
 
 def set_union(a, b, is_unique=False):
     out = array()
-    safe_call(clib.af_set_union(pointer(out.arr), a.arr, b.arr, c_bool(is_unique)))
+    safe_call(clib.af_set_union(ct.pointer(out.arr), a.arr, b.arr, ct.c_bool(is_unique)))
     return out
 
 def set_intersect(a, b, is_unique=False):
     out = array()
-    safe_call(clib.af_set_intersect(pointer(out.arr), a.arr, b.arr, c_bool(is_unique)))
+    safe_call(clib.af_set_intersect(ct.pointer(out.arr), a.arr, b.arr, ct.c_bool(is_unique)))
     return out

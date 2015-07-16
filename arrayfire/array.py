@@ -7,46 +7,46 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
-import array as host
 import inspect
 from .library import *
 from .util import *
-from .data import *
 
 def create_array(buf, numdims, idims, dtype):
-    out_arr = c_longlong(0)
-    c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
-    safe_call(clib.af_create_array(pointer(out_arr), c_longlong(buf), numdims, pointer(c_dims), dtype))
+    out_arr = ct.c_longlong(0)
+    ct.c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
+    safe_call(clib.af_create_array(ct.pointer(out_arr), ct.c_longlong(buf),\
+                                   numdims, ct.pointer(ct.c_dims), dtype))
     return out_arr
 
 def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
 
-    if not isinstance(dtype, c_int):
+    if not isinstance(dtype, ct.c_int):
         if isinstance(dtype, int):
-            dtype = c_int(dtype)
+            dtype = ct.c_int(dtype)
         else:
             raise TypeError("Invalid dtype")
 
-    out = c_longlong(0)
+    out = ct.c_longlong(0)
     dims = dim4(d0, d1, d2, d3)
 
     if isinstance(val, complex):
-        c_real = c_double(val.real)
-        c_imag = c_double(val.imag)
+        c_real = ct.c_double(val.real)
+        c_imag = ct.c_double(val.imag)
 
         if (dtype != c32 and dtype != c64):
             dtype = c32
 
-        safe_call(clib.af_constant_complex(pointer(out), c_real, c_imag, 4, pointer(dims), dtype))
+        safe_call(clib.af_constant_complex(ct.pointer(out), c_real, c_imag,\
+                                           4, ct.pointer(dims), dtype))
     elif dtype == s64:
-        c_val = c_longlong(val.real)
-        safe_call(clib.af_constant_long(pointer(out), c_val, 4, pointer(dims)))
+        c_val = ct.c_longlong(val.real)
+        safe_call(clib.af_constant_long(ct.pointer(out), c_val, 4, ct.pointer(dims)))
     elif dtype == u64:
-        c_val = c_ulonglong(val.real)
-        safe_call(clib.af_constant_ulong(pointer(out), c_val, 4, pointer(dims)))
+        c_val = ct.c_ulonglong(val.real)
+        safe_call(clib.af_constant_ulong(ct.pointer(out), c_val, 4, ct.pointer(dims)))
     else:
-        c_val = c_double(val)
-        safe_call(clib.af_constant(pointer(out), c_val, 4, pointer(dims), dtype))
+        c_val = ct.c_double(val)
+        safe_call(clib.af_constant(ct.pointer(out), c_val, 4, ct.pointer(dims), dtype))
 
     return out
 
@@ -63,7 +63,7 @@ def binary_func(lhs, rhs, c_func):
     elif not isinstance(rhs, array):
         TypeError("Invalid parameter to binary function")
 
-    safe_call(c_func(pointer(out.arr), lhs.arr, other.arr, False))
+    safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, False))
 
     return out
 
@@ -79,7 +79,7 @@ def binary_funcr(lhs, rhs, c_func):
     elif not isinstance(lhs, array):
         TypeError("Invalid parameter to binary function")
 
-    c_func(pointer(out.arr), other.arr, rhs.arr, False)
+    c_func(ct.pointer(out.arr), other.arr, rhs.arr, False)
 
     return out
 
@@ -87,7 +87,7 @@ class array(object):
 
     def __init__(self, src=None, dims=(0,)):
 
-        self.arr = c_longlong(0)
+        self.arr = ct.c_longlong(0)
 
         buf=None
         buf_len=0
@@ -95,6 +95,8 @@ class array(object):
         dtype = f32
 
         if src is not None:
+
+            host = __import__("array")
 
             if isinstance(src, host.array):
                 buf,buf_len = src.buffer_info()
@@ -127,92 +129,92 @@ class array(object):
             clib.af_release_array(self.arr)
 
     def elements(self):
-        num = c_ulonglong(0)
-        safe_call(clib.af_get_elements(pointer(num), self.arr))
+        num = ct.c_ulonglong(0)
+        safe_call(clib.af_get_elements(ct.pointer(num), self.arr))
         return num.value
 
     def type(self):
-        dty = c_int(f32.value)
-        safe_call(clib.af_get_type(pointer(dty), self.arr))
+        dty = ct.c_int(f32.value)
+        safe_call(clib.af_get_type(ct.pointer(dty), self.arr))
         return dty.value
 
     def dims(self):
-        d0 = c_longlong(0)
-        d1 = c_longlong(0)
-        d2 = c_longlong(0)
-        d3 = c_longlong(0)
-        safe_call(clib.af_get_dims(pointer(d0), pointer(d1), pointer(d2), pointer(d3), self.arr))
+        d0 = ct.c_longlong(0)
+        d1 = ct.c_longlong(0)
+        d2 = ct.c_longlong(0)
+        d3 = ct.c_longlong(0)
+        safe_call(clib.af_get_dims(ct.pointer(d0), ct.pointer(d1), ct.pointer(d2), ct.pointer(d3), self.arr))
         dims = (d0.value,d1.value,d2.value,d3.value)
         return dims[:self.numdims()]
 
     def numdims(self):
-        nd = c_uint(0)
-        safe_call(clib.af_get_numdims(pointer(nd), self.arr))
+        nd = ct.c_uint(0)
+        safe_call(clib.af_get_numdims(ct.pointer(nd), self.arr))
         return nd.value
 
     def is_empty(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_empty(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_empty(ct.pointer(res), self.arr))
         return res.value
 
     def is_scalar(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_scalar(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_scalar(ct.pointer(res), self.arr))
         return res.value
 
     def is_row(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_row(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_row(ct.pointer(res), self.arr))
         return res.value
 
     def is_column(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_column(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_column(ct.pointer(res), self.arr))
         return res.value
 
     def is_vector(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_vector(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_vector(ct.pointer(res), self.arr))
         return res.value
 
     def is_complex(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_complex(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_complex(ct.pointer(res), self.arr))
         return res.value
 
     def is_real(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_real(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_real(ct.pointer(res), self.arr))
         return res.value
 
     def is_double(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_double(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_double(ct.pointer(res), self.arr))
         return res.value
 
     def is_single(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_single(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_single(ct.pointer(res), self.arr))
         return res.value
 
     def is_real_floating(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_realfloating(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_realfloating(ct.pointer(res), self.arr))
         return res.value
 
     def is_floating(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_floating(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_floating(ct.pointer(res), self.arr))
         return res.value
 
     def is_integer(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_integer(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_integer(ct.pointer(res), self.arr))
         return res.value
 
     def is_bool(self):
-        res = c_bool(False)
-        safe_call(clib.af_is_bool(pointer(res), self.arr))
+        res = ct.c_bool(False)
+        safe_call(clib.af_is_bool(ct.pointer(res), self.arr))
         return res.value
 
     def __add__(self, other):

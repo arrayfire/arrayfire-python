@@ -11,8 +11,8 @@ from .library import *
 import numbers
 
 def dim4(d0=1, d1=1, d2=1, d3=1):
-    c_dim4 = c_longlong * 4
-    out = c_dim4(1, 1, 1, 1)
+    ct.c_dim4 = ct.c_longlong * 4
+    out = ct.c_dim4(1, 1, 1, 1)
 
     for i, dim in enumerate((d0, d1, d2, d3)):
         if (dim is not None): out[i] = dim
@@ -40,16 +40,16 @@ def to_str(c_str):
 
 def safe_call(af_error):
     if (af_error != AF_SUCCESS.value):
-        c_err_str = c_char_p(0)
-        c_err_len = c_longlong(0)
-        clib.af_get_last_error(pointer(c_err_str), pointer(c_err_len))
-        raise RuntimeError(to_str(c_err_str), af_error)
+        err_str = ct.c_char_p(0)
+        err_len = ct.c_longlong(0)
+        clib.af_get_last_error(ct.pointer(err_str), ct.pointer(err_len))
+        raise RuntimeError(to_str(err_str), af_error)
 
 def get_version():
-    major=c_int(0)
-    minor=c_int(0)
-    patch=c_int(0)
-    safe_call(clib.af_get_version(pointer(major), pointer(minor), pointer(patch)))
+    major=ct.c_int(0)
+    minor=ct.c_int(0)
+    patch=ct.c_int(0)
+    safe_call(clib.af_get_version(ct.pointer(major), ct.pointer(minor), ct.pointer(patch)))
     return major,minor,patch
 
 to_dtype = {'f' : f32,

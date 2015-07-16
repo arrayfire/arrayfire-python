@@ -8,6 +8,7 @@
 ########################################################
 
 from .library    import *
+from .array      import *
 from .data       import *
 from .util       import *
 from .algorithm  import *
@@ -20,3 +21,9 @@ from .signal     import *
 from .image      import *
 from .features   import *
 from .vision     import *
+
+# do not export default modules as part of arrayfire
+del ct
+del inspect
+del numbers
+del os

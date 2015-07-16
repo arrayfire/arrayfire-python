@@ -20,32 +20,32 @@ def arith_binary_func(lhs, rhs, c_func):
         TypeError("Atleast one input needs to be of type arrayfire.array")
 
     elif (is_left_array and is_right_array):
-        safe_call(c_func(pointer(out.arr), lhs.arr, rhs.arr, False))
+        safe_call(c_func(ct.pointer(out.arr), lhs.arr, rhs.arr, False))
 
     elif (is_valid_scalar(rhs)):
         ldims = dim4_tuple(lhs.dims())
         lty = lhs.type()
         other = array()
         other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], lty)
-        safe_call(c_func(pointer(out.arr), lhs.arr, other.arr, False))
+        safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, False))
 
     else:
         rdims = dim4_tuple(rhs.dims())
         rty = rhs.type()
         other = array()
         other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], rty)
-        safe_call(c_func(pointer(out.arr), lhs.arr, other.arr, False))
+        safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, False))
 
     return out
 
 def arith_unary_func(a, c_func):
     out = array()
-    safe_call(c_func(pointer(out.arr), a.arr))
+    safe_call(c_func(ct.pointer(out.arr), a.arr))
     return out
 
 def cast(a, dtype=f32):
     out=array()
-    safe_call(clib.af_cast(pointer(out.arr), a.arr, dtype))
+    safe_call(clib.af_cast(ct.pointer(out.arr), a.arr, dtype))
     return out
 
 def minof(lhs, rhs):
