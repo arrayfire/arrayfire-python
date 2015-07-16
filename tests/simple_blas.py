@@ -18,7 +18,7 @@ af.print_array(af.matmul(a,b,af.AF_MAT_TRANS))
 af.print_array(af.matmul(a,b,af.AF_MAT_NONE, af.AF_MAT_TRANS))
 
 b = af.randu(5,1)
-af.print_array(af.dot(a,b))
+af.print_array(af.dot(b,b))
 
 af.print_array(af.transpose(a))
 
