@@ -10,6 +10,7 @@
 from .library import *
 from .array import *
 from .data import constant
+import os
 
 def gradient(image):
     dx = array()
@@ -18,14 +19,14 @@ def gradient(image):
     return dx, dy
 
 def load_image(file_name, is_color=False):
-    assert(isinstance(file_name, str))
+    assert(os.path.isfile(file_name))
     image = array()
     safe_call(clib.af_load_image(pointer(image.arr), c_char_p(file_name.encode('ascii')), is_color))
     return image
 
 def save_image(image, file_name):
     assert(isinstance(file_name, str))
-    safe_call(clib.af_load_image(c_char_p(file_name.encode('ascii')), image.arr))
+    safe_call(clib.af_save_image(c_char_p(file_name.encode('ascii')), image.arr))
     return image
 
 def resize(image, scale=None, odim0=None, odim1=None, method=AF_INTERP_NEAREST):
