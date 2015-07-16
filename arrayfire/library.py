@@ -12,12 +12,16 @@ import ctypes as ct
 
 def load_backend(name):
     platform_name = platform.system()
+    assert(len(platform_name) >= 3)
 
     libname = 'libaf' + name
     if platform_name == 'Linux':
         libname += '.so'
     elif platform_name == 'Darwin':
         libname += '.dylib'
+    elif platform_name == "Windows" or platform_name[:3] == "CYG":
+        libname += '.dll'
+        libname = libname[3:] # remove 'lib'
     else:
         raise OSError(platform_name + ' not supported')
 
