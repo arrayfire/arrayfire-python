@@ -32,3 +32,9 @@ print(a.elements(), a.type(), a.dims(), a.numdims())
 print(a.is_empty(), a.is_scalar(), a.is_column(), a.is_row())
 print(a.is_complex(), a.is_real(), a.is_double(), a.is_single())
 print(a.is_real_floating(), a.is_floating(), a.is_integer(), a.is_bool())
+
+b = af.array(a)
+af.print_array(b)
+
+c = a.copy()
+af.print_array(c)

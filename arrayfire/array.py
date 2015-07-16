@@ -96,6 +96,10 @@ class array(object):
 
         if src is not None:
 
+            if (isinstance(src, array)):
+                safe_call(clib.af_retain_array(ct.pointer(self.arr), src.arr))
+                return
+
             host = __import__("array")
 
             if isinstance(src, host.array):
@@ -123,6 +127,11 @@ class array(object):
             dtype = to_dtype[type_char]
 
             self.arr = create_array(buf, numdims, idims, dtype)
+
+    def copy(self):
+        out = array()
+        safe_call(clib.af_retain_array(ct.pointer(out.arr), self.arr))
+        return out
 
     def __del__(self):
         if (self.arr.value != 0):
