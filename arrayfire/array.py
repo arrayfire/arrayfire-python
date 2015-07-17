@@ -102,7 +102,7 @@ class seq(ct.Structure):
             if (S.start is not None):
                 self.begin = ct.c_double(S.start)
             if (S.stop is not None):
-                self.end   = ct.c_double(S.stop - 1) if S.stop >= 0 else ct.c_double(S.stop)
+                self.end   = ct.c_double(S.stop - 1)
             if (S.step is not None):
                 self.step  = ct.c_double(S.step)
         else:
@@ -134,12 +134,12 @@ def get_indices(key, n_dims):
     inds = index_vec()
 
     for n in range(n_dims):
-        inds[n] = index(slice(0, -1))
+        inds[n] = index(slice(None))
 
     if isinstance(key, tuple):
-        num_idx = len(key)
-        for n in range(n_dims):
-            inds[n] = index(key[n]) if (n < num_idx) else index(slice(0, -1))
+        n_idx = len(key)
+        for n in range(n_idx):
+            inds[n] = index(key[n])
     else:
         inds[0] = index(key)
 
