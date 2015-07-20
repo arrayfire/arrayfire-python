@@ -66,3 +66,23 @@ a[0:5:2] = af.randu(3, 5)
 af.display(a)
 a[idx, idx] = af.randu(3,3)
 af.display(a)
+
+af.display(af.transpose(a))
+
+af.transpose_inplace(a)
+af.display(a)
+
+c = a.to_ctype()
+for n in range(a.elements()):
+    print(c[n])
+
+c,s = a.to_ctype(True, True)
+for n in range(a.elements()):
+    print(c[n])
+print(s)
+
+arr = a.to_array()
+lst = a.to_list(True)
+
+print(arr)
+print(lst)

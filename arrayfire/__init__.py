@@ -53,3 +53,6 @@ del safe_call
 del get_indices
 del get_assign_dims
 del slice_to_length
+del ctype_to_lists
+del to_dtype
+del to_c_type

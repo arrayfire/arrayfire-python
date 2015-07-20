@@ -60,3 +60,21 @@ to_dtype = {'f' : f32,
             'I' : u32,
             'l' : s64,
             'L' : u64}
+
+to_typecode = {f32.value : 'f',
+               f64.value : 'd',
+               b8.value : 'b',
+               u8.value : 'B',
+               s32.value : 'i',
+               u32.value : 'I',
+               s64.value : 'l',
+               u64.value : 'L'}
+
+to_c_type = {f32.value : ct.c_float,
+             f64.value : ct.c_double,
+             b8.value : ct.c_char,
+             u8.value : ct.c_ubyte,
+             s32.value : ct.c_int,
+             u32.value : ct.c_uint,
+             s64.value : ct.c_longlong,
+             u64.value : ct.c_ulonglong}

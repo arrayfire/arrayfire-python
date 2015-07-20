@@ -39,11 +39,3 @@ def dot(lhs, rhs, lhs_opts=AF_MAT_NONE, rhs_opts=AF_MAT_NONE):
     safe_call(clib.af_dot(ct.pointer(out.arr), lhs.arr, rhs.arr,\
                           lhs_opts, rhs_opts))
     return out
-
-def transpose(a, conj=False):
-    out = array()
-    safe_call(clib.af_transpose(ct.pointer(out.arr), a.arr, conj))
-    return out
-
-def transpose_inplace(a, conj=False):
-    safe_call(clib.af_transpose_inplace(a.arr, conj))

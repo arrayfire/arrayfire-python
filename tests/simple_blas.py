@@ -19,8 +19,3 @@ af.display(af.matmul(a,b,af.AF_MAT_NONE, af.AF_MAT_TRANS))
 
 b = af.randu(5,1)
 af.display(af.dot(b,b))
-
-af.display(af.transpose(a))
-
-af.transpose_inplace(a)
-af.display(a)

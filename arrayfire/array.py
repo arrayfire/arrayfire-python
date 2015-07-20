@@ -83,6 +83,14 @@ def binary_funcr(lhs, rhs, c_func):
 
     return out
 
+def transpose(a, conj=False):
+    out = array()
+    safe_call(clib.af_transpose(ct.pointer(out.arr), a.arr, conj))
+    return out
+
+def transpose_inplace(a, conj=False):
+    safe_call(clib.af_transpose_inplace(a.arr, conj))
+
 class seq(ct.Structure):
     _fields_ = [("begin", ct.c_double),
                 ("end"  , ct.c_double),
@@ -162,6 +170,17 @@ def slice_to_length(key, dim):
         tkey[2] = 1
 
     return int(((tkey[1] - tkey[0] - 1) / tkey[2]) + 1)
+
+def ctype_to_lists(ctype_arr, dim, shape, offset=0):
+    if (dim == 0):
+        return list(ctype_arr[offset : offset + shape[0]])
+    else:
+        dim_len = shape[dim]
+        res = [[]] * dim_len
+        for n in range(dim_len):
+            res[n] = ctype_to_lists(ctype_arr, dim - 1, shape, offset)
+            offset += shape[0]
+        return res
 
 def get_assign_dims(key, idims):
     dims = [1]*4
@@ -517,6 +536,31 @@ class array(object):
 
         except RuntimeError as e:
             raise IndexError(str(e))
+
+    def to_ctype(self, row_major=False, return_shape=False):
+        tmp = transpose(self) if row_major else self
+        ctype_type = to_c_type[self.type()] * self.elements()
+        res = ctype_type()
+        safe_call(clib.af_get_data_ptr(ct.pointer(res), self.arr))
+        if (return_shape):
+            return res, self.dims()
+        else:
+            return res
+
+    def to_array(self, row_major=False, return_shape=False):
+        res = self.to_ctype(row_major, return_shape)
+
+        host = __import__("array")
+        h_type = to_typecode[self.type()]
+
+        if (return_shape):
+            return host.array(h_type, res[0]), res[1]
+        else:
+            return host.array(h_type, res)
+
+    def to_list(self, row_major=False):
+        ct_array, shape = self.to_ctype(row_major, True)
+        return ctype_to_lists(ct_array, len(shape) - 1, shape)
 
 def display(a):
     expr = inspect.stack()[1][-2]
