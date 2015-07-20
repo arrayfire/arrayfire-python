@@ -22,6 +22,13 @@ def load_backend(name):
     elif platform_name == "Windows" or platform_name[:3] == "CYG":
         libname += '.dll'
         libname = libname[3:] # remove 'lib'
+        if platform_name == "Windows":
+            '''
+            Supressing crashes caused by missing dlls
+            http://stackoverflow.com/questions/8347266/missing-dll-print-message-instead-of-launching-a-popup
+            https://msdn.microsoft.com/en-us/library/windows/desktop/ms680621.aspx
+            '''
+            ct.windll.kernel32.SetErrorMode(0x0001 | 0x0002);
     else:
         raise OSError(platform_name + ' not supported')
 
