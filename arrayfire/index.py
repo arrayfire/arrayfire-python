@@ -9,6 +9,7 @@
 from .library import *
 from .util import *
 from .base import *
+from .broadcast import *
 
 class seq(ct.Structure):
     _fields_ = [("begin", ct.c_double),
@@ -34,6 +35,31 @@ class seq(ct.Structure):
                 self.step  = ct.c_double(S.step)
         else:
             raise IndexError("Invalid type while indexing arrayfire.array")
+
+class parallel_range(seq):
+
+    def __init__(self, start, stop=None, step=None):
+
+        if (stop is None):
+            stop = start
+            start = 0
+
+        self.S = slice(start, stop, step)
+        super(parallel_range, self).__init__(self.S)
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        if bcast.get() is True:
+            bcast.toggle()
+            raise StopIteration
+        else:
+            bcast.toggle()
+            return self
+
+    def __next__(self):
+        return self.next()
 
 def slice_to_length(key, dim):
     tkey = [key.start, key.stop, key.step]
@@ -71,6 +97,9 @@ class index(ct.Structure):
         if isinstance(idx, base_array):
             self.idx.arr = idx.arr
             self.isSeq   = False
+        elif isinstance(idx, parallel_range):
+            self.idx.seq = idx
+            self.isBatch = True
         else:
             self.idx.seq = seq(idx)
 
@@ -104,6 +133,9 @@ def get_assign_dims(key, idims):
     elif isinstance(key, slice):
         dims[0] = slice_to_length(key, idims[0])
         return dims
+    elif isinstance(key, parallel_range):
+        dims[0] = slice_to_length(key.S, idims[0])
+        return dims
     elif isinstance(key, base_array):
         dims[0] = key.elements()
         return dims
@@ -120,6 +152,8 @@ def get_assign_dims(key, idims):
                 dims[n] = key[n].elements()
             elif (isinstance(key[n], slice)):
                 dims[n] = slice_to_length(key[n], idims[n])
+            elif (isinstance(key[n], parallel_range)):
+                dims[n] = slice_to_length(key[n].S, idims[n])
             else:
                 raise IndexError("Invalid type while assigning to arrayfire.array")
 
