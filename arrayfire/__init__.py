@@ -23,6 +23,7 @@ from .features   import *
 from .vision     import *
 from .graphics   import *
 from .broadcast  import *
+from .index      import *
 
 # do not export default modules as part of arrayfire
 del ct
@@ -31,6 +32,7 @@ del numbers
 del os
 
 #do not export internal classes
+del base_array
 del uidx
 del seq
 del index
