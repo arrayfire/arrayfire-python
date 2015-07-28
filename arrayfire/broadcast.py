@@ -20,7 +20,14 @@ class bcast(object):
         bcast._flag ^= True
 
 def broadcast(func, *args):
-    bcast.toggle()
-    res = func(*args)
-    bcast.toggle()
-    return res
+
+    def wrapper(*func_args):
+        bcast.toggle()
+        res = func(*func_args)
+        bcast.toggle()
+        return res
+
+    if len(args) == 0:
+        return wrapper
+    else:
+        return wrapper(*args)

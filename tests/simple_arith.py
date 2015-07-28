@@ -190,8 +190,14 @@ af.display(af.isinf(a/b))
 af.display(af.isnan(a/a))
 
 a = af.randu(5, 1)
-b = af.randu(5, 5)
+b = af.randu(1, 5)
 c = af.broadcast(lambda x,y: x+y, a, b)
 af.display(a)
 af.display(b)
 af.display(c)
+
+@af.broadcast
+def test_add(aa, bb):
+    return aa + bb
+
+af.display(test_add(a, b))
