@@ -8,16 +8,18 @@
 ########################################################
 
 
-class bcast(object):
+class _bcast(object):
     _flag = False
-    def get():
+    def get(self):
         return bcast._flag
 
-    def set(flag):
+    def set(self, flag):
         bcast._flag = flag
 
-    def toggle():
+    def toggle(self):
         bcast._flag ^= True
+
+bcast = _bcast()
 
 def broadcast(func, *args):
 
