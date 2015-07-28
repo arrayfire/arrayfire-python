@@ -10,6 +10,7 @@
 import inspect
 from .library import *
 from .util import *
+from .broadcast import *
 
 def create_array(buf, numdims, idims, dtype):
     out_arr = ct.c_longlong(0)
@@ -63,7 +64,7 @@ def binary_func(lhs, rhs, c_func):
     elif not isinstance(rhs, array):
         raise TypeError("Invalid parameter to binary function")
 
-    safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, False))
+    safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, bcast.get()))
 
     return out
 
@@ -79,7 +80,7 @@ def binary_funcr(lhs, rhs, c_func):
     elif not isinstance(lhs, array):
         raise TypeError("Invalid parameter to binary function")
 
-    c_func(ct.pointer(out.arr), other.arr, rhs.arr, False)
+    c_func(ct.pointer(out.arr), other.arr, rhs.arr, bcast.get())
 
     return out
 

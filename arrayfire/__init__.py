@@ -22,6 +22,7 @@ from .image      import *
 from .features   import *
 from .vision     import *
 from .graphics   import *
+from .broadcast  import *
 
 # do not export default modules as part of arrayfire
 del ct
@@ -34,6 +35,7 @@ del uidx
 del seq
 del index
 del cell
+del bcast
 
 #do not export internal functions
 del binary_func
