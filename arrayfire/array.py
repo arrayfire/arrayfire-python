@@ -105,15 +105,34 @@ def ctype_to_lists(ctype_arr, dim, shape, offset=0):
             offset += shape[0]
         return res
 
+def get_info(dims, buf_len):
+    elements = 1
+    numdims = len(dims)
+    idims = [1]*4
+
+    for i in range(numdims):
+        elements *= dims[i]
+        idims[i] = dims[i]
+
+    if (elements == 0):
+        if (buf_len != 0):
+            idims = [buf_len, 1, 1, 1]
+            numdims = 1
+        else:
+            raise RuntimeError("Invalid size")
+
+    return numdims, idims
+
+
 class array(base_array):
 
-    def __init__(self, src=None, dims=(0,)):
+    def __init__(self, src=None, dims=(0,), type_char=None):
 
         super(array, self).__init__()
 
         buf=None
         buf_len=0
-        type_char='f'
+        _type_char='f'
         dtype = f32
 
         if src is not None:
@@ -126,29 +145,37 @@ class array(base_array):
 
             if isinstance(src, host.array):
                 buf,buf_len = src.buffer_info()
-                type_char = src.typecode
+                _type_char = src.typecode
+                numdims, idims = get_info(dims, buf_len)
             elif isinstance(src, list):
                 tmp = host.array('f', src)
                 buf,buf_len = tmp.buffer_info()
-                type_char = tmp.typecode
+                _type_char = tmp.typecode
+                numdims, idims = get_info(dims, buf_len)
+            elif isinstance(src, int) or isinstance(src, ct.c_ulonglong):
+                buf = src
+                numdims, idims = get_info(dims, buf_len)
+
+                elements = 1
+                for dim in idims:
+                    elements *= dim
+
+                if (elements == 0):
+                    raise RuntimeError("Expected dims when src is data pointer")
+
+                if (type_char is None):
+                    raise TypeError("Expected type_char when src is data pointer")
+
+                _type_char = type_char
+
             else:
                 raise TypeError("src is an object of unsupported class")
 
-            elements = 1
-            numdims = len(dims)
-            idims = [1]*4
+            if (type_char is not None and
+                type_char != _type_char):
+                raise TypeError("Can not create array of requested type from input data type")
 
-            for i in range(numdims):
-                elements *= dims[i]
-                idims[i] = dims[i]
-
-            if (elements == 0):
-                idims = [buf_len, 1, 1, 1]
-                numdims = 1
-
-            dtype = to_dtype[type_char]
-
-            self.arr = create_array(buf, numdims, idims, dtype)
+            self.arr = create_array(buf, numdims, idims, to_dtype[_type_char])
 
     def copy(self):
         out = array()
