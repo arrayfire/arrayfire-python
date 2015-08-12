@@ -453,6 +453,10 @@ class array(base_array):
             raise IndexError(str(e))
 
     def to_ctype(self, row_major=False, return_shape=False):
+
+        if (self.arr.value == 0):
+            raise RuntimeError("Can not call to_ctype on empty array")
+
         tmp = transpose(self) if row_major else self
         ctype_type = to_c_type[self.type()] * self.elements()
         res = ctype_type()
@@ -463,6 +467,10 @@ class array(base_array):
             return res
 
     def to_array(self, row_major=False, return_shape=False):
+
+        if (self.arr.value == 0):
+            raise RuntimeError("Can not call to_array on empty array")
+
         res = self.to_ctype(row_major, return_shape)
 
         host = __import__("array")
