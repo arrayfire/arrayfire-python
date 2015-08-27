@@ -34,6 +34,14 @@ def number_dtype(a):
     else:
         return to_dtype[a.dtype.char]
 
+def implicit_dtype(number, a_dtype):
+    n_dtype = number_dtype(number)
+    if n_dtype == f64 and (a_dtype == f32 or a_dtype == c32):
+        return f32
+    if n_dtype == c64 and (a_dtype == f32 or a_dtype == c32):
+        return c32
+    return n_dtype
+
 def dim4_tuple(dims, default=1):
     assert(isinstance(dims, tuple))
 
