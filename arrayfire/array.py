@@ -39,7 +39,7 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
         if (dtype != c32 and dtype != c64):
             dtype = c32
 
-        safe_call(clib.af_constant_complex(ct.pointer(out), c_real, c_imag,\
+        safe_call(clib.af_constant_complex(ct.pointer(out), c_real, c_imag,
                                            4, ct.pointer(dims), dtype))
     elif dtype == s64:
         c_val = ct.c_longlong(val.real)
@@ -206,7 +206,7 @@ class Array(BaseArray):
         d1 = ct.c_longlong(0)
         d2 = ct.c_longlong(0)
         d3 = ct.c_longlong(0)
-        safe_call(clib.af_get_dims(ct.pointer(d0), ct.pointer(d1),\
+        safe_call(clib.af_get_dims(ct.pointer(d0), ct.pointer(d1),
                                    ct.pointer(d2), ct.pointer(d3), self.arr))
         dims = (d0.value,d1.value,d2.value,d3.value)
         return dims[:self.numdims()]
@@ -428,7 +428,7 @@ class Array(BaseArray):
             n_dims = self.numdims()
             inds = get_indices(key, n_dims)
 
-            safe_call(clib.af_index_gen(ct.pointer(out.arr),\
+            safe_call(clib.af_index_gen(ct.pointer(out.arr),
                                         self.arr, ct.c_longlong(n_dims), ct.pointer(inds)))
             return out
         except RuntimeError as e:
@@ -448,8 +448,8 @@ class Array(BaseArray):
             out_arr = ct.c_void_p(0)
             inds  = get_indices(key, n_dims)
 
-            safe_call(clib.af_assign_gen(ct.pointer(out_arr),\
-                                         self.arr, ct.c_longlong(n_dims), ct.pointer(inds),\
+            safe_call(clib.af_assign_gen(ct.pointer(out_arr),
+                                         self.arr, ct.c_longlong(n_dims), ct.pointer(inds),
                                          other_arr))
             safe_call(clib.af_release_array(self.arr))
             self.arr = out_arr

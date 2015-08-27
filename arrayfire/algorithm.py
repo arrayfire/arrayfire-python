@@ -120,14 +120,14 @@ def sort(a, dim=0, is_ascending=True):
 def sort_index(a, dim=0, is_ascending=True):
     out = Array()
     idx = Array()
-    safe_call(clib.af_sort_index(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr, \
+    safe_call(clib.af_sort_index(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr,
                                  ct.c_uint(dim), ct.c_bool(is_ascending)))
     return out,idx
 
 def sort_by_key(iv, ik, dim=0, is_ascending=True):
     ov = Array()
     ok = Array()
-    safe_call(clib.af_sort_by_key(ct.pointer(ov.arr), ct.pointer(ok.arr), \
+    safe_call(clib.af_sort_by_key(ct.pointer(ov.arr), ct.pointer(ok.arr),
                                   iv.arr, ik.arr, ct.c_uint(dim), ct.c_bool(is_ascending)))
     return ov,ok
 

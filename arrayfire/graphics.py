@@ -36,7 +36,7 @@ class window(object):
 
         _title = _title.encode("ascii")
 
-        safe_call(clib.af_create_window(ct.pointer(self._wnd),\
+        safe_call(clib.af_create_window(ct.pointer(self._wnd),
                                         ct.c_int(_width), ct.c_int(_height), ct.c_char_p(_title)))
 
     def __del__(self):
@@ -61,8 +61,8 @@ class window(object):
 
     def hist(self, X, min_val, max_val, title=None):
         _cell = Cell(self._r, self._c, title, self._cmap)
-        safe_call(clib.af_draw_hist(self._wnd, X.arr, \
-                                    ct.c_double(max_val), ct.c_double(min_val),\
+        safe_call(clib.af_draw_hist(self._wnd, X.arr,
+                                    ct.c_double(max_val), ct.c_double(min_val),
                                     ct.pointer(_cell)))
 
     def grid(rows, cols):

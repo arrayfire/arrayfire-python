@@ -21,7 +21,7 @@ def gradient(image):
 def load_image(file_name, is_color=False):
     assert(os.path.isfile(file_name))
     image = Array()
-    safe_call(clib.af_load_image(ct.pointer(image.arr), \
+    safe_call(clib.af_load_image(ct.pointer(image.arr),
                                  ct.c_char_p(file_name.encode('ascii')), is_color))
     return image
 
@@ -41,15 +41,15 @@ def resize(image, scale=None, odim0=None, odim1=None, method=AF_INTERP_NEAREST):
         odim1 = int(scale * idims[1])
 
     output = Array()
-    safe_call(clib.af_resize(ct.pointer(output.arr),\
+    safe_call(clib.af_resize(ct.pointer(output.arr),
                              image.arr, ct.c_longlong(odim0), ct.c_longlong(odim1), method))
 
     return output
 
 def transform(image, transform, odim0 = 0, odim1 = 0, method=AF_INTERP_NEAREST, is_inverse=True):
     output = Array()
-    safe_call(clib.af_transform(ct.pointer(output.arr),\
-                                image.arr, transform.arr,\
+    safe_call(clib.af_transform(ct.pointer(output.arr),
+                                image.arr, transform.arr,
                                 ct.c_longlong(odim0), ct.c_longlong(odim1), method, is_inverse))
     return output
 
@@ -60,21 +60,21 @@ def rotate(image, theta, is_crop = True, method = AF_INTERP_NEAREST):
 
 def translate(image, trans0, trans1, odim0 = 0, odim1 = 0, method = AF_INTERP_NEAREST):
     output = Array()
-    safe_call(clib.af_translate(ct.pointer(output.arr), \
+    safe_call(clib.af_translate(ct.pointer(output.arr),
                                 image.arr, trans0, trans1, ct.c_longlong(odim0), ct.c_longlong(odim1), method))
     return output
 
 def scale(image, scale0, scale1, odim0 = 0, odim1 = 0, method = AF_INTERP_NEAREST):
     output = Array()
-    safe_call(clib.af_scale(ct.pointer(output.arr),\
-                            image.arr, ct.c_double(scale0), ct.c_double(scale1),\
+    safe_call(clib.af_scale(ct.pointer(output.arr),
+                            image.arr, ct.c_double(scale0), ct.c_double(scale1),
                             ct.c_longlong(odim0), ct.c_longlong(odim1), method))
     return output
 
 def skew(image, skew0, skew1, odim0 = 0, odim1 = 0, method = AF_INTERP_NEAREST, is_inverse=True):
     output = Array()
-    safe_call(clib.af_skew(ct.pointer(output.arr),\
-                           image.arr, ct.c_double(skew0), ct.c_double(skew1), \
+    safe_call(clib.af_skew(ct.pointer(output.arr),
+                           image.arr, ct.c_double(skew0), ct.c_double(skew1),
                            ct.c_longlong(odim0), ct.c_longlong(odim1), method, is_inverse))
 
     return output
@@ -90,7 +90,7 @@ def histogram(image, nbins, min_val = None, max_val = None):
         max_val = af_max(image)
 
     output = Array()
-    safe_call(clib.af_histogram(ct.pointer(output.arr),\
+    safe_call(clib.af_histogram(ct.pointer(output.arr),
                                 image.arr, ct.c_uint(nbins), ct.c_double(min_val), ct.c_double(max_val)))
     return output
 
@@ -141,32 +141,32 @@ def erode3(image, mask = None):
 
 def bilateral(image, s_sigma, c_sigma, is_color = False):
     output = Array()
-    safe_call(clib.af_bilateral(ct.pointer(output.arr),\
+    safe_call(clib.af_bilateral(ct.pointer(output.arr),
                                 image.arr, ct.c_double(s_sigma), ct.c_double(c_sigma), is_color))
     return output
 
 def mean_shift(image, s_sigma, c_sigma, n_iter, is_color = False):
     output = Array()
-    safe_call(clib.af_mean_shift(ct.pointer(output.arr),\
-                                 image.arr, ct.c_double(s_sigma), ct.c_double(c_sigma),\
+    safe_call(clib.af_mean_shift(ct.pointer(output.arr),
+                                 image.arr, ct.c_double(s_sigma), ct.c_double(c_sigma),
                                  ct.c_uint(n_iter), is_color))
     return output
 
 def medfilt(image, w_len = 3, w_wid = 3, edge_pad = AF_PAD_ZERO):
     output = Array()
-    safe_call(clib.af_medfilt(ct.pointer(output.arr), \
+    safe_call(clib.af_medfilt(ct.pointer(output.arr),
                               image.arr, ct.c_longlong(w_len), ct.c_longlong(w_wid), edge_pad))
     return output
 
 def minfilt(image, w_len = 3, w_wid = 3, edge_pad = AF_PAD_ZERO):
     output = Array()
-    safe_call(clib.af_minfilt(ct.pointer(output.arr), \
+    safe_call(clib.af_minfilt(ct.pointer(output.arr),
                               image.arr, ct.c_longlong(w_len), ct.c_longlong(w_wid), edge_pad))
     return output
 
 def maxfilt(image, w_len = 3, w_wid = 3, edge_pad = AF_PAD_ZERO):
     output = Array()
-    safe_call(clib.af_maxfilt(ct.pointer(output.arr), \
+    safe_call(clib.af_maxfilt(ct.pointer(output.arr),
                               image.arr, ct.c_longlong(w_len), ct.c_longlong(w_wid), edge_pad))
     return output
 
@@ -178,7 +178,7 @@ def regions(image, connectivity = AF_CONNECTIVITY_4, out_type = f32):
 def sobel_derivatives(image, w_len=3):
     dx = Array()
     dy = Array()
-    safe_call(clib.af_sobel_operator(ct.pointer(dx.arr), ct.pointer(dy.arr),\
+    safe_call(clib.af_sobel_operator(ct.pointer(dx.arr), ct.pointer(dy.arr),
                                      image.arr, ct.c_uint(w_len)))
     return dx,dy
 
@@ -194,13 +194,13 @@ def sobel_filter(image, w_len = 3, is_fast = False):
 
 def rgb2gray(image, r_factor = 0.2126, g_factor = 0.7152, b_factor = 0.0722):
     output=Array()
-    safe_call(clib.af_rgb2gray(ct.pointer(output.arr), \
+    safe_call(clib.af_rgb2gray(ct.pointer(output.arr),
                                image.arr, ct.c_float(r_factor), ct.c_float(g_factor), ct.c_float(b_factor)))
     return output
 
 def gray2rgb(image, r_factor = 1.0, g_factor = 1.0, b_factor = 1.0):
     output=Array()
-    safe_call(clib.af_gray2rgb(ct.pointer(output.arr), \
+    safe_call(clib.af_gray2rgb(ct.pointer(output.arr),
                                image.arr, ct.c_float(r_factor), ct.c_float(g_factor), ct.c_float(b_factor)))
     return output
 

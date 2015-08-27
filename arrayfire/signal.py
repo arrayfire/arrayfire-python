@@ -12,13 +12,13 @@ from .array import *
 
 def approx1(signal, pos0, method=AF_INTERP_LINEAR, off_grid=0.0):
     output = Array()
-    safe_call(clib.af_approx1(ct.pointer(output.arr), signal.arr, pos0.arr,\
+    safe_call(clib.af_approx1(ct.pointer(output.arr), signal.arr, pos0.arr,
                               method, ct.c_double(off_grid)))
     return output
 
 def approx2(signal, pos0, pos1, method=AF_INTERP_LINEAR, off_grid=0.0):
     output = Array()
-    safe_call(clib.af_approx2(ct.pointer(output.arr), signal.arr, \
+    safe_call(clib.af_approx2(ct.pointer(output.arr), signal.arr,
                               pos0.arr, pos1.arr, method, ct.c_double(off_grid)))
     return output
 
@@ -46,7 +46,7 @@ def fft2(signal, dim0 = None, dim1 = None , scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(clib.af_fft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),\
+    safe_call(clib.af_fft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
                            ct.c_longlong(dim0), ct.c_longlong(dim1)))
     return output
 
@@ -65,7 +65,7 @@ def fft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(clib.af_fft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),\
+    safe_call(clib.af_fft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
                            ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
     return output
 
@@ -98,7 +98,7 @@ def ifft2(signal, dim0 = None, dim1 = None , scale = None):
         scale = 1.0/float(dim0 * dim1)
 
     output = Array()
-    safe_call(clib.af_ifft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),\
+    safe_call(clib.af_ifft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
                             ct.c_longlong(dim0), ct.c_longlong(dim1)))
     return output
 
@@ -122,7 +122,7 @@ def ifft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
         scale = 1.0 / float(dim0 * dim1 * dim2)
 
     output = Array()
-    safe_call(clib.af_ifft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),\
+    safe_call(clib.af_ifft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
                             ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
     return output
 
