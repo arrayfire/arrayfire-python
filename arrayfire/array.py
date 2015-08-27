@@ -15,10 +15,10 @@ from .base import *
 from .index import *
 
 def create_array(buf, numdims, idims, dtype):
-    out_arr = ct.c_longlong(0)
-    ct.c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
-    safe_call(clib.af_create_array(ct.pointer(out_arr), ct.c_longlong(buf),\
-                                   numdims, ct.pointer(ct.c_dims), dtype))
+    out_arr = ct.c_void_p(0)
+    c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
+    safe_call(clib.af_create_array(ct.pointer(out_arr), ct.c_void_p(buf),
+                                   numdims, ct.pointer(c_dims), dtype))
     return out_arr
 
 def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
@@ -29,7 +29,7 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
         else:
             raise TypeError("Invalid dtype")
 
-    out = ct.c_longlong(0)
+    out = ct.c_void_p(0)
     dims = dim4(d0, d1, d2, d3)
 
     if isinstance(val, complex):
@@ -187,7 +187,7 @@ class array(base_array):
             clib.af_release_array(self.arr)
 
     def device_ptr(self):
-        ptr = ctypes.c_void_p(0)
+        ptr = ct.c_void_p(0)
         clib.af_get_device_ptr(ct.pointer(ptr), self.arr)
         return ptr.value
 
@@ -445,7 +445,7 @@ class array(base_array):
             else:
                 other_arr = val.arr
 
-            out_arr = ct.c_longlong(0)
+            out_arr = ct.c_void_p(0)
             inds  = get_indices(key, n_dims)
 
             safe_call(clib.af_assign_gen(ct.pointer(out_arr),\

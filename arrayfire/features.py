@@ -13,7 +13,7 @@ import numbers
 class features(object):
 
     def __init__(self, num=None):
-        self.feat = ct.c_longlong(0)
+        self.feat = ct.c_void_p(0)
         if num is not None:
             assert(isinstance(num, numbers.Number))
             safe_call(clib.af_create_features(ct.pointer(self.feat), ct.c_longlong(num)))

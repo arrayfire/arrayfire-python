@@ -11,4 +11,4 @@ from .util import *
 
 class base_array(object):
     def __init__(self):
-        self.arr = ct.c_longlong(0)
+        self.arr = ct.c_void_p(0)

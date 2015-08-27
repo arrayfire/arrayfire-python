@@ -80,7 +80,7 @@ def slice_to_length(key, dim):
     return int(((tkey[1] - tkey[0] - 1) / tkey[2]) + 1)
 
 class uidx(ct.Union):
-    _fields_ = [("arr", ct.c_longlong),
+    _fields_ = [("arr", ct.c_void_p),
                 ("seq", seq)]
 
 class index(ct.Structure):
