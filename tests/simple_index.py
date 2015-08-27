@@ -13,7 +13,7 @@ import array as host
 
 a = af.randu(5, 5)
 af.display(a)
-b = af.array(a)
+b = af.Array(a)
 af.display(b)
 
 c = a.copy()
@@ -27,7 +27,7 @@ af.display(a[-2:-1,-1])
 af.display(a[0:5])
 af.display(a[0:5:2])
 
-idx = af.array(host.array('i', [0, 3, 2]))
+idx = af.Array(host.array('i', [0, 3, 2]))
 af.display(idx)
 aa = a[idx]
 af.display(aa)

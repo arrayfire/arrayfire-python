@@ -94,7 +94,7 @@ class index(ct.Structure):
         self.isBatch = False
         self.isSeq   = True
 
-        if isinstance(idx, base_array):
+        if isinstance(idx, BaseArray):
             self.idx.arr = idx.arr
             self.isSeq   = False
         elif isinstance(idx, parallel_range):
@@ -136,7 +136,7 @@ def get_assign_dims(key, idims):
     elif isinstance(key, parallel_range):
         dims[0] = slice_to_length(key.S, idims[0])
         return dims
-    elif isinstance(key, base_array):
+    elif isinstance(key, BaseArray):
         dims[0] = key.elements()
         return dims
     elif isinstance(key, tuple):
@@ -148,7 +148,7 @@ def get_assign_dims(key, idims):
         for n in range(n_inds):
             if (is_number(key[n])):
                 dims[n] = 1
-            elif (isinstance(key[n], base_array)):
+            elif (isinstance(key[n], BaseArray)):
                 dims[n] = key[n].elements()
             elif (isinstance(key[n], slice)):
                 dims[n] = slice_to_length(key[n], idims[n])

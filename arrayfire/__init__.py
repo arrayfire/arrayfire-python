@@ -32,7 +32,7 @@ del numbers
 del os
 
 #do not export internal classes
-del base_array
+del BaseArray
 del uidx
 del seq
 del index

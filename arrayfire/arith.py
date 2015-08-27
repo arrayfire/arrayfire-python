@@ -12,10 +12,10 @@ from .array import *
 from .broadcast import *
 
 def arith_binary_func(lhs, rhs, c_func):
-    out = array()
+    out = Array()
 
-    is_left_array = isinstance(lhs, array)
-    is_right_array = isinstance(rhs, array)
+    is_left_array = isinstance(lhs, Array)
+    is_right_array = isinstance(rhs, Array)
 
     if not (is_left_array or is_right_array):
         raise TypeError("Atleast one input needs to be of type arrayfire.array")
@@ -26,26 +26,26 @@ def arith_binary_func(lhs, rhs, c_func):
     elif (is_number(rhs)):
         ldims = dim4_tuple(lhs.dims())
         rty = number_dtype(rhs)
-        other = array()
+        other = Array()
         other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty)
         safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, bcast.get()))
 
     else:
         rdims = dim4_tuple(rhs.dims())
         lty = number_dtype(lhs)
-        other = array()
+        other = Array()
         other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty)
         safe_call(c_func(ct.pointer(out.arr), other.arr, rhs.arr, bcast.get()))
 
     return out
 
 def arith_unary_func(a, c_func):
-    out = array()
+    out = Array()
     safe_call(c_func(ct.pointer(out.arr), a.arr))
     return out
 
 def cast(a, dtype=f32):
-    out=array()
+    out=Array()
     safe_call(clib.af_cast(ct.pointer(out.arr), a.arr, dtype))
     return out
 

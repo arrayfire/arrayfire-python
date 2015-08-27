@@ -24,26 +24,26 @@ class features(object):
         return num
 
     def get_xpos():
-        out = array()
+        out = Array()
         safe_call(clib.af_get_features_xpos(ct.pointer(out.arr), self.feat))
         return out
 
     def get_ypos():
-        out = array()
+        out = Array()
         safe_call(clib.af_get_features_ypos(ct.pointer(out.arr), self.feat))
         return out
 
     def get_score():
-        out = array()
+        out = Array()
         safe_call(clib.af_get_features_score(ct.pointer(out.arr), self.feat))
         return out
 
     def get_orientation():
-        out = array()
+        out = Array()
         safe_call(clib.af_get_features_orientation(ct.pointer(out.arr), self.feat))
         return out
 
     def get_size():
-        out = array()
+        out = Array()
         safe_call(clib.af_get_features_size(ct.pointer(out.arr), self.feat))
         return out

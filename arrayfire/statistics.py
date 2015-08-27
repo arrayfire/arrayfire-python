@@ -12,7 +12,7 @@ from .array import *
 
 def mean(a, weights=None, dim=None):
     if dim is not None:
-        out = array()
+        out = Array()
 
         if weights is None:
             safe_call(clib.af_mean(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
@@ -36,7 +36,7 @@ def mean(a, weights=None, dim=None):
 
 def var(a, isbiased=False, weights=None, dim=None):
     if dim is not None:
-        out = array()
+        out = Array()
 
         if weights is None:
             safe_call(clib.af_var(ct.pointer(out.arr), a.arr, isbiased, ct.c_int(dim)))
@@ -60,7 +60,7 @@ def var(a, isbiased=False, weights=None, dim=None):
 
 def stdev(a, dim=None):
     if dim is not None:
-        out = array()
+        out = Array()
         safe_call(clib.af_stdev(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
         return out
     else:
@@ -73,7 +73,7 @@ def stdev(a, dim=None):
 
 def cov(a, isbiased=False, dim=None):
     if dim is not None:
-        out = array()
+        out = Array()
         safe_call(clib.af_cov(ct.pointer(out.arr), a.arr, isbiased, ct.c_int(dim)))
         return out
     else:
@@ -86,7 +86,7 @@ def cov(a, isbiased=False, dim=None):
 
 def median(a, dim=None):
     if dim is not None:
-        out = array()
+        out = Array()
         safe_call(clib.af_median(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
         return out
     else:

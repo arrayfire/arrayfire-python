@@ -13,7 +13,7 @@ from .array import *
 from .util import *
 
 def constant(val, d0, d1=None, d2=None, d3=None, dtype=f32):
-    out = array()
+    out = Array()
     out.arr = constant_array(val, d0, d1, d2, d3, dtype)
     return out
 
@@ -28,7 +28,7 @@ def range(d0, d1=None, d2=None, d3=None, dim=-1, dtype=f32):
         else:
             raise TypeError("Invalid dtype")
 
-    out = array()
+    out = Array()
     dims = dim4(d0, d1, d2, d3)
 
     safe_call(clib.af_range(ct.pointer(out.arr), 4, ct.pointer(dims), dim, dtype))
@@ -42,7 +42,7 @@ def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=f32):
         else:
             raise TypeError("Invalid dtype")
 
-    out = array()
+    out = Array()
     dims = dim4(d0, d1, d2, d3)
     td=[1]*4
 
@@ -63,7 +63,7 @@ def randu(d0, d1=None, d2=None, d3=None, dtype=f32):
         else:
             raise TypeError("Invalid dtype")
 
-    out = array()
+    out = Array()
     dims = dim4(d0, d1, d2, d3)
 
     safe_call(clib.af_randu(ct.pointer(out.arr), 4, ct.pointer(dims), dtype))
@@ -77,7 +77,7 @@ def randn(d0, d1=None, d2=None, d3=None, dtype=f32):
         else:
             raise TypeError("Invalid dtype")
 
-    out = array()
+    out = Array()
     dims = dim4(d0, d1, d2, d3)
 
     safe_call(clib.af_randn(ct.pointer(out.arr), 4, ct.pointer(dims), dtype))
@@ -99,14 +99,14 @@ def identity(d0, d1=None, d2=None, d3=None, dtype=f32):
         else:
             raise TypeError("Invalid dtype")
 
-    out = array()
+    out = Array()
     dims = dim4(d0, d1, d2, d3)
 
     safe_call(clib.af_identity(ct.pointer(out.arr), 4, ct.pointer(dims), dtype))
     return out
 
 def diag(a, num=0, extract=True):
-    out = array()
+    out = Array()
     if extract:
         safe_call(clib.af_diag_extract(ct.pointer(out.arr), a.arr, ct.c_int(num)))
     else:
@@ -114,7 +114,7 @@ def diag(a, num=0, extract=True):
     return out
 
 def join(dim, first, second, third=None, fourth=None):
-    out = array()
+    out = Array()
     if (third is None and fourth is None):
         safe_call(clib.af_join(ct.pointer(out.arr), dim, first.arr, second.arr))
     else:
@@ -131,43 +131,43 @@ def join(dim, first, second, third=None, fourth=None):
 
 
 def tile(a, d0, d1=1, d2=1, d3=1):
-    out = array()
+    out = Array()
     safe_call(clib.af_tile(ct.pointer(out.arr), a.arr, d0, d1, d2, d3))
     return out
 
 
 def reorder(a, d0=1, d1=0, d2=2, d3=3):
-    out = array()
+    out = Array()
     safe_call(clib.af_reorder(ct.pointer(out.arr), a.arr, d0, d1, d2, d3))
     return out
 
 def shift(a, d0, d1=0, d2=0, d3=0):
-    out = array()
+    out = Array()
     safe_call(clib.af_shift(ct.pointer(out.arr), a.arr, d0, d1, d2, d3))
     return out
 
 def moddims(a, d0, d1=1, d2=1, d3=1):
-    out = array()
+    out = Array()
     dims = dim4(d0, d1, d2, d3)
     safe_call(clib.af_moddims(ct.pointer(out.arr), a.arr, 4, ct.pointer(dims)))
     return out
 
 def flat(a):
-    out = array()
+    out = Array()
     safe_call(clib.af_flat(ct.pointer(out.arr), a.arr))
     return out
 
 def flip(a, dim=0):
-    out = array()
+    out = Array()
     safe_call(clib.af_flip(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
     return out
 
 def lower(a, is_unit_diag=False):
-    out = array()
+    out = Array()
     safe_call(clib.af_lower(ct.pointer(out.arr), a.arr, is_unit_diag))
     return out
 
 def upper(a, is_unit_diag=False):
-    out = array()
+    out = Array()
     safe_call(clib.af_upper(ct.pointer(out.arr), a.arr, is_unit_diag))
     return out

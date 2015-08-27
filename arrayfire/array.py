@@ -55,15 +55,15 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
 
 
 def binary_func(lhs, rhs, c_func):
-    out = array()
+    out = Array()
     other = rhs
 
     if (is_number(rhs)):
         ldims = dim4_tuple(lhs.dims())
         rty = number_dtype(rhs)
-        other = array()
+        other = Array()
         other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty)
-    elif not isinstance(rhs, array):
+    elif not isinstance(rhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
     safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, bcast.get()))
@@ -71,15 +71,15 @@ def binary_func(lhs, rhs, c_func):
     return out
 
 def binary_funcr(lhs, rhs, c_func):
-    out = array()
+    out = Array()
     other = lhs
 
     if (is_number(lhs)):
         rdims = dim4_tuple(rhs.dims())
         lty = number_dtype(lhs)
-        other = array()
+        other = Array()
         other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty)
-    elif not isinstance(lhs, array):
+    elif not isinstance(lhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
     c_func(ct.pointer(out.arr), other.arr, rhs.arr, bcast.get())
@@ -87,7 +87,7 @@ def binary_funcr(lhs, rhs, c_func):
     return out
 
 def transpose(a, conj=False):
-    out = array()
+    out = Array()
     safe_call(clib.af_transpose(ct.pointer(out.arr), a.arr, conj))
     return out
 
@@ -124,11 +124,11 @@ def get_info(dims, buf_len):
     return numdims, idims
 
 
-class array(base_array):
+class Array(BaseArray):
 
     def __init__(self, src=None, dims=(0,), type_char=None):
 
-        super(array, self).__init__()
+        super(Array, self).__init__()
 
         buf=None
         buf_len=0
@@ -137,7 +137,7 @@ class array(base_array):
 
         if src is not None:
 
-            if (isinstance(src, array)):
+            if (isinstance(src, Array)):
                 safe_call(clib.af_retain_array(ct.pointer(self.arr), src.arr))
                 return
 
@@ -178,7 +178,7 @@ class array(base_array):
             self.arr = create_array(buf, numdims, idims, to_dtype[_type_char])
 
     def copy(self):
-        out = array()
+        out = Array()
         safe_call(clib.af_copy_array(ct.pointer(out.arr), self.arr))
         return out
 
@@ -424,7 +424,7 @@ class array(base_array):
 
     def __getitem__(self, key):
         try:
-            out = array()
+            out = Array()
             n_dims = self.numdims()
             inds = get_indices(key, n_dims)
 
