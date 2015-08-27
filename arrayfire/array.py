@@ -60,7 +60,7 @@ def binary_func(lhs, rhs, c_func):
 
     if (is_number(rhs)):
         ldims = dim4_tuple(lhs.dims())
-        rty = number_dtype(rhs)
+        rty = implicit_dtype(rhs, lhs.type())
         other = Array()
         other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty)
     elif not isinstance(rhs, Array):
@@ -76,7 +76,7 @@ def binary_funcr(lhs, rhs, c_func):
 
     if (is_number(lhs)):
         rdims = dim4_tuple(rhs.dims())
-        lty = number_dtype(lhs)
+        lty = implicit_dtype(lhs, rhs.type())
         other = Array()
         other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty)
     elif not isinstance(lhs, Array):
