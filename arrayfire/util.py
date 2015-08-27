@@ -22,6 +22,18 @@ def dim4(d0=1, d1=1, d2=1, d3=1):
 def is_number(a):
     return isinstance(a, numbers.Number)
 
+def number_dtype(a):
+    if isinstance(a, bool):
+        return b8
+    if isinstance(a, int):
+        return s64
+    elif isinstance(a, float):
+        return f64
+    elif isinstance(a, complex):
+        return c64
+    else:
+        return to_dtype[a.dtype.char]
+
 def dim4_tuple(dims, default=1):
     assert(isinstance(dims, tuple))
 
@@ -59,7 +71,9 @@ to_dtype = {'f' : f32,
             'i' : s32,
             'I' : u32,
             'l' : s64,
-            'L' : u64}
+            'L' : u64,
+            'F' : c32,
+            'D' : c64}
 
 to_typecode = {f32.value : 'f',
                f64.value : 'd',
@@ -68,7 +82,9 @@ to_typecode = {f32.value : 'f',
                s32.value : 'i',
                u32.value : 'I',
                s64.value : 'l',
-               u64.value : 'L'}
+               u64.value : 'L',
+               c32.value : 'F',
+               c64.value : 'D'}
 
 to_c_type = {f32.value : ct.c_float,
              f64.value : ct.c_double,
@@ -77,4 +93,6 @@ to_c_type = {f32.value : ct.c_float,
              s32.value : ct.c_int,
              u32.value : ct.c_uint,
              s64.value : ct.c_longlong,
-             u64.value : ct.c_ulonglong}
+             u64.value : ct.c_ulonglong,
+             c32.value : ct.c_float * 2,
+             c64.value : ct.c_double * 2}
