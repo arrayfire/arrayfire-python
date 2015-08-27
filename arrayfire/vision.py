@@ -11,14 +11,14 @@ from .array import *
 from .features import *
 
 def fast(image, threshold=20.0, arc_length=9, non_max=True, feature_ratio=0.05, edge=3):
-    out = features()
+    out = Features()
     safe_call(clib.af_fast(ct.pointer(out.feat),\
                            image.arr, ct.c_float(threshold), ct.c_uint(arc_length), non_max, \
                            ct.c_float(feature_ratio), ct.c_uint(edge)))
     return out
 
 def orb(image, threshold=20.0, max_features=400, scale = 1.5, num_levels = 4, blur_image = False):
-    feat = features()
+    feat = Features()
     desc = Array()
     safe_call(clib.af_orb(ct.pointer(feat.feat), ct.pointer(desc.arr),\
                           ct.c_float(threshold), ct.c_uint(max_features),\

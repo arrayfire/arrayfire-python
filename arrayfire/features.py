@@ -10,7 +10,7 @@ from .library import *
 from .array import *
 import numbers
 
-class features(object):
+class Features(object):
 
     def __init__(self, num=None):
         self.feat = ct.c_void_p(0)
