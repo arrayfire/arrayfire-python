@@ -25,14 +25,14 @@ def arith_binary_func(lhs, rhs, c_func):
 
     elif (is_number(rhs)):
         ldims = dim4_tuple(lhs.dims())
-        rty = number_dtype(rhs)
+        rty = implicit_dtype(rhs, lhs.type())
         other = array()
         other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty)
         safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, bcast.get()))
 
     else:
         rdims = dim4_tuple(rhs.dims())
-        lty = number_dtype(lhs)
+        lty = implicit_dtype(lhs, rhs.type())
         other = array()
         other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty)
         safe_call(c_func(ct.pointer(out.arr), other.arr, rhs.arr, bcast.get()))
