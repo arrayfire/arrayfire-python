@@ -60,9 +60,9 @@ def binary_func(lhs, rhs, c_func):
 
     if (is_number(rhs)):
         ldims = dim4_tuple(lhs.dims())
-        lty = lhs.type()
+        rty = number_dtype(rhs)
         other = array()
-        other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], lty)
+        other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty)
     elif not isinstance(rhs, array):
         raise TypeError("Invalid parameter to binary function")
 
@@ -76,9 +76,9 @@ def binary_funcr(lhs, rhs, c_func):
 
     if (is_number(lhs)):
         rdims = dim4_tuple(rhs.dims())
-        rty = rhs.type()
+        lty = number_dtype(lhs)
         other = array()
-        other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], rty)
+        other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty)
     elif not isinstance(lhs, array):
         raise TypeError("Invalid parameter to binary function")
 
