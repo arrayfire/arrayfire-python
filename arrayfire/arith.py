@@ -35,7 +35,7 @@ def arith_binary_func(lhs, rhs, c_func):
         rty = rhs.type()
         other = array()
         other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], rty)
-        safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, bcast.get()))
+        safe_call(c_func(ct.pointer(out.arr), other.arr, rhs.arr, bcast.get()))
 
     return out
 
