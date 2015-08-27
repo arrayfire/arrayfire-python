@@ -186,6 +186,11 @@ class array(base_array):
         if (self.arr.value != 0):
             clib.af_release_array(self.arr)
 
+    def device_ptr(self):
+        ptr = ctypes.c_void_p(0)
+        clib.af_get_device_ptr(ct.pointer(ptr), self.arr)
+        return ptr.value
+
     def elements(self):
         num = ct.c_ulonglong(0)
         safe_call(clib.af_get_elements(ct.pointer(num), self.arr))
