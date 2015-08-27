@@ -22,6 +22,18 @@ def dim4(d0=1, d1=1, d2=1, d3=1):
 def is_number(a):
     return isinstance(a, numbers.Number)
 
+def number_dtype(a):
+    if isinstance(a, bool):
+        return b8
+    if isinstance(a, int):
+        return s64
+    elif isinstance(a, float):
+        return f64
+    elif isinstance(a, complex):
+        return c64
+    else:
+        return to_dtype[a.dtype.char]
+
 def dim4_tuple(dims, default=1):
     assert(isinstance(dims, tuple))
 
