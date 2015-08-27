@@ -15,10 +15,10 @@ from .base import *
 from .index import *
 
 def create_array(buf, numdims, idims, dtype):
-    out_arr = ct.c_longlong(0)
-    ct.c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
-    safe_call(clib.af_create_array(ct.pointer(out_arr), ct.c_longlong(buf),\
-                                   numdims, ct.pointer(ct.c_dims), dtype))
+    out_arr = ct.c_void_p(0)
+    c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
+    safe_call(clib.af_create_array(ct.pointer(out_arr), ct.c_void_p(buf),
+                                   numdims, ct.pointer(c_dims), dtype))
     return out_arr
 
 def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
@@ -29,7 +29,7 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
         else:
             raise TypeError("Invalid dtype")
 
-    out = ct.c_longlong(0)
+    out = ct.c_void_p(0)
     dims = dim4(d0, d1, d2, d3)
 
     if isinstance(val, complex):
@@ -39,7 +39,7 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
         if (dtype != c32 and dtype != c64):
             dtype = c32
 
-        safe_call(clib.af_constant_complex(ct.pointer(out), c_real, c_imag,\
+        safe_call(clib.af_constant_complex(ct.pointer(out), c_real, c_imag,
                                            4, ct.pointer(dims), dtype))
     elif dtype == s64:
         c_val = ct.c_longlong(val.real)
@@ -55,15 +55,15 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
 
 
 def binary_func(lhs, rhs, c_func):
-    out = array()
+    out = Array()
     other = rhs
 
     if (is_number(rhs)):
         ldims = dim4_tuple(lhs.dims())
         rty = implicit_dtype(rhs, lhs.type())
-        other = array()
+        other = Array()
         other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty)
-    elif not isinstance(rhs, array):
+    elif not isinstance(rhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
     safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, bcast.get()))
@@ -71,15 +71,15 @@ def binary_func(lhs, rhs, c_func):
     return out
 
 def binary_funcr(lhs, rhs, c_func):
-    out = array()
+    out = Array()
     other = lhs
 
     if (is_number(lhs)):
         rdims = dim4_tuple(rhs.dims())
         lty = implicit_dtype(lhs, rhs.type())
-        other = array()
+        other = Array()
         other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty)
-    elif not isinstance(lhs, array):
+    elif not isinstance(lhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
     c_func(ct.pointer(out.arr), other.arr, rhs.arr, bcast.get())
@@ -87,7 +87,7 @@ def binary_funcr(lhs, rhs, c_func):
     return out
 
 def transpose(a, conj=False):
-    out = array()
+    out = Array()
     safe_call(clib.af_transpose(ct.pointer(out.arr), a.arr, conj))
     return out
 
@@ -124,11 +124,11 @@ def get_info(dims, buf_len):
     return numdims, idims
 
 
-class array(base_array):
+class Array(BaseArray):
 
     def __init__(self, src=None, dims=(0,), type_char=None):
 
-        super(array, self).__init__()
+        super(Array, self).__init__()
 
         buf=None
         buf_len=0
@@ -137,7 +137,7 @@ class array(base_array):
 
         if src is not None:
 
-            if (isinstance(src, array)):
+            if (isinstance(src, Array)):
                 safe_call(clib.af_retain_array(ct.pointer(self.arr), src.arr))
                 return
 
@@ -178,7 +178,7 @@ class array(base_array):
             self.arr = create_array(buf, numdims, idims, to_dtype[_type_char])
 
     def copy(self):
-        out = array()
+        out = Array()
         safe_call(clib.af_copy_array(ct.pointer(out.arr), self.arr))
         return out
 
@@ -187,7 +187,7 @@ class array(base_array):
             clib.af_release_array(self.arr)
 
     def device_ptr(self):
-        ptr = ctypes.c_void_p(0)
+        ptr = ct.c_void_p(0)
         clib.af_get_device_ptr(ct.pointer(ptr), self.arr)
         return ptr.value
 
@@ -206,7 +206,7 @@ class array(base_array):
         d1 = ct.c_longlong(0)
         d2 = ct.c_longlong(0)
         d3 = ct.c_longlong(0)
-        safe_call(clib.af_get_dims(ct.pointer(d0), ct.pointer(d1),\
+        safe_call(clib.af_get_dims(ct.pointer(d0), ct.pointer(d1),
                                    ct.pointer(d2), ct.pointer(d3), self.arr))
         dims = (d0.value,d1.value,d2.value,d3.value)
         return dims[:self.numdims()]
@@ -424,11 +424,11 @@ class array(base_array):
 
     def __getitem__(self, key):
         try:
-            out = array()
+            out = Array()
             n_dims = self.numdims()
             inds = get_indices(key, n_dims)
 
-            safe_call(clib.af_index_gen(ct.pointer(out.arr),\
+            safe_call(clib.af_index_gen(ct.pointer(out.arr),
                                         self.arr, ct.c_longlong(n_dims), ct.pointer(inds)))
             return out
         except RuntimeError as e:
@@ -445,11 +445,11 @@ class array(base_array):
             else:
                 other_arr = val.arr
 
-            out_arr = ct.c_longlong(0)
+            out_arr = ct.c_void_p(0)
             inds  = get_indices(key, n_dims)
 
-            safe_call(clib.af_assign_gen(ct.pointer(out_arr),\
-                                         self.arr, ct.c_longlong(n_dims), ct.pointer(inds),\
+            safe_call(clib.af_assign_gen(ct.pointer(out_arr),
+                                         self.arr, ct.c_longlong(n_dims), ct.pointer(inds),
                                          other_arr))
             safe_call(clib.af_release_array(self.arr))
             self.arr = out_arr

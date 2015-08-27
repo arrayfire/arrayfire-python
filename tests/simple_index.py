@@ -8,12 +8,12 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 import arrayfire as af
-from arrayfire import parallel_range
+from arrayfire import ParallelRange
 import array as host
 
 a = af.randu(5, 5)
 af.display(a)
-b = af.array(a)
+b = af.Array(a)
 af.display(b)
 
 c = a.copy()
@@ -27,7 +27,7 @@ af.display(a[-2:-1,-1])
 af.display(a[0:5])
 af.display(a[0:5:2])
 
-idx = af.array(host.array('i', [0, 3, 2]))
+idx = af.Array(host.array('i', [0, 3, 2]))
 af.display(idx)
 aa = a[idx]
 af.display(aa)
@@ -50,11 +50,11 @@ a = af.randu(5,1)
 b = af.randu(5,1)
 af.display(a)
 af.display(b)
-for ii in parallel_range(1,3):
+for ii in ParallelRange(1,3):
     a[ii] = b[ii]
 
 af.display(a)
 
-for ii in parallel_range(2,5):
+for ii in ParallelRange(2,5):
     b[ii] = 2
 af.display(b)

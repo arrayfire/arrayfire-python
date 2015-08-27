@@ -10,7 +10,7 @@
 from .library import *
 from .array import *
 
-class cell(ct.Structure):
+class Cell(ct.Structure):
     _fields_ = [("row", ct.c_int),
                 ("col", ct.c_int),
                 ("title", ct.c_char_p),
@@ -36,7 +36,7 @@ class window(object):
 
         _title = _title.encode("ascii")
 
-        safe_call(clib.af_create_window(ct.pointer(self._wnd),\
+        safe_call(clib.af_create_window(ct.pointer(self._wnd),
                                         ct.c_int(_width), ct.c_int(_height), ct.c_char_p(_title)))
 
     def __del__(self):
@@ -52,17 +52,17 @@ class window(object):
         self._cmap = cmap
 
     def image(self, img, title=None):
-        _cell = cell(self._r, self._c, title, self._cmap)
+        _cell = Cell(self._r, self._c, title, self._cmap)
         safe_call(clib.af_draw_image(self._wnd, img.arr, ct.pointer(_cell)))
 
     def plot(self, X, Y, title=None):
-        _cell = cell(self._r, self._c, title, self._cmap)
+        _cell = Cell(self._r, self._c, title, self._cmap)
         safe_call(clib.af_draw_plot(self._wnd, X.arr, Y.arr, ct.pointer(_cell)))
 
     def hist(self, X, min_val, max_val, title=None):
-        _cell = cell(self._r, self._c, title, self._cmap)
-        safe_call(clib.af_draw_hist(self._wnd, X.arr, \
-                                    ct.c_double(max_val), ct.c_double(min_val),\
+        _cell = Cell(self._r, self._c, title, self._cmap)
+        safe_call(clib.af_draw_hist(self._wnd, X.arr,
+                                    ct.c_double(max_val), ct.c_double(min_val),
                                     ct.pointer(_cell)))
 
     def grid(rows, cols):

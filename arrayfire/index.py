@@ -11,7 +11,7 @@ from .util import *
 from .base import *
 from .broadcast import *
 
-class seq(ct.Structure):
+class Seq(ct.Structure):
     _fields_ = [("begin", ct.c_double),
                 ("end"  , ct.c_double),
                 ("step" , ct.c_double)]
@@ -36,7 +36,7 @@ class seq(ct.Structure):
         else:
             raise IndexError("Invalid type while indexing arrayfire.array")
 
-class parallel_range(seq):
+class ParallelRange(Seq):
 
     def __init__(self, start, stop=None, step=None):
 
@@ -45,7 +45,7 @@ class parallel_range(seq):
             start = 0
 
         self.S = slice(start, stop, step)
-        super(parallel_range, self).__init__(self.S)
+        super(ParallelRange, self).__init__(self.S)
 
     def __iter__(self):
         return self
@@ -80,10 +80,10 @@ def slice_to_length(key, dim):
     return int(((tkey[1] - tkey[0] - 1) / tkey[2]) + 1)
 
 class uidx(ct.Union):
-    _fields_ = [("arr", ct.c_longlong),
-                ("seq", seq)]
+    _fields_ = [("arr", ct.c_void_p),
+                ("seq", Seq)]
 
-class index(ct.Structure):
+class Index(ct.Structure):
     _fields_ = [("idx", uidx),
                 ("isSeq", ct.c_bool),
                 ("isBatch", ct.c_bool)]
@@ -94,29 +94,29 @@ class index(ct.Structure):
         self.isBatch = False
         self.isSeq   = True
 
-        if isinstance(idx, base_array):
+        if isinstance(idx, BaseArray):
             self.idx.arr = idx.arr
             self.isSeq   = False
-        elif isinstance(idx, parallel_range):
+        elif isinstance(idx, ParallelRange):
             self.idx.seq = idx
             self.isBatch = True
         else:
-            self.idx.seq = seq(idx)
+            self.idx.seq = Seq(idx)
 
 def get_indices(key, n_dims):
 
-    index_vec = index * n_dims
+    index_vec = Index * n_dims
     inds = index_vec()
 
     for n in range(n_dims):
-        inds[n] = index(slice(None))
+        inds[n] = Index(slice(None))
 
     if isinstance(key, tuple):
         n_idx = len(key)
         for n in range(n_idx):
-            inds[n] = index(key[n])
+            inds[n] = Index(key[n])
     else:
-        inds[0] = index(key)
+        inds[0] = Index(key)
 
     return inds
 
@@ -133,10 +133,10 @@ def get_assign_dims(key, idims):
     elif isinstance(key, slice):
         dims[0] = slice_to_length(key, idims[0])
         return dims
-    elif isinstance(key, parallel_range):
+    elif isinstance(key, ParallelRange):
         dims[0] = slice_to_length(key.S, idims[0])
         return dims
-    elif isinstance(key, base_array):
+    elif isinstance(key, BaseArray):
         dims[0] = key.elements()
         return dims
     elif isinstance(key, tuple):
@@ -148,11 +148,11 @@ def get_assign_dims(key, idims):
         for n in range(n_inds):
             if (is_number(key[n])):
                 dims[n] = 1
-            elif (isinstance(key[n], base_array)):
+            elif (isinstance(key[n], BaseArray)):
                 dims[n] = key[n].elements()
             elif (isinstance(key[n], slice)):
                 dims[n] = slice_to_length(key[n], idims[n])
-            elif (isinstance(key[n], parallel_range)):
+            elif (isinstance(key[n], ParallelRange)):
                 dims[n] = slice_to_length(key[n].S, idims[n])
             else:
                 raise IndexError("Invalid type while assigning to arrayfire.array")

@@ -11,32 +11,32 @@ from .library import *
 from .array import *
 
 def lu(A):
-    L = array()
-    U = array()
-    P = array()
+    L = Array()
+    U = Array()
+    P = Array()
     safe_call(clib.af_lu(ct.pointer(L.arr), ct.pointer(U.arr), ct.pointer(P.arr), A.arr))
     return L,U,P
 
 def lu_inplace(A, pivot="lapack"):
-    P = array()
+    P = Array()
     is_pivot_lapack = False if (pivot == "full") else True
     safe_call(clib.af_lu_inplace(ct.pointer(P.arr), A.arr, is_pivot_lapack))
     return P
 
 def qr(A):
-    Q = array()
-    R = array()
-    T = array()
+    Q = Array()
+    R = Array()
+    T = Array()
     safe_call(clib.af_lu(ct.pointer(Q.arr), ct.pointer(R.arr), ct.pointer(T.arr), A.arr))
     return Q,R,T
 
 def qr_inplace(A):
-    T = array()
+    T = Array()
     safe_call(clib.af_qr_inplace(ct.pointer(T.arr), A.arr))
     return T
 
 def cholesky(A, is_upper=True):
-    R = array()
+    R = Array()
     info = ct.c_int(0)
     safe_call(clib.af_cholesky(ct.pointer(R.arr), ct.pointer(info), A.arr, is_upper))
     return R, info.value
@@ -47,17 +47,17 @@ def cholesky_inplace(A, is_upper=True):
     return info.value
 
 def solve(A, B, options=AF_MAT_NONE):
-    X = array()
+    X = Array()
     safe_call(clib.af_solve(ct.pointer(X.arr), A.arr, B.arr, options))
     return X
 
 def solve_lu(A, P, B, options=AF_MAT_NONE):
-    X = array()
+    X = Array()
     safe_call(clib.af_solve_lu(ct.pointer(X.arr), A.arr, P.arr, B.arr, options))
     return X
 
 def inverse(A, options=AF_MAT_NONE):
-    I = array()
+    I = Array()
     safe_call(clib.af_inverse(ct.pointer(I.arr), A.arr, options))
     return I
 

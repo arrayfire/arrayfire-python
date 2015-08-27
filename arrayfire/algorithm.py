@@ -11,7 +11,7 @@ from .library import *
 from .array import *
 
 def parallel_dim(a, dim, c_func):
-    out = array()
+    out = Array()
     safe_call(c_func(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
     return out
 
@@ -67,8 +67,8 @@ def count(a, dim=None):
 
 def imin(a, dim=None):
     if dim is not None:
-        out = array()
-        idx = array()
+        out = Array()
+        idx = Array()
         safe_call(clib.af_imin(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr, ct.c_int(dim)))
         return out,idx
     else:
@@ -83,8 +83,8 @@ def imin(a, dim=None):
 
 def imax(a, dim=None):
     if dim is not None:
-        out = array()
-        idx = array()
+        out = Array()
+        idx = Array()
         safe_call(clib.af_imax(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr, ct.c_int(dim)))
         return out,idx
     else:
@@ -102,7 +102,7 @@ def accum(a, dim=0):
     return parallel_dim(a, dim, clib.af_accum)
 
 def where(a):
-    out = array()
+    out = Array()
     safe_call(clib.af_where(ct.pointer(out.arr), a.arr))
     return out
 
@@ -113,35 +113,35 @@ def diff2(a, dim=0):
     return parallel_dim(a, dim, clib.af_diff2)
 
 def sort(a, dim=0, is_ascending=True):
-    out = array()
+    out = Array()
     safe_call(clib.af_sort(ct.pointer(out.arr), a.arr, ct.c_uint(dim), ct.c_bool(is_ascending)))
     return out
 
 def sort_index(a, dim=0, is_ascending=True):
-    out = array()
-    idx = array()
-    safe_call(clib.af_sort_index(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr, \
+    out = Array()
+    idx = Array()
+    safe_call(clib.af_sort_index(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr,
                                  ct.c_uint(dim), ct.c_bool(is_ascending)))
     return out,idx
 
 def sort_by_key(iv, ik, dim=0, is_ascending=True):
-    ov = array()
-    ok = array()
-    safe_call(clib.af_sort_by_key(ct.pointer(ov.arr), ct.pointer(ok.arr), \
+    ov = Array()
+    ok = Array()
+    safe_call(clib.af_sort_by_key(ct.pointer(ov.arr), ct.pointer(ok.arr),
                                   iv.arr, ik.arr, ct.c_uint(dim), ct.c_bool(is_ascending)))
     return ov,ok
 
 def set_unique(a, is_sorted=False):
-    out = array()
+    out = Array()
     safe_call(clib.af_set_unique(ct.pointer(out.arr), a.arr, ct.c_bool(is_sorted)))
     return out
 
 def set_union(a, b, is_unique=False):
-    out = array()
+    out = Array()
     safe_call(clib.af_set_union(ct.pointer(out.arr), a.arr, b.arr, ct.c_bool(is_unique)))
     return out
 
 def set_intersect(a, b, is_unique=False):
-    out = array()
+    out = Array()
     safe_call(clib.af_set_intersect(ct.pointer(out.arr), a.arr, b.arr, ct.c_bool(is_unique)))
     return out

@@ -11,7 +11,7 @@
 import arrayfire as af
 import array as host
 
-a = af.array([1, 2, 3])
+a = af.Array([1, 2, 3])
 af.display(a)
 print(a.elements(), a.type(), a.dims(), a.numdims())
 print(a.is_empty(), a.is_scalar(), a.is_column(), a.is_row())
@@ -19,14 +19,14 @@ print(a.is_complex(), a.is_real(), a.is_double(), a.is_single())
 print(a.is_real_floating(), a.is_floating(), a.is_integer(), a.is_bool())
 
 
-a = af.array(host.array('i', [4, 5, 6]))
+a = af.Array(host.array('i', [4, 5, 6]))
 af.display(a)
 print(a.elements(), a.type(), a.dims(), a.numdims())
 print(a.is_empty(), a.is_scalar(), a.is_column(), a.is_row())
 print(a.is_complex(), a.is_real(), a.is_double(), a.is_single())
 print(a.is_real_floating(), a.is_floating(), a.is_integer(), a.is_bool())
 
-a = af.array(host.array('l', [7, 8, 9] * 3), (3,3))
+a = af.Array(host.array('l', [7, 8, 9] * 3), (3,3))
 af.display(a)
 print(a.elements(), a.type(), a.dims(), a.numdims())
 print(a.is_empty(), a.is_scalar(), a.is_column(), a.is_row())
