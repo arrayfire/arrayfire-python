@@ -179,7 +179,7 @@ class array(base_array):
 
     def copy(self):
         out = array()
-        safe_call(clib.af_retain_array(ct.pointer(out.arr), self.arr))
+        safe_call(clib.af_copy_array(ct.pointer(out.arr), self.arr))
         return out
 
     def __del__(self):
