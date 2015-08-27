@@ -18,7 +18,7 @@ def arith_binary_func(lhs, rhs, c_func):
     is_right_array = isinstance(rhs, array)
 
     if not (is_left_array or is_right_array):
-        TypeError("Atleast one input needs to be of type arrayfire.array")
+        raise TypeError("Atleast one input needs to be of type arrayfire.array")
 
     elif (is_left_array and is_right_array):
         safe_call(c_func(ct.pointer(out.arr), lhs.arr, rhs.arr, bcast.get()))
