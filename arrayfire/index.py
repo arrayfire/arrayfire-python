@@ -10,6 +10,7 @@ from .library import *
 from .util import *
 from .base import *
 from .broadcast import *
+import math
 
 class Seq(ct.Structure):
     _fields_ = [("begin", ct.c_double),
@@ -18,7 +19,6 @@ class Seq(ct.Structure):
 
     def __init__ (self, S):
         num = __import__("numbers")
-
         self.begin = ct.c_double( 0)
         self.end   = ct.c_double(-1)
         self.step  = ct.c_double( 1)
@@ -27,12 +27,14 @@ class Seq(ct.Structure):
             self.begin = ct.c_double(S)
             self.end   = ct.c_double(S)
         elif isinstance(S, slice):
+            if (S.step is not None):
+                self.step  = ct.c_double(S.step)
+                if(S.step < 0):
+                    self.begin, self.end = self.end, self.begin
             if (S.start is not None):
                 self.begin = ct.c_double(S.start)
             if (S.stop is not None):
-                self.end   = ct.c_double(S.stop - 1)
-            if (S.step is not None):
-                self.step  = ct.c_double(S.step)
+                self.end = ct.c_double(S.stop - math.copysign(1, self.step))
         else:
             raise IndexError("Invalid type while indexing arrayfire.array")
 
