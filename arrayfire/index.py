@@ -18,7 +18,6 @@ class Seq(ct.Structure):
                 ("step" , ct.c_double)]
 
     def __init__ (self, S):
-        num = __import__("numbers")
         self.begin = ct.c_double( 0)
         self.end   = ct.c_double(-1)
         self.step  = ct.c_double( 1)
