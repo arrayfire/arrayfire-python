@@ -183,7 +183,7 @@ class Array(BaseArray):
         return out
 
     def __del__(self):
-        if (self.arr.value != 0):
+        if self.arr.value:
             clib.af_release_array(self.arr)
 
     def device_ptr(self):
