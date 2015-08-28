@@ -441,7 +441,7 @@ class Array(BaseArray):
 
             if (is_number(val)):
                 tdims = get_assign_dims(key, self.dims())
-                other_arr = constant_array(val, tdims[0], tdims[1], tdims[2], tdims[3])
+                other_arr = constant_array(val, tdims[0], tdims[1], tdims[2], tdims[3], self.type())
             else:
                 other_arr = val.arr
 
