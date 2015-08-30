@@ -128,6 +128,7 @@ def join(dim, first, second, third=None, fourth=None):
             num+=1
 
         safe_call(clib.af_join_many(ct.pointer(out.arr), dim, num, ct.pointer(ct.c_array_vec)))
+    return out
 
 
 def tile(a, d0, d1=1, d2=1, d3=1):
