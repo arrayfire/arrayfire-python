@@ -58,3 +58,11 @@ af.display(a)
 for ii in ParallelRange(2,5):
     b[ii] = 2
 af.display(b)
+
+a = af.randu(3,2)
+rows = af.constant(0, 1, dtype=af.s32)
+b = a[:,rows]
+af.display(b)
+for r in rows:
+    af.display(r)
+    af.display(b[:,r])

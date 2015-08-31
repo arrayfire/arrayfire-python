@@ -104,13 +104,11 @@ class Index(ct.Structure):
         else:
             self.idx.seq = Seq(idx)
 
-def get_indices(key, n_dims):
+def get_indices(key):
 
-    index_vec = Index * n_dims
-    inds = index_vec()
-
-    for n in range(n_dims):
-        inds[n] = Index(slice(None))
+    index_vec = Index * 4
+    S = Index(slice(None))
+    inds = index_vec(S, S, S, S)
 
     if isinstance(key, tuple):
         n_idx = len(key)
@@ -142,9 +140,6 @@ def get_assign_dims(key, idims):
         return dims
     elif isinstance(key, tuple):
         n_inds = len(key)
-
-        if (n_inds > len(idims)):
-            raise IndexError("Number of indices greater than array dimensions")
 
         for n in range(n_inds):
             if (is_number(key[n])):

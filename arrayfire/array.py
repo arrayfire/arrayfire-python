@@ -426,7 +426,7 @@ class Array(BaseArray):
         try:
             out = Array()
             n_dims = self.numdims()
-            inds = get_indices(key, n_dims)
+            inds = get_indices(key)
 
             safe_call(clib.af_index_gen(ct.pointer(out.arr),
                                         self.arr, ct.c_longlong(n_dims), ct.pointer(inds)))
@@ -446,7 +446,7 @@ class Array(BaseArray):
                 other_arr = val.arr
 
             out_arr = ct.c_void_p(0)
-            inds  = get_indices(key, n_dims)
+            inds  = get_indices(key)
 
             safe_call(clib.af_assign_gen(ct.pointer(out_arr),
                                          self.arr, ct.c_longlong(n_dims), ct.pointer(inds),
