@@ -36,10 +36,19 @@ def number_dtype(a):
 
 def implicit_dtype(number, a_dtype):
     n_dtype = number_dtype(number)
-    if n_dtype == f64 and (a_dtype == f32 or a_dtype == c32):
+    n_value = n_dtype.value
+
+    f64v = f64.value
+    f32v = f32.value
+    c32v = c32.value
+    c64v = c64.value
+
+    if n_value == f64v and (a_dtype == f32v or a_dtype == c32v):
         return f32
-    if n_dtype == c64 and (a_dtype == f32 or a_dtype == c32):
+
+    if n_value == c64v and (a_dtype == f32v or a_dtype == c32v):
         return c32
+
     return n_dtype
 
 def dim4_tuple(dims, default=1):

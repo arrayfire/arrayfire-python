@@ -196,10 +196,13 @@ class Array(BaseArray):
         safe_call(clib.af_get_elements(ct.pointer(num), self.arr))
         return num.value
 
-    def type(self):
+    def dtype(self):
         dty = ct.c_int(f32.value)
         safe_call(clib.af_get_type(ct.pointer(dty), self.arr))
-        return dty.value
+        return dty
+
+    def type(self):
+        return self.dtype().value
 
     def dims(self):
         d0 = ct.c_longlong(0)
