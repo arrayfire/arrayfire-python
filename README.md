@@ -14,7 +14,7 @@ af.info()
 a = af.randu(5, 1)
 
 # Print a and its minimum value
-af.print_array(a)
+af.display(a)
 
 # Print min and max values of a
 print("Minimum, Maximum: ", af.min(a), af.max(a))
@@ -93,27 +93,20 @@ Please check the following links for dependencies.
 
 ## Getting started
 
-If you have not installed the ArrayFire library in your system paths, please make sure the following environment variables are exported.
-
-**On Linux**
+**Using pip**
 
 ```
-export LD_LIBRARY_PATH=/path/to/arrayfire/lib:$LD_LIBRARY_PATH
+pip install git+git://github.com/arrayfire/arrayfire.git@master
 ```
 
-**On OSX**
+**Installing offline**
 
 ```
-export DYLD_LIBRARY_PATH=/path/to/arrayfire/lib:$DYLD_LIBRARY_PATH
+cd path/to/arrayfire-python
+python setup.py install
 ```
 
-On both systems, to run the example, you will need to add the python bindings to your `PYTHONPATH`
-
-```
-export PYTHONPATH=/path/to/arrayfire_python/:$PYTHONPATH
-```
-
-You are now good to go!
+Please follow [these instructions](https://github.com/arrayfire/arrayfire-python/wiki) to ensure the arrayfire-python can find the arrayfire libraries.
 
 ## Note
 
