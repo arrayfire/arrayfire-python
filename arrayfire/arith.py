@@ -46,149 +46,149 @@ def arith_unary_func(a, c_func):
 
 def cast(a, dtype=f32):
     out=Array()
-    safe_call(clib.af_cast(ct.pointer(out.arr), a.arr, dtype))
+    safe_call(backend.get().af_cast(ct.pointer(out.arr), a.arr, dtype))
     return out
 
 def minof(lhs, rhs):
-    return arith_binary_func(lhs, rhs, clib.af_minof)
+    return arith_binary_func(lhs, rhs, backend.get().af_minof)
 
 def maxof(lhs, rhs):
-    return arith_binary_func(lhs, rhs, clib.af_maxof)
+    return arith_binary_func(lhs, rhs, backend.get().af_maxof)
 
 def rem(lhs, rhs):
-    return arith_binary_func(lhs, rhs, clib.af_rem)
+    return arith_binary_func(lhs, rhs, backend.get().af_rem)
 
 def abs(a):
-    return arith_unary_func(a, clib.af_abs)
+    return arith_unary_func(a, backend.get().af_abs)
 
 def arg(a):
-    return arith_unary_func(a, clib.af_arg)
+    return arith_unary_func(a, backend.get().af_arg)
 
 def sign(a):
-    return arith_unary_func(a, clib.af_sign)
+    return arith_unary_func(a, backend.get().af_sign)
 
 def round(a):
-    return arith_unary_func(a, clib.af_round)
+    return arith_unary_func(a, backend.get().af_round)
 
 def trunc(a):
-    return arith_unary_func(a, clib.af_trunc)
+    return arith_unary_func(a, backend.get().af_trunc)
 
 def floor(a):
-    return arith_unary_func(a, clib.af_floor)
+    return arith_unary_func(a, backend.get().af_floor)
 
 def ceil(a):
-    return arith_unary_func(a, clib.af_ceil)
+    return arith_unary_func(a, backend.get().af_ceil)
 
 def hypot(lhs, rhs):
-    return arith_binary_func(lhs, rhs, clib.af_hypot)
+    return arith_binary_func(lhs, rhs, backend.get().af_hypot)
 
 def sin(a):
-    return arith_unary_func(a, clib.af_sin)
+    return arith_unary_func(a, backend.get().af_sin)
 
 def cos(a):
-    return arith_unary_func(a, clib.af_cos)
+    return arith_unary_func(a, backend.get().af_cos)
 
 def tan(a):
-    return arith_unary_func(a, clib.af_tan)
+    return arith_unary_func(a, backend.get().af_tan)
 
 def asin(a):
-    return arith_unary_func(a, clib.af_asin)
+    return arith_unary_func(a, backend.get().af_asin)
 
 def acos(a):
-    return arith_unary_func(a, clib.af_acos)
+    return arith_unary_func(a, backend.get().af_acos)
 
 def atan(a):
-    return arith_unary_func(a, clib.af_atan)
+    return arith_unary_func(a, backend.get().af_atan)
 
 def atan2(lhs, rhs):
-    return arith_binary_func(lhs, rhs, clib.af_atan2)
+    return arith_binary_func(lhs, rhs, backend.get().af_atan2)
 
 def cplx(lhs, rhs=None):
     if rhs is None:
-        return arith_unary_func(lhs, clib.af_cplx)
+        return arith_unary_func(lhs, backend.get().af_cplx)
     else:
-        return arith_binary_func(lhs, rhs, clib.af_cplx2)
+        return arith_binary_func(lhs, rhs, backend.get().af_cplx2)
 
 def real(lhs):
-    return arith_unary_func(lhs, clib.af_real)
+    return arith_unary_func(lhs, backend.get().af_real)
 
 def imag(lhs):
-    return arith_unary_func(lhs, clib.af_imag)
+    return arith_unary_func(lhs, backend.get().af_imag)
 
 def conjg(lhs):
-    return arith_unary_func(lhs, clib.af_conjg)
+    return arith_unary_func(lhs, backend.get().af_conjg)
 
 def sinh(a):
-    return arith_unary_func(a, clib.af_sinh)
+    return arith_unary_func(a, backend.get().af_sinh)
 
 def cosh(a):
-    return arith_unary_func(a, clib.af_cosh)
+    return arith_unary_func(a, backend.get().af_cosh)
 
 def tanh(a):
-    return arith_unary_func(a, clib.af_tanh)
+    return arith_unary_func(a, backend.get().af_tanh)
 
 def asinh(a):
-    return arith_unary_func(a, clib.af_asinh)
+    return arith_unary_func(a, backend.get().af_asinh)
 
 def acosh(a):
-    return arith_unary_func(a, clib.af_acosh)
+    return arith_unary_func(a, backend.get().af_acosh)
 
 def atanh(a):
-    return arith_unary_func(a, clib.af_atanh)
+    return arith_unary_func(a, backend.get().af_atanh)
 
 def root(lhs, rhs):
-    return arith_binary_func(lhs, rhs, clib.af_root)
+    return arith_binary_func(lhs, rhs, backend.get().af_root)
 
 def pow(lhs, rhs):
-    return arith_binary_func(lhs, rhs, clib.af_pow)
+    return arith_binary_func(lhs, rhs, backend.get().af_pow)
 
 def pow2(a):
-    return arith_unary_func(a, clib.af_pow2)
+    return arith_unary_func(a, backend.get().af_pow2)
 
 def exp(a):
-    return arith_unary_func(a, clib.af_exp)
+    return arith_unary_func(a, backend.get().af_exp)
 
 def expm1(a):
-    return arith_unary_func(a, clib.af_expm1)
+    return arith_unary_func(a, backend.get().af_expm1)
 
 def erf(a):
-    return arith_unary_func(a, clib.af_erf)
+    return arith_unary_func(a, backend.get().af_erf)
 
 def erfc(a):
-    return arith_unary_func(a, clib.af_erfc)
+    return arith_unary_func(a, backend.get().af_erfc)
 
 def log(a):
-    return arith_unary_func(a, clib.af_log)
+    return arith_unary_func(a, backend.get().af_log)
 
 def log1p(a):
-    return arith_unary_func(a, clib.af_log1p)
+    return arith_unary_func(a, backend.get().af_log1p)
 
 def log10(a):
-    return arith_unary_func(a, clib.af_log10)
+    return arith_unary_func(a, backend.get().af_log10)
 
 def log2(a):
-    return arith_unary_func(a, clib.af_log2)
+    return arith_unary_func(a, backend.get().af_log2)
 
 def sqrt(a):
-    return arith_unary_func(a, clib.af_sqrt)
+    return arith_unary_func(a, backend.get().af_sqrt)
 
 def cbrt(a):
-    return arith_unary_func(a, clib.af_cbrt)
+    return arith_unary_func(a, backend.get().af_cbrt)
 
 def factorial(a):
-    return arith_unary_func(a, clib.af_factorial)
+    return arith_unary_func(a, backend.get().af_factorial)
 
 def tgamma(a):
-    return arith_unary_func(a, clib.af_tgamma)
+    return arith_unary_func(a, backend.get().af_tgamma)
 
 def lgamma(a):
-    return arith_unary_func(a, clib.af_lgamma)
+    return arith_unary_func(a, backend.get().af_lgamma)
 
 def iszero(a):
-    return arith_unary_func(a, clib.af_iszero)
+    return arith_unary_func(a, backend.get().af_iszero)
 
 def isinf(a):
-    return arith_unary_func(a, clib.af_isinf)
+    return arith_unary_func(a, backend.get().af_isinf)
 
 def isnan(a):
-    return arith_unary_func(a, clib.af_isnan)
+    return arith_unary_func(a, backend.get().af_isnan)

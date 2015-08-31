@@ -10,40 +10,65 @@
 import platform
 import ctypes as ct
 
-def load_backend(name):
-    platform_name = platform.system()
-    assert(len(platform_name) >= 3)
+class clibrary(object):
 
-    libname = 'libaf' + name
-    if platform_name == 'Linux':
-        libname += '.so'
-    elif platform_name == 'Darwin':
-        libname += '.dylib'
-    elif platform_name == "Windows" or platform_name[:3] == "CYG":
-        libname += '.dll'
-        libname = libname[3:] # remove 'lib'
-        if platform_name == "Windows":
-            '''
-            Supressing crashes caused by missing dlls
-            http://stackoverflow.com/questions/8347266/missing-dll-print-message-instead-of-launching-a-popup
-            https://msdn.microsoft.com/en-us/library/windows/desktop/ms680621.aspx
-            '''
-            ct.windll.kernel32.SetErrorMode(0x0001 | 0x0002);
-    else:
-        raise OSError(platform_name + ' not supported')
+    def __libname(self, name):
+        platform_name = platform.system()
+        assert(len(platform_name) >= 3)
 
-    ct.cdll.LoadLibrary(libname)
-    clib = ct.CDLL(libname)
-    return clib, name
+        libname = 'libaf' + name
+        if platform_name == 'Linux':
+            libname += '.so'
+        elif platform_name == 'Darwin':
+            libname += '.dylib'
+        elif platform_name == "Windows" or platform_name[:3] == "CYG":
+            libname += '.dll'
+            libname = libname[3:] # remove 'lib'
+            if platform_name == "Windows":
+                '''
+                Supressing crashes caused by missing dlls
+                http://stackoverflow.com/questions/8347266/missing-dll-print-message-instead-of-launching-a-popup
+                https://msdn.microsoft.com/en-us/library/windows/desktop/ms680621.aspx
+                '''
+                ct.windll.kernel32.SetErrorMode(0x0001 | 0x0002);
+        else:
+            raise OSError(platform_name + ' not supported')
 
-try:
-    clib, backend = load_backend('cuda')
-except:
-    try:
-        clib, backend = load_backend('opencl')
-    except:
-        clib, backend = load_backend('cpu')
+        return libname
 
+    def set(self, name, unsafe=False):
+        if (not unsafe and self.__lock):
+            raise RuntimeError("Can not change backend after creating an Array")
+        if (self.clibs[name] is None):
+            raise RuntimeError("Could not load any ArrayFire %s backend" % name)
+        self.name = name
+        return
+
+    def __init__(self):
+        self.clibs = {}
+        self.name = None
+        self.__lock = False
+        # Iterate in reverse order of preference
+        for name in ('cpu', 'opencl', 'cuda'):
+            try:
+                libname = self.__libname(name)
+                ct.cdll.LoadLibrary(libname)
+                self.clibs[name] = ct.CDLL(libname)
+                self.name = name
+            except:
+                self.clibs[name] = None
+
+        if (self.name is None):
+            raise RuntimeError("Could not load any ArrayFire libraries")
+
+    def get(self):
+        return self.clibs[self.name]
+
+    def lock(self):
+        self.__lock = True
+
+backend = clibrary()
+del clibrary
 
 AF_SUCCESS            =   ct.c_int(0)
 

@@ -49,7 +49,6 @@ del reduce_all
 del arith_unary_func
 del arith_binary_func
 del brange
-del load_backend
 del dim4_tuple
 del is_number
 del to_str

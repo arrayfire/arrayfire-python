@@ -71,14 +71,14 @@ def safe_call(af_error):
     if (af_error != AF_SUCCESS.value):
         err_str = ct.c_char_p(0)
         err_len = ct.c_longlong(0)
-        clib.af_get_last_error(ct.pointer(err_str), ct.pointer(err_len))
+        backend.get().af_get_last_error(ct.pointer(err_str), ct.pointer(err_len))
         raise RuntimeError(to_str(err_str), af_error)
 
 def get_version():
     major=ct.c_int(0)
     minor=ct.c_int(0)
     patch=ct.c_int(0)
-    safe_call(clib.af_get_version(ct.pointer(major), ct.pointer(minor), ct.pointer(patch)))
+    safe_call(backend.get().af_get_version(ct.pointer(major), ct.pointer(minor), ct.pointer(patch)))
     return major,minor,patch
 
 to_dtype = {'f' : f32,

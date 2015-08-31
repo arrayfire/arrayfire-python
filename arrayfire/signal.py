@@ -12,13 +12,13 @@ from .array import *
 
 def approx1(signal, pos0, method=AF_INTERP_LINEAR, off_grid=0.0):
     output = Array()
-    safe_call(clib.af_approx1(ct.pointer(output.arr), signal.arr, pos0.arr,
+    safe_call(backend.get().af_approx1(ct.pointer(output.arr), signal.arr, pos0.arr,
                               method, ct.c_double(off_grid)))
     return output
 
 def approx2(signal, pos0, pos1, method=AF_INTERP_LINEAR, off_grid=0.0):
     output = Array()
-    safe_call(clib.af_approx2(ct.pointer(output.arr), signal.arr,
+    safe_call(backend.get().af_approx2(ct.pointer(output.arr), signal.arr,
                               pos0.arr, pos1.arr, method, ct.c_double(off_grid)))
     return output
 
@@ -31,7 +31,7 @@ def fft(signal, dim0 = None , scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(clib.af_fft(ct.pointer(output.arr), signal.arr, ct.c_double(scale), ct.c_longlong(dim0)))
+    safe_call(backend.get().af_fft(ct.pointer(output.arr), signal.arr, ct.c_double(scale), ct.c_longlong(dim0)))
     return output
 
 def fft2(signal, dim0 = None, dim1 = None , scale = None):
@@ -46,7 +46,7 @@ def fft2(signal, dim0 = None, dim1 = None , scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(clib.af_fft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+    safe_call(backend.get().af_fft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
                            ct.c_longlong(dim0), ct.c_longlong(dim1)))
     return output
 
@@ -65,7 +65,7 @@ def fft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(clib.af_fft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+    safe_call(backend.get().af_fft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
                            ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
     return output
 
@@ -78,7 +78,7 @@ def ifft(signal, dim0 = None , scale = None):
         scale = 1.0/float(dim0)
 
     output = Array()
-    safe_call(clib.af_ifft(ct.pointer(output.arr), signal.arr, ct.c_double(scale), ct.c_longlong(dim0)))
+    safe_call(backend.get().af_ifft(ct.pointer(output.arr), signal.arr, ct.c_double(scale), ct.c_longlong(dim0)))
     return output
 
 def ifft2(signal, dim0 = None, dim1 = None , scale = None):
@@ -98,7 +98,7 @@ def ifft2(signal, dim0 = None, dim1 = None , scale = None):
         scale = 1.0/float(dim0 * dim1)
 
     output = Array()
-    safe_call(clib.af_ifft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+    safe_call(backend.get().af_ifft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
                             ct.c_longlong(dim0), ct.c_longlong(dim1)))
     return output
 
@@ -122,7 +122,7 @@ def ifft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
         scale = 1.0 / float(dim0 * dim1 * dim2)
 
     output = Array()
-    safe_call(clib.af_ifft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+    safe_call(backend.get().af_ifft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
                             ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
     return output
 
@@ -156,17 +156,17 @@ def idft(signal, scale = None, odims=(None, None, None, None)):
 
 def convolve1(signal, kernel, conv_mode = AF_CONV_DEFAULT, conv_domain = AF_CONV_AUTO):
     output = Array()
-    safe_call(clib.af_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode, conv_domain))
+    safe_call(backend.get().af_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode, conv_domain))
     return output
 
 def convolve2(signal, kernel, conv_mode = AF_CONV_DEFAULT, conv_domain = AF_CONV_AUTO):
     output = Array()
-    safe_call(clib.af_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode, conv_domain))
+    safe_call(backend.get().af_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode, conv_domain))
     return output
 
 def convolve3(signal, kernel, conv_mode = AF_CONV_DEFAULT, conv_domain = AF_CONV_AUTO):
     output = Array()
-    safe_call(clib.af_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode, conv_domain))
+    safe_call(backend.get().af_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode, conv_domain))
     return output
 
 def convolve(signal, kernel, conv_mode = AF_CONV_DEFAULT, conv_domain = AF_CONV_AUTO):
@@ -182,17 +182,17 @@ def convolve(signal, kernel, conv_mode = AF_CONV_DEFAULT, conv_domain = AF_CONV_
 
 def fft_convolve1(signal, kernel, conv_mode = AF_CONV_DEFAULT):
     output = Array()
-    safe_call(clib.af_fft_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode))
+    safe_call(backend.get().af_fft_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode))
     return output
 
 def fft_convolve2(signal, kernel, conv_mode = AF_CONV_DEFAULT):
     output = Array()
-    safe_call(clib.af_fft_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode))
+    safe_call(backend.get().af_fft_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode))
     return output
 
 def fft_convolve3(signal, kernel, conv_mode = AF_CONV_DEFAULT):
     output = Array()
-    safe_call(clib.af_fft_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode))
+    safe_call(backend.get().af_fft_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode))
     return output
 
 def fft_convolve(signal, kernel, conv_mode = AF_CONV_DEFAULT):
@@ -208,10 +208,10 @@ def fft_convolve(signal, kernel, conv_mode = AF_CONV_DEFAULT):
 
 def fir(B, X):
     Y = Array()
-    safe_call(clib.af_fir(ct.pointer(Y.arr), B.arr, X.arr))
+    safe_call(backend.get().af_fir(ct.pointer(Y.arr), B.arr, X.arr))
     return Y
 
 def iir(B, A, X):
     Y = Array()
-    safe_call(clib.af_iir(ct.pointer(Y.arr), B.arr, A.arr, X.arr))
+    safe_call(backend.get().af_iir(ct.pointer(Y.arr), B.arr, A.arr, X.arr))
     return Y
