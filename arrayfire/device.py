@@ -14,11 +14,11 @@ def info():
     safe_call(clib.af_info())
 
 def device_info():
-    ct.c_char_256 = ct.c_char * 256
-    device_name = ct.c_char_256()
-    backend_name = ct.c_char_256()
-    toolkit = ct.c_char_256()
-    compute = ct.c_char_256()
+    c_char_256 = ct.c_char * 256
+    device_name = c_char_256()
+    backend_name = c_char_256()
+    toolkit = c_char_256()
+    compute = c_char_256()
 
     safe_call(clib.af_device_info(ct.pointer(device_name), ct.pointer(backend_name),
                                   ct.pointer(toolkit), ct.pointer(compute)))
@@ -31,14 +31,14 @@ def device_info():
     return dev_info
 
 def get_device_count():
-    ct.c_num = ct.c_int(0)
-    safe_call(clib.af_get_device_count(ct.pointer(ct.c_num)))
-    return ct.c_num.value
+    c_num = ct.c_int(0)
+    safe_call(clib.af_get_device_count(ct.pointer(c_num)))
+    return c_num.value
 
 def get_device():
-    ct.c_dev = ct.c_int(0)
-    safe_call(clib.af_get_device(ct.pointer(ct.c_dev)))
-    return ct.c_dev.value
+    c_dev = ct.c_int(0)
+    safe_call(clib.af_get_device(ct.pointer(c_dev)))
+    return c_dev.value
 
 def set_device(num):
     safe_call(clib.af_set_device(num))
