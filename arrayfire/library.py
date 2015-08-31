@@ -34,16 +34,15 @@ def load_backend(name):
 
     ct.cdll.LoadLibrary(libname)
     clib = ct.CDLL(libname)
-    print("Using %s backend" % name)
-    return clib
+    return clib, name
 
 try:
-    clib = load_backend('cuda')
+    clib, backend = load_backend('cuda')
 except:
     try:
-        clib = load_backend('opencl')
+        clib, backend = load_backend('opencl')
     except:
-        clib = load_backend('cpu')
+        clib, backend = load_backend('cpu')
 
 
 AF_SUCCESS            =   ct.c_int(0)
