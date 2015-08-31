@@ -118,16 +118,17 @@ def join(dim, first, second, third=None, fourth=None):
     if (third is None and fourth is None):
         safe_call(clib.af_join(ct.pointer(out.arr), dim, first.arr, second.arr))
     else:
-        ct.c_array_vec = dim4(first, second, 0, 0)
+        c_void_p_4 = ct.c_void_p * 4
+        c_array_vec = c_void_p_4(first.arr, second.arr, 0, 0)
         num = 2
         if third is not None:
-            ct.c_array_vec[num] = third.arr
+            c_array_vec[num] = third.arr
             num+=1
         if fourth is not None:
-            ct.c_array_vec[num] = fourth.arr
+            c_array_vec[num] = fourth.arr
             num+=1
 
-        safe_call(clib.af_join_many(ct.pointer(out.arr), dim, num, ct.pointer(ct.c_array_vec)))
+        safe_call(clib.af_join_many(ct.pointer(out.arr), dim, num, ct.pointer(c_array_vec)))
     return out
 
 

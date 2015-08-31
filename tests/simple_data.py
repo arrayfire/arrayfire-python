@@ -43,7 +43,11 @@ af.display(c)
 af.display(af.diag(b, extract = False))
 af.display(af.diag(c, 1, extract = False))
 
+af.display(af.join(0, a, a))
+af.display(af.join(1, a, a, a))
+
 af.display(af.tile(a, 2, 2))
+
 
 af.display(af.reorder(a, 1, 0))
 
