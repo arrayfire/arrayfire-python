@@ -499,6 +499,12 @@ class Array(BaseArray):
         safe_call(backend.get().af_print_array(self.arr))
         return '%s of dimensions %s' % (type(self), self.dims())
 
+    def __array__(self):
+        import numpy as np
+        res = np.empty(self.dims(), dtype=np.dtype(to_typecode[self.type()]), order='F')
+        safe_call(backend.get().af_get_data_ptr(ct.c_void_p(res.ctypes.data), self.arr))
+        return res
+
 def display(a):
     expr = inspect.stack()[1][-2]
     if (expr is not None):
