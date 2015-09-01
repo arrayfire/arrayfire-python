@@ -60,7 +60,7 @@ for ii in ParallelRange(2,5):
 af.display(b)
 
 a = af.randu(3,2)
-rows = af.constant(0, 1, dtype=af.s32)
+rows = af.constant(0, 1, dtype=af.Dtype.s32)
 b = a[:,rows]
 af.display(b)
 for r in rows:

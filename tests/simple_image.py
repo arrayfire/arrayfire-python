@@ -57,4 +57,4 @@ ah = af.rgb2hsv(ac)
 af.display(ah)
 af.display(af.hsv2rgb(ah))
 
-af.display(af.color_space(a, af.AF_RGB, af.AF_GRAY))
+af.display(af.color_space(a, af.CSPACE.RGB, af.CSPACE.GRAY))

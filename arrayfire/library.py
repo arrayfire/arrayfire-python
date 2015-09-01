@@ -9,6 +9,7 @@
 
 import platform
 import ctypes as ct
+from enum import Enum
 
 class _clibrary(object):
 
@@ -70,105 +71,121 @@ class _clibrary(object):
 backend = _clibrary()
 del _clibrary
 
-AF_SUCCESS            =   ct.c_int(0)
 
-#100-199 Errors in environment
-AF_ERR_NO_MEM         = ct.c_int(101)
-AF_ERR_DRIVER         = ct.c_int(102)
-AF_ERR_RUNTIME        = ct.c_int(103)
+class ERR(Enum):
+    NONE            =   (0)
 
-# 200-299 Errors in input parameters
-AF_ERR_INVALID_ARRAY  = ct.c_int(201)
-AF_ERR_ARG            = ct.c_int(202)
-AF_ERR_SIZE           = ct.c_int(203)
-AF_ERR_TYPE           = ct.c_int(204)
-AF_ERR_DIFF_TYPE      = ct.c_int(205)
-AF_ERR_BATCH          = ct.c_int(207)
+    #100-199 Errors in environment
+    NO_MEM         = (101)
+    DRIVER         = (102)
+    RUNTIME        = (103)
 
-# 300-399 Errors for missing software features
-AF_ERR_NOT_SUPPORTED  = ct.c_int(301)
-AF_ERR_NOT_CONFIGURED = ct.c_int(302)
+    # 200-299 Errors in input parameters
+    INVALID_ARRAY  = (201)
+    ARG            = (202)
+    SIZE           = (203)
+    TYPE           = (204)
+    DIFF_TYPE      = (205)
+    BATCH          = (207)
 
-# 400-499 Errors for missing hardware features
-AF_ERR_NO_DBL         = ct.c_int(401)
-AF_ERR_NO_GFX         = ct.c_int(402)
+    # 300-399 Errors for missing software features
+    NOT_SUPPORTED  = (301)
+    NOT_CONFIGURED = (302)
 
-# 900-999 Errors from upstream libraries and runtimes
-AF_ERR_INTERNAL       = ct.c_int(998)
-AF_ERR_UNKNOWN        = ct.c_int(999)
+    # 400-499 Errors for missing hardware features
+    NO_DBL         = (401)
+    NO_GFX         = (402)
 
-f32 = ct.c_int(0)
-c32 = ct.c_int(1)
-f64 = ct.c_int(2)
-c64 = ct.c_int(3)
-b8  = ct.c_int(4)
-s32 = ct.c_int(5)
-u32 = ct.c_int(6)
-u8  = ct.c_int(7)
-s64 = ct.c_int(8)
-u64 = ct.c_int(9)
+    # 900-999 Errors from upstream libraries and runtimes
+    INTERNAL       = (998)
+    UNKNOWN        = (999)
 
-afDevice = ct.c_int(0)
-afHost   = ct.c_int(1)
+class Dtype(Enum):
+    f32 = (0)
+    c32 = (1)
+    f64 = (2)
+    c64 = (3)
+    b8  = (4)
+    s32 = (5)
+    u32 = (6)
+    u8  = (7)
+    s64 = (8)
+    u64 = (9)
 
-AF_INTERP_NEAREST   = ct.c_int(0)
-AF_INTERP_LINEAR    = ct.c_int(1)
-AF_INTERP_BILINEAR  = ct.c_int(2)
-AF_INTERP_CUBIC     = ct.c_int(3)
+class Source(Enum):
+    device = (0)
+    host   = (1)
 
-AF_PAD_ZERO = ct.c_int(0)
-AF_PAD_SYM  = ct.c_int(1)
+class INTERP(Enum):
+    NEAREST   = (0)
+    LINEAR    = (1)
+    BILINEAR  = (2)
+    CUBIC     = (3)
 
-AF_CONNECTIVITY_4 = ct.c_int(4)
-AF_CONNECTIVITY_8 = ct.c_int(8)
+class PAD(Enum):
+    ZERO = (0)
+    SYM  = (1)
 
-AF_CONV_DEFAULT = ct.c_int(0)
-AF_CONV_EXPAND  = ct.c_int(1)
+class CONNECTIVITY(Enum):
+    FOUR  = (4)
+    EIGHT = (8)
 
-AF_CONV_AUTO    = ct.c_int(0)
-AF_CONV_SPATIAL = ct.c_int(1)
-AF_CONV_FREQ    = ct.c_int(2)
+class CONV_MODE(Enum):
+    DEFAULT = (0)
+    EXPAND  = (1)
 
-AF_SAD  = ct.c_int(0)
-AF_ZSAD = ct.c_int(1)
-AF_LSAD = ct.c_int(2)
-AF_SSD  = ct.c_int(3)
-AF_ZSSD = ct.c_int(4)
-AF_LSSD = ct.c_int(5)
-AF_NCC  = ct.c_int(6)
-AF_ZNCC = ct.c_int(7)
-AF_SHD  = ct.c_int(8)
+class CONV_DOMAIN(Enum):
+    AUTO    = (0)
+    SPATIAL = (1)
+    FREQ    = (2)
 
-AF_GRAY = ct.c_int(0)
-AF_RGB  = ct.c_int(1)
-AF_HSV  = ct.c_int(2)
+class MATCH(Enum):
+    SAD  = (0)
+    ZSAD = (1)
+    LSAD = (2)
+    SSD  = (3)
+    ZSSD = (4)
+    LSSD = (5)
+    NCC  = (6)
+    ZNCC = (7)
+    SHD  = (8)
 
-AF_MAT_NONE       = ct.c_int(0)
-AF_MAT_TRANS      = ct.c_int(1)
-AF_MAT_CTRANS     = ct.c_int(2)
-AF_MAT_UPPER      = ct.c_int(32)
-AF_MAT_LOWER      = ct.c_int(64)
-AF_MAT_DIAG_UNIT  = ct.c_int(128)
-AF_MAT_SYM        = ct.c_int(512)
-AF_MAT_POSDEF     = ct.c_int(1024)
-AF_MAT_ORTHOG     = ct.c_int(2048)
-AF_MAT_TRI_DIAG   = ct.c_int(4096)
-AF_MAT_BLOCK_DIAG = ct.c_int(8192)
+class CSPACE(Enum):
+    GRAY = (0)
+    RGB  = (1)
+    HSV  = (2)
 
-AF_NORM_VECTOR_1    = ct.c_int(0)
-AF_NORM_VECTOR_INF  = ct.c_int(1)
-AF_NORM_VECTOR_2    = ct.c_int(2)
-AF_NORM_VECTOR_P    = ct.c_int(3)
-AF_NORM_MATRIX_1    = ct.c_int(4)
-AF_NORM_MATRIX_INF  = ct.c_int(5)
-AF_NORM_MATRIX_2    = ct.c_int(6)
-AF_NORM_MATRIX_L_PQ = ct.c_int(7)
-AF_NORM_EUCLID      = AF_NORM_VECTOR_2
+class MATPROP(Enum):
+    NONE       = (0)
+    TRANS      = (1)
+    CTRANS     = (2)
+    UPPER      = (32)
+    LOWER      = (64)
+    DIAG_UNIT  = (128)
+    SYM        = (512)
+    POSDEF     = (1024)
+    ORTHOG     = (2048)
+    TRI_DIAG   = (4096)
+    BLOCK_DIAG = (8192)
 
-AF_COLORMAP_DEFAULT  = ct.c_int(0)
-AF_COLORMAP_SPECTRUM = ct.c_int(1)
-AF_COLORMAP_COLORS   = ct.c_int(2)
-AF_COLORMAP_RED      = ct.c_int(3)
-AF_COLORMAP_MOOD     = ct.c_int(4)
-AF_COLORMAP_HEAT     = ct.c_int(5)
-AF_COLORMAP_BLUE     = ct.c_int(6)
+class NORM(Enum):
+    VECTOR_1    = (0)
+    VECTOR_INF  = (1)
+    VECTOR_2    = (2)
+    VECTOR_P    = (3)
+    MATRIX_1    = (4)
+    MATRIX_INF  = (5)
+    MATRIX_2    = (6)
+    MATRIX_L_PQ = (7)
+    EUCLID      = VECTOR_2
+
+class COLORMAP(Enum):
+    DEFAULT  = (0)
+    SPECTRUM = (1)
+    COLORS   = (2)
+    RED      = (3)
+    MOOD     = (4)
+    HEAT     = (5)
+    BLUE     = (6)
+
+del Enum

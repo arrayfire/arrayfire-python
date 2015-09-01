@@ -46,19 +46,19 @@ def cholesky_inplace(A, is_upper=True):
     safe_call(backend.get().af_cholesky_inplace(ct.pointer(info), A.arr, is_upper))
     return info.value
 
-def solve(A, B, options=AF_MAT_NONE):
+def solve(A, B, options=MATPROP.NONE):
     X = Array()
-    safe_call(backend.get().af_solve(ct.pointer(X.arr), A.arr, B.arr, options))
+    safe_call(backend.get().af_solve(ct.pointer(X.arr), A.arr, B.arr, options.value))
     return X
 
-def solve_lu(A, P, B, options=AF_MAT_NONE):
+def solve_lu(A, P, B, options=MATPROP.NONE):
     X = Array()
-    safe_call(backend.get().af_solve_lu(ct.pointer(X.arr), A.arr, P.arr, B.arr, options))
+    safe_call(backend.get().af_solve_lu(ct.pointer(X.arr), A.arr, P.arr, B.arr, options.value))
     return X
 
-def inverse(A, options=AF_MAT_NONE):
+def inverse(A, options=MATPROP.NONE):
     I = Array()
-    safe_call(backend.get().af_inverse(ct.pointer(I.arr), A.arr, options))
+    safe_call(backend.get().af_inverse(ct.pointer(I.arr), A.arr, options.value))
     return I
 
 def rank(A, tol=1E-5):
@@ -74,7 +74,8 @@ def det(A):
     im = im.value
     return re if (im == 0) else re + im * 1j
 
-def norm(A, norm_type=AF_NORM_EUCLID, p=1.0, q=1.0):
+def norm(A, norm_type=NORM.EUCLID, p=1.0, q=1.0):
     res = ct.c_double(0)
-    safe_call(backend.get().af_norm(ct.pointer(res), A.arr, norm_type, ct.c_double(p), ct.c_double(q)))
+    safe_call(backend.get().af_norm(ct.pointer(res), A.arr, norm_type.value,
+                                    ct.c_double(p), ct.c_double(q)))
     return res.value

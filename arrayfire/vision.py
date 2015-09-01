@@ -33,7 +33,7 @@ def hamming_matcher(query, database, dim = 0, num_nearest = 1):
                                                ct.c_longlong(dim), ct.c_longlong(num_nearest)))
     return index, dist
 
-def match_template(image, template, match_type = AF_SAD):
+def match_template(image, template, match_type = MATCH.SAD):
     out = Array()
     safe_call(backend.get().af_match_template(ct.pointer(out.arr), image.arr, template.arr, match_type))
     return out

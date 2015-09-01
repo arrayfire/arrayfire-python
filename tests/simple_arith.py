@@ -10,8 +10,8 @@
 
 import arrayfire as af
 
-a = af.randu(3,3,dtype=af.u32)
-b = af.constant(4, 3, 3, dtype=af.u32)
+a = af.randu(3,3,dtype=af.Dtype.u32)
+b = af.constant(4, 3, 3, dtype=af.Dtype.u32)
 af.display(a)
 af.display(b)
 
@@ -123,7 +123,7 @@ af.display(+a)
 af.display(~a)
 af.display(a)
 
-af.display(af.cast(a, af.c32))
+af.display(af.cast(a, af.Dtype.c32))
 af.display(af.maxof(a,b))
 af.display(af.minof(a,b))
 af.display(af.rem(a,b))

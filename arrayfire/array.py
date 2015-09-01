@@ -22,17 +22,17 @@ def _create_array(buf, numdims, idims, dtype):
     out_arr = ct.c_void_p(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
     safe_call(backend.get().af_create_array(ct.pointer(out_arr), ct.c_void_p(buf),
-                                            numdims, ct.pointer(c_dims), dtype))
+                                            numdims, ct.pointer(c_dims), dtype.value))
     return out_arr
 
 def _create_empty_array(numdims, idims, dtype):
     out_arr = ct.c_void_p(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
     safe_call(backend.get().af_create_handle(ct.pointer(out_arr),
-                                            numdims, ct.pointer(c_dims), dtype))
+                                             numdims, ct.pointer(c_dims), dtype.value))
     return out_arr
 
-def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
+def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
     """
     Internal function to create a C array. Should not be used externall.
     """
@@ -40,6 +40,8 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
     if not isinstance(dtype, ct.c_int):
         if isinstance(dtype, int):
             dtype = ct.c_int(dtype)
+        elif isinstance(dtype, Dtype):
+            dtype = ct.c_int(dtype.value)
         else:
             raise TypeError("Invalid dtype")
 
@@ -50,15 +52,15 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
         c_real = ct.c_double(val.real)
         c_imag = ct.c_double(val.imag)
 
-        if (dtype != c32 and dtype != c64):
-            dtype = c32
+        if (dtype.value != Dtype.c32.value and dtype.value != Dtype.c64.value):
+            dtype = Dtype.c32.value
 
         safe_call(backend.get().af_constant_complex(ct.pointer(out), c_real, c_imag,
-                                           4, ct.pointer(dims), dtype))
-    elif dtype == s64:
+                                                    4, ct.pointer(dims), dtype))
+    elif dtype.value == Dtype.s64.value:
         c_val = ct.c_longlong(val.real)
         safe_call(backend.get().af_constant_long(ct.pointer(out), c_val, 4, ct.pointer(dims)))
-    elif dtype == u64:
+    elif dtype.value == Dtype.u64.value:
         c_val = ct.c_ulonglong(val.real)
         safe_call(backend.get().af_constant_ulong(ct.pointer(out), c_val, 4, ct.pointer(dims)))
     else:
@@ -76,7 +78,7 @@ def _binary_func(lhs, rhs, c_func):
         ldims = dim4_to_tuple(lhs.dims())
         rty = implicit_dtype(rhs, lhs.type())
         other = Array()
-        other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty)
+        other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty.value)
     elif not isinstance(rhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
@@ -92,7 +94,7 @@ def _binary_funcr(lhs, rhs, c_func):
         rdims = dim4_to_tuple(rhs.dims())
         lty = implicit_dtype(lhs, rhs.type())
         other = Array()
-        other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty)
+        other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty.value)
     elif not isinstance(lhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
@@ -186,7 +188,7 @@ class Array(BaseArray):
     dims : optional: tuple of ints. default: (0,)
          - When using the default values of `dims`, the dims are caclulated as `len(src)`
 
-    dtype: optional: str or ctypes.c_int. default: None.
+    dtype: optional: str or arrayfire.Dtype. default: None.
            - if str, must be one of the following:
                - 'f' for float
                - 'd' for double
@@ -198,18 +200,18 @@ class Array(BaseArray):
                - 'L' for unsigned 64 bit integer
                - 'F' for 32 bit complex number
                - 'D' for 64 bit complex number
-           - if ctypes.c_int, must be one of the following:
-               - f32 for float
-               - f64 for double
-               - b8  for bool
-               - u8  for unsigned char
-               - s32 for signed 32 bit integer
-               - u32 for unsigned 32 bit integer
-               - s64 for signed 64 bit integer
-               - u64 for unsigned 64 bit integer
-               - c32 for 32 bit complex number
-               - c64 for 64 bit complex number
-            - if None, f32 is assumed
+           - if arrayfire.Dtype, must be one of the following:
+               - Dtype.f32 for float
+               - Dtype.f64 for double
+               - Dtype.b8  for bool
+               - Dtype.u8  for unsigned char
+               - Dtype.s32 for signed 32 bit integer
+               - Dtype.u32 for unsigned 32 bit integer
+               - Dtype.s64 for signed 64 bit integer
+               - Dtype.u64 for unsigned 64 bit integer
+               - Dtype.c32 for 32 bit complex number
+               - Dtype.c64 for 64 bit complex number
+            - if None, Dtype.f32 is assumed
 
     Attributes
     -----------
@@ -281,7 +283,6 @@ class Array(BaseArray):
             type_char = None
 
         _type_char='f'
-        dtype = f32
 
         backend.lock()
 
@@ -317,8 +318,6 @@ class Array(BaseArray):
                     raise TypeError("Expected type_char when src is data pointer")
 
                 _type_char = type_char
-
-                print(_type_char)
 
             else:
                 raise TypeError("src is an object of unsupported class")
@@ -389,11 +388,11 @@ class Array(BaseArray):
 
     def dtype(self):
         """
-        Return the data type as a ctypes.c_int value.
+        Return the data type as a arrayfire.Dtype enum value.
         """
-        dty = ct.c_int(f32.value)
+        dty = ct.c_int(Dtype.f32.value)
         safe_call(backend.get().af_get_type(ct.pointer(dty), self.arr))
-        return dty
+        return Dtype(dty.value)
 
     def type(self):
         """

@@ -14,8 +14,8 @@ a = af.randu(5,5)
 b = af.randu(5,5)
 
 af.display(af.matmul(a,b))
-af.display(af.matmul(a,b,af.AF_MAT_TRANS))
-af.display(af.matmul(a,b,af.AF_MAT_NONE, af.AF_MAT_TRANS))
+af.display(af.matmul(a,b,af.MATPROP.TRANS))
+af.display(af.matmul(a,b,af.MATPROP.NONE, af.MATPROP.TRANS))
 
 b = af.randu(5,1)
 af.display(af.dot(b,b))

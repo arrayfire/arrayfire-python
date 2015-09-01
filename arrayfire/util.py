@@ -24,13 +24,13 @@ def is_number(a):
 
 def number_dtype(a):
     if isinstance(a, bool):
-        return b8
+        return Dtype.b8
     if isinstance(a, int):
-        return s64
+        return Dtype.s64
     elif isinstance(a, float):
-        return f64
+        return Dtype.f64
     elif isinstance(a, complex):
-        return c64
+        return Dtype.c64
     else:
         return to_dtype[a.dtype.char]
 
@@ -38,16 +38,16 @@ def implicit_dtype(number, a_dtype):
     n_dtype = number_dtype(number)
     n_value = n_dtype.value
 
-    f64v = f64.value
-    f32v = f32.value
-    c32v = c32.value
-    c64v = c64.value
+    f64v = Dtype.f64.value
+    f32v = Dtype.f32.value
+    c32v = Dtype.c32.value
+    c64v = Dtype.c64.value
 
     if n_value == f64v and (a_dtype == f32v or a_dtype == c32v):
-        return f32
+        return Dtype.f32
 
     if n_value == c64v and (a_dtype == f32v or a_dtype == c32v):
-        return c32
+        return Dtype.c32
 
     return n_dtype
 
@@ -68,7 +68,7 @@ def to_str(c_str):
     return str(c_str.value.decode('utf-8'))
 
 def safe_call(af_error):
-    if (af_error != AF_SUCCESS.value):
+    if (af_error != ERR.NONE.value):
         err_str = ct.c_char_p(0)
         err_len = ct.c_longlong(0)
         backend.get().af_get_last_error(ct.pointer(err_str), ct.pointer(err_len))
@@ -81,35 +81,35 @@ def get_version():
     safe_call(backend.get().af_get_version(ct.pointer(major), ct.pointer(minor), ct.pointer(patch)))
     return major,minor,patch
 
-to_dtype = {'f' : f32,
-            'd' : f64,
-            'b' : b8,
-            'B' : u8,
-            'i' : s32,
-            'I' : u32,
-            'l' : s64,
-            'L' : u64,
-            'F' : c32,
-            'D' : c64}
+to_dtype = {'f' : Dtype.f32,
+            'd' : Dtype.f64,
+            'b' : Dtype.b8,
+            'B' : Dtype.u8,
+            'i' : Dtype.s32,
+            'I' : Dtype.u32,
+            'l' : Dtype.s64,
+            'L' : Dtype.u64,
+            'F' : Dtype.c32,
+            'D' : Dtype.c64}
 
-to_typecode = {f32.value : 'f',
-               f64.value : 'd',
-               b8.value : 'b',
-               u8.value : 'B',
-               s32.value : 'i',
-               u32.value : 'I',
-               s64.value : 'l',
-               u64.value : 'L',
-               c32.value : 'F',
-               c64.value : 'D'}
+to_typecode = {Dtype.f32.value : 'f',
+               Dtype.f64.value : 'd',
+               Dtype.b8.value : 'b',
+               Dtype.u8.value : 'B',
+               Dtype.s32.value : 'i',
+               Dtype.u32.value : 'I',
+               Dtype.s64.value : 'l',
+               Dtype.u64.value : 'L',
+               Dtype.c32.value : 'F',
+               Dtype.c64.value : 'D'}
 
-to_c_type = {f32.value : ct.c_float,
-             f64.value : ct.c_double,
-             b8.value : ct.c_char,
-             u8.value : ct.c_ubyte,
-             s32.value : ct.c_int,
-             u32.value : ct.c_uint,
-             s64.value : ct.c_longlong,
-             u64.value : ct.c_ulonglong,
-             c32.value : ct.c_float * 2,
-             c64.value : ct.c_double * 2}
+to_c_type = {Dtype.f32.value : ct.c_float,
+             Dtype.f64.value : ct.c_double,
+             Dtype.b8.value : ct.c_char,
+             Dtype.u8.value : ct.c_ubyte,
+             Dtype.s32.value : ct.c_int,
+             Dtype.u32.value : ct.c_uint,
+             Dtype.s64.value : ct.c_longlong,
+             Dtype.u64.value : ct.c_ulonglong,
+             Dtype.c32.value : ct.c_float * 2,
+             Dtype.c64.value : ct.c_double * 2}

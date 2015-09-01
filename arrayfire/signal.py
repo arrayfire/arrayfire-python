@@ -10,16 +10,16 @@
 from .library import *
 from .array import *
 
-def approx1(signal, pos0, method=AF_INTERP_LINEAR, off_grid=0.0):
+def approx1(signal, pos0, method=INTERP.LINEAR, off_grid=0.0):
     output = Array()
     safe_call(backend.get().af_approx1(ct.pointer(output.arr), signal.arr, pos0.arr,
-                                       method, ct.c_double(off_grid)))
+                                       method.value, ct.c_double(off_grid)))
     return output
 
-def approx2(signal, pos0, pos1, method=AF_INTERP_LINEAR, off_grid=0.0):
+def approx2(signal, pos0, pos1, method=INTERP.LINEAR, off_grid=0.0):
     output = Array()
     safe_call(backend.get().af_approx2(ct.pointer(output.arr), signal.arr,
-                                       pos0.arr, pos1.arr, method, ct.c_double(off_grid)))
+                                       pos0.arr, pos1.arr, method.value, ct.c_double(off_grid)))
     return output
 
 def fft(signal, dim0 = None , scale = None):
@@ -154,22 +154,25 @@ def idft(signal, scale = None, odims=(None, None, None, None)):
     else:
         return ifft3(signal, scale, dims[0], dims[1], dims[2])
 
-def convolve1(signal, kernel, conv_mode = AF_CONV_DEFAULT, conv_domain = AF_CONV_AUTO):
+def convolve1(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_DOMAIN.AUTO):
     output = Array()
-    safe_call(backend.get().af_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode, conv_domain))
+    safe_call(backend.get().af_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr,
+                                         conv_mode.value, conv_domain.value))
     return output
 
-def convolve2(signal, kernel, conv_mode = AF_CONV_DEFAULT, conv_domain = AF_CONV_AUTO):
+def convolve2(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_DOMAIN.AUTO):
     output = Array()
-    safe_call(backend.get().af_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode, conv_domain))
+    safe_call(backend.get().af_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr,
+                                         conv_mode.value, conv_domain.value))
     return output
 
-def convolve3(signal, kernel, conv_mode = AF_CONV_DEFAULT, conv_domain = AF_CONV_AUTO):
+def convolve3(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_DOMAIN.AUTO):
     output = Array()
-    safe_call(backend.get().af_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode, conv_domain))
+    safe_call(backend.get().af_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr,
+                                         conv_mode.value, conv_domain.value))
     return output
 
-def convolve(signal, kernel, conv_mode = AF_CONV_DEFAULT, conv_domain = AF_CONV_AUTO):
+def convolve(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_DOMAIN.AUTO):
     dims = signal.dims()
     ndims = len(dims)
 
@@ -180,22 +183,25 @@ def convolve(signal, kernel, conv_mode = AF_CONV_DEFAULT, conv_domain = AF_CONV_
     else:
         return convolve3(signal, kernel, conv_mode, conv_domain)
 
-def fft_convolve1(signal, kernel, conv_mode = AF_CONV_DEFAULT):
+def fft_convolve1(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
     output = Array()
-    safe_call(backend.get().af_fft_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode))
+    safe_call(backend.get().af_fft_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr,
+                                             conv_mode.value))
     return output
 
-def fft_convolve2(signal, kernel, conv_mode = AF_CONV_DEFAULT):
+def fft_convolve2(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
     output = Array()
-    safe_call(backend.get().af_fft_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode))
+    safe_call(backend.get().af_fft_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr,
+                                             conv_mode.value))
     return output
 
-def fft_convolve3(signal, kernel, conv_mode = AF_CONV_DEFAULT):
+def fft_convolve3(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
     output = Array()
-    safe_call(backend.get().af_fft_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr, conv_mode))
+    safe_call(backend.get().af_fft_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr,
+                                             conv_mode.value))
     return output
 
-def fft_convolve(signal, kernel, conv_mode = AF_CONV_DEFAULT):
+def fft_convolve(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
     dims = signal.dims()
     ndims = len(dims)
 

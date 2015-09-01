@@ -56,19 +56,25 @@ def cast(a, dtype):
     ----------
     a    : af.Array
            Multi dimensional arrayfire array.
-    dtype: ctypes.c_int.
+    dtype: af.Dtype
            Must be one of the following:
-           af.f32, af.f64, af.c32, af.c64
-           af.s32, af.s64, af.u32, af.u64,
-           af.b8, af.u8
-
+               - Dtype.f32 for float
+               - Dtype.f64 for double
+               - Dtype.b8  for bool
+               - Dtype.u8  for unsigned char
+               - Dtype.s32 for signed 32 bit integer
+               - Dtype.u32 for unsigned 32 bit integer
+               - Dtype.s64 for signed 64 bit integer
+               - Dtype.u64 for unsigned 64 bit integer
+               - Dtype.c32 for 32 bit complex number
+               - Dtype.c64 for 64 bit complex number
     Returns
     --------
     out  : af.Array
            array containing the values from `a` after converting to `dtype`.
     """
     out=Array()
-    safe_call(backend.get().af_cast(ct.pointer(out.arr), a.arr, dtype))
+    safe_call(backend.get().af_cast(ct.pointer(out.arr), a.arr, dtype.value))
     return out
 
 def minof(lhs, rhs):

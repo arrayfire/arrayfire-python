@@ -28,7 +28,7 @@ class window(object):
         self._r = -1
         self._c = -1
         self._wnd = ct.c_longlong(0)
-        self._cmap = AF_COLORMAP_DEFAULT
+        self._cmap = COLORMAP.DEFAULT
 
         _width  = 1280 if  width is None else  width
         _height =  720 if height is None else height
@@ -37,7 +37,8 @@ class window(object):
         _title = _title.encode("ascii")
 
         safe_call(backend.get().af_create_window(ct.pointer(self._wnd),
-                                                 ct.c_int(_width), ct.c_int(_height), ct.c_char_p(_title)))
+                                                 ct.c_int(_width), ct.c_int(_height),
+                                                 ct.c_char_p(_title)))
 
     def __del__(self):
         safe_call(backend.get().af_destroy_window(self._wnd))

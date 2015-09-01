@@ -10,27 +10,27 @@
 
 import arrayfire as af
 
-af.display(af.constant(100, 3,3, dtype=af.f32))
-af.display(af.constant(25, 3,3, dtype=af.c32))
-af.display(af.constant(2**50, 3,3, dtype=af.s64))
+af.display(af.constant(100, 3,3, dtype=af.Dtype.f32))
+af.display(af.constant(25, 3,3, dtype=af.Dtype.c32))
+af.display(af.constant(2**50, 3,3, dtype=af.Dtype.s64))
 af.display(af.constant(2+3j, 3,3))
-af.display(af.constant(3+5j, 3,3, dtype=af.c32))
+af.display(af.constant(3+5j, 3,3, dtype=af.Dtype.c32))
 
 af.display(af.range(3, 3))
 af.display(af.iota(3, 3, tile_dims=(2,2)))
 
 af.display(af.randu(3, 3, 1, 2))
-af.display(af.randu(3, 3, 1, 2, af.b8))
-af.display(af.randu(3, 3, dtype=af.c32))
+af.display(af.randu(3, 3, 1, 2, af.Dtype.b8))
+af.display(af.randu(3, 3, dtype=af.Dtype.c32))
 
 af.display(af.randn(3, 3, 1, 2))
-af.display(af.randn(3, 3, dtype=af.c32))
+af.display(af.randn(3, 3, dtype=af.Dtype.c32))
 
 af.set_seed(1024)
 assert(af.get_seed() == 1024)
 
-af.display(af.identity(3, 3, 1, 2, af.b8))
-af.display(af.identity(3, 3, dtype=af.c32))
+af.display(af.identity(3, 3, 1, 2, af.Dtype.b8))
+af.display(af.identity(3, 3, dtype=af.Dtype.c32))
 
 a = af.randu(3, 4)
 b = af.diag(a, extract=True)
