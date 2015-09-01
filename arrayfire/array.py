@@ -496,7 +496,9 @@ class Array(BaseArray):
         return ctype_to_lists(ct_array, len(shape) - 1, shape)
 
     def __repr__(self):
-        safe_call(backend.get().af_print_array(self.arr))
+        # Having __repr__ directly print things is a bad idea
+        # Placeholder for when af_array_to_string is available
+        # safe_call(backend.get().af_array_to_string...
         return '%s of dimensions %s' % (type(self), self.dims())
 
     def __array__(self):
