@@ -62,7 +62,7 @@ class ParallelRange(Seq):
     def __next__(self):
         return self.next()
 
-def slice_to_length(key, dim):
+def _slice_to_length(key, dim):
     tkey = [key.start, key.stop, key.step]
 
     if tkey[0] is None:
@@ -80,18 +80,18 @@ def slice_to_length(key, dim):
 
     return int(((tkey[1] - tkey[0] - 1) / tkey[2]) + 1)
 
-class uidx(ct.Union):
+class _uidx(ct.Union):
     _fields_ = [("arr", ct.c_void_p),
                 ("seq", Seq)]
 
 class Index(ct.Structure):
-    _fields_ = [("idx", uidx),
+    _fields_ = [("idx", _uidx),
                 ("isSeq", ct.c_bool),
                 ("isBatch", ct.c_bool)]
 
     def __init__ (self, idx):
 
-        self.idx     = uidx()
+        self.idx     = _uidx()
         self.isBatch = False
         self.isSeq   = True
 
@@ -130,10 +130,10 @@ def get_assign_dims(key, idims):
         dims[0] = 1
         return dims
     elif isinstance(key, slice):
-        dims[0] = slice_to_length(key, idims[0])
+        dims[0] = _slice_to_length(key, idims[0])
         return dims
     elif isinstance(key, ParallelRange):
-        dims[0] = slice_to_length(key.S, idims[0])
+        dims[0] = _slice_to_length(key.S, idims[0])
         return dims
     elif isinstance(key, BaseArray):
         dims[0] = key.elements()
@@ -147,9 +147,9 @@ def get_assign_dims(key, idims):
             elif (isinstance(key[n], BaseArray)):
                 dims[n] = key[n].elements()
             elif (isinstance(key[n], slice)):
-                dims[n] = slice_to_length(key[n], idims[n])
+                dims[n] = _slice_to_length(key[n], idims[n])
             elif (isinstance(key[n], ParallelRange)):
-                dims[n] = slice_to_length(key[n].S, idims[n])
+                dims[n] = _slice_to_length(key[n].S, idims[n])
             else:
                 raise IndexError("Invalid type while assigning to arrayfire.array")
 

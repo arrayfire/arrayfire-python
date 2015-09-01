@@ -14,7 +14,7 @@ from .broadcast import *
 from .base import *
 from .index import *
 
-def create_array(buf, numdims, idims, dtype):
+def _create_array(buf, numdims, idims, dtype):
     out_arr = ct.c_void_p(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
     safe_call(backend.get().af_create_array(ct.pointer(out_arr), ct.c_void_p(buf),
@@ -54,12 +54,12 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=f32):
     return out
 
 
-def binary_func(lhs, rhs, c_func):
+def _binary_func(lhs, rhs, c_func):
     out = Array()
     other = rhs
 
     if (is_number(rhs)):
-        ldims = dim4_tuple(lhs.dims())
+        ldims = dim4_to_tuple(lhs.dims())
         rty = implicit_dtype(rhs, lhs.type())
         other = Array()
         other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty)
@@ -70,12 +70,12 @@ def binary_func(lhs, rhs, c_func):
 
     return out
 
-def binary_funcr(lhs, rhs, c_func):
+def _binary_funcr(lhs, rhs, c_func):
     out = Array()
     other = lhs
 
     if (is_number(lhs)):
-        rdims = dim4_tuple(rhs.dims())
+        rdims = dim4_to_tuple(rhs.dims())
         lty = implicit_dtype(lhs, rhs.type())
         other = Array()
         other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty)
@@ -94,18 +94,18 @@ def transpose(a, conj=False):
 def transpose_inplace(a, conj=False):
     safe_call(backend.get().af_transpose_inplace(a.arr, conj))
 
-def ctype_to_lists(ctype_arr, dim, shape, offset=0):
+def _ctype_to_lists(ctype_arr, dim, shape, offset=0):
     if (dim == 0):
         return list(ctype_arr[offset : offset + shape[0]])
     else:
         dim_len = shape[dim]
         res = [[]] * dim_len
         for n in range(dim_len):
-            res[n] = ctype_to_lists(ctype_arr, dim - 1, shape, offset)
+            res[n] = _ctype_to_lists(ctype_arr, dim - 1, shape, offset)
             offset += shape[0]
         return res
 
-def get_info(dims, buf_len):
+def _get_info(dims, buf_len):
     elements = 1
     numdims = len(dims)
     idims = [1]*4
@@ -148,15 +148,15 @@ class Array(BaseArray):
             if isinstance(src, host.array):
                 buf,buf_len = src.buffer_info()
                 _type_char = src.typecode
-                numdims, idims = get_info(dims, buf_len)
+                numdims, idims = _get_info(dims, buf_len)
             elif isinstance(src, list):
                 tmp = host.array('f', src)
                 buf,buf_len = tmp.buffer_info()
                 _type_char = tmp.typecode
-                numdims, idims = get_info(dims, buf_len)
+                numdims, idims = _get_info(dims, buf_len)
             elif isinstance(src, int) or isinstance(src, ct.c_ulonglong):
                 buf = src
-                numdims, idims = get_info(dims, buf_len)
+                numdims, idims = _get_info(dims, buf_len)
 
                 elements = 1
                 for dim in idims:
@@ -177,7 +177,7 @@ class Array(BaseArray):
                 type_char != _type_char):
                 raise TypeError("Can not create array of requested type from input data type")
 
-            self.arr = create_array(buf, numdims, idims, to_dtype[_type_char])
+            self.arr = _create_array(buf, numdims, idims, to_dtype[_type_char])
 
     def copy(self):
         out = Array()
@@ -287,128 +287,127 @@ class Array(BaseArray):
         return res.value
 
     def __add__(self, other):
-        return binary_func(self, other, backend.get().af_add)
+        return _binary_func(self, other, backend.get().af_add)
 
     def __iadd__(self, other):
-        self = binary_func(self, other, backend.get().af_add)
+        self = _binary_func(self, other, backend.get().af_add)
         return self
 
     def __radd__(self, other):
-        return binary_funcr(other, self, backend.get().af_add)
+        return _binary_funcr(other, self, backend.get().af_add)
 
     def __sub__(self, other):
-        return binary_func(self, other, backend.get().af_sub)
+        return _binary_func(self, other, backend.get().af_sub)
 
     def __isub__(self, other):
-        self = binary_func(self, other, backend.get().af_sub)
+        self = _binary_func(self, other, backend.get().af_sub)
         return self
 
     def __rsub__(self, other):
-        return binary_funcr(other, self, backend.get().af_sub)
+        return _binary_funcr(other, self, backend.get().af_sub)
 
     def __mul__(self, other):
-        return binary_func(self, other, backend.get().af_mul)
+        return _binary_func(self, other, backend.get().af_mul)
 
     def __imul__(self, other):
-        self = binary_func(self, other, backend.get().af_mul)
+        self = _binary_func(self, other, backend.get().af_mul)
         return self
 
     def __rmul__(self, other):
-        return binary_funcr(other, self, backend.get().af_mul)
+        return _binary_funcr(other, self, backend.get().af_mul)
 
     # Necessary for python3
     def __truediv__(self, other):
-        return binary_func(self, other, backend.get().af_div)
+        return _binary_func(self, other, backend.get().af_div)
 
     def __itruediv__(self, other):
-        self =  binary_func(self, other, backend.get().af_div)
+        self =  _binary_func(self, other, backend.get().af_div)
         return self
 
     def __rtruediv__(self, other):
-        return binary_funcr(other, self, backend.get().af_div)
+        return _binary_funcr(other, self, backend.get().af_div)
 
-    # Necessary for python2
     def __div__(self, other):
-        return binary_func(self, other, backend.get().af_div)
+        return _binary_func(self, other, backend.get().af_div)
 
     def __idiv__(self, other):
-        self =  binary_func(self, other, backend.get().af_div)
+        self =  _binary_func(self, other, backend.get().af_div)
         return self
 
     def __rdiv__(self, other):
-        return binary_funcr(other, self, backend.get().af_div)
+        return _binary_funcr(other, self, backend.get().af_div)
 
     def __mod__(self, other):
-        return binary_func(self, other, backend.get().af_mod)
+        return _binary_func(self, other, backend.get().af_mod)
 
     def __imod__(self, other):
-        self =  binary_func(self, other, backend.get().af_mod)
+        self =  _binary_func(self, other, backend.get().af_mod)
         return self
 
     def __rmod__(self, other):
-        return binary_funcr(other, self, backend.get().af_mod)
+        return _binary_funcr(other, self, backend.get().af_mod)
 
     def __pow__(self, other):
-        return binary_func(self, other, backend.get().af_pow)
+        return _binary_func(self, other, backend.get().af_pow)
 
     def __ipow__(self, other):
-        self =  binary_func(self, other, backend.get().af_pow)
+        self =  _binary_func(self, other, backend.get().af_pow)
         return self
 
     def __rpow__(self, other):
-        return binary_funcr(other, self, backend.get().af_pow)
+        return _binary_funcr(other, self, backend.get().af_pow)
 
     def __lt__(self, other):
-        return binary_func(self, other, backend.get().af_lt)
+        return _binary_func(self, other, backend.get().af_lt)
 
     def __gt__(self, other):
-        return binary_func(self, other, backend.get().af_gt)
+        return _binary_func(self, other, backend.get().af_gt)
 
     def __le__(self, other):
-        return binary_func(self, other, backend.get().af_le)
+        return _binary_func(self, other, backend.get().af_le)
 
     def __ge__(self, other):
-        return binary_func(self, other, backend.get().af_ge)
+        return _binary_func(self, other, backend.get().af_ge)
 
     def __eq__(self, other):
-        return binary_func(self, other, backend.get().af_eq)
+        return _binary_func(self, other, backend.get().af_eq)
 
     def __ne__(self, other):
-        return binary_func(self, other, backend.get().af_neq)
+        return _binary_func(self, other, backend.get().af_neq)
 
     def __and__(self, other):
-        return binary_func(self, other, backend.get().af_bitand)
+        return _binary_func(self, other, backend.get().af_bitand)
 
     def __iand__(self, other):
-        self = binary_func(self, other, backend.get().af_bitand)
+        self = _binary_func(self, other, backend.get().af_bitand)
         return self
 
     def __or__(self, other):
-        return binary_func(self, other, backend.get().af_bitor)
+        return _binary_func(self, other, backend.get().af_bitor)
 
     def __ior__(self, other):
-        self = binary_func(self, other, backend.get().af_bitor)
+        self = _binary_func(self, other, backend.get().af_bitor)
         return self
 
     def __xor__(self, other):
-        return binary_func(self, other, backend.get().af_bitxor)
+        return _binary_func(self, other, backend.get().af_bitxor)
 
     def __ixor__(self, other):
-        self = binary_func(self, other, backend.get().af_bitxor)
+        self = _binary_func(self, other, backend.get().af_bitxor)
         return self
 
     def __lshift__(self, other):
-        return binary_func(self, other, backend.get().af_bitshiftl)
+        return _binary_func(self, other, backend.get().af_bitshiftl)
 
     def __ilshift__(self, other):
-        self = binary_func(self, other, backend.get().af_bitshiftl)
+        self = _binary_func(self, other, backend.get().af_bitshiftl)
         return self
 
     def __rshift__(self, other):
-        return binary_func(self, other, backend.get().af_bitshiftr)
+        return _binary_func(self, other, backend.get().af_bitshiftr)
 
     def __irshift__(self, other):
-        self = binary_func(self, other, backend.get().af_bitshiftr)
+        self = _binary_func(self, other, backend.get().af_bitshiftr)
         return self
 
     def __neg__(self):
@@ -493,7 +492,7 @@ class Array(BaseArray):
 
     def to_list(self, row_major=False):
         ct_array, shape = self.to_ctype(row_major, True)
-        return ctype_to_lists(ct_array, len(shape) - 1, shape)
+        return _ctype_to_lists(ct_array, len(shape) - 1, shape)
 
     def __repr__(self):
         # Having __repr__ directly print things is a bad idea
@@ -512,3 +511,5 @@ def display(a):
     if (expr is not None):
         print('%s' % expr[0].split('display(')[1][:-2])
     safe_call(backend.get().af_print_array(a.arr))
+
+del BaseArray

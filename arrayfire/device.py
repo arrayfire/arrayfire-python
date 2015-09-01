@@ -21,7 +21,7 @@ def device_info():
     compute = c_char_256()
 
     safe_call(backend.get().af_device_info(ct.pointer(device_name), ct.pointer(backend_name),
-                                  ct.pointer(toolkit), ct.pointer(compute)))
+                                           ct.pointer(toolkit), ct.pointer(compute)))
     dev_info = {}
     dev_info['device'] = to_str(device_name)
     dev_info['backend'] = to_str(backend_name)
@@ -59,7 +59,7 @@ def device_mem_info():
     lock_bytes = ct.c_size_t(0)
     lock_buffers = ct.c_size_t(0)
     safe_call(backend.get().af_device_mem_info(ct.pointer(alloc_bytes), ct.pointer(alloc_buffers),
-                                      ct.pointer(lock_bytes), ct.pointer(lock_buffers)))
+                                               ct.pointer(lock_bytes), ct.pointer(lock_buffers)))
     mem_info = {}
     mem_info['alloc'] = {'buffers' : alloc_buffers.value, 'bytes' : alloc_bytes.value}
     mem_info['lock'] = {'buffers' : lock_buffers.value, 'bytes' : lock_bytes.value}

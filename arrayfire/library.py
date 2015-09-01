@@ -10,7 +10,7 @@
 import platform
 import ctypes as ct
 
-class clibrary(object):
+class _clibrary(object):
 
     def __libname(self, name):
         platform_name = platform.system()
@@ -67,8 +67,8 @@ class clibrary(object):
     def lock(self):
         self.__lock = True
 
-backend = clibrary()
-del clibrary
+backend = _clibrary()
+del _clibrary
 
 AF_SUCCESS            =   ct.c_int(0)
 

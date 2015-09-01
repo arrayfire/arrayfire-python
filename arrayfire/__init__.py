@@ -31,31 +31,7 @@ del inspect
 del numbers
 del os
 
-#do not export internal classes
-del BaseArray
-del uidx
-del Seq
-del Index
-del Cell
-del bcast
-
 #do not export internal functions
-del binary_func
-del binary_funcr
-del create_array
-del constant_array
-del parallel_dim
-del reduce_all
-del arith_unary_func
-del arith_binary_func
-del brange
-del dim4_tuple
+del bcast
 del is_number
-del to_str
 del safe_call
-del get_indices
-del get_assign_dims
-del slice_to_length
-del ctype_to_lists
-del to_dtype
-del to_c_type

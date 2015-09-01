@@ -51,7 +51,7 @@ def implicit_dtype(number, a_dtype):
 
     return n_dtype
 
-def dim4_tuple(dims, default=1):
+def dim4_to_tuple(dims, default=1):
     assert(isinstance(dims, tuple))
 
     if (default is not None):

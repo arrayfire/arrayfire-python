@@ -18,7 +18,7 @@ def constant(val, d0, d1=None, d2=None, d3=None, dtype=f32):
     return out
 
 # Store builtin range function to be used later
-brange = range
+_brange = range
 
 def range(d0, d1=None, d2=None, d3=None, dim=-1, dtype=f32):
 
@@ -47,7 +47,7 @@ def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=f32):
     td=[1]*4
 
     if tile_dims is not None:
-        for i in brange(len(tile_dims)):
+        for i in _brange(len(tile_dims)):
             td[i] = tile_dims[i]
 
     tdims = dim4(td[0], td[1], td[2], td[3])

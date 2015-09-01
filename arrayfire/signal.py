@@ -13,13 +13,13 @@ from .array import *
 def approx1(signal, pos0, method=AF_INTERP_LINEAR, off_grid=0.0):
     output = Array()
     safe_call(backend.get().af_approx1(ct.pointer(output.arr), signal.arr, pos0.arr,
-                              method, ct.c_double(off_grid)))
+                                       method, ct.c_double(off_grid)))
     return output
 
 def approx2(signal, pos0, pos1, method=AF_INTERP_LINEAR, off_grid=0.0):
     output = Array()
     safe_call(backend.get().af_approx2(ct.pointer(output.arr), signal.arr,
-                              pos0.arr, pos1.arr, method, ct.c_double(off_grid)))
+                                       pos0.arr, pos1.arr, method, ct.c_double(off_grid)))
     return output
 
 def fft(signal, dim0 = None , scale = None):
@@ -47,7 +47,7 @@ def fft2(signal, dim0 = None, dim1 = None , scale = None):
 
     output = Array()
     safe_call(backend.get().af_fft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
-                           ct.c_longlong(dim0), ct.c_longlong(dim1)))
+                                    ct.c_longlong(dim0), ct.c_longlong(dim1)))
     return output
 
 def fft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
@@ -66,7 +66,7 @@ def fft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
 
     output = Array()
     safe_call(backend.get().af_fft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
-                           ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
+                                    ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
     return output
 
 def ifft(signal, dim0 = None , scale = None):
@@ -99,7 +99,7 @@ def ifft2(signal, dim0 = None, dim1 = None , scale = None):
 
     output = Array()
     safe_call(backend.get().af_ifft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
-                            ct.c_longlong(dim0), ct.c_longlong(dim1)))
+                                     ct.c_longlong(dim0), ct.c_longlong(dim1)))
     return output
 
 def ifft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
@@ -123,12 +123,12 @@ def ifft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
 
     output = Array()
     safe_call(backend.get().af_ifft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
-                            ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
+                                     ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
     return output
 
 def dft(signal, scale = None, odims=(None, None, None, None)):
 
-    odims4 = dim4_tuple(odims, default=None)
+    odims4 = dim4_to_tuple(odims, default=None)
 
     dims = signal.dims()
     ndims = len(dims)
@@ -142,7 +142,7 @@ def dft(signal, scale = None, odims=(None, None, None, None)):
 
 def idft(signal, scale = None, odims=(None, None, None, None)):
 
-    odims4 = dim4_tuple(odims, default=None)
+    odims4 = dim4_to_tuple(odims, default=None)
 
     dims = signal.dims()
     ndims = len(dims)

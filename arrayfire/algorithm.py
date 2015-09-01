@@ -10,12 +10,12 @@
 from .library import *
 from .array import *
 
-def parallel_dim(a, dim, c_func):
+def _parallel_dim(a, dim, c_func):
     out = Array()
     safe_call(c_func(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
     return out
 
-def reduce_all(a, c_func):
+def _reduce_all(a, c_func):
     real = ct.c_double(0)
     imag = ct.c_double(0)
     safe_call(c_func(ct.pointer(real), ct.pointer(imag), a.arr))
@@ -25,45 +25,45 @@ def reduce_all(a, c_func):
 
 def sum(a, dim=None):
     if dim is not None:
-        return parallel_dim(a, dim, backend.get().af_sum)
+        return _parallel_dim(a, dim, backend.get().af_sum)
     else:
-        return reduce_all(a, backend.get().af_sum_all)
+        return _reduce_all(a, backend.get().af_sum_all)
 
 def product(a, dim=None):
     if dim is not None:
-        return parallel_dim(a, dim, backend.get().af_product)
+        return _parallel_dim(a, dim, backend.get().af_product)
     else:
-        return reduce_all(a, backend.get().af_product_all)
+        return _reduce_all(a, backend.get().af_product_all)
 
 def min(a, dim=None):
     if dim is not None:
-        return parallel_dim(a, dim, backend.get().af_min)
+        return _parallel_dim(a, dim, backend.get().af_min)
     else:
-        return reduce_all(a, backend.get().af_min_all)
+        return _reduce_all(a, backend.get().af_min_all)
 
 def max(a, dim=None):
     if dim is not None:
-        return parallel_dim(a, dim, backend.get().af_max)
+        return _parallel_dim(a, dim, backend.get().af_max)
     else:
-        return reduce_all(a, backend.get().af_max_all)
+        return _reduce_all(a, backend.get().af_max_all)
 
 def all_true(a, dim=None):
     if dim is not None:
-        return parallel_dim(a, dim, backend.get().af_all_true)
+        return _parallel_dim(a, dim, backend.get().af_all_true)
     else:
-        return reduce_all(a, backend.get().af_all_true_all)
+        return _reduce_all(a, backend.get().af_all_true_all)
 
 def any_true(a, dim=None):
     if dim is not None:
-        return parallel_dim(a, dim, backend.get().af_any_true)
+        return _parallel_dim(a, dim, backend.get().af_any_true)
     else:
-        return reduce_all(a, backend.get().af_any_true_all)
+        return _reduce_all(a, backend.get().af_any_true_all)
 
 def count(a, dim=None):
     if dim is not None:
-        return parallel_dim(a, dim, backend.get().af_count)
+        return _parallel_dim(a, dim, backend.get().af_count)
     else:
-        return reduce_all(a, backend.get().af_count_all)
+        return _reduce_all(a, backend.get().af_count_all)
 
 def imin(a, dim=None):
     if dim is not None:
@@ -99,7 +99,7 @@ def imax(a, dim=None):
 
 
 def accum(a, dim=0):
-    return parallel_dim(a, dim, backend.get().af_accum)
+    return _parallel_dim(a, dim, backend.get().af_accum)
 
 def where(a):
     out = Array()
@@ -107,10 +107,10 @@ def where(a):
     return out
 
 def diff1(a, dim=0):
-    return parallel_dim(a, dim, backend.get().af_diff1)
+    return _parallel_dim(a, dim, backend.get().af_diff1)
 
 def diff2(a, dim=0):
-    return parallel_dim(a, dim, backend.get().af_diff2)
+    return _parallel_dim(a, dim, backend.get().af_diff2)
 
 def sort(a, dim=0, is_ascending=True):
     out = Array()
@@ -121,14 +121,14 @@ def sort_index(a, dim=0, is_ascending=True):
     out = Array()
     idx = Array()
     safe_call(backend.get().af_sort_index(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr,
-                                 ct.c_uint(dim), ct.c_bool(is_ascending)))
+                                          ct.c_uint(dim), ct.c_bool(is_ascending)))
     return out,idx
 
 def sort_by_key(iv, ik, dim=0, is_ascending=True):
     ov = Array()
     ok = Array()
     safe_call(backend.get().af_sort_by_key(ct.pointer(ov.arr), ct.pointer(ok.arr),
-                                  iv.arr, ik.arr, ct.c_uint(dim), ct.c_bool(is_ascending)))
+                                           iv.arr, ik.arr, ct.c_uint(dim), ct.c_bool(is_ascending)))
     return ov,ok
 
 def set_unique(a, is_sorted=False):
