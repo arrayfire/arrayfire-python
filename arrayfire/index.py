@@ -9,7 +9,7 @@
 from .library import *
 from .util import *
 from .base import *
-from .broadcast import *
+from .bcast import *
 import math
 
 class Seq(ct.Structure):
@@ -52,11 +52,11 @@ class ParallelRange(Seq):
         return self
 
     def next(self):
-        if bcast.get() is True:
-            bcast.toggle()
+        if bcast_var.get() is True:
+            bcast_var.toggle()
             raise StopIteration
         else:
-            bcast.toggle()
+            bcast_var.toggle()
             return self
 
     def __next__(self):

@@ -14,7 +14,7 @@ Functions to create and operate on af.Array
 import inspect
 from .library import *
 from .util import *
-from .broadcast import *
+from .bcast import *
 from .base import *
 from .index import *
 
@@ -82,7 +82,7 @@ def _binary_func(lhs, rhs, c_func):
     elif not isinstance(rhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
-    safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, bcast.get()))
+    safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, bcast_var.get()))
 
     return out
 
@@ -98,7 +98,7 @@ def _binary_funcr(lhs, rhs, c_func):
     elif not isinstance(lhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
-    c_func(ct.pointer(out.arr), other.arr, rhs.arr, bcast.get())
+    c_func(ct.pointer(out.arr), other.arr, rhs.arr, bcast_var.get())
 
     return out
 

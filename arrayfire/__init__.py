@@ -50,7 +50,7 @@ from .image      import *
 from .features   import *
 from .vision     import *
 from .graphics   import *
-from .broadcast  import *
+from .bcast      import *
 from .index      import *
 
 # do not export default modules as part of arrayfire
@@ -60,6 +60,6 @@ del numbers
 del os
 
 #do not export internal functions
-del bcast
+del bcast_var
 del is_number
 del safe_call
