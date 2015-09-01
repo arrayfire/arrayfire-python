@@ -495,6 +495,18 @@ class Array(BaseArray):
         ct_array, shape = self.to_ctype(row_major, True)
         return ctype_to_lists(ct_array, len(shape) - 1, shape)
 
+    def __repr__(self):
+        # Having __repr__ directly print things is a bad idea
+        # Placeholder for when af_array_to_string is available
+        # safe_call(backend.get().af_array_to_string...
+        return '%s of dimensions %s' % (type(self), self.dims())
+
+    def __array__(self):
+        import numpy as np
+        res = np.empty(self.dims(), dtype=np.dtype(to_typecode[self.type()]), order='F')
+        safe_call(backend.get().af_get_data_ptr(ct.c_void_p(res.ctypes.data), self.arr))
+        return res
+
 def display(a):
     expr = inspect.stack()[1][-2]
     if (expr is not None):
