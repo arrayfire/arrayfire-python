@@ -495,6 +495,10 @@ class Array(BaseArray):
         ct_array, shape = self.to_ctype(row_major, True)
         return ctype_to_lists(ct_array, len(shape) - 1, shape)
 
+    def __repr__(self):
+        safe_call(backend.get().af_print_array(self.arr))
+        return '%s of dimensions %s' % (type(self), self.dims())
+
 def display(a):
     expr = inspect.stack()[1][-2]
     if (expr is not None):
