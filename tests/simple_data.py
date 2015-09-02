@@ -65,3 +65,8 @@ af.display(af.lower(a, True))
 
 af.display(af.upper(a, False))
 af.display(af.upper(a, True))
+
+a = af.randu(5,5)
+af.display(af.transpose(a))
+af.transpose_inplace(a)
+af.display(a)

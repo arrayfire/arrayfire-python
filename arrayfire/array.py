@@ -8,7 +8,7 @@
 ########################################################
 
 """
-Functions to create and operate on af.Array
+arrayfire.Array class and helper functions.
 """
 
 import inspect
@@ -101,48 +101,6 @@ def _binary_funcr(lhs, rhs, c_func):
     c_func(ct.pointer(out.arr), other.arr, rhs.arr, bcast_var.get())
 
     return out
-
-def transpose(a, conj=False):
-    """
-    Perform the transpose on an input.
-
-    Parameters
-    -----------
-    a : af.Array
-        Multi dimensional arrayfire array.
-
-    conj : optional: bool. default: False.
-           Flag to specify if a complex conjugate needs to applied for complex inputs.
-
-    Returns
-    --------
-    out : af.Array
-          Containing the tranpose of `a` for all batches.
-
-    """
-    out = Array()
-    safe_call(backend.get().af_transpose(ct.pointer(out.arr), a.arr, conj))
-    return out
-
-def transpose_inplace(a, conj=False):
-    """
-    Perform inplace transpose on an input.
-
-    Parameters
-    -----------
-    a : af.Array
-        - Multi dimensional arrayfire array.
-        - Contains transposed values on exit.
-
-    conj : optional: bool. default: False.
-           Flag to specify if a complex conjugate needs to applied for complex inputs.
-
-    Note
-    -------
-    Input `a` needs to be a square matrix or a batch of square matrices.
-
-    """
-    safe_call(backend.get().af_transpose_inplace(a.arr, conj))
 
 def _ctype_to_lists(ctype_arr, dim, shape, offset=0):
     if (dim == 0):

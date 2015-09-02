@@ -33,11 +33,6 @@ print(a.is_empty(), a.is_scalar(), a.is_column(), a.is_row())
 print(a.is_complex(), a.is_real(), a.is_double(), a.is_single())
 print(a.is_real_floating(), a.is_floating(), a.is_integer(), a.is_bool())
 
-af.display(af.transpose(a))
-
-af.transpose_inplace(a)
-af.display(a)
-
 c = a.to_ctype()
 for n in range(a.elements()):
     print(c[n])
