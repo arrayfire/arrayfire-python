@@ -18,7 +18,7 @@ PRECISION = 1.0 / float(POINTS)
 val = -math.pi
 X = math.pi * (2 * (af.range(POINTS) / POINTS) - 1)
 
-win = af.window(512, 512, "2D Plot example using ArrayFire")
+win = af.Window(512, 512, "2D Plot example using ArrayFire")
 sign = 1.0
 
 while not win.close():
