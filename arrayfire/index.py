@@ -6,6 +6,10 @@
 # The complete license agreement can be obtained at:
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
+"""
+classes required for indexing operations
+"""
+
 from .library import *
 from .util import *
 from .base import *
@@ -13,6 +17,27 @@ from .bcast import *
 import math
 
 class Seq(ct.Structure):
+    """
+    arrayfire equivalent of slice
+
+    Attributes
+    ----------
+
+    begin: number
+           Start of the sequence.
+
+    end  : number
+           End of sequence.
+
+    step : number
+           Step size.
+
+    Parameters
+    ----------
+
+    S: slice or number.
+
+    """
     _fields_ = [("begin", ct.c_double),
                 ("end"  , ct.c_double),
                 ("step" , ct.c_double)]
@@ -39,6 +64,57 @@ class Seq(ct.Structure):
 
 class ParallelRange(Seq):
 
+    """
+    Class used to parallelize for loop.
+
+    Inherits from Seq.
+
+    Attributes
+    ----------
+
+    S: slice
+
+    Parameters
+    ----------
+
+    start: number
+           Beginning of parallel range.
+
+    stop : number
+           End of parallel range.
+
+    step : number
+           Step size for parallel range.
+
+    Examples
+    --------
+
+    >>> import arrayfire as af
+    >>> a = af.randu(3, 3)
+    >>> b = af.randu(3, 1)
+    >>> c = af.constant(0, 3, 3)
+    >>> for ii in af.ParallelRange(3):
+    ...     c[:, ii] = a[:, ii] + b
+    ...
+    >>> af.display(a)
+    [3 3 1 1]
+        0.4107     0.1794     0.3775
+        0.8224     0.4198     0.3027
+        0.9518     0.0081     0.6456
+
+    >>> af.display(b)
+    [3 1 1 1]
+        0.7269
+        0.7104
+        0.5201
+
+    >>> af.display(c)
+    [3 3 1 1]
+        1.1377     0.9063     1.1045
+        1.5328     1.1302     1.0131
+        1.4719     0.5282     1.1657
+
+    """
     def __init__(self, start, stop=None, step=None):
 
         if (stop is None):
@@ -52,6 +128,9 @@ class ParallelRange(Seq):
         return self
 
     def next(self):
+        """
+        Function called by the iterator in Python 2
+        """
         if bcast_var.get() is True:
             bcast_var.toggle()
             raise StopIteration
@@ -73,6 +152,38 @@ class Index(ct.Structure):
     _fields_ = [("idx", _uidx),
                 ("isSeq", ct.c_bool),
                 ("isBatch", ct.c_bool)]
+
+    """
+    Container for the index class in arrayfire C library
+
+    Attributes
+    ----------
+    idx.arr: ctypes.c_void_p
+             - Default 0
+
+    idx.seq: af.Seq
+             - Default af.Seq(0, -1, 1)
+
+    isSeq   : bool
+            - Default True
+
+    isBatch : bool
+            - Default False
+
+    Parameters
+    -----------
+
+    idx: key
+         - If of type af.Array, self.idx.arr = idx, self.isSeq = False
+         - If of type af.ParallelRange, self.idx.seq = idx, self.isBatch = True
+         - Default:, self.idx.seq = af.Seq(idx)
+
+    Note
+    ----
+
+    Implemented for internal use only. Use with extreme caution.
+
+    """
 
     def __init__ (self, idx):
 
