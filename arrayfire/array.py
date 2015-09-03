@@ -113,6 +113,24 @@ def _ctype_to_lists(ctype_arr, dim, shape, offset=0):
             offset += shape[0]
         return res
 
+def _slice_to_length(key, dim):
+    tkey = [key.start, key.stop, key.step]
+
+    if tkey[0] is None:
+        tkey[0] = 0
+    elif tkey[0] < 0:
+        tkey[0] = dim - tkey[0]
+
+    if tkey[1] is None:
+        tkey[1] = dim
+    elif tkey[1] < 0:
+        tkey[1] = dim - tkey[1]
+
+    if tkey[2] is None:
+        tkey[2] = 1
+
+    return int(((tkey[1] - tkey[0] - 1) / tkey[2]) + 1)
+
 def _get_info(dims, buf_len):
     elements = 1
     numdims = len(dims)
@@ -131,6 +149,102 @@ def _get_info(dims, buf_len):
 
     return numdims, idims
 
+
+def _get_indices(key):
+
+    index_vec = Index * 4
+    S = Index(slice(None))
+    inds = index_vec(S, S, S, S)
+
+    if isinstance(key, tuple):
+        n_idx = len(key)
+        for n in range(n_idx):
+            inds[n] = Index(key[n])
+    else:
+        inds[0] = Index(key)
+
+    return inds
+
+def _get_assign_dims(key, idims):
+
+    dims = [1]*4
+
+    for n in range(len(idims)):
+        dims[n] = idims[n]
+
+    if is_number(key):
+        dims[0] = 1
+        return dims
+    elif isinstance(key, slice):
+        dims[0] = _slice_to_length(key, idims[0])
+        return dims
+    elif isinstance(key, ParallelRange):
+        dims[0] = _slice_to_length(key.S, idims[0])
+        return dims
+    elif isinstance(key, BaseArray):
+        dims[0] = key.elements()
+        return dims
+    elif isinstance(key, tuple):
+        n_inds = len(key)
+
+        for n in range(n_inds):
+            if (is_number(key[n])):
+                dims[n] = 1
+            elif (isinstance(key[n], BaseArray)):
+                dims[n] = key[n].elements()
+            elif (isinstance(key[n], slice)):
+                dims[n] = _slice_to_length(key[n], idims[n])
+            elif (isinstance(key[n], ParallelRange)):
+                dims[n] = _slice_to_length(key[n].S, idims[n])
+            else:
+                raise IndexError("Invalid type while assigning to arrayfire.array")
+
+        return dims
+    else:
+        raise IndexError("Invalid type while assigning to arrayfire.array")
+
+
+def transpose(a, conj=False):
+    """
+    Perform the transpose on an input.
+
+    Parameters
+    -----------
+    a : af.Array
+        Multi dimensional arrayfire array.
+
+    conj : optional: bool. default: False.
+           Flag to specify if a complex conjugate needs to applied for complex inputs.
+
+    Returns
+    --------
+    out : af.Array
+          Containing the tranpose of `a` for all batches.
+
+    """
+    out = Array()
+    safe_call(backend.get().af_transpose(ct.pointer(out.arr), a.arr, conj))
+    return out
+
+def transpose_inplace(a, conj=False):
+    """
+    Perform inplace transpose on an input.
+
+    Parameters
+    -----------
+    a : af.Array
+        - Multi dimensional arrayfire array.
+        - Contains transposed values on exit.
+
+    conj : optional: bool. default: False.
+           Flag to specify if a complex conjugate needs to applied for complex inputs.
+
+    Note
+    -------
+    Input `a` needs to be a square matrix or a batch of square matrices.
+
+    """
+    safe_call(backend.get().af_transpose_inplace(a.arr, conj))
 
 class Array(BaseArray):
 
@@ -757,7 +871,7 @@ class Array(BaseArray):
         try:
             out = Array()
             n_dims = self.numdims()
-            inds = get_indices(key)
+            inds = _get_indices(key)
 
             safe_call(backend.get().af_index_gen(ct.pointer(out.arr),
                                         self.arr, ct.c_longlong(n_dims), ct.pointer(inds)))
@@ -778,13 +892,13 @@ class Array(BaseArray):
             n_dims = self.numdims()
 
             if (is_number(val)):
-                tdims = get_assign_dims(key, self.dims())
+                tdims = _get_assign_dims(key, self.dims())
                 other_arr = constant_array(val, tdims[0], tdims[1], tdims[2], tdims[3], self.type())
             else:
                 other_arr = val.arr
 
             out_arr = ct.c_void_p(0)
-            inds  = get_indices(key)
+            inds  = _get_indices(key)
 
             safe_call(backend.get().af_assign_gen(ct.pointer(out_arr),
                                          self.arr, ct.c_longlong(n_dims), ct.pointer(inds),

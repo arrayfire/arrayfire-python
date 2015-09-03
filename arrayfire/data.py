@@ -16,48 +16,6 @@ from .library import *
 from .array import *
 from .util import *
 
-def transpose(a, conj=False):
-    """
-    Perform the transpose on an input.
-
-    Parameters
-    -----------
-    a : af.Array
-        Multi dimensional arrayfire array.
-
-    conj : optional: bool. default: False.
-           Flag to specify if a complex conjugate needs to applied for complex inputs.
-
-    Returns
-    --------
-    out : af.Array
-          Containing the tranpose of `a` for all batches.
-
-    """
-    out = Array()
-    safe_call(backend.get().af_transpose(ct.pointer(out.arr), a.arr, conj))
-    return out
-
-def transpose_inplace(a, conj=False):
-    """
-    Perform inplace transpose on an input.
-
-    Parameters
-    -----------
-    a : af.Array
-        - Multi dimensional arrayfire array.
-        - Contains transposed values on exit.
-
-    conj : optional: bool. default: False.
-           Flag to specify if a complex conjugate needs to applied for complex inputs.
-
-    Note
-    -------
-    Input `a` needs to be a square matrix or a batch of square matrices.
-
-    """
-    safe_call(backend.get().af_transpose_inplace(a.arr, conj))
-
 def constant(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
     """
     Create a multi dimensional array whose elements contain the same value.

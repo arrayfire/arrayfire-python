@@ -60,25 +60,10 @@ class ParallelRange(Seq):
             return self
 
     def __next__(self):
+        """
+        Function called by the iterator in Python 3
+        """
         return self.next()
-
-def _slice_to_length(key, dim):
-    tkey = [key.start, key.stop, key.step]
-
-    if tkey[0] is None:
-        tkey[0] = 0
-    elif tkey[0] < 0:
-        tkey[0] = dim - tkey[0]
-
-    if tkey[1] is None:
-        tkey[1] = dim
-    elif tkey[1] < 0:
-        tkey[1] = dim - tkey[1]
-
-    if tkey[2] is None:
-        tkey[2] = 1
-
-    return int(((tkey[1] - tkey[0] - 1) / tkey[2]) + 1)
 
 class _uidx(ct.Union):
     _fields_ = [("arr", ct.c_void_p),
@@ -103,56 +88,3 @@ class Index(ct.Structure):
             self.isBatch = True
         else:
             self.idx.seq = Seq(idx)
-
-def get_indices(key):
-
-    index_vec = Index * 4
-    S = Index(slice(None))
-    inds = index_vec(S, S, S, S)
-
-    if isinstance(key, tuple):
-        n_idx = len(key)
-        for n in range(n_idx):
-            inds[n] = Index(key[n])
-    else:
-        inds[0] = Index(key)
-
-    return inds
-
-def get_assign_dims(key, idims):
-
-    dims = [1]*4
-
-    for n in range(len(idims)):
-        dims[n] = idims[n]
-
-    if is_number(key):
-        dims[0] = 1
-        return dims
-    elif isinstance(key, slice):
-        dims[0] = _slice_to_length(key, idims[0])
-        return dims
-    elif isinstance(key, ParallelRange):
-        dims[0] = _slice_to_length(key.S, idims[0])
-        return dims
-    elif isinstance(key, BaseArray):
-        dims[0] = key.elements()
-        return dims
-    elif isinstance(key, tuple):
-        n_inds = len(key)
-
-        for n in range(n_inds):
-            if (is_number(key[n])):
-                dims[n] = 1
-            elif (isinstance(key[n], BaseArray)):
-                dims[n] = key[n].elements()
-            elif (isinstance(key[n], slice)):
-                dims[n] = _slice_to_length(key[n], idims[n])
-            elif (isinstance(key[n], ParallelRange)):
-                dims[n] = _slice_to_length(key[n].S, idims[n])
-            else:
-                raise IndexError("Invalid type while assigning to arrayfire.array")
-
-        return dims
-    else:
-        raise IndexError("Invalid type while assigning to arrayfire.array")
