@@ -7,6 +7,10 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
+"""
+module containing enums and other constants from arrayfire library
+"""
+
 import platform
 import ctypes as ct
 from enum import Enum
@@ -73,6 +77,10 @@ del _clibrary
 
 
 class ERR(Enum):
+    """
+    Error values. For internal use only.
+    """
+
     NONE            =   (0)
 
     #100-199 Errors in environment
@@ -101,6 +109,9 @@ class ERR(Enum):
     UNKNOWN        = (999)
 
 class Dtype(Enum):
+    """
+    Error values. For internal use only.
+    """
     f32 = (0)
     c32 = (1)
     f64 = (2)
@@ -113,62 +124,172 @@ class Dtype(Enum):
     u64 = (9)
 
 class Source(Enum):
+    """
+    Source of the pointer
+    """
     device = (0)
     host   = (1)
 
 class INTERP(Enum):
+    """
+    Interpolation method
+    """
     NEAREST   = (0)
     LINEAR    = (1)
     BILINEAR  = (2)
     CUBIC     = (3)
 
 class PAD(Enum):
+    """
+    Edge padding types
+    """
     ZERO = (0)
     SYM  = (1)
 
 class CONNECTIVITY(Enum):
+    """
+    Neighborhood connectivity
+    """
     FOUR  = (4)
     EIGHT = (8)
 
 class CONV_MODE(Enum):
+    """
+    Convolution mode
+    """
     DEFAULT = (0)
     EXPAND  = (1)
 
 class CONV_DOMAIN(Enum):
+    """
+    Convolution domain
+    """
     AUTO    = (0)
     SPATIAL = (1)
     FREQ    = (2)
 
 class MATCH(Enum):
+    """
+    Match type
+    """
+
+    """
+    Sum of absolute differences
+    """
     SAD  = (0)
+
+    """
+    Zero mean SAD
+    """
     ZSAD = (1)
+
+    """
+    Locally scaled SAD
+    """
     LSAD = (2)
+
+    """
+    Sum of squared differences
+    """
     SSD  = (3)
+
+    """
+    Zero mean SSD
+    """
     ZSSD = (4)
+
+    """
+    Locally scaled SSD
+    """
     LSSD = (5)
+
+    """
+    Normalized cross correlation
+    """
     NCC  = (6)
+
+    """
+    Zero mean NCC
+    """
     ZNCC = (7)
+
+    """
+    Sum of hamming distances
+    """
     SHD  = (8)
 
 class CSPACE(Enum):
+    """
+    Colorspace formats
+    """
     GRAY = (0)
     RGB  = (1)
     HSV  = (2)
 
 class MATPROP(Enum):
+    """
+    Matrix properties
+    """
+
+    """
+    None, general.
+    """
     NONE       = (0)
+
+    """
+    Transposed.
+    """
     TRANS      = (1)
+
+    """
+    Conjugate transposed.
+    """
     CTRANS     = (2)
+
+    """
+    Upper triangular matrix.
+    """
     UPPER      = (32)
+
+    """
+    Lower triangular matrix.
+    """
     LOWER      = (64)
+
+    """
+    Treat diagonal as units.
+    """
     DIAG_UNIT  = (128)
+
+    """
+    Symmetric matrix.
+    """
     SYM        = (512)
+
+    """
+    Positive definite matrix.
+    """
     POSDEF     = (1024)
+
+    """
+    Orthogonal matrix.
+    """
     ORTHOG     = (2048)
+
+    """
+    Tri diagonal matrix.
+    """
     TRI_DIAG   = (4096)
+
+    """
+    Block diagonal matrix.
+    """
     BLOCK_DIAG = (8192)
 
 class NORM(Enum):
+    """
+    Norm types
+    """
     VECTOR_1    = (0)
     VECTOR_INF  = (1)
     VECTOR_2    = (2)
@@ -180,6 +301,9 @@ class NORM(Enum):
     EUCLID      = VECTOR_2
 
 class COLORMAP(Enum):
+    """
+    Colormaps
+    """
     DEFAULT  = (0)
     SPECTRUM = (1)
     COLORS   = (2)
