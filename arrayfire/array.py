@@ -894,8 +894,10 @@ class Array(BaseArray):
             if (is_number(val)):
                 tdims = _get_assign_dims(key, self.dims())
                 other_arr = constant_array(val, tdims[0], tdims[1], tdims[2], tdims[3], self.type())
+                del_other = True
             else:
                 other_arr = val.arr
+                del_other = False
 
             out_arr = ct.c_void_p(0)
             inds  = _get_indices(key)
@@ -904,6 +906,8 @@ class Array(BaseArray):
                                          self.arr, ct.c_longlong(n_dims), ct.pointer(inds),
                                          other_arr))
             safe_call(backend.get().af_release_array(self.arr))
+            if del_other:
+                safe_call(backend.get().af_release_array(other_arr))
             self.arr = out_arr
 
         except RuntimeError as e:
