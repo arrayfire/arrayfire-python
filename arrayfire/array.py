@@ -1039,5 +1039,3 @@ def display(a):
     if (expr is not None):
         print('%s' % expr[0].split('display(')[1][:-2])
     safe_call(backend.get().af_print_array(a.arr))
-
-del BaseArray
