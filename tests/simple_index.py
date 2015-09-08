@@ -66,3 +66,10 @@ af.display(b)
 for r in rows:
     af.display(r)
     af.display(b[:,r])
+
+a = af.randu(3)
+c = af.randu(3)
+b = af.constant(1,3,dtype=af.Dtype.b8)
+af.display(a)
+a[b] = c
+af.display(a)

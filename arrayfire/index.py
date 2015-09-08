@@ -192,10 +192,24 @@ class Index(ct.Structure):
         self.isSeq   = True
 
         if isinstance(idx, BaseArray):
-            self.idx.arr = idx.arr
+
+            arr = ct.c_void_p(0)
+
+            if (Enum_value(idx.dtype()) ==
+                Enum_value(Dtype.b8)):
+                safe_call(backend.get().af_where(ct.pointer(arr), idx.arr))
+            else:
+                safe_call(backend.get().af_retain_array(ct.pointer(arr), idx.arr))
+
+            self.idx.arr = arr
             self.isSeq   = False
         elif isinstance(idx, ParallelRange):
             self.idx.seq = idx
             self.isBatch = True
         else:
             self.idx.seq = Seq(idx)
+
+    # def __del__(self):
+    #     if not self.isSeq:
+    #         arr = self.idx.arr
+    #         backend.get().af_release_array(arr)
