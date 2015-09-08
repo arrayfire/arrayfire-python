@@ -49,7 +49,7 @@ def approx1(signal, pos0, method=INTERP.LINEAR, off_grid=0.0):
     """
     output = Array()
     safe_call(backend.get().af_approx1(ct.pointer(output.arr), signal.arr, pos0.arr,
-                                       method.value, ct.c_double(off_grid)))
+                                       Enum_value(method), ct.c_double(off_grid)))
     return output
 
 def approx2(signal, pos0, pos1, method=INTERP.LINEAR, off_grid=0.0):
@@ -91,7 +91,7 @@ def approx2(signal, pos0, pos1, method=INTERP.LINEAR, off_grid=0.0):
     """
     output = Array()
     safe_call(backend.get().af_approx2(ct.pointer(output.arr), signal.arr,
-                                       pos0.arr, pos1.arr, method.value, ct.c_double(off_grid)))
+                                       pos0.arr, pos1.arr, Enum_value(method), ct.c_double(off_grid)))
     return output
 
 def fft(signal, dim0 = None , scale = None):
@@ -507,7 +507,7 @@ def convolve1(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_
     """
     output = Array()
     safe_call(backend.get().af_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr,
-                                         conv_mode.value, conv_domain.value))
+                                         Enum_value(conv_mode), Enum_value(conv_domain)))
     return output
 
 def convolve2(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_DOMAIN.AUTO):
@@ -555,7 +555,7 @@ def convolve2(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_
     """
     output = Array()
     safe_call(backend.get().af_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr,
-                                         conv_mode.value, conv_domain.value))
+                                         Enum_value(conv_mode), Enum_value(conv_domain)))
     return output
 
 def convolve3(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_DOMAIN.AUTO):
@@ -601,7 +601,7 @@ def convolve3(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_
     """
     output = Array()
     safe_call(backend.get().af_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr,
-                                         conv_mode.value, conv_domain.value))
+                                         Enum_value(conv_mode), Enum_value(conv_domain)))
     return output
 
 def convolve(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_DOMAIN.AUTO):
@@ -688,7 +688,7 @@ def fft_convolve1(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
     """
     output = Array()
     safe_call(backend.get().af_fft_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr,
-                                             conv_mode.value))
+                                             Enum_value(conv_mode)))
     return output
 
 def fft_convolve2(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
@@ -732,7 +732,7 @@ def fft_convolve2(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
     """
     output = Array()
     safe_call(backend.get().af_fft_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr,
-                                             conv_mode.value))
+                                             Enum_value(conv_mode)))
     return output
 
 def fft_convolve3(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
@@ -774,7 +774,7 @@ def fft_convolve3(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
     """
     output = Array()
     safe_call(backend.get().af_fft_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr,
-                                             conv_mode.value))
+                                             Enum_value(conv_mode)))
     return output
 
 def fft_convolve(signal, kernel, conv_mode = CONV_MODE.DEFAULT):

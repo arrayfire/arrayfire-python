@@ -123,7 +123,7 @@ def resize(image, scale=None, odim0=None, odim1=None, method=INTERP.NEAREST):
     output = Array()
     safe_call(backend.get().af_resize(ct.pointer(output.arr),
                                       image.arr, ct.c_longlong(odim0),
-                                      ct.c_longlong(odim1), method.value))
+                                      ct.c_longlong(odim1), Enum_value(method)))
 
     return output
 
@@ -167,7 +167,7 @@ def transform(image, trans_mat, odim0 = 0, odim1 = 0, method=INTERP.NEAREST, is_
     safe_call(backend.get().af_transform(ct.pointer(output.arr),
                                          image.arr, trans_mat.arr,
                                          ct.c_longlong(odim0), ct.c_longlong(odim1),
-                                         method.value, is_inverse))
+                                         Enum_value(method), is_inverse))
     return output
 
 def rotate(image, theta, is_crop = True, method = INTERP.NEAREST):
@@ -196,7 +196,7 @@ def rotate(image, theta, is_crop = True, method = INTERP.NEAREST):
     """
     output = Array()
     safe_call(backend.get().af_rotate(ct.pointer(output.arr), image.arr,
-                                      ct.c_double(theta), is_crop, method.value))
+                                      ct.c_double(theta), is_crop, Enum_value(method)))
     return output
 
 def translate(image, trans0, trans1, odim0 = 0, odim1 = 0, method = INTERP.NEAREST):
@@ -238,7 +238,7 @@ def translate(image, trans0, trans1, odim0 = 0, odim1 = 0, method = INTERP.NEARE
     output = Array()
     safe_call(backend.get().af_translate(ct.pointer(output.arr),
                                          image.arr, trans0, trans1,
-                                         ct.c_longlong(odim0), ct.c_longlong(odim1), method.value))
+                                         ct.c_longlong(odim0), ct.c_longlong(odim1), Enum_value(method)))
     return output
 
 def scale(image, scale0, scale1, odim0 = 0, odim1 = 0, method = INTERP.NEAREST):
@@ -280,7 +280,7 @@ def scale(image, scale0, scale1, odim0 = 0, odim1 = 0, method = INTERP.NEAREST):
     output = Array()
     safe_call(backend.get().af_scale(ct.pointer(output.arr),
                                      image.arr, ct.c_double(scale0), ct.c_double(scale1),
-                                     ct.c_longlong(odim0), ct.c_longlong(odim1), method.value))
+                                     ct.c_longlong(odim0), ct.c_longlong(odim1), Enum_value(method)))
     return output
 
 def skew(image, skew0, skew1, odim0 = 0, odim1 = 0, method = INTERP.NEAREST, is_inverse=True):
@@ -326,7 +326,7 @@ def skew(image, skew0, skew1, odim0 = 0, odim1 = 0, method = INTERP.NEAREST, is_
     safe_call(backend.get().af_skew(ct.pointer(output.arr),
                                     image.arr, ct.c_double(skew0), ct.c_double(skew1),
                                     ct.c_longlong(odim0), ct.c_longlong(odim1),
-                                    method.value, is_inverse))
+                                    Enum_value(method), is_inverse))
 
     return output
 
@@ -609,7 +609,7 @@ def medfilt(image, w0 = 3, w1 = 3, edge_pad = PAD.ZERO):
     output = Array()
     safe_call(backend.get().af_medfilt(ct.pointer(output.arr),
                                        image.arr, ct.c_longlong(w0),
-                                       ct.c_longlong(w1), edge_pad.value))
+                                       ct.c_longlong(w1), Enum_value(edge_pad)))
     return output
 
 def minfilt(image, w_len = 3, w_wid = 3, edge_pad = PAD.ZERO):
@@ -641,7 +641,7 @@ def minfilt(image, w_len = 3, w_wid = 3, edge_pad = PAD.ZERO):
     output = Array()
     safe_call(backend.get().af_minfilt(ct.pointer(output.arr),
                                        image.arr, ct.c_longlong(w_len),
-                                       ct.c_longlong(w_wid), edge_pad.value))
+                                       ct.c_longlong(w_wid), Enum_value(edge_pad)))
     return output
 
 def maxfilt(image, w_len = 3, w_wid = 3, edge_pad = PAD.ZERO):
@@ -673,7 +673,7 @@ def maxfilt(image, w_len = 3, w_wid = 3, edge_pad = PAD.ZERO):
     output = Array()
     safe_call(backend.get().af_maxfilt(ct.pointer(output.arr),
                                        image.arr, ct.c_longlong(w_len),
-                                       ct.c_longlong(w_wid), edge_pad.value))
+                                       ct.c_longlong(w_wid), Enum_value(edge_pad)))
     return output
 
 def regions(image, conn = CONNECTIVITY.FOUR, out_type = Dtype.f32):
@@ -700,7 +700,7 @@ def regions(image, conn = CONNECTIVITY.FOUR, out_type = Dtype.f32):
     """
     output = Array()
     safe_call(backend.get().af_regions(ct.pointer(output.arr), image.arr,
-                                       conn.value, out_type.value))
+                                       Enum_value(conn), Enum_value(out_type)))
     return output
 
 def sobel_derivatives(image, w_len=3):
@@ -891,5 +891,5 @@ def color_space(image, to_type, from_type):
     """
     output = Array()
     safe_call(backend.get().af_color_space(ct.pointer(output.arr), image.arr,
-                                           to_type.value, from_type.value))
+                                           Enum_value(to_type), Enum_value(from_type)))
     return output

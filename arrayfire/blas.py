@@ -54,7 +54,7 @@ def matmul(lhs, rhs, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE):
     """
     out = Array()
     safe_call(backend.get().af_matmul(ct.pointer(out.arr), lhs.arr, rhs.arr,
-                                      lhs_opts.value, rhs_opts.value))
+                                      Enum_value(lhs_opts), Enum_value(rhs_opts)))
     return out
 
 def matmulTN(lhs, rhs):
@@ -85,7 +85,7 @@ def matmulTN(lhs, rhs):
     """
     out = Array()
     safe_call(backend.get().af_matmul(ct.pointer(out.arr), lhs.arr, rhs.arr,
-                                      MATPROP.TRANS.value, MATPROP.NONE.value))
+                                      Enum_value(MATPROP.TRANS), Enum_value(MATPROP.NONE)))
     return out
 
 def matmulNT(lhs, rhs):
@@ -116,7 +116,7 @@ def matmulNT(lhs, rhs):
     """
     out = Array()
     safe_call(backend.get().af_matmul(ct.pointer(out.arr), lhs.arr, rhs.arr,
-                                      MATPROP.NONE.value, MATPROP.TRANS.value))
+                                      Enum_value(MATPROP.NONE), Enum_value(MATPROP.TRANS)))
     return out
 
 def matmulTT(lhs, rhs):
@@ -147,7 +147,7 @@ def matmulTT(lhs, rhs):
     """
     out = Array()
     safe_call(backend.get().af_matmul(ct.pointer(out.arr), lhs.arr, rhs.arr,
-                                      MATPROP.TRANS.value, MATPROP.TRANS.value))
+                                      Enum_value(MATPROP.TRANS), Enum_value(MATPROP.TRANS)))
     return out
 
 def dot(lhs, rhs, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE):
@@ -188,5 +188,5 @@ def dot(lhs, rhs, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE):
     """
     out = Array()
     safe_call(backend.get().af_dot(ct.pointer(out.arr), lhs.arr, rhs.arr,
-                                   lhs_opts.value, rhs_opts.value))
+                                   Enum_value(lhs_opts), Enum_value(rhs_opts)))
     return out

@@ -13,7 +13,19 @@ module containing enums and other constants from arrayfire library
 
 import platform
 import ctypes as ct
-from enum import Enum
+
+try:
+    from enum import Enum
+
+    def Enum_value(val):
+        return val.value
+
+except:
+    class Enum(object):
+        pass
+
+    def Enum_value(val):
+        return val
 
 class _clibrary(object):
 

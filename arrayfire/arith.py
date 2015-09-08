@@ -74,7 +74,7 @@ def cast(a, dtype):
            array containing the values from `a` after converting to `dtype`.
     """
     out=Array()
-    safe_call(backend.get().af_cast(ct.pointer(out.arr), a.arr, dtype.value))
+    safe_call(backend.get().af_cast(ct.pointer(out.arr), a.arr, Enum_value(dtype)))
     return out
 
 def minof(lhs, rhs):
