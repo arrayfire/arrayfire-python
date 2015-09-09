@@ -12,8 +12,9 @@ classes required for indexing operations
 
 from .library import *
 from .util import *
+from .util import _is_number
 from .base import *
-from .bcast import *
+from .bcast import _bcast_var
 import math
 
 class Seq(ct.Structure):
@@ -47,7 +48,7 @@ class Seq(ct.Structure):
         self.end   = ct.c_double(-1)
         self.step  = ct.c_double( 1)
 
-        if is_number(S):
+        if _is_number(S):
             self.begin = ct.c_double(S)
             self.end   = ct.c_double(S)
         elif isinstance(S, slice):
@@ -131,11 +132,11 @@ class ParallelRange(Seq):
         """
         Function called by the iterator in Python 2
         """
-        if bcast_var.get() is True:
-            bcast_var.toggle()
+        if _bcast_var.get() is True:
+            _bcast_var.toggle()
             raise StopIteration
         else:
-            bcast_var.toggle()
+            _bcast_var.toggle()
             return self
 
     def __next__(self):

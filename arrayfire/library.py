@@ -15,11 +15,11 @@ import platform
 import ctypes as ct
 
 try:
-    from enum import Enum
+    from enum import Enum as _Enum
     def _Enum_Type(v):
         return v
 except:
-    class Enum(object):
+    class _Enum(object):
         pass
 
     class _Enum_Type(object):
@@ -84,10 +84,8 @@ class _clibrary(object):
         self.__lock = True
 
 backend = _clibrary()
-del _clibrary
 
-
-class ERR(Enum):
+class ERR(_Enum):
     """
     Error values. For internal use only.
     """
@@ -119,7 +117,7 @@ class ERR(Enum):
     INTERNAL       = _Enum_Type(998)
     UNKNOWN        = _Enum_Type(999)
 
-class Dtype(Enum):
+class Dtype(_Enum):
     """
     Error values. For internal use only.
     """
@@ -134,14 +132,14 @@ class Dtype(Enum):
     s64 = _Enum_Type(8)
     u64 = _Enum_Type(9)
 
-class Source(Enum):
+class Source(_Enum):
     """
     Source of the pointer
     """
     device = _Enum_Type(0)
     host   = _Enum_Type(1)
 
-class INTERP(Enum):
+class INTERP(_Enum):
     """
     Interpolation method
     """
@@ -150,28 +148,28 @@ class INTERP(Enum):
     BILINEAR  = _Enum_Type(2)
     CUBIC     = _Enum_Type(3)
 
-class PAD(Enum):
+class PAD(_Enum):
     """
     Edge padding types
     """
     ZERO = _Enum_Type(0)
     SYM  = _Enum_Type(1)
 
-class CONNECTIVITY(Enum):
+class CONNECTIVITY(_Enum):
     """
     Neighborhood connectivity
     """
     FOUR  = _Enum_Type(4)
     EIGHT = _Enum_Type(8)
 
-class CONV_MODE(Enum):
+class CONV_MODE(_Enum):
     """
     Convolution mode
     """
     DEFAULT = _Enum_Type(0)
     EXPAND  = _Enum_Type(1)
 
-class CONV_DOMAIN(Enum):
+class CONV_DOMAIN(_Enum):
     """
     Convolution domain
     """
@@ -179,7 +177,7 @@ class CONV_DOMAIN(Enum):
     SPATIAL = _Enum_Type(1)
     FREQ    = _Enum_Type(2)
 
-class MATCH(Enum):
+class MATCH(_Enum):
     """
     Match type
     """
@@ -229,7 +227,7 @@ class MATCH(Enum):
     """
     SHD  = _Enum_Type(8)
 
-class CSPACE(Enum):
+class CSPACE(_Enum):
     """
     Colorspace formats
     """
@@ -237,7 +235,7 @@ class CSPACE(Enum):
     RGB  = _Enum_Type(1)
     HSV  = _Enum_Type(2)
 
-class MATPROP(Enum):
+class MATPROP(_Enum):
     """
     Matrix properties
     """
@@ -297,7 +295,7 @@ class MATPROP(Enum):
     """
     BLOCK_DIAG = _Enum_Type(8192)
 
-class NORM(Enum):
+class NORM(_Enum):
     """
     Norm types
     """
@@ -311,7 +309,7 @@ class NORM(Enum):
     MATRIX_L_PQ = _Enum_Type(7)
     EUCLID      = VECTOR_2
 
-class COLORMAP(Enum):
+class COLORMAP(_Enum):
     """
     Colormaps
     """
@@ -322,5 +320,3 @@ class COLORMAP(Enum):
     MOOD     = _Enum_Type(4)
     HEAT     = _Enum_Type(5)
     BLUE     = _Enum_Type(6)
-
-del Enum

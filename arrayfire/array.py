@@ -14,7 +14,8 @@ arrayfire.Array class and helper functions.
 import inspect
 from .library import *
 from .util import *
-from .bcast import *
+from .util import _is_number
+from .bcast import _bcast_var
 from .base import *
 from .index import *
 from .index import _Index4
@@ -75,7 +76,7 @@ def _binary_func(lhs, rhs, c_func):
     out = Array()
     other = rhs
 
-    if (is_number(rhs)):
+    if (_is_number(rhs)):
         ldims = dim4_to_tuple(lhs.dims())
         rty = implicit_dtype(rhs, lhs.type())
         other = Array()
@@ -83,7 +84,7 @@ def _binary_func(lhs, rhs, c_func):
     elif not isinstance(rhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
-    safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, bcast_var.get()))
+    safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, _bcast_var.get()))
 
     return out
 
@@ -91,7 +92,7 @@ def _binary_funcr(lhs, rhs, c_func):
     out = Array()
     other = lhs
 
-    if (is_number(lhs)):
+    if (_is_number(lhs)):
         rdims = dim4_to_tuple(rhs.dims())
         lty = implicit_dtype(lhs, rhs.type())
         other = Array()
@@ -99,7 +100,7 @@ def _binary_funcr(lhs, rhs, c_func):
     elif not isinstance(lhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
-    c_func(ct.pointer(out.arr), other.arr, rhs.arr, bcast_var.get())
+    c_func(ct.pointer(out.arr), other.arr, rhs.arr, _bcast_var.get())
 
     return out
 
@@ -172,7 +173,7 @@ def _get_assign_dims(key, idims):
     for n in range(len(idims)):
         dims[n] = idims[n]
 
-    if is_number(key):
+    if _is_number(key):
         dims[0] = 1
         return dims
     elif isinstance(key, slice):
@@ -188,7 +189,7 @@ def _get_assign_dims(key, idims):
         n_inds = len(key)
 
         for n in range(n_inds):
-            if (is_number(key[n])):
+            if (_is_number(key[n])):
                 dims[n] = 1
             elif (isinstance(key[n], BaseArray)):
                 dims[n] = key[n].elements()
@@ -891,7 +892,7 @@ class Array(BaseArray):
         try:
             n_dims = self.numdims()
 
-            if (is_number(val)):
+            if (_is_number(val)):
                 tdims = _get_assign_dims(key, self.dims())
                 other_arr = constant_array(val, tdims[0], tdims[1], tdims[2], tdims[3], self.type())
                 del_other = True

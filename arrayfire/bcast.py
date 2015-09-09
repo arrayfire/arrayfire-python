@@ -22,7 +22,7 @@ class _bcast(object):
     def toggle(self):
         _bcast._flag ^= True
 
-bcast_var = _bcast()
+_bcast_var = _bcast()
 
 def broadcast(func, *args):
     """
@@ -85,9 +85,9 @@ def broadcast(func, *args):
     """
 
     def wrapper(*func_args):
-        bcast_var.toggle()
+        _bcast_var.toggle()
         res = func(*func_args)
-        bcast_var.toggle()
+        _bcast_var.toggle()
         return res
 
     if len(args) == 0:

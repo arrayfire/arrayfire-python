@@ -58,8 +58,3 @@ del ct
 del inspect
 del numbers
 del os
-
-#do not export internal functions
-del bcast_var
-del is_number
-del safe_call

@@ -13,7 +13,8 @@ Math functions for ArrayFire
 
 from .library import *
 from .array import *
-from .bcast import *
+from .bcast import _bcast_var
+from .util import _is_number
 
 def _arith_binary_func(lhs, rhs, c_func):
     out = Array()
@@ -25,21 +26,21 @@ def _arith_binary_func(lhs, rhs, c_func):
         raise TypeError("Atleast one input needs to be of type arrayfire.array")
 
     elif (is_left_array and is_right_array):
-        safe_call(c_func(ct.pointer(out.arr), lhs.arr, rhs.arr, bcast_var.get()))
+        safe_call(c_func(ct.pointer(out.arr), lhs.arr, rhs.arr, _bcast_var.get()))
 
-    elif (is_number(rhs)):
+    elif (_is_number(rhs)):
         ldims = dim4_to_tuple(lhs.dims())
         rty = implicit_dtype(rhs, lhs.type())
         other = Array()
         other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty)
-        safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, bcast_var.get()))
+        safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, _bcast_var.get()))
 
     else:
         rdims = dim4_to_tuple(rhs.dims())
         lty = implicit_dtype(lhs, rhs.type())
         other = Array()
         other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty)
-        safe_call(c_func(ct.pointer(out.arr), other.arr, rhs.arr, bcast_var.get()))
+        safe_call(c_func(ct.pointer(out.arr), other.arr, rhs.arr, _bcast_var.get()))
 
     return out
 

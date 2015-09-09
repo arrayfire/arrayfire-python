@@ -19,7 +19,7 @@ def dim4(d0=1, d1=1, d2=1, d3=1):
 
     return out
 
-def is_number(a):
+def _is_number(a):
     return isinstance(a, numbers.Number)
 
 def number_dtype(a):
@@ -55,7 +55,7 @@ def dim4_to_tuple(dims, default=1):
     assert(isinstance(dims, tuple))
 
     if (default is not None):
-        assert(is_number(default))
+        assert(_is_number(default))
 
     out = [default]*4
 

@@ -13,6 +13,7 @@ graphics functions for arrayfire
 
 from .library import *
 from .array import *
+from .util import _is_number
 
 class _Cell(ct.Structure):
     _fields_ = [("row", ct.c_int),
@@ -219,7 +220,7 @@ class Window(object):
             raise IndexError("Window expects indexing along two dimensions")
         if len(keys) != 2:
             raise IndexError("Window expects indexing along two dimensions only")
-        if not (is_number(keys[0]) and is_number(keys[1])):
+        if not (_is_number(keys[0]) and _is_number(keys[1])):
             raise IndexError("Window expects the indices to be numbers")
         self._r = keys[0]
         self._c = keys[1]
