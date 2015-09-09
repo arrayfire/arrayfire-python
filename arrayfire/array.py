@@ -17,6 +17,7 @@ from .util import *
 from .bcast import *
 from .base import *
 from .index import *
+from .index import _Index4
 
 def _create_array(buf, numdims, idims, dtype):
     out_arr = ct.c_void_p(0)
@@ -152,9 +153,8 @@ def _get_info(dims, buf_len):
 
 def _get_indices(key):
 
-    index_vec = Index * 4
     S = Index(slice(None))
-    inds = index_vec(S, S, S, S)
+    inds = _Index4(S, S, S, S)
 
     if isinstance(key, tuple):
         n_idx = len(key)
@@ -874,7 +874,7 @@ class Array(BaseArray):
             inds = _get_indices(key)
 
             safe_call(backend.get().af_index_gen(ct.pointer(out.arr),
-                                        self.arr, ct.c_longlong(n_dims), ct.pointer(inds)))
+                                    self.arr, ct.c_longlong(n_dims), inds.pointer))
             return out
         except RuntimeError as e:
             raise IndexError(str(e))
@@ -903,7 +903,7 @@ class Array(BaseArray):
             inds  = _get_indices(key)
 
             safe_call(backend.get().af_assign_gen(ct.pointer(out_arr),
-                                         self.arr, ct.c_longlong(n_dims), ct.pointer(inds),
+                                         self.arr, ct.c_longlong(n_dims), inds.pointer,
                                          other_arr))
             safe_call(backend.get().af_release_array(self.arr))
             if del_other:
