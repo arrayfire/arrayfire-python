@@ -208,7 +208,29 @@ class Index(ct.Structure):
         else:
             self.idx.seq = Seq(idx)
 
-    # def __del__(self):
-    #     if not self.isSeq:
-    #         arr = self.idx.arr
-    #         backend.get().af_release_array(arr)
+    def __del__(self):
+        if not self.isSeq:
+            # ctypes field variables are automatically
+            # converted to basic C types so we have to
+            # build the void_p from the value again.
+            arr = ct.c_void_p(self.idx.arr)
+            backend.get().af_release_array(arr)
+
+class _Index4(object):
+    def __init__(self, idx0, idx1, idx2, idx3):
+        index_vec = Index * 4
+        self.array = index_vec(idx0, idx1, idx2, idx3)
+        # Do not lose those idx as self.array keeps
+        # no reference to them. Otherwise the destructor
+        # is prematurely called
+        self.idxs = [idx0,idx1,idx2,idx3]
+    @property
+    def pointer(self):
+        return ct.pointer(self.array)
+
+    def __getitem__(self, idx):
+        return self.array[idx]
+
+    def __setitem__(self, idx, value):
+        self.array[idx] = value
+        self.idxs[idx] = value
