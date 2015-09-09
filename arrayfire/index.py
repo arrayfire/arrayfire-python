@@ -195,8 +195,7 @@ class Index(ct.Structure):
 
             arr = ct.c_void_p(0)
 
-            if (Enum_value(idx.dtype()) ==
-                Enum_value(Dtype.b8)):
+            if (idx.type() == Dtype.b8.value):
                 safe_call(backend.get().af_where(ct.pointer(arr), idx.arr))
             else:
                 safe_call(backend.get().af_retain_array(ct.pointer(arr), idx.arr))

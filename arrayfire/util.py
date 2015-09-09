@@ -36,12 +36,12 @@ def number_dtype(a):
 
 def implicit_dtype(number, a_dtype):
     n_dtype = number_dtype(number)
-    n_value = Enum_value(n_dtype)
+    n_value = n_dtype.value
 
-    f64v = Enum_value(Dtype.f64)
-    f32v = Enum_value(Dtype.f32)
-    c32v = Enum_value(Dtype.c32)
-    c64v = Enum_value(Dtype.c64)
+    f64v = Dtype.f64.value
+    f32v = Dtype.f32.value
+    c32v = Dtype.c32.value
+    c64v = Dtype.c64.value
 
     if n_value == f64v and (a_dtype == f32v or a_dtype == c32v):
         return Dtype.f32
@@ -68,7 +68,7 @@ def to_str(c_str):
     return str(c_str.value.decode('utf-8'))
 
 def safe_call(af_error):
-    if (af_error != Enum_value(ERR.NONE)):
+    if (af_error != ERR.NONE.value):
         err_str = ct.c_char_p(0)
         err_len = ct.c_longlong(0)
         backend.get().af_get_last_error(ct.pointer(err_str), ct.pointer(err_len))
@@ -81,7 +81,8 @@ def get_version():
     safe_call(backend.get().af_get_version(ct.pointer(major), ct.pointer(minor), ct.pointer(patch)))
     return major,minor,patch
 
-typecodes = ('f', 'F', 'd', 'D', 'b', 'B', 'i', 'I', 'l', 'L')
+typecodes = ['f', 'F', 'd', 'D', 'b', 'B', 'i', 'I', 'l', 'L']
+
 to_dtype = {'f' : Dtype.f32,
             'd' : Dtype.f64,
             'b' : Dtype.b8,
@@ -93,24 +94,24 @@ to_dtype = {'f' : Dtype.f32,
             'F' : Dtype.c32,
             'D' : Dtype.c64}
 
-to_typecode = {Enum_value(Dtype.f32) : 'f',
-               Enum_value(Dtype.f64) : 'd',
-               Enum_value(Dtype.b8 ) : 'b',
-               Enum_value(Dtype.u8 ) : 'B',
-               Enum_value(Dtype.s32) : 'i',
-               Enum_value(Dtype.u32) : 'I',
-               Enum_value(Dtype.s64) : 'l',
-               Enum_value(Dtype.u64) : 'L',
-               Enum_value(Dtype.c32) : 'F',
-               Enum_value(Dtype.c64) : 'D'}
+to_typecode = {Dtype.f32.value : 'f',
+               Dtype.f64.value : 'd',
+               Dtype.b8.value : 'b',
+               Dtype.u8.value : 'B',
+               Dtype.s32.value : 'i',
+               Dtype.u32.value : 'I',
+               Dtype.s64.value : 'l',
+               Dtype.u64.value : 'L',
+               Dtype.c32.value : 'F',
+               Dtype.c64.value : 'D'}
 
-to_c_type = {Enum_value(Dtype.f32) : ct.c_float,
-             Enum_value(Dtype.f64) : ct.c_double,
-             Enum_value(Dtype.b8 ) : ct.c_char,
-             Enum_value(Dtype.u8 ) : ct.c_ubyte,
-             Enum_value(Dtype.s32) : ct.c_int,
-             Enum_value(Dtype.u32) : ct.c_uint,
-             Enum_value(Dtype.s64) : ct.c_longlong,
-             Enum_value(Dtype.u64) : ct.c_ulonglong,
-             Enum_value(Dtype.c32) : ct.c_float * 2,
-             Enum_value(Dtype.c64) : ct.c_double * 2}
+to_c_type = {Dtype.f32.value : ct.c_float,
+             Dtype.f64.value : ct.c_double,
+             Dtype.b8.value : ct.c_char,
+             Dtype.u8.value : ct.c_ubyte,
+             Dtype.s32.value : ct.c_int,
+             Dtype.u32.value : ct.c_uint,
+             Dtype.s64.value : ct.c_longlong,
+             Dtype.u64.value : ct.c_ulonglong,
+             Dtype.c32.value : ct.c_float * 2,
+             Dtype.c64.value : ct.c_double * 2}

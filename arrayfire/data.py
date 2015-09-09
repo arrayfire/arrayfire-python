@@ -52,7 +52,7 @@ def constant(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
     """
 
     out = Array()
-    out.arr = constant_array(val, d0, d1, d2, d3, Enum_value(dtype))
+    out.arr = constant_array(val, d0, d1, d2, d3, dtype.value)
     return out
 
 # Store builtin range function to be used later
@@ -116,7 +116,7 @@ def range(d0, d1=None, d2=None, d3=None, dim=0, dtype=Dtype.f32):
     out = Array()
     dims = dim4(d0, d1, d2, d3)
 
-    safe_call(backend.get().af_range(ct.pointer(out.arr), 4, ct.pointer(dims), dim, Enum_value(dtype)))
+    safe_call(backend.get().af_range(ct.pointer(out.arr), 4, ct.pointer(dims), dim, dtype.value))
     return out
 
 
@@ -182,7 +182,7 @@ def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=Dtype.f32)
     tdims = dim4(td[0], td[1], td[2], td[3])
 
     safe_call(backend.get().af_iota(ct.pointer(out.arr), 4, ct.pointer(dims),
-                                    4, ct.pointer(tdims), Enum_value(dtype)))
+                                    4, ct.pointer(tdims), dtype.value))
     return out
 
 def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
@@ -219,7 +219,7 @@ def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
     out = Array()
     dims = dim4(d0, d1, d2, d3)
 
-    safe_call(backend.get().af_randu(ct.pointer(out.arr), 4, ct.pointer(dims), Enum_value(dtype)))
+    safe_call(backend.get().af_randu(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value))
     return out
 
 def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
@@ -257,7 +257,7 @@ def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
     out = Array()
     dims = dim4(d0, d1, d2, d3)
 
-    safe_call(backend.get().af_randn(ct.pointer(out.arr), 4, ct.pointer(dims), Enum_value(dtype)))
+    safe_call(backend.get().af_randn(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value))
     return out
 
 def set_seed(seed=0):
@@ -318,7 +318,7 @@ def identity(d0, d1, d2=None, d3=None, dtype=Dtype.f32):
     out = Array()
     dims = dim4(d0, d1, d2, d3)
 
-    safe_call(backend.get().af_identity(ct.pointer(out.arr), 4, ct.pointer(dims), Enum_value(dtype)))
+    safe_call(backend.get().af_identity(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value))
     return out
 
 def diag(a, num=0, extract=True):

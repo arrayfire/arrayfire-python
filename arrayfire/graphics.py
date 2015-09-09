@@ -24,7 +24,7 @@ class _Cell(ct.Structure):
         self.row = r
         self.col = c
         self.title = title if title is not None else ct.c_char_p()
-        self.cmap = Enum_value(cmap)
+        self.cmap = cmap.value
 
 class Window(object):
     """

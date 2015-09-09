@@ -202,7 +202,7 @@ def solve(A, B, options=MATPROP.NONE):
 
     """
     X = Array()
-    safe_call(backend.get().af_solve(ct.pointer(X.arr), A.arr, B.arr, Enum_value(options)))
+    safe_call(backend.get().af_solve(ct.pointer(X.arr), A.arr, B.arr, options.value))
     return X
 
 def solve_lu(A, P, B, options=MATPROP.NONE):
@@ -230,7 +230,7 @@ def solve_lu(A, P, B, options=MATPROP.NONE):
 
     """
     X = Array()
-    safe_call(backend.get().af_solve_lu(ct.pointer(X.arr), A.arr, P.arr, B.arr, Enum_value(options)))
+    safe_call(backend.get().af_solve_lu(ct.pointer(X.arr), A.arr, P.arr, B.arr, options.value))
     return X
 
 def inverse(A, options=MATPROP.NONE):
@@ -260,7 +260,7 @@ def inverse(A, options=MATPROP.NONE):
 
     """
     AI = Array()
-    safe_call(backend.get().af_inverse(ct.pointer(AI.arr), A.arr, Enum_value(options)))
+    safe_call(backend.get().af_inverse(ct.pointer(AI.arr), A.arr, options.value))
     return AI
 
 def rank(A, tol=1E-5):
@@ -336,6 +336,6 @@ def norm(A, norm_type=NORM.EUCLID, p=1.0, q=1.0):
 
     """
     res = ct.c_double(0)
-    safe_call(backend.get().af_norm(ct.pointer(res), A.arr, Enum_value(norm_type),
+    safe_call(backend.get().af_norm(ct.pointer(res), A.arr, norm_type.value,
                                     ct.c_double(p), ct.c_double(q)))
     return res.value

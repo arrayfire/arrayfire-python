@@ -22,14 +22,14 @@ def _create_array(buf, numdims, idims, dtype):
     out_arr = ct.c_void_p(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
     safe_call(backend.get().af_create_array(ct.pointer(out_arr), ct.c_void_p(buf),
-                                            numdims, ct.pointer(c_dims), Enum_value(dtype)))
+                                            numdims, ct.pointer(c_dims), dtype.value))
     return out_arr
 
 def _create_empty_array(numdims, idims, dtype):
     out_arr = ct.c_void_p(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
     safe_call(backend.get().af_create_handle(ct.pointer(out_arr),
-                                             numdims, ct.pointer(c_dims), Enum_value(dtype)))
+                                             numdims, ct.pointer(c_dims), dtype.value))
     return out_arr
 
 def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
@@ -41,7 +41,7 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
         if isinstance(dtype, int):
             dtype = ct.c_int(dtype)
         elif isinstance(dtype, Dtype):
-            dtype = ct.c_int(Enum_value(dtype))
+            dtype = ct.c_int(dtype.value)
         else:
             raise TypeError("Invalid dtype")
 
@@ -52,16 +52,15 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
         c_real = ct.c_double(val.real)
         c_imag = ct.c_double(val.imag)
 
-        if (Enum_value(dtype) != Enum_value(Dtype) and Enum_value(dtype) != Enum_value(Dtype)):
-            dtype = Enum_value(Dtype.c32)
+        if (dtype.value != Dtype.c32.value and dtype.value != Dtype.c64.value):
+            dtype = Dtype.c32.value
 
         safe_call(backend.get().af_constant_complex(ct.pointer(out), c_real, c_imag,
                                                     4, ct.pointer(dims), dtype))
-
-    elif Enum_value(dtype) == Enum_value(Dtype.s64):
+    elif dtype.value == Dtype.s64.value:
         c_val = ct.c_longlong(val.real)
         safe_call(backend.get().af_constant_long(ct.pointer(out), c_val, 4, ct.pointer(dims)))
-    elif Enum_value(dtype) == Enum_value(Dtype.u64):
+    elif dtype.value == Dtype.u64.value:
         c_val = ct.c_ulonglong(val.real)
         safe_call(backend.get().af_constant_ulong(ct.pointer(out), c_val, 4, ct.pointer(dims)))
     else:
@@ -79,7 +78,7 @@ def _binary_func(lhs, rhs, c_func):
         ldims = dim4_to_tuple(lhs.dims())
         rty = implicit_dtype(rhs, lhs.type())
         other = Array()
-        other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], Enum_value(rty))
+        other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty.value)
     elif not isinstance(rhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
@@ -95,7 +94,7 @@ def _binary_funcr(lhs, rhs, c_func):
         rdims = dim4_to_tuple(rhs.dims())
         lty = implicit_dtype(lhs, rhs.type())
         other = Array()
-        other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], Enum_value(lty))
+        other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty.value)
     elif not isinstance(lhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
@@ -351,7 +350,7 @@ class Array(BaseArray):
             if isinstance(dtype, str):
                 type_char = dtype
             else:
-                type_char = to_typecode[Enum_value(dtype)]
+                type_char = to_typecode[dtype.value]
         else:
             type_char = None
 
@@ -463,7 +462,7 @@ class Array(BaseArray):
         """
         Return the data type as a arrayfire.Dtype enum value.
         """
-        dty = ct.c_int(Enum_value(Dtype.f32))
+        dty = ct.c_int(Dtype.f32.value)
         safe_call(backend.get().af_get_type(ct.pointer(dty), self.arr))
         return to_dtype[typecodes[dty.value]]
 
@@ -471,7 +470,7 @@ class Array(BaseArray):
         """
         Return the data type as an int.
         """
-        return Enum_value(self.dtype())
+        return self.dtype().value
 
     def dims(self):
         """
