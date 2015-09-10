@@ -1041,6 +1041,12 @@ def display(a):
         Multi dimensional arrayfire array
     """
     expr = inspect.stack()[1][-2]
-    if (expr is not None):
-        print('%s' % expr[0].split('display(')[1][:-2])
-    safe_call(backend.get().af_print_array(a.arr))
+
+    try:
+        if (expr is not None):
+            st = expr[0].find('(') + 1
+            en = expr[0].rfind(')')
+            print('%s' % expr[0][st:en])
+            safe_call(backend.get().af_print_array(a.arr))
+    except:
+        safe_call(backend.get().af_print_array(a.arr))

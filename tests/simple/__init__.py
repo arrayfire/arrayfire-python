@@ -1,4 +1,3 @@
-#!/usr/bin/python
 #######################################################
 # Copyright (c) 2015, ArrayFire
 # All rights reserved.
@@ -8,14 +7,15 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
-import arrayfire as af
-
-a = af.randu(5,5)
-b = af.randu(5,5)
-
-af.display(af.matmul(a,b))
-af.display(af.matmul(a,b,af.MATPROP.TRANS))
-af.display(af.matmul(a,b,af.MATPROP.NONE, af.MATPROP.TRANS))
-
-b = af.randu(5,1)
-af.display(af.dot(b,b))
+from .algorithm import *
+from .arith import *
+from .array_test import *
+from .blas import *
+from .data import *
+from .device import *
+from .image import *
+from .index import *
+from .lapack import *
+from .signal import *
+from .statistics import *
+from ._util import tests
