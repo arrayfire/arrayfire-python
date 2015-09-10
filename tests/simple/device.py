@@ -19,12 +19,16 @@ def simple_device(verbose=False):
     print_func(af.is_dbl_supported())
     af.sync()
 
+    dev = af.get_device()
+    print_func(dev)
     for k in range(af.get_device_count()):
         af.set_device(k)
         dev = af.get_device()
         assert(k == dev)
 
         print_func(af.is_dbl_supported(k))
+
+        af.device_gc()
 
         mem_info_old = af.device_mem_info()
 
@@ -33,5 +37,7 @@ def simple_device(verbose=False):
         mem_info = af.device_mem_info()
         assert(mem_info['alloc']['buffers'] == 1 + mem_info_old['alloc']['buffers'])
         assert(mem_info[ 'lock']['buffers'] == 1 + mem_info_old[ 'lock']['buffers'])
+
+    af.set_device(dev)
 
 _util.tests['device'] = simple_device

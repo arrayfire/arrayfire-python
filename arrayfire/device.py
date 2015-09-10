@@ -132,3 +132,9 @@ def device_mem_info():
     mem_info['alloc'] = {'buffers' : alloc_buffers.value, 'bytes' : alloc_bytes.value}
     mem_info['lock'] = {'buffers' : lock_buffers.value, 'bytes' : lock_bytes.value}
     return mem_info
+
+def device_gc():
+    """
+    Ask the garbage collector to free all unlocked memory
+    """
+    safe_call(backend.get().af_device_gc())
