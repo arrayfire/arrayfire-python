@@ -1,6 +1,6 @@
 # ArrayFire Python Bindings
 
-[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing wih an easy-to-use API. This project provides Python bindings for the ArrayFire library. It enables the users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices.
+[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Python bindings for the ArrayFire library. 
 
 ## Example
 
@@ -77,7 +77,7 @@ Generate a random matrix a:
 Minimum, Maximum:  7.825903594493866e-06 0.7556053400039673
 ```
 
-The backend selection is automated currently. Choosing a particular backend will be made available in the future.
+Choosing a particular backend can be done using `af.backend.set( backend_name )`  where backend_name can be one of: "_cuda_", "_opencl_", or "_cpu_". The default device is chosen in the same order of preference.
 
 ## Requirements
 
