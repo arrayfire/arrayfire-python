@@ -93,7 +93,13 @@ Please check the following links for dependencies.
 
 ## Getting started
 
-**Using pip**
+**Install the last stable version:**
+
+```
+pip install arrayfire
+```
+
+**Install the development version:**
 
 ```
 pip install git+git://github.com/arrayfire/arrayfire.git@master
