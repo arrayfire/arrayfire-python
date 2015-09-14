@@ -1047,6 +1047,6 @@ def display(a):
             st = expr[0].find('(') + 1
             en = expr[0].rfind(')')
             print('%s' % expr[0][st:en])
-            safe_call(backend.get().af_print_array(a.arr))
+        safe_call(backend.get().af_print_array(a.arr))
     except:
         safe_call(backend.get().af_print_array(a.arr))

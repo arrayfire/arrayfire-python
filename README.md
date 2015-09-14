@@ -77,7 +77,7 @@ Generate a random matrix a:
 Minimum, Maximum:  7.825903594493866e-06 0.7556053400039673
 ```
 
-Choosing a particular backend can be done using `af.backend.set( backend_name )`  where backend_name can be one of: "_cuda_" or "_opencl_", or "_cpu_". The default device is chosen in the same order of preference.
+Choosing a particular backend can be done using `af.backend.set( backend_name )`  where backend_name can be one of: "_cuda_", "_opencl_", or "_cpu_". The default device is chosen in the same order of preference.
 
 ## Requirements
 
