@@ -17,7 +17,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="arrayfire",
-    version="3.0.20150914",
+    version="3.1.0",
     description="Python bindings for ArrayFire",
     license="BSD",
     url="http://arrayfire.com",
