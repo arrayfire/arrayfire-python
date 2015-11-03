@@ -19,6 +19,7 @@ from .bcast import _bcast_var
 from .base import *
 from .index import *
 from .index import _Index4
+from .algorithm import sum
 
 def _create_array(buf, numdims, idims, dtype):
     out_arr = ct.c_void_p(0)
@@ -182,8 +183,12 @@ def _get_assign_dims(key, idims):
     elif isinstance(key, ParallelRange):
         dims[0] = _slice_to_length(key.S, idims[0])
         return dims
-    elif isinstance(key, BaseArray):
-        dims[0] = key.elements()
+    elif isinstance(key, BaseArray):        
+        # If the array is boolean take only the number of nonzeros
+        if(key.dtype() is Dtype.b8):
+            dims[0] = int(sum(key))
+        else:
+            dims[0] = key.elements()
         return dims
     elif isinstance(key, tuple):
         n_inds = len(key)
@@ -192,7 +197,11 @@ def _get_assign_dims(key, idims):
             if (_is_number(key[n])):
                 dims[n] = 1
             elif (isinstance(key[n], BaseArray)):
-                dims[n] = key[n].elements()
+                # If the array is boolean take only the number of nonzeros
+                if(key[n].dtype() is Dtype.b8):
+                    dims[n] = int(sum(key[n]))
+                else:
+                    dims[n] = key[n].elements()
             elif (isinstance(key[n], slice)):
                 dims[n] = _slice_to_length(key[n], idims[n])
             elif (isinstance(key[n], ParallelRange)):
