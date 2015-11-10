@@ -47,6 +47,13 @@ def simple_algorithm(verbose = False):
     display_func(af.sort(a, is_ascending=True))
     display_func(af.sort(a, is_ascending=False))
 
+    b = (a > 0.1) * a
+    c = (a > 0.4) * a
+    d = b / c
+    print_func(af.sum(d));
+    print_func(af.sum(d, nan_val=0.0));
+    display_func(af.sum(d, dim=0, nan_val=0.0));
+
     val,idx = af.sort_index(a, is_ascending=True)
     display_func(val)
     display_func(idx)

@@ -22,12 +22,29 @@ def _parallel_dim(a, dim, c_func):
 def _reduce_all(a, c_func):
     real = ct.c_double(0)
     imag = ct.c_double(0)
+
     safe_call(c_func(ct.pointer(real), ct.pointer(imag), a.arr))
+
     real = real.value
     imag = imag.value
     return real if imag == 0 else real + imag * 1j
 
-def sum(a, dim=None):
+def _nan_parallel_dim(a, dim, c_func, nan_val):
+    out = Array()
+    safe_call(c_func(ct.pointer(out.arr), a.arr, ct.c_int(dim), ct.c_double(nan_val)))
+    return out
+
+def _nan_reduce_all(a, c_func, nan_val):
+    real = ct.c_double(0)
+    imag = ct.c_double(0)
+
+    safe_call(c_func(ct.pointer(real), ct.pointer(imag), a.arr, ct.c_double(nan_val)))
+
+    real = real.value
+    imag = imag.value
+    return real if imag == 0 else real + imag * 1j
+
+def sum(a, dim=None, nan_val=None):
     """
     Calculate the sum of all the elements along a specified dimension.
 
@@ -37,6 +54,8 @@ def sum(a, dim=None):
          Multi dimensional arrayfire array.
     dim: optional: int. default: None
          Dimension along which the sum is required.
+    nan_val: optional: scalar. default: None
+         The value that replaces NaN in the array
 
     Returns
     -------
@@ -44,12 +63,18 @@ def sum(a, dim=None):
          The sum of all elements in `a` along dimension `dim`.
          If `dim` is `None`, sum of the entire Array is returned.
     """
-    if dim is not None:
-        return _parallel_dim(a, dim, backend.get().af_sum)
+    if (nan_val is not None):
+        if dim is not None:
+            return _nan_parallel_dim(a, dim, backend.get().af_sum_nan, nan_val)
+        else:
+            return _nan_reduce_all(a, backend.get().af_sum_nan_all, nan_val)
     else:
-        return _reduce_all(a, backend.get().af_sum_all)
+        if dim is not None:
+            return _parallel_dim(a, dim, backend.get().af_sum)
+        else:
+            return _reduce_all(a, backend.get().af_sum_all)
 
-def product(a, dim=None):
+def product(a, dim=None, nan_val=None):
     """
     Calculate the product of all the elements along a specified dimension.
 
@@ -59,6 +84,8 @@ def product(a, dim=None):
          Multi dimensional arrayfire array.
     dim: optional: int. default: None
          Dimension along which the product is required.
+    nan_val: optional: scalar. default: None
+         The value that replaces NaN in the array
 
     Returns
     -------
@@ -66,10 +93,16 @@ def product(a, dim=None):
          The product of all elements in `a` along dimension `dim`.
          If `dim` is `None`, product of the entire Array is returned.
     """
-    if dim is not None:
-        return _parallel_dim(a, dim, backend.get().af_product)
+    if (nan_val is not None):
+        if dim is not None:
+            return _nan_parallel_dim(a, dim, backend.get().af_product_nan, nan_val)
+        else:
+            return _nan_reduce_all(a, backend.get().af_product_nan_all, nan_val)
     else:
-        return _reduce_all(a, backend.get().af_product_all)
+        if dim is not None:
+            return _parallel_dim(a, dim, backend.get().af_product)
+        else:
+            return _reduce_all(a, backend.get().af_product_all)
 
 def min(a, dim=None):
     """
