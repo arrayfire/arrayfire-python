@@ -7,6 +7,8 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
+import traceback
+import logging
 import arrayfire as af
 
 def display_func(verbose):
@@ -34,7 +36,6 @@ class _simple_test_dict(dict):
     def run(self, name_list=None, verbose=False):
         test_list = name_list if name_list is not None else self.keys()
         for key in test_list:
-
             try:
                 test = self[key]
             except:
@@ -44,7 +45,10 @@ class _simple_test_dict(dict):
             try:
                 test(verbose)
                 print(self.print_str % (key, "PASSED"))
-            except:
+            except Exception as e:
                 print(self.print_str % (key, "FAILED"))
+                if (verbose):
+                    logging.error(traceback.format_exc())
+
 
 tests = _simple_test_dict()
