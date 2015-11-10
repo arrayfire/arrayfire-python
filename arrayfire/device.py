@@ -138,3 +138,55 @@ def device_gc():
     Ask the garbage collector to free all unlocked memory
     """
     safe_call(backend.get().af_device_gc())
+
+def get_device_ptr(a):
+    """
+    Get the raw device pointer of an array
+
+    Parameters
+    ----------
+    a: af.Array
+       - A multi dimensional arrayfire array.
+
+    Returns
+    -------
+        - internal device pointer held by a
+
+    Note
+    -----
+        - The device pointer of `a` is not freed by memory manager until `unlock_device_ptr()` is called.
+        - This function enables the user to interoperate arrayfire with other CUDA/OpenCL/C libraries.
+
+    """
+    ptr = ct.c_void_p(0)
+    safe_call(backend.get().af_get_device_ptr(ct.pointer(ptr), a.arr))
+    return ptr
+
+def lock_device_ptr(a):
+    """
+    Ask arrayfire to not perform garbage collection on raw data held by an array.
+
+    Parameters
+    ----------
+    a: af.Array
+       - A multi dimensional arrayfire array.
+
+    Note
+    -----
+        - The device pointer of `a` is not freed by memory manager until `unlock_device_ptr()` is called.
+    """
+    ptr = ct.c_void_p(0)
+    safe_call(backend.get().af_lock_device_ptr(a.arr))
+
+def unlock_device_ptr(a):
+    """
+    Tell arrayfire to resume garbage collection on raw data held by an array.
+
+    Parameters
+    ----------
+    a: af.Array
+       - A multi dimensional arrayfire array.
+
+    """
+    ptr = ct.c_void_p(0)
+    safe_call(backend.get().af_unlock_device_ptr(a.arr))

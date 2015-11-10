@@ -20,11 +20,15 @@ from .base import *
 from .index import *
 from .index import _Index4
 
-def _create_array(buf, numdims, idims, dtype):
+def _create_array(buf, numdims, idims, dtype, is_device):
     out_arr = ct.c_void_p(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
-    safe_call(backend.get().af_create_array(ct.pointer(out_arr), ct.c_void_p(buf),
-                                            numdims, ct.pointer(c_dims), dtype.value))
+    if (not is_device):
+        safe_call(backend.get().af_create_array(ct.pointer(out_arr), ct.c_void_p(buf),
+                                                numdims, ct.pointer(c_dims), dtype.value))
+    else:
+        safe_call(backend.get().af_device_array(ct.pointer(out_arr), ct.c_void_p(buf),
+                                                numdims, ct.pointer(c_dims), dtype.value))
     return out_arr
 
 def _create_empty_array(numdims, idims, dtype):
@@ -348,7 +352,7 @@ class Array(BaseArray):
 
     """
 
-    def __init__(self, src=None, dims=(0,), dtype=None):
+    def __init__(self, src=None, dims=(0,), dtype=None, is_device=False):
 
         super(Array, self).__init__()
 
@@ -385,7 +389,8 @@ class Array(BaseArray):
                 _type_char = tmp.typecode
                 numdims, idims = _get_info(dims, buf_len)
             elif isinstance(src, int) or isinstance(src, ct.c_void_p):
-                buf = src
+                buf = src if not isinstance(src, ct.c_void_p) else src.value
+
                 numdims, idims = _get_info(dims, buf_len)
 
                 elements = 1
@@ -407,7 +412,7 @@ class Array(BaseArray):
                 type_char != _type_char):
                 raise TypeError("Can not create array of requested type from input data type")
 
-            self.arr = _create_array(buf, numdims, idims, to_dtype[_type_char])
+            self.arr = _create_array(buf, numdims, idims, to_dtype[_type_char], is_device)
 
         else:
 
