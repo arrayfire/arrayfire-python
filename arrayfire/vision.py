@@ -202,7 +202,7 @@ def nearest_neighbour(query, database, dim = 0, num_nearest = 1, match_type=MATC
     safe_call(backend.get().af_nearest_neighbour(ct.pointer(idx.arr), ct.pointer(dist.arr),
                                                  query.arr, database.arr,
                                                  ct.c_longlong(dim), ct.c_longlong(num_nearest),
-                                                 match_type))
+                                                 match_type.value))
     return index, dist
 
 def match_template(image, template, match_type = MATCH.SAD):
@@ -228,7 +228,9 @@ def match_template(image, template, match_type = MATCH.SAD):
 
     """
     out = Array()
-    safe_call(backend.get().af_match_template(ct.pointer(out.arr), image.arr, template.arr, match_type))
+    safe_call(backend.get().af_match_template(ct.pointer(out.arr),
+                                              image.arr, template.arr,
+                                              match_type.value))
     return out
 
 def susan(image, radius=3, diff_thr=32, geom_thr=10, feature_ratio=0.05, edge=3):

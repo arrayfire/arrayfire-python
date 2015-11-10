@@ -108,6 +108,7 @@ class ERR(_Enum):
     # 300-399 Errors for missing software features
     NOT_SUPPORTED  = _Enum_Type(301)
     NOT_CONFIGURED = _Enum_Type(302)
+    NONFREE        = _Enum_Type(303)
 
     # 400-499 Errors for missing hardware features
     NO_DBL         = _Enum_Type(401)
@@ -147,6 +148,7 @@ class INTERP(_Enum):
     LINEAR    = _Enum_Type(1)
     BILINEAR  = _Enum_Type(2)
     CUBIC     = _Enum_Type(3)
+    LOWER     = _Enum_Type(4)
 
 class PAD(_Enum):
     """
@@ -227,6 +229,15 @@ class MATCH(_Enum):
     """
     SHD  = _Enum_Type(8)
 
+
+class YCC_STD(_Enum):
+    """
+    YCC Standard formats
+    """
+    BT_601   = _Enum_Type(601)
+    BT_709   = _Enum_Type(709)
+    BT_2020  = _Enum_Type(2020)
+
 class CSPACE(_Enum):
     """
     Colorspace formats
@@ -234,6 +245,7 @@ class CSPACE(_Enum):
     GRAY = _Enum_Type(0)
     RGB  = _Enum_Type(1)
     HSV  = _Enum_Type(2)
+    YCbCr= _Enum_Type(3)
 
 class MATPROP(_Enum):
     """
@@ -320,3 +332,21 @@ class COLORMAP(_Enum):
     MOOD     = _Enum_Type(4)
     HEAT     = _Enum_Type(5)
     BLUE     = _Enum_Type(6)
+
+class IMAGE_FORMAT(_Enum):
+    """
+    Image Formats
+    """
+    BMP      = _Enum_Type(0)
+    ICO      = _Enum_Type(1)
+    JPEG     = _Enum_Type(2)
+    JNG      = _Enum_Type(3)
+    PNG      = _Enum_Type(13)
+    PPM      = _Enum_Type(14)
+    PPMRAW   = _Enum_Type(15)
+    TIFF     = _Enum_Type(18)
+    PSD      = _Enum_Type(20)
+    HDR      = _Enum_Type(26)
+    EXR      = _Enum_Type(29)
+    JP2      = _Enum_Type(31)
+    RAW      = _Enum_Type(34)

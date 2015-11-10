@@ -64,4 +64,16 @@ def simple_image(verbose = False):
 
     display_func(af.color_space(a, af.CSPACE.RGB, af.CSPACE.GRAY))
 
+    a = af.randu(6,6)
+    b = af.unwrap(a, 2, 2, 2, 2)
+    c = af.wrap(b, 6, 6, 2, 2, 2, 2)
+    display_func(a)
+    display_func(b)
+    display_func(c)
+    display_func(af.sat(a))
+
+    a = af.randu(10,10,3)
+    display_func(af.rgb2ycbcr(a))
+    display_func(af.ycbcr2rgb(a))
+
 _util.tests['image'] = simple_image

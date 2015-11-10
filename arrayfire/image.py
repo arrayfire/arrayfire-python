@@ -893,3 +893,226 @@ def color_space(image, to_type, from_type):
     safe_call(backend.get().af_color_space(ct.pointer(output.arr), image.arr,
                                            to_type.value, from_type.value))
     return output
+
+def unwrap(image, wx, wy, sx, sy, px=0, py=0, is_column=True):
+    """
+    Unrwap an image into an array.
+
+    Parameters
+    ----------
+
+    image  : af.Array
+           A multi dimensional array specifying an image or batch of images.
+
+    wx     : Integer.
+           Block window size along the first dimension.
+
+    wy     : Integer.
+           Block window size along the second dimension.
+
+    sx     : Integer.
+           Stride along the first dimension.
+
+    sy     : Integer.
+           Stride along the second dimension.
+
+    px     : Integer. Optional. Default: 0
+           Padding along the first dimension.
+
+    py     : Integer. Optional. Default: 0
+           Padding along the second dimension.
+
+    is_column : Boolean. Optional. Default: True.
+           Specifies if the patch should be laid along row or columns.
+
+    Returns
+    -------
+
+    out   : af.Array
+          A multi dimensional array contianing the image patches along specified dimension.
+
+    Examples
+    --------
+    >>> import arrayfire as af
+    >>> a = af.randu(6, 6)
+    >>> af.display(a)
+
+    [6 6 1 1]
+        0.4107     0.3775     0.0901     0.8060     0.0012     0.9250
+        0.8224     0.3027     0.5933     0.5938     0.8703     0.3063
+        0.9518     0.6456     0.1098     0.8395     0.5259     0.9313
+        0.1794     0.5591     0.1046     0.1933     0.1443     0.8684
+        0.4198     0.6600     0.8827     0.7270     0.3253     0.6592
+        0.0081     0.0764     0.1647     0.0322     0.5081     0.4387
+
+    >>> b = af.unwrap(a, 2, 2, 2, 2)
+    >>> af.display(b)
+
+    [4 9 1 1]
+        0.4107     0.9518     0.4198     0.0901     0.1098     0.8827     0.0012     0.5259     0.3253
+        0.8224     0.1794     0.0081     0.5933     0.1046     0.1647     0.8703     0.1443     0.5081
+        0.3775     0.6456     0.6600     0.8060     0.8395     0.7270     0.9250     0.9313     0.6592
+        0.3027     0.5591     0.0764     0.5938     0.1933     0.0322     0.3063     0.8684     0.4387
+    """
+
+    out = Array()
+    safe_call(backend.get().af_unwrap(ct.pointer(out.arr), image.arr,
+                                      ct.c_longlong(wx), ct.c_longlong(wy),
+                                      ct.c_longlong(sx), ct.c_longlong(sy),
+                                      ct.c_longlong(px), ct.c_longlong(py),
+                                      is_column))
+    return out
+
+def wrap(a, ox, oy, wx, wy, sx, sy, px=0, py=0, is_column=True):
+    """
+    Wrap an array into an image.
+
+    Parameters
+    ----------
+
+    a      : af.Array
+           A multi dimensional array containing patches of images.
+
+    wx     : Integer.
+           Block window size along the first dimension.
+
+    wy     : Integer.
+           Block window size along the second dimension.
+
+    sx     : Integer.
+           Stride along the first dimension.
+
+    sy     : Integer.
+           Stride along the second dimension.
+
+    px     : Integer. Optional. Default: 0
+           Padding along the first dimension.
+
+    py     : Integer. Optional. Default: 0
+           Padding along the second dimension.
+
+    is_column : Boolean. Optional. Default: True.
+           Specifies if the patch should be laid along row or columns.
+
+    Returns
+    -------
+
+    out   : af.Array
+          A multi dimensional array contianing the images.
+
+
+    Examples
+    --------
+    >>> import arrayfire as af
+    >>> a = af.randu(6, 6)
+    >>> af.display(a)
+
+    [6 6 1 1]
+        0.4107     0.3775     0.0901     0.8060     0.0012     0.9250
+        0.8224     0.3027     0.5933     0.5938     0.8703     0.3063
+        0.9518     0.6456     0.1098     0.8395     0.5259     0.9313
+        0.1794     0.5591     0.1046     0.1933     0.1443     0.8684
+        0.4198     0.6600     0.8827     0.7270     0.3253     0.6592
+        0.0081     0.0764     0.1647     0.0322     0.5081     0.4387
+
+    >>> b = af.unwrap(a, 2, 2, 2, 2)
+    >>> af.display(b)
+
+    [4 9 1 1]
+        0.4107     0.9518     0.4198     0.0901     0.1098     0.8827     0.0012     0.5259     0.3253
+        0.8224     0.1794     0.0081     0.5933     0.1046     0.1647     0.8703     0.1443     0.5081
+        0.3775     0.6456     0.6600     0.8060     0.8395     0.7270     0.9250     0.9313     0.6592
+        0.3027     0.5591     0.0764     0.5938     0.1933     0.0322     0.3063     0.8684     0.4387
+
+    >>> af.display(c)
+
+    [6 6 1 1]
+        0.4107     0.3775     0.0901     0.8060     0.0012     0.9250
+        0.8224     0.3027     0.5933     0.5938     0.8703     0.3063
+        0.9518     0.6456     0.1098     0.8395     0.5259     0.9313
+        0.1794     0.5591     0.1046     0.1933     0.1443     0.8684
+        0.4198     0.6600     0.8827     0.7270     0.3253     0.6592
+        0.0081     0.0764     0.1647     0.0322     0.5081     0.4387
+
+
+    """
+
+    out = Array()
+    safe_call(backend.get().af_wrap(ct.pointer(out.arr), a.arr,
+                                    ct.c_longlong(ox), ct.c_longlong(oy),
+                                    ct.c_longlong(wx), ct.c_longlong(wy),
+                                    ct.c_longlong(sx), ct.c_longlong(sy),
+                                    ct.c_longlong(px), ct.c_longlong(py),
+                                    is_column))
+    return out
+
+def sat(image):
+    """
+    Summed Area Tables
+
+    Parameters
+    ----------
+    image : af.Array
+          A multi dimensional array specifying image or batch of images
+
+    Returns
+    -------
+    out  : af.Array
+         A multi dimensional array containing the summed area table of input image
+    """
+
+    out = Array()
+    safe_call(backend.get().af_sat(ct.pointer(out.arr), image.arr))
+    return out
+
+def ycbcr2rgb(image, standard=YCC_STD.BT_601):
+    """
+    YCbCr to RGB colorspace conversion.
+
+    Parameters
+    ----------
+
+    image   : af.Array
+              A multi dimensional array containing an image or batch of images in YCbCr format.
+
+    standard: YCC_STD. optional. default: YCC_STD.BT_601
+            - Specifies the YCbCr format.
+            - Can be one of YCC_STD.BT_601, YCC_STD.BT_709, and YCC_STD.BT_2020.
+
+    Returns
+    --------
+
+    out     : af.Array
+            A multi dimensional array containing an image or batch of images in RGB format
+
+    """
+
+    out = Array()
+    safe_call(backend.get().af_ycbcr2rgb(ct.pointer(out.arr), image.arr, standard.value))
+    return out
+
+def rgb2ycbcr(image, standard=YCC_STD.BT_601):
+    """
+    RGB to YCbCr colorspace conversion.
+
+    Parameters
+    ----------
+
+    image   : af.Array
+              A multi dimensional array containing an image or batch of images in RGB format.
+
+    standard: YCC_STD. optional. default: YCC_STD.BT_601
+            - Specifies the YCbCr format.
+            - Can be one of YCC_STD.BT_601, YCC_STD.BT_709, and YCC_STD.BT_2020.
+
+    Returns
+    --------
+
+    out     : af.Array
+            A multi dimensional array containing an image or batch of images in YCbCr format
+
+    """
+
+    out = Array()
+    safe_call(backend.get().af_rgb2ycbcr(ct.pointer(out.arr), image.arr, standard.value))
+    return out
