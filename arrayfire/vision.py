@@ -43,15 +43,57 @@ def fast(image, threshold=20.0, arc_length=9, non_max=True, feature_ratio=0.05, 
     Returns
     ---------
     features     : af.Features()
-                 - x, y, and score are calculated
-                 - orientation is 0 because FAST does not compute orientation
-                 - size is 1 because FAST does not compute multiple scales
+                 Contains the location and score. Orientation and size are not computed.
 
     """
     out = Features()
     safe_call(backend.get().af_fast(ct.pointer(out.feat),
                                     image.arr, ct.c_float(threshold), ct.c_uint(arc_length), non_max,
                                     ct.c_float(feature_ratio), ct.c_uint(edge)))
+    return out
+
+def harris(image, max_corners=500, min_response=1E5, sigma=1.0, block_size=0, k_thr=0.04):
+    """
+    Harris corner detector.
+
+    Parameters
+    ----------
+    image         : af.Array
+                  A 2D array specifying an image.
+
+    max_corners   : scalar. optional. default: 500.
+                  Specifies the maximum number of corners to be calculated.
+
+    min_response  : scalar. optional. default: 1E5
+                  Specifies the cutoff score for a corner to be considered
+
+    sigma         : scalar. optional. default: 1.0
+                  - Specifies the standard deviation of a circular window.
+                  - Only used when block_size == 0. Must be >= 0.5 and <= 5.0.
+
+    block_size    : scalar. optional. default: 0
+                  Specifies the window size.
+
+    k_thr         : scalar. optional. default: 0.04
+                  Harris constant. must be >= 0.01
+
+    Returns
+    ---------
+
+    features     : af.Features()
+                 Contains the location and score. Orientation and size are not computed.
+
+    Note
+    ------
+
+    The covariation matrix will be square when `block_size` is used and circular when `sigma` is used.
+
+
+    """
+    out = Features()
+    safe_call(backend.get().af_harris(ct.pointer(out.feat),
+                                      image.arr, ct.c_uint(max_corners), ct.c_float(min_response),
+                                      ct.c_float(sigma), ct.c_uint(block_size), ct.c_float(k_thr)))
     return out
 
 def orb(image, threshold=20.0, max_features=400, scale = 1.5, num_levels = 4, blur_image = False):
@@ -109,7 +151,7 @@ def hamming_matcher(query, database, dim = 0, num_nearest = 1):
     dim      : scalar. optional. default: 0.
              Specifies the dimension along which feature descriptor lies.
 
-    num_neaarest: scalar. optional. default: 1.
+    num_nearest: scalar. optional. default: 1.
              Specifies the number of nearest neighbors to find.
 
     Returns
@@ -124,6 +166,43 @@ def hamming_matcher(query, database, dim = 0, num_nearest = 1):
     safe_call(backend.get().af_hamming_matcher(ct.pointer(idx.arr), ct.pointer(dist.arr),
                                                query.arr, database.arr,
                                                ct.c_longlong(dim), ct.c_longlong(num_nearest)))
+    return index, dist
+
+def nearest_neighbour(query, database, dim = 0, num_nearest = 1, match_type=MATCH.SSD):
+    """
+    Nearest Neighbour matcher.
+
+    Parameters
+    -----------
+
+    query    : af.Array
+             A query feature descriptor
+
+    database : af.Array
+             A multi dimensional array containing the feature descriptor database.
+
+    dim      : scalar. optional. default: 0.
+             Specifies the dimension along which feature descriptor lies.
+
+    num_nearest: scalar. optional. default: 1.
+             Specifies the number of nearest neighbors to find.
+
+    match_type: optional: af.MATCH. default: af.MATCH.SSD
+             Specifies the match function metric.
+
+    Returns
+    ---------
+
+    (location, distance): tuple of af.Array
+                          location and distances of closest matches.
+
+    """
+    index = Array()
+    dist = Array()
+    safe_call(backend.get().af_nearest_neighbour(ct.pointer(idx.arr), ct.pointer(dist.arr),
+                                                 query.arr, database.arr,
+                                                 ct.c_longlong(dim), ct.c_longlong(num_nearest),
+                                                 match_type))
     return index, dist
 
 def match_template(image, template, match_type = MATCH.SAD):
@@ -150,4 +229,75 @@ def match_template(image, template, match_type = MATCH.SAD):
     """
     out = Array()
     safe_call(backend.get().af_match_template(ct.pointer(out.arr), image.arr, template.arr, match_type))
+    return out
+
+def susan(image, radius=3, diff_thr=32, geom_thr=10, feature_ratio=0.05, edge=3):
+    """
+    SUSAN corner detector.
+
+    Parameters
+    ----------
+    image         : af.Array
+                  A 2D array specifying an image.
+
+    radius        : scalar. optional. default: 500.
+                  Specifies the radius of each pixel neighborhood.
+
+    diff_thr      : scalar. optional. default: 1E5
+                  Specifies the intensity difference threshold.
+
+    geom_thr      : scalar. optional. default: 1.0
+                  Specifies the geometric threshold.
+
+    feature_ratio : scalar. optional. default: 0.05 (5%)
+                  Specifies the ratio of corners found to number of pixels.
+
+    edge         : scalar. optional. default: 3
+                  Specifies the number of edge rows and columns that are ignored.
+
+    Returns
+    ---------
+
+    features     : af.Features()
+                 Contains the location and score. Orientation and size are not computed.
+
+    """
+    out = Features()
+    safe_call(backend.get().af_susan(ct.pointer(out.feat),
+                                     image.arr, ct.c_uint(radius), ct.c_float(diff_thr),
+                                     ct.c_float(geom_thr), ct.c_float(feature_ratio),
+                                     ct.c_uint(edge)))
+    return out
+
+def dog(image, radius1, radius2):
+    """
+    Difference of gaussians.
+
+    Parameters
+    ----------
+    image    : af.Array
+             A 2D array specifying an image.
+
+    radius1  : scalar.
+             The radius of first gaussian kernel.
+
+    radius2  : scalar.
+             The radius of second gaussian kernel.
+
+
+    Returns
+    --------
+
+    out      : af.Array
+             A multi dimensional array containing the difference of gaussians.
+
+    Note
+    ------
+
+    The sigma values are calculated to be 0.25 * radius.
+    """
+
+    out = Array()
+    safe_call(backend.get().af_dog(ct.pointer(out.arr),
+                                   image.arr, radius1, radius2))
     return out
