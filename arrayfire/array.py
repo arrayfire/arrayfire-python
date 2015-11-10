@@ -182,7 +182,7 @@ def _get_assign_dims(key, idims):
     elif isinstance(key, ParallelRange):
         dims[0] = _slice_to_length(key.S, idims[0])
         return dims
-    elif isinstance(key, BaseArray):        
+    elif isinstance(key, BaseArray):
         # If the array is boolean take only the number of nonzeros
         if(key.dtype() is Dtype.b8):
             dims[0] = int(sum(key))
@@ -1039,7 +1039,7 @@ class Array(BaseArray):
         safe_call(backend.get().af_get_data_ptr(ct.c_void_p(res.ctypes.data), self.arr))
         return res
 
-def display(a):
+def display(a, precision=4):
     """
     Displays the contents of an array.
 
@@ -1047,16 +1047,20 @@ def display(a):
     ----------
     a : af.Array
         Multi dimensional arrayfire array
+    precision: int. optional.
+        Specifies the number of precision bits to display
     """
     expr = inspect.stack()[1][-2]
+    name = ""
 
     try:
         if (expr is not None):
             st = expr[0].find('(') + 1
             en = expr[0].rfind(')')
-            print('%s' % expr[0][st:en])
-        safe_call(backend.get().af_print_array(a.arr))
+            name = expr[0][st:en]
     except:
-        safe_call(backend.get().af_print_array(a.arr))
+        pass
+
+    safe_call(backend.get().af_print_array_gen(name, a.arr, ct.c_int(precision)))
 
 from .algorithm import sum
