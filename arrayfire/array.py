@@ -19,7 +19,6 @@ from .bcast import _bcast_var
 from .base import *
 from .index import *
 from .index import _Index4
-from .algorithm import sum
 
 def _create_array(buf, numdims, idims, dtype):
     out_arr = ct.c_void_p(0)
@@ -1059,3 +1058,5 @@ def display(a):
         safe_call(backend.get().af_print_array(a.arr))
     except:
         safe_call(backend.get().af_print_array(a.arr))
+
+from .algorithm import sum
