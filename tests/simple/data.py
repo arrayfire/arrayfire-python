@@ -76,4 +76,9 @@ def simple_data(verbose=False):
     af.transpose_inplace(a)
     display_func(a)
 
+    display_func(af.select(a > 0.3, a, -0.3))
+
+    af.replace(a, a > 0.3, -0.3)
+    display_func(a)
+
 _util.tests['data'] = simple_data
