@@ -698,6 +698,26 @@ def pow2(a):
     """
     return _arith_unary_func(a, backend.get().af_pow2)
 
+def sigmoid(a):
+    """
+    Raise 2 to the power of each element in input.
+
+    Parameters
+    ----------
+    a : af.Array
+        Multi dimensional arrayfire array.
+
+    Returns
+    --------
+    out : af.Array
+         array where each element is outout of a sigmoid function for the corresponding value from `a`.
+
+    Note
+    -------
+    `a` must not be complex.
+    """
+    return _arith_unary_func(a, backend.get().af_sigmoid)
+
 def exp(a):
     """
     Exponential of each element in the array.

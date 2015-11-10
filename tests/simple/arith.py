@@ -173,6 +173,7 @@ def simple_arith(verbose = False):
     display_func(af.root(a, b))
     display_func(af.pow(a, b))
     display_func(af.pow2(a))
+    display_func(af.sigmoid(a))
     display_func(af.exp(a))
     display_func(af.expm1(a))
     display_func(af.erf(a))
