@@ -115,3 +115,14 @@ to_c_type = {Dtype.f32.value : ct.c_float,
              Dtype.u64.value : ct.c_ulonglong,
              Dtype.c32.value : ct.c_float * 2,
              Dtype.c64.value : ct.c_double * 2}
+
+to_typename = {Dtype.f32.value : 'float',
+               Dtype.f64.value : 'double',
+               Dtype.b8.value : 'bool',
+               Dtype.u8.value : 'unsigned char',
+               Dtype.s32.value : 'int',
+               Dtype.u32.value : 'unsigned int',
+               Dtype.s64.value : 'long int',
+               Dtype.u64.value : 'unsigned long int',
+               Dtype.c32.value : 'float complex',
+               Dtype.c64.value : 'double complex'}
