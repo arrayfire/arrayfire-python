@@ -1070,4 +1070,69 @@ def display(a, precision=4):
     safe_call(backend.get().af_print_array_gen(name.encode('utf-8'),
                                                a.arr, ct.c_int(precision)))
 
+def save_array(key, a, filename, append=False):
+    """
+    Save an array to disk.
+
+    Parameters
+    ----------
+    key     : str
+            A name / key associated with the array
+
+    a       : af.Array
+            The array to be stored to disk
+
+    filename : str
+             Location of the data file.
+
+    append   : Boolean. optional. default: False.
+             If the file already exists, specifies if the data should be appended or overwritten.
+
+    Returns
+    ---------
+    index   : int
+            The index of the array stored in the file.
+    """
+    index = ct.c_int(-1)
+    safe_call(backend.get().af_save_array(ct.pointer(index),
+                                          key.encode('utf-8'),
+                                          a.arr,
+                                          filename.encode('utf-8'),
+                                          append))
+    return index.value
+
+def read_array(filename, index=None, key=None):
+    """
+    Read an array from disk.
+
+    Parameters
+    ----------
+
+    filename : str
+             Location of the data file.
+
+    index   : int. Optional. Default: None.
+            - The index of the array stored in the file.
+            - If None, key is used.
+
+    key     : str. Optional. Default: None.
+            - A name / key associated with the array
+            - If None, index is used.
+
+    Returns
+    ---------
+    """
+    assert((index is not None) or (key is not None))
+    out = Array()
+    if (index is not None):
+        safe_call(backend.get().af_read_array_index(ct.pointer(out.arr),
+                                                    filename.encode('utf-8'),
+                                                    index))
+    elif (key is not None):
+        safe_call(backend.get().af_read_array_key(ct.pointer(out.arr),
+                                                  filename.encode('utf-8'),
+                                                  key.encode('utf-8')))
+
+    return out
+
 from .algorithm import sum
