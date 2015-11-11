@@ -1067,6 +1067,7 @@ def display(a, precision=4):
     except:
         pass
 
-    safe_call(backend.get().af_print_array_gen(name, a.arr, ct.c_int(precision)))
+    safe_call(backend.get().af_print_array_gen(name.encode('utf-8'),
+                                               a.arr, ct.c_int(precision)))
 
 from .algorithm import sum
