@@ -16,6 +16,8 @@ from setuptools import setup, find_packages
 ## 2) Include test suite
 
 setup(
+    author="Pavan Yalamanchili",
+    author_email="pavan@arrayfire.com",
     name="arrayfire",
     version="3.1.20151111",
     description="Python bindings for ArrayFire",
