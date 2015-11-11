@@ -52,9 +52,11 @@ from .vision     import *
 from .graphics   import *
 from .bcast      import *
 from .index      import *
+from .interop    import *
 
 # do not export default modules as part of arrayfire
 del ct
 del inspect
 del numbers
 del os
+del np
