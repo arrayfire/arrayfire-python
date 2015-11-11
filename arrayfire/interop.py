@@ -54,6 +54,6 @@ try:
             else:
                 raise RuntimeError("Unsupported ndim")
         else:
-            return np_to_af_array(np.ascontiguousarray(np_arr))
+            return np_to_af_array(np.asfortranarray(np_arr))
 except:
     AF_NP_FOUND=False
