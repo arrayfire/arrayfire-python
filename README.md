@@ -1,6 +1,6 @@
 # ArrayFire Python Bindings
 
-[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Python bindings for the ArrayFire library. 
+[ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Python bindings for the ArrayFire library.
 
 ## Example
 
@@ -113,10 +113,6 @@ python setup.py install
 ```
 
 Please follow [these instructions](https://github.com/arrayfire/arrayfire-python/wiki) to ensure the arrayfire-python can find the arrayfire libraries.
-
-## Note
-
-This is a work in progress and is not intended for production use.
 
 ## Acknowledgements
 
