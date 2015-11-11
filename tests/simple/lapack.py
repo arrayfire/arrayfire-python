@@ -74,4 +74,11 @@ def simple_lapack(verbose=False):
     print_func(af.norm(a, af.NORM.MATRIX_INF))
     print_func(af.norm(a, af.NORM.MATRIX_L_PQ, 1, 1))
 
+    a = af.randu(10,10)
+    display_func(a)
+    u,s,vt = af.svd(a)
+    display_func(af.matmul(af.matmul(u, af.diag(s, 0, False)), vt))
+    u,s,vt = af.svd_inplace(a)
+    display_func(af.matmul(af.matmul(u, af.diag(s, 0, False)), vt))
+
 _util.tests['lapack'] = simple_lapack

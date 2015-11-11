@@ -8,7 +8,7 @@
 ########################################################
 
 """
-dense linear algebra functions for arrayfire.
+Dense Linear Algebra functions for arrayfire.
 """
 
 from .library import *
@@ -339,3 +339,72 @@ def norm(A, norm_type=NORM.EUCLID, p=1.0, q=1.0):
     safe_call(backend.get().af_norm(ct.pointer(res), A.arr, norm_type.value,
                                     ct.c_double(p), ct.c_double(q)))
     return res.value
+
+def svd(A):
+    """
+    Singular Value Decomposition
+
+    Parameters
+    ----------
+    A: af.Array
+       A 2 dimensional arrayfire array.
+
+    Returns
+    -------
+    (U,S,Vt): tuple of af.Arrays
+           - U - A unitary matrix
+           - S - An array containing the elements of diagonal matrix
+           - Vt - A unitary matrix
+
+    Note
+    ----
+
+    - The original matrix `A` is preserved and additional storage space is required for decomposition.
+
+    - If the original matrix `A` need not be preserved, use `svd_inplace` instead.
+
+    - The original matrix `A` can be reconstructed using the outputs in the following manner.
+    >>> Smat = af.diag(S, 0, False)
+    >>> A_recon = af.matmul(af.matmul(U, Smat), Vt)
+
+    """
+    U = Array()
+    S = Array()
+    Vt = Array()
+    safe_call(backend.get().af_svd(ct.pointer(U.arr), ct.pointer(S.arr), ct.pointer(Vt.arr), A.arr))
+    return U, S, Vt
+
+def svd_inplace(A):
+    """
+    Singular Value Decomposition
+
+    Parameters
+    ----------
+    A: af.Array
+       A 2 dimensional arrayfire array.
+
+    Returns
+    -------
+    (U,S,Vt): tuple of af.Arrays
+           - U - A unitary matrix
+           - S - An array containing the elements of diagonal matrix
+           - Vt - A unitary matrix
+
+    Note
+    ----
+
+    - The original matrix `A` is not preserved.
+
+    - If the original matrix `A` needs to be preserved, use `svd` instead.
+
+    - The original matrix `A` can be reconstructed using the outputs in the following manner.
+    >>> Smat = af.diag(S, 0, False)
+    >>> A_recon = af.matmul(af.matmul(U, Smat), Vt)
+
+    """
+    U = Array()
+    S = Array()
+    Vt = Array()
+    safe_call(backend.get().af_svd_inplace(ct.pointer(U.arr), ct.pointer(S.arr), ct.pointer(Vt.arr),
+                                           A.arr))
+    return U, S, Vt
