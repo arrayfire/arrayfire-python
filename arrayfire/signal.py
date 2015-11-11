@@ -301,9 +301,6 @@ def ifft2(signal, dim0 = None, dim1 = None , scale = None):
 
     dims = signal.dims()
 
-    if (len(dims) < 2):
-        return ifft(signal)
-
     if dim0 is None:
         dim0 = dims[0]
 
@@ -359,9 +356,6 @@ def ifft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
 
     dims = signal.dims()
 
-    if (len(dims) < 3):
-        return ifft2(signal)
-
     if dim0 is None:
         dim0 = dims[0]
 
@@ -378,6 +372,377 @@ def ifft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
     safe_call(backend.get().af_ifft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
                                      ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
     return output
+
+def fft_inplace(signal, scale = None):
+    """
+    In-place Fast Fourier Transform: 1D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 1 dimensional signal or a batch of 1 dimensional signals.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1.
+
+    """
+
+    if scale is None:
+        scale = 1.0
+
+    safe_call(backend.get().af_fft_inplace(signal.arr, ct.c_double(scale)))
+
+def fft2_inplace(signal, scale = None):
+    """
+    In-place Fast Fourier Transform: 2D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 2 dimensional signal or a batch of 2 dimensional signals.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1.
+
+    """
+
+    if scale is None:
+        scale = 1.0
+
+    safe_call(backend.get().af_fft2_inplace(signal.arr, ct.c_double(scale)))
+
+def fft3_inplace(signal, scale = None):
+    """
+    In-place Fast Fourier Transform: 3D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 3 dimensional signal or a batch of 3 dimensional signals.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1.
+    """
+
+    if scale is None:
+        scale = 1.0
+
+    output = Array()
+    safe_call(backend.get().af_fft3_inplace(signal.arr, ct.c_double(scale)))
+
+def ifft_inplace(signal, scale = None):
+    """
+    Inverse In-place Fast Fourier Transform: 1D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 1 dimensional signal or a batch of 1 dimensional signals.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1.0 / (signal.dims()[0])
+    """
+
+    if scale is None:
+        dim0 = signal.dims()[0]
+        scale = 1.0/float(dim0)
+
+    safe_call(backend.get().af_ifft_inplace(signal.arr, ct.c_double(scale)))
+
+def ifft2_inplace(signal, scale = None):
+    """
+    Inverse In-place Fast Fourier Transform: 2D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 2 dimensional signal or a batch of 2 dimensional signals.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1.0 / (signal.dims()[0] * signal.dims()[1])
+    """
+
+    dims = signal.dims()
+
+    if scale is None:
+        dim0 = dims[0]
+        dim1 = dims[1]
+        scale = 1.0/float(dim0 * dim1)
+
+    safe_call(backend.get().af_ifft2_inplace(signal.arr, ct.c_double(scale)))
+
+def ifft3_inplace(signal, scale = None):
+    """
+    Inverse In-place Fast Fourier Transform: 3D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 3 dimensional signal or a batch of 3 dimensional signals.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1.0 / (signal.dims()[0] * signal.dims()[1] * signal.dims()[2]).
+    """
+
+    dims = signal.dims()
+
+    if scale is None:
+        dim0 = dims[0]
+        dim1 = dims[1]
+        dim2 = dims[2]
+        scale = 1.0 / float(dim0 * dim1 * dim2)
+
+    safe_call(backend.get().af_ifft3_inplace(signal.arr, ct.c_double(scale)))
+
+def fft_r2c(signal, dim0 = None , scale = None):
+    """
+    Real to Complex Fast Fourier Transform: 1D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 1 dimensional signal or a batch of 1 dimensional signals.
+
+    dim0: optional: int. default: None.
+          - Specifies the size of the output.
+          - If None, dim0 is calculated to be the first dimension of `signal`.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1.
+
+    Returns
+    -------
+
+    output: af.Array
+            A complex af.Array containing the non-redundant parts of the full FFT.
+
+    """
+
+    if dim0 is None:
+        dim0 = 0
+
+    if scale is None:
+        scale = 1.0
+
+    output = Array()
+    safe_call(backend.get().af_fft_r2c(ct.pointer(output.arr), signal.arr, ct.c_double(scale), ct.c_longlong(dim0)))
+    return output
+
+def fft2_r2c(signal, dim0 = None, dim1 = None , scale = None):
+    """
+    Real to Complex Fast Fourier Transform: 2D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 2 dimensional signal or a batch of 2 dimensional signals.
+
+    dim0: optional: int. default: None.
+          - Specifies the size of the output.
+          - If None, dim0 is calculated to be the first dimension of `signal`.
+
+    dim1: optional: int. default: None.
+          - Specifies the size of the output.
+          - If None, dim1 is calculated to be the second dimension of `signal`.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1.
+
+    Returns
+    -------
+
+    output: af.Array
+            A complex af.Array containing the non-redundant parts of the full FFT.
+
+    """
+    if dim0 is None:
+        dim0 = 0
+
+    if dim1 is None:
+        dim1 = 0
+
+    if scale is None:
+        scale = 1.0
+
+    output = Array()
+    safe_call(backend.get().af_fft2_r2c(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+                                        ct.c_longlong(dim0), ct.c_longlong(dim1)))
+    return output
+
+def fft3_r2c(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
+    """
+    Real to Complex Fast Fourier Transform: 3D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 3 dimensional signal or a batch of 3 dimensional signals.
+
+    dim0: optional: int. default: None.
+          - Specifies the size of the output.
+          - If None, dim0 is calculated to be the first dimension of `signal`.
+
+    dim1: optional: int. default: None.
+          - Specifies the size of the output.
+          - If None, dim1 is calculated to be the second dimension of `signal`.
+
+    dim2: optional: int. default: None.
+          - Specifies the size of the output.
+          - If None, dim2 is calculated to be the third dimension of `signal`.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1.
+
+    Returns
+    -------
+
+    output: af.Array
+            A complex af.Array containing the non-redundant parts of the full FFT.
+
+    """
+    if dim0 is None:
+        dim0 = 0
+
+    if dim1 is None:
+        dim1 = 0
+
+    if dim2 is None:
+        dim2 = 0
+
+    if scale is None:
+        scale = 1.0
+
+    output = Array()
+    safe_call(backend.get().af_fft3_r2c(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+                                        ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
+    return output
+
+def _get_c2r_dim(dim, is_odd):
+    return 2 *(dim - 1) + int(is_odd)
+
+def fft_c2r(signal, is_odd = False, scale = None):
+    """
+    Real to Complex Fast Fourier Transform: 1D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 1 dimensional signal or a batch of 1 dimensional signals.
+
+    is_odd: optional: Boolean. default: False.
+          - Specifies if the first dimension of output should be even or odd.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1 / (signal.dims()[0]).
+
+    Returns
+    -------
+
+    output: af.Array
+            A real af.Array containing the full output of the fft.
+
+    """
+
+
+    if scale is None:
+        dim0 = _get_c2r_dim(signal.dims()[0], is_odd)
+        scale = 1.0/float(dim0)
+
+    output = Array()
+    safe_call(backend.get().af_fft_c2r(ct.pointer(output.arr), signal.arr, ct.c_double(scale), is_odd))
+    return output
+
+def fft2_c2r(signal, is_odd = False, scale = None):
+    """
+    Real to Complex Fast Fourier Transform: 2D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 2 dimensional signal or a batch of 2 dimensional signals.
+
+    is_odd: optional: Boolean. default: False.
+          - Specifies if the first dimension of output should be even or odd.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1 / (signal.dims()[0] * signal.dims()[1]).
+
+    Returns
+    -------
+
+    output: af.Array
+            A real af.Array containing the full output of the fft.
+
+    """
+    dims = signal.dims()
+
+    if scale is None:
+        dim0 = _get_c2r_dim(dims[0], is_odd)
+        dim1 = dims[1]
+        scale = 1.0/float(dim0 * dim1)
+
+    output = Array()
+    safe_call(backend.get().af_fft2_c2r(ct.pointer(output.arr), signal.arr, ct.c_double(scale), is_odd))
+    return output
+
+def fft3_c2r(signal, is_odd = False, scale = None):
+    """
+    Real to Complex Fast Fourier Transform: 3D
+
+    Parameters
+    ----------
+
+    signal: af.Array
+           A 3 dimensional signal or a batch of 3 dimensional signals.
+
+    is_odd: optional: Boolean. default: False.
+          - Specifies if the first dimension of output should be even or odd.
+
+    scale: optional: scalar. default: None.
+          - Specifies the scaling factor.
+          - If None, scale is set to 1 / (signal.dims()[0] * signal.dims()[1] * signal.dims()[2]).
+
+    Returns
+    -------
+
+    output: af.Array
+            A real af.Array containing the full output of the fft.
+
+    """
+    dims = signal.dims()
+
+    if scale is None:
+        dim0 = _get_c2r_dim(dims[0], is_odd)
+        dim1 = dims[1]
+        dim2 = dims[2]
+        scale = 1.0/float(dim0 * dim1 * dim2)
+
+    output = Array()
+    safe_call(backend.get().af_fft3_c2r(ct.pointer(output.arr), signal.arr, ct.c_double(scale), is_odd))
+    return output
+
 
 def dft(signal, odims=(None, None, None, None), scale = None):
 

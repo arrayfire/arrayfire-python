@@ -33,6 +33,17 @@ def simple_signal(verbose=False):
     display_func(af.real(af.ifft(af.fft(a))))
     display_func(af.real(af.idft(af.dft(a))))
 
+    b = af.fft(a)
+    af.ifft_inplace(b)
+    display_func(b)
+    af.fft_inplace(b)
+    display_func(b)
+
+    b = af.fft_r2c(a)
+    c = af.fft_c2r(b)
+    display_func(b)
+    display_func(c)
+
     a = af.randu(4, 4)
     display_func(a)
 
@@ -41,6 +52,17 @@ def simple_signal(verbose=False):
     display_func(af.real(af.ifft2(af.fft2(a))))
     display_func(af.real(af.idft(af.dft(a))))
 
+    b = af.fft2(a)
+    af.ifft2_inplace(b)
+    display_func(b)
+    af.fft2_inplace(b)
+    display_func(b)
+
+    b = af.fft2_r2c(a)
+    c = af.fft2_c2r(b)
+    display_func(b)
+    display_func(c)
+
     a = af.randu(4, 4, 2)
     display_func(a)
 
@@ -48,6 +70,17 @@ def simple_signal(verbose=False):
     display_func(af.dft(a))
     display_func(af.real(af.ifft3(af.fft3(a))))
     display_func(af.real(af.idft(af.dft(a))))
+
+    b = af.fft3(a)
+    af.ifft3_inplace(b)
+    display_func(b)
+    af.fft3_inplace(b)
+    display_func(b)
+
+    b = af.fft3_r2c(a)
+    c = af.fft3_c2r(b)
+    display_func(b)
+    display_func(c)
 
     a = af.randu(10, 1)
     b = af.randu(3, 1)
