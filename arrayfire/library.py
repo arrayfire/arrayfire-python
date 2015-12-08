@@ -114,6 +114,11 @@ class ERR(_Enum):
     NO_DBL         = _Enum_Type(401)
     NO_GFX         = _Enum_Type(402)
 
+    # 500-599 Errors specific to the heterogeneous API
+    LOAD_LIB       = _Enum_Type(501)
+    LOAD_SYM       = _Enum_Type(502)
+    ARR_BKND_MISMATCH = _Enum_Type(503)
+
     # 900-999 Errors from upstream libraries and runtimes
     INTERNAL       = _Enum_Type(998)
     UNKNOWN        = _Enum_Type(999)
@@ -132,6 +137,8 @@ class Dtype(_Enum):
     u8  = _Enum_Type(7)
     s64 = _Enum_Type(8)
     u64 = _Enum_Type(9)
+    s16 = _Enum_Type(10)
+    u16 = _Enum_Type(11)
 
 class Source(_Enum):
     """
@@ -350,3 +357,19 @@ class IMAGE_FORMAT(_Enum):
     EXR      = _Enum_Type(29)
     JP2      = _Enum_Type(31)
     RAW      = _Enum_Type(34)
+
+class HOMOGRAPHY(_Enum):
+    """
+    Homography Types
+    """
+    RANSAC   = _Enum_Type(0)
+    LMEDS    = _Enum_Type(1)
+
+class BACKEND(_Enum):
+    """
+    Backend libraries
+    """
+    DEFAULT = _Enum_Type(0)
+    CPU     = _Enum_Type(1)
+    CUDA    = _Enum_Type(2)
+    OPENCL  = _Enum_Type(4)
