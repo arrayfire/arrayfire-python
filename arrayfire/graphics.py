@@ -109,6 +109,20 @@ class Window(object):
         """
         self._cmap = cmap
 
+    def set_size(self, w, h):
+        """
+        Set the windo height and width.
+
+        Parameters
+        -----------
+        w  : int
+           Width if window.
+
+        h  : int
+           Height of window.
+        """
+        safe_call(backend.get().af_set_size(self._wnd, w, h))
+
     def image(self, img, title=None):
         """
         Display an arrayfire array as an image.
@@ -144,6 +158,46 @@ class Window(object):
         """
         _cell = _Cell(self._r, self._c, title, self._cmap)
         safe_call(backend.get().af_draw_plot(self._wnd, X.arr, Y.arr, ct.pointer(_cell)))
+
+    def plot3(self, line, title=None):
+        """
+        Renders the input array as a 3D line plot.
+
+        Paramters
+        ---------
+
+        data: af.Array.
+             A 2 dimensional array containing (X,Y,Z) co-ordinates.
+
+        title: str.
+             Title used for the plot.
+        """
+        _cell = _Cell(self._r, self._c, title, self._cmap)
+        safe_call(backend.get().af_draw_plot3(self._wnd, data.arr, ct.pointer(_cell)))
+
+    def surface(self, z_vals, x_vals, y_vals, title=None):
+        """
+        Renders the input array as a 3D surface plot.
+
+        Paramters
+        ---------
+
+        z_vals: af.Array.
+             A 1 dimensional array containing Z co-ordinates.
+
+        x_vals: af.Array.
+             A 1 dimensional array containing X co-ordinates.
+
+        y_vals: af.Array.
+             A 1 dimensional array containing Y co-ordinates.
+
+        title: str.
+             Title used for the plot.
+        """
+        _cell = _Cell(self._r, self._c, title, self._cmap)
+        safe_call(backend.get().af_draw_surface(self._wnd,
+                                                z_vals.arr, x_vals.arr, y_vals.arr,
+                                                ct.pointer(_cell)))
 
     def hist(self, X, min_val, max_val, title=None):
         """
