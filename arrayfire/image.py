@@ -78,6 +78,44 @@ def save_image(image, file_name):
     safe_call(backend.get().af_save_image(ct.c_char_p(file_name.encode('ascii')), image.arr))
     return image
 
+
+def load_image_native(file_name):
+    """
+    Load an image on the disk as an array in native format.
+
+    Parameters
+    ----------
+    file_name: str
+          - Full path of the file name on disk.
+
+    Returns
+    -------
+    image - af.Array
+            A 2 dimensional (1 channel) or 3 dimensional (3 or 4 channel) array containing the image.
+
+    """
+    assert(os.path.isfile(file_name))
+    image = Array()
+    safe_call(backend.get().af_load_image_native(ct.pointer(image.arr),
+                                                 ct.c_char_p(file_name.encode('ascii'))))
+    return image
+
+def save_image_native(image, file_name):
+    """
+    Save an array as an image on the disk in native format.
+
+    Parameters
+    ----------
+    image : af.Array
+          - A 2 or 3 dimensional arrayfire array representing an image.
+
+    file_name: str
+          - Full path of the file name on the disk.
+    """
+    assert(isinstance(file_name, str))
+    safe_call(backend.get().af_save_image_native(ct.c_char_p(file_name.encode('ascii')), image.arr))
+    return image
+
 def resize(image, scale=None, odim0=None, odim1=None, method=INTERP.NEAREST):
     """
     Resize an image.
