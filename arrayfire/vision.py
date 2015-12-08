@@ -126,6 +126,7 @@ def orb(image, threshold=20.0, max_features=400, scale = 1.5, num_levels = 4, bl
     Returns
     ---------
     (features, descriptor)     : tuple of (af.Features(), af.Array)
+                               - descriptor is an af.Array of size N x 8
 
     """
     feat = Features()
@@ -303,3 +304,137 @@ def dog(image, radius1, radius2):
     safe_call(backend.get().af_dog(ct.pointer(out.arr),
                                    image.arr, radius1, radius2))
     return out
+
+def sift(image, num_layers=3, contrast_threshold=0.04, edge_threshold=10.0, initial_sigma = 1.6,
+         double_input = True, intensity_scale = 0.00390625, feature_ratio = 0.05):
+    """
+    SIFT feature detector and descriptor.
+
+    Parameters
+    ----------
+    image              : af.Array
+                       A 2D array representing an image
+
+    num_layers         : optional: integer. Default: 3
+                       Number of layers per octave. The number of octaves is calculated internally.
+
+    contrast_threshold : optional: float. Default: 0.04
+                       Threshold used to filter out features that have low contrast.
+
+    edge_threshold     : optional: float. Default: 10.0
+                       Threshold used to filter out features that are too edge-like.
+
+    initial_sigma      : optional: float. Default: 1.6
+                       The sigma value used to filter the input image at the first octave.
+
+    double_input       : optional: bool. Default: True
+                       If True, the input image will be scaled to double the size for the first octave.
+
+    intensity_scale    : optional: float. Default: 1.0/255
+                       The inverse of the difference between maximum and minimum intensity values.
+
+    feature_ratio      : optional: float. Default: 0.05
+                       Specifies the maximum number of features to detect as a ratio of image pixels.
+
+    Returns
+    --------
+    (features, descriptor)     : tuple of (af.Features(), af.Array)
+                               - descriptor is an af.Array of size N x 128
+
+    """
+
+    feat = Features()
+    desc = Array()
+    safe_call(af_sift(ct.pointer(feat), ct.pointer(desc),
+                      image.arr, num_layers, contrast_threshold, edge_threshold,
+                      initial_sigma, double_input, intensity_scale, feature_ratio))
+
+    return (feat, desc)
+
+def gloh(image, num_layers=3, contrast_threshold=0.04, edge_threshold=10.0, initial_sigma = 1.6,
+         double_input = True, intensity_scale = 0.00390625, feature_ratio = 0.05):
+    """
+    GLOH feature detector and descriptor.
+
+    Parameters
+    ----------
+    image              : af.Array
+                       A 2D array representing an image
+
+    num_layers         : optional: integer. Default: 3
+                       Number of layers per octave. The number of octaves is calculated internally.
+
+    contrast_threshold : optional: float. Default: 0.04
+                       Threshold used to filter out features that have low contrast.
+
+    edge_threshold     : optional: float. Default: 10.0
+                       Threshold used to filter out features that are too edge-like.
+
+    initial_sigma      : optional: float. Default: 1.6
+                       The sigma value used to filter the input image at the first octave.
+
+    double_input       : optional: bool. Default: True
+                       If True, the input image will be scaled to double the size for the first octave.
+
+    intensity_scale    : optional: float. Default: 1.0/255
+                       The inverse of the difference between maximum and minimum intensity values.
+
+    feature_ratio      : optional: float. Default: 0.05
+                       Specifies the maximum number of features to detect as a ratio of image pixels.
+
+    Returns
+    --------
+    (features, descriptor)     : tuple of (af.Features(), af.Array)
+                               - descriptor is an af.Array of size N x 272
+
+    """
+
+    feat = Features()
+    desc = Array()
+    safe_call(af_gloh(ct.pointer(feat), ct.pointer(desc),
+                      image.arr, num_layers, contrast_threshold, edge_threshold,
+                      initial_sigma, double_input, intensity_scale, feature_ratio))
+
+    return (feat, desc)
+
+def homography(x_src, y_src, x_dst, y_dst, htype = HOMOGRAPHY.RANSAC,
+               ransac_threshold = 3.0, iters = 1000, out_type = Dtype.f32):
+    """
+    Homography estimation
+
+    Parameters
+    ----------
+    x_src            :  af.Array
+                     A list of x co-ordinates of the source points.
+
+    y_src            :  af.Array
+                     A list of y co-ordinates of the source points.
+
+    x_dst            :  af.Array
+                     A list of x co-ordinates of the destination points.
+
+    y_dst            :  af.Array
+                     A list of y co-ordinates of the destination points.
+
+    htype            : optional: af.HOMOGRAPHY. Default: HOMOGRAPHY.RANSAC
+                     htype can be one of
+                         - HOMOGRAPHY.RANSAC: RANdom SAmple Consensus will be used to evaluate quality.
+                         - HOMOGRAPHY.LMEDS : Least MEDian of Squares is used to evaluate quality.
+
+    ransac_threshold : optional: scalar. Default: 3.0
+                     If `htype` is HOMOGRAPHY.RANSAC, it specifies the L2-distance threshold for inliers.
+
+    out_type         : optional. af.Dtype. Default: Dtype.f32.
+                     Specifies the output data type.
+
+    Returns
+    -------
+    (H, inliers)     : A tuple of (af.Array, integer)
+    """
+
+    H = Array()
+    inliers = ct.c_int(0)
+    safe_call(backend.get().af_homography(ct.pointer(H), ct.pointer(inliers),
+                                          x_src.arr, y_src.arr, x_dst.arr, y_dst.arr,
+                                          htype.value, ransac_threshold, iters, out_type.value))
+    return (H, inliers)
