@@ -423,6 +423,15 @@ class Array(BaseArray):
                 idims[n] = dims[n]
             self.arr = _create_empty_array(numdims, idims, to_dtype[type_char])
 
+    def as_type(self, ty):
+        """
+        Cast current array to a specified data type
+
+        Parameters
+        ----------
+        ty : Return data type
+        """
+        return cast(self, ty)
 
     def copy(self):
         """
@@ -1134,3 +1143,4 @@ def read_array(filename, index=None, key=None):
     return out
 
 from .algorithm import sum
+from .arith import cast

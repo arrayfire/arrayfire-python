@@ -18,6 +18,10 @@ def simple_array(verbose=False):
 
     a = af.Array([1, 2, 3])
     display_func(a)
+
+    b = a.as_type(af.Dtype.s32)
+    display_func(b)
+
     print_func(a.elements(), a.type(), a.dims(), a.numdims())
     print_func(a.is_empty(), a.is_scalar(), a.is_column(), a.is_row())
     print_func(a.is_complex(), a.is_real(), a.is_double(), a.is_single())
