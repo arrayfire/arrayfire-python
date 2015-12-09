@@ -175,15 +175,12 @@ class Window(object):
         _cell = _Cell(self._r, self._c, title, self._cmap)
         safe_call(backend.get().af_draw_plot3(self._wnd, line.arr, ct.pointer(_cell)))
 
-    def surface(self, z_vals, x_vals, y_vals, title=None):
+    def surface(self, x_vals, y_vals, z_vals, title=None):
         """
         Renders the input array as a 3D surface plot.
 
         Paramters
         ---------
-
-        z_vals: af.Array.
-             A 1 dimensional array containing Z co-ordinates.
 
         x_vals: af.Array.
              A 1 dimensional array containing X co-ordinates.
@@ -191,12 +188,15 @@ class Window(object):
         y_vals: af.Array.
              A 1 dimensional array containing Y co-ordinates.
 
+        z_vals: af.Array.
+             A 1 dimensional array containing Z co-ordinates.
+
         title: str.
              Title used for the plot.
         """
         _cell = _Cell(self._r, self._c, title, self._cmap)
         safe_call(backend.get().af_draw_surface(self._wnd,
-                                                z_vals.arr, x_vals.arr, y_vals.arr,
+                                                x_vals.arr, y_vals.arr, z_vals.arr,
                                                 ct.pointer(_cell)))
 
     def hist(self, X, min_val, max_val, title=None):
