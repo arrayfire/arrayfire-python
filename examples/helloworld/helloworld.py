@@ -18,7 +18,7 @@ af.info()
 a = af.randu(5, 1)
 
 # Print a and its minimum value
-af.display(a)
+print(a)
 
 # Print min and max values of a
 print("Minimum, Maximum: ", af.min(a), af.max(a))
