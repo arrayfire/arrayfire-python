@@ -369,8 +369,6 @@ class Array(BaseArray):
 
         _type_char='f'
 
-        backend.lock()
-
         if src is not None:
 
             if (isinstance(src, Array)):
