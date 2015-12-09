@@ -105,6 +105,16 @@ def sync(device=None):
     dev = device if device is not None else get_device()
     safe_call(backend.get().af_sync(dev))
 
+def eval(A):
+    """
+    Evaluate the input
+
+    Parameters
+    -----------
+    A : af.Array
+    """
+    safe_call(backend.get().af_eval(A.arr))
+
 def device_mem_info():
     """
     Returns a map with the following fields:
