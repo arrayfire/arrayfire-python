@@ -105,15 +105,25 @@ def sync(device=None):
     dev = device if device is not None else get_device()
     safe_call(backend.get().af_sync(dev))
 
-def eval(A):
+def __eval(*args):
+    for A in args:
+        if isinstance(A, tuple):
+            __eval(*A)
+        if isinstance(A, list):
+            __eval(*A)
+        if isinstance(A, Array):
+            safe_call(backend.get().af_eval(A.arr))
+
+def eval(*args):
     """
     Evaluate the input
 
     Parameters
     -----------
-    A : af.Array
+    args : arguments to be evaluated
     """
-    safe_call(backend.get().af_eval(A.arr))
+
+    __eval(args)
 
 def device_mem_info():
     """
@@ -200,3 +210,5 @@ def unlock_device_ptr(a):
     """
     ptr = ct.c_void_p(0)
     safe_call(backend.get().af_unlock_device_ptr(a.arr))
+
+from .array import Array
