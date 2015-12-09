@@ -10,7 +10,6 @@
 ########################################################
 
 import arrayfire as af
-import math
 
 af.info()
 
