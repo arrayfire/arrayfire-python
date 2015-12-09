@@ -13,6 +13,7 @@ from random import random
 from time import time
 from arrayfire import (array, randu)
 import arrayfire as af
+import sys
 
 #alias range / xrange because xrange is faster than range in python2
 try:
@@ -47,5 +48,9 @@ def bench(calc_pi, samples=1000000, iters=25):
     print("Average time taken: %f ms" % (1000 * (end - start) / iters))
 
 if __name__ == "__main__":
+    if (len(sys.argv) > 1):
+        af.set_device(int(sys.argv[1]))
+    af.info()
+
     bench(calc_pi_device)
     bench(calc_pi_host)
