@@ -166,14 +166,14 @@ class Window(object):
         Paramters
         ---------
 
-        data: af.Array.
+        line: af.Array.
              A 2 dimensional array containing (X,Y,Z) co-ordinates.
 
         title: str.
              Title used for the plot.
         """
         _cell = _Cell(self._r, self._c, title, self._cmap)
-        safe_call(backend.get().af_draw_plot3(self._wnd, data.arr, ct.pointer(_cell)))
+        safe_call(backend.get().af_draw_plot3(self._wnd, line.arr, ct.pointer(_cell)))
 
     def surface(self, z_vals, x_vals, y_vals, title=None):
         """
