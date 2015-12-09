@@ -13,8 +13,9 @@ Functions to time arrayfire functions
 from .library import *
 from .device import (sync, eval)
 from time import time
+import math
 
-def timeit(af_func, *args, min_iters = 10):
+def timeit(af_func, *args):
     """
     Function to time arrayfire functions.
 
@@ -25,27 +26,32 @@ def timeit(af_func, *args, min_iters = 10):
 
     *args      : arguments to `af_func`
 
-    min_iters  : Minimum number of iterations to be run for `af_func`
-
     Returns
     --------
 
     t   : Time in seconds
     """
 
-    res = af_func(*args)
-    eval(res)
-    sync()
+    sample_trials = 3
+
+    sample_time = 1E20
+
+    for i in range(sample_trials):
+        start = time()
+        res = af_func(*args)
+        eval(res)
+        sync()
+        sample_time = min(sample_time, time() - start)
+
+    if (sample_time >= 0.5):
+        return sample_time
+
+    num_iters = max(math.ceil(1.0 / sample_time), 3.0)
 
     start = time()
-    elapsed = 0
-    num_iters = 0
-    while elapsed < 1:
-        for n in range(min_iters):
-            res = af_func(*args)
-            eval(res)
-        sync()
-        elapsed += time() - start
-        num_iters += min_iters
-
-    return elapsed / num_iters
+    for i in range(int(num_iters)):
+        res = af_func(*args)
+        eval(res)
+    sync()
+    sample_time = (time() - start) / num_iters
+    return sample_time
