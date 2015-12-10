@@ -81,8 +81,6 @@ def get_version():
     safe_call(backend.get().af_get_version(ct.pointer(major), ct.pointer(minor), ct.pointer(patch)))
     return major,minor,patch
 
-typecodes = ['f', 'F', 'd', 'D', 'b', 'B', 'i', 'I', 'l', 'L']
-
 to_dtype = {'f' : Dtype.f32,
             'd' : Dtype.f64,
             'b' : Dtype.b8,

@@ -485,7 +485,7 @@ class Array(BaseArray):
         """
         dty = ct.c_int(Dtype.f32.value)
         safe_call(backend.get().af_get_type(ct.pointer(dty), self.arr))
-        return to_dtype[typecodes[dty.value]]
+        return to_dtype[to_typecode[dty.value]]
 
     def type(self):
         """
