@@ -1040,7 +1040,7 @@ class Array(BaseArray):
         arr_str = ct.c_char_p(0)
         safe_call(backend.get().af_array_to_string(ct.pointer(arr_str), "", self.arr, 4, True))
 
-        return 'Type: arrayfire.Array()\nType: %s\n' % \
+        return 'arrayfire.Array()\nType: %s' % \
             (to_typename[self.type()]) + to_str(arr_str)
 
     def __array__(self):
