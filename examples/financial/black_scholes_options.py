@@ -58,7 +58,7 @@ if __name__ == "__main__":
     af.eval(P)
     af.sync()
 
-    num_iter = 5
+    num_iter = 100
     for N in range(50, 501, 50):
         S = af.randu(M, N)
         X = af.randu(M, N)
