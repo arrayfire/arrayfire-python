@@ -923,6 +923,37 @@ def convolve2(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_
                                          conv_mode.value, conv_domain.value))
     return output
 
+def convolve2_separable(col_kernel, row_kernel, signal, conv_mode = CONV_MODE.DEFAULT):
+    """
+    Convolution: 2D separable convolution
+
+    Parameters
+    -----------
+
+    col_kernel: af.Array
+            - A column vector to be applied along each column of `signal`
+
+    row_kernel: af.Array
+            - A row vector to be applied along each row of `signal`
+
+    signal: af.Array
+            - A 2 dimensional signal or batch of 2 dimensional signals.
+
+    conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.
+            - Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or
+              maintains the same size as input (af.CONV_MODE.DEFAULT).
+    Returns
+    --------
+
+    output: af.Array
+          - Output of 2D sepearable convolution.
+    """
+    output = Array()
+    safe_call(backend.get().af_convolve2_sep(ct.pointer(output.arr),
+                                             col_kernel.arr, row_kernel.arr,signal.arr,
+                                             conv_mode.value))
+    return output
+
 def convolve3(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_DOMAIN.AUTO):
     """
     Convolution: 3D
