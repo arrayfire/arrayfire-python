@@ -31,7 +31,7 @@ def mandelbrot(data, it, maxval):
         Z = Z * Z + C
 
         # Get indices where abs(Z) crosses maxval
-        cond = af.cast((af.abs(Z) > maxval), af.Dtype.f32)
+        cond = ((af.abs(Z) > maxval)).as_type(af.Dtype.f32)
         mag = af.maxof(mag, cond * ii)
 
         C = C * (1 - cond)

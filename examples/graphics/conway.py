@@ -38,7 +38,7 @@ frame_count = 0
 kernel = af.Array(h_kernel, dims=(3,3))
 
 # Generate the initial state with 0s and 1s
-state = af.cast(af.randu(game_h, game_w) > 0.4, af.Dtype.f32)
+state = (af.randu(game_h, game_w) > 0.4).as_type(af.Dtype.f32)
 
 # tile 3 times to display color
 display  = af.tile(state, 1, 1, 3, 1)
@@ -50,7 +50,7 @@ while (not simple_win.close()) and (not pretty_win.close()):
 
     frame_count += 1
     if (frame_count % reset == 0):
-        state = af.cast(af.randu(game_h, game_w) > 0.4, af.Dtype.f32)
+        state = (af.randu(game_h, game_w) > 0.4).as_type(af.Dtype.f32)
 
     neighborhood = af.convolve(state, kernel)
 
@@ -66,7 +66,7 @@ while (not simple_win.close()) and (not pretty_win.close()):
     A2 = (state == 0) & C1
     A3 = (state == 1) & (neighborhood > 3)
 
-    display = af.cast(af.join(2, A0 + A1, A1 + A2, A3), af.Dtype.f32)
+    display = (af.join(2, A0 + A1, A1 + A2, A3).as_type(af.Dtype.f32)
 
     state = state * C0 + C1
 
