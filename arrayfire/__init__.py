@@ -60,4 +60,6 @@ del ct
 del inspect
 del numbers
 del os
-del np
+
+if (AF_NUMPY_FOUND):
+    del np

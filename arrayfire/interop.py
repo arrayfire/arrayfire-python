@@ -16,11 +16,12 @@ This module provides interoperability with the following python packages.
 """
 
 from .array import *
-from .data import reorder
 
 try:
     import numpy as np
-    AF_NP_FOUND=True
+    from .data import reorder
+
+    AF_NUMPY_FOUND=True
 
     def np_to_af_array(np_arr):
         """
@@ -32,7 +33,7 @@ try:
 
         Returns
         ---------
-        af_arry  : arrayfire.Array()
+        af_arr  : arrayfire.Array()
         """
         if (np_arr.flags['F_CONTIGUOUS']):
             return Array(np_arr.ctypes.data, np_arr.shape, np_arr.dtype.char)
@@ -55,5 +56,7 @@ try:
                 raise RuntimeError("Unsupported ndim")
         else:
             return np_to_af_array(np.asfortranarray(np_arr))
+
+    from_ndarray = np_to_af_array
 except:
-    AF_NP_FOUND=False
+    AF_NUMPY_FOUND=False
