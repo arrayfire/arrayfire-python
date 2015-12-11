@@ -13,6 +13,14 @@ Functions to handle the available devices in the backend.
 from .library import *
 from .util import (safe_call, to_str)
 
+def init():
+    """
+    Note
+    -----
+    This function may need to be called when interoperating with other libraries
+    """
+    safe_call(backend.get().af_init())
+
 def info():
     """
     Displays the information about the following:
