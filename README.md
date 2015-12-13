@@ -112,6 +112,8 @@ cd path/to/arrayfire-python
 python setup.py install
 ```
 
+**Post Installation**
+
 Please follow [these instructions](https://github.com/arrayfire/arrayfire-python/wiki) to ensure the arrayfire-python can find the arrayfire libraries.
 
 ## Acknowledgements
