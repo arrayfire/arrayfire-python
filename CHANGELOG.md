@@ -1,3 +1,16 @@
+### v3.2.20151214
+- Bug fixes:
+    - `get_version()` now returns ints instead of `c_int`
+    - Fixed bug in `tests/simple/device.py`
+
+- The module now looks at additional paths when loading ArrayFire libraries.
+    - Link to the wiki is provided when `ctypes.cdll.LoadLibrary` fails.
+
+- New function:
+    - `info_str()` returns information similar to `info()` as a string.
+
+- Updated README.md with latest instructions
+
 ### v3.2.20151211
 - Feature parity with ArrayFire 3.2 libs
     - New computer vision functions: `sift`, `gloh`, `homography`

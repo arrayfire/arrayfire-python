@@ -102,7 +102,7 @@ pip install arrayfire
 **Install the development version:**
 
 ```
-pip install git+git://github.com/arrayfire/arrayfire.git@master
+pip install git+git://github.com/arrayfire/arrayfire.git@devel
 ```
 
 **Installing offline**
@@ -111,6 +111,8 @@ pip install git+git://github.com/arrayfire/arrayfire.git@master
 cd path/to/arrayfire-python
 python setup.py install
 ```
+
+**Post Installation**
 
 Please follow [these instructions](https://github.com/arrayfire/arrayfire-python/wiki) to ensure the arrayfire-python can find the arrayfire libraries.
 
