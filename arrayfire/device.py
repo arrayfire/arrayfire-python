@@ -11,7 +11,7 @@ Functions to handle the available devices in the backend.
 """
 
 from .library import *
-from .util import (safe_call, to_str)
+from .util import (safe_call, to_str, get_version)
 
 def init():
     """
@@ -81,6 +81,55 @@ def set_device(num):
          id of the desired device.
     """
     safe_call(backend.get().af_set_device(num))
+
+def info_str(verbose = False):
+    """
+    Returns information about the following as a string:
+        - ArrayFire version number.
+        - The number of devices available.
+        - The names of the devices.
+        - The current device being used.
+    """
+    import platform
+    res_str = 'ArrayFire'
+
+    major, minor, patch = get_version()
+    dev_info = device_info()
+    backend_str = dev_info['backend']
+
+    res_str += ' v' + str(major) + '.' + str(minor) + '.' + str(patch)
+    res_str += ' (' + backend_str + ' ' + platform.architecture()[0] + ')\n'
+
+    num_devices = get_device_count()
+    curr_device_id = get_device()
+
+    for n in range(num_devices):
+        # To suppress warnings on CPU
+        if (n != curr_device_id):
+            set_device(n)
+
+        if (n == curr_device_id):
+            res_str += '[%d] ' % n
+        else:
+            res_str += '-%d- ' % n
+
+        dev_info = device_info()
+
+        if (backend_str.lower() == 'opencl'):
+            res_str += dev_info['toolkit']
+
+        res_str += ': ' + dev_info['device']
+
+        if (backend_str.lower() != 'cpu'):
+            res_str += ' (Compute ' + dev_info['compute'] + ')'
+
+        res_str += '\n'
+
+    # To suppress warnings on CPU
+    if (curr_device_id != get_device()):
+        set_device(curr_device_id)
+
+    return res_str
 
 def is_dbl_supported(device=None):
     """
