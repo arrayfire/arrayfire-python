@@ -79,7 +79,7 @@ def get_version():
     minor=ct.c_int(0)
     patch=ct.c_int(0)
     safe_call(backend.get().af_get_version(ct.pointer(major), ct.pointer(minor), ct.pointer(patch)))
-    return major,minor,patch
+    return major.value,minor.value,patch.value
 
 to_dtype = {'f' : Dtype.f32,
             'd' : Dtype.f64,

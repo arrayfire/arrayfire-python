@@ -315,31 +315,85 @@ class BACKEND(_Enum):
     CUDA    = _Enum_Type(2)
     OPENCL  = _Enum_Type(4)
 
+def _setup():
+    import platform
+    import os
+
+    platform_name = platform.system()
+
+    try:
+        AF_SEARCH_PATH = os.environ['AF_PATH']
+    except:
+        AF_SEARCH_PATH = None
+        pass
+
+    try:
+        CUDA_PATH = os.environ['CUDA_PATH']
+    except:
+        CUDA_PATH= None
+        pass
+
+    CUDA_EXISTS = False
+
+    assert(len(platform_name) >= 3)
+    if platform_name == 'Windows' or platform_name[:3] == 'CYG':
+
+        ## Windows specific setup
+        pre = ''
+        post = '.dll'
+        if platform_name == "Windows":
+            '''
+            Supressing crashes caused by missing dlls
+            http://stackoverflow.com/questions/8347266/missing-dll-print-message-instead-of-launching-a-popup
+            https://msdn.microsoft.com/en-us/library/windows/desktop/ms680621.aspx
+            '''
+            ct.windll.kernel32.SetErrorMode(0x0001 | 0x0002)
+
+        if AF_SEARCH_PATH is None:
+            AF_SEARCH_PATH="C:/Program Files/ArrayFire/v3/"
+
+        if CUDA_PATH is not None:
+            CUDA_EXISTS = os.path.isdir(CUDA_PATH + '/bin') and os.path.isdir(CUDA_PATH + '/nvvm/bin/')
+
+    elif platform_name == 'Darwin':
+
+        ## OSX specific setup
+        pre = 'lib'
+        post = '.dylib'
+
+        if AF_SEARCH_PATH is None:
+            AF_SEARCH_PATH='/usr/local/'
+
+        if CUDA_PATH is None:
+            CUDA_PATH='/usr/local/cuda/'
+
+        CUDA_EXISTS = os.path.isdir(CUDA_PATH + '/lib') and os.path.isdir(CUDA_PATH + '/nvvm/lib')
+
+    elif platform_name == 'Linux':
+        pre = 'lib'
+        post = '.so'
+
+        if AF_SEARCH_PATH is None:
+            AF_SEARCH_PATH='/opt/arrayfire-3/'
+
+        if CUDA_PATH is None:
+            CUDA_PATH='/usr/local/cuda/'
+
+        if platform.architecture()[0][:2] == 64:
+            CUDA_EXISTS = os.path.isdir(CUDA_PATH + '/lib64') and os.path.isdir(CUDA_PATH + '/nvvm/lib64')
+        else:
+            CUDA_EXISTS = os.path.isdir(CUDA_PATH + '/lib') and os.path.isdir(CUDA_PATH + '/nvvm/lib')
+    else:
+        raise OSError(platform_name + ' not supported')
+
+    return pre, post, AF_SEARCH_PATH, CUDA_EXISTS
+
 class _clibrary(object):
 
-    def __libname(self, name):
-        platform_name = platform.system()
-        assert(len(platform_name) >= 3)
-
-        libname = 'libaf' + name
-        if platform_name == 'Linux':
-            libname += '.so'
-        elif platform_name == 'Darwin':
-            libname += '.dylib'
-        elif platform_name == "Windows" or platform_name[:3] == "CYG":
-            libname += '.dll'
-            libname = libname[3:] # remove 'lib'
-            if platform_name == "Windows":
-                '''
-                Supressing crashes caused by missing dlls
-                http://stackoverflow.com/questions/8347266/missing-dll-print-message-instead-of-launching-a-popup
-                https://msdn.microsoft.com/en-us/library/windows/desktop/ms680621.aspx
-                '''
-                ct.windll.kernel32.SetErrorMode(0x0001 | 0x0002);
-        else:
-            raise OSError(platform_name + ' not supported')
-
-        return libname
+    def __libname(self, name, head='af'):
+        libname = self.__pre + head + name + self.__post
+        libname_full = self.AF_SEARCH_PATH + '/lib/' + libname
+        return (libname, libname_full)
 
     def set_unsafe(self, name):
         lib = self.__clibs[name]
@@ -348,6 +402,15 @@ class _clibrary(object):
         self.__name = name
 
     def __init__(self):
+
+        more_info_str = "Please look at https://github.com/arrayfire/arrayfire-python/wiki for more information."
+
+        pre, post, AF_SEARCH_PATH, CUDA_EXISTS = _setup()
+
+        self.__pre = pre
+        self.__post = post
+        self.AF_SEARCH_PATH = AF_SEARCH_PATH
+
         self.__name = None
 
         self.__clibs = {'cuda'   : None,
@@ -365,18 +428,29 @@ class _clibrary(object):
                                    'cuda'    : 2,
                                    'opencl'  : 4}
 
-        # Iterate in reverse order of preference
-        for name in ('cpu', 'opencl', 'cuda', ''):
+        # Try to pre-load forge library if it exists
+        libnames = self.__libname('forge', '')
+        for libname in libnames:
             try:
-                libname = self.__libname(name)
                 ct.cdll.LoadLibrary(libname)
-                self.__clibs[name] = ct.CDLL(libname)
-                self.__name = name
             except:
                 pass
 
+        # Iterate in reverse order of preference
+        for name in ('cpu', 'opencl', 'cuda', ''):
+            libnames = self.__libname(name)
+            for libname in libnames:
+                try:
+                    ct.cdll.LoadLibrary(libname)
+                    self.__clibs[name] = ct.CDLL(libname)
+                    self.__name = name
+                    break;
+                except:
+                    pass
+
         if (self.__name is None):
-            raise RuntimeError("Could not load any ArrayFire libraries")
+            raise RuntimeError("Could not load any ArrayFire libraries.\n" +
+                               more_info_str)
 
     def get_id(self, name):
         return self.__backend_name_map[name]
