@@ -376,7 +376,8 @@ class _clibrary(object):
                 pass
 
         if (self.__name is None):
-            raise RuntimeError("Could not load any ArrayFire libraries")
+            raise RuntimeError("Could not load any ArrayFire libraries.\n" +
+                               "Please look at https://github.com/arrayfire/arrayfire-python/wiki for more information.")
 
     def get_id(self, name):
         return self.__backend_name_map[name]
