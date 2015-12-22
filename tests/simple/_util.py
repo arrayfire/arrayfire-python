@@ -6,36 +6,22 @@
 # The complete license agreement can be obtained at:
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
-
 import traceback
 import logging
 import arrayfire as af
-
-def display_func(verbose):
-    if (verbose):
-        return af.display
-    else:
-        def eval_func(foo):
-            res = foo
-        return eval_func
-
-def print_func(verbose):
-    def print_func_impl(*args):
-        if (verbose):
-            print(args)
-        else:
-            res = [args]
-    return print_func_impl
+import sys
 
 class _simple_test_dict(dict):
 
     def __init__(self):
         self.print_str = "Simple %16s: %s"
+        self.failed = False
         super(_simple_test_dict, self).__init__()
 
     def run(self, name_list=None, verbose=False):
         test_list = name_list if name_list is not None else self.keys()
         for key in test_list:
+            self.print_log = ''
             try:
                 test = self[key]
             except:
@@ -47,8 +33,25 @@ class _simple_test_dict(dict):
                 print(self.print_str % (key, "PASSED"))
             except Exception as e:
                 print(self.print_str % (key, "FAILED"))
-                if (verbose):
-                    logging.error(traceback.format_exc())
+                self.failed = True
+                if (not verbose):
+                    print(tests.print_log)
+                logging.error(traceback.format_exc())
 
+        if (self.failed):
+            sys.exit(1)
 
 tests = _simple_test_dict()
+
+def print_func(verbose):
+    def print_func_impl(*args):
+        _print_log = ''
+        for arg in args:
+            _print_log += str(arg) + '\n'
+        if (verbose):
+            print(_print_log)
+        tests.print_log += _print_log
+    return print_func_impl
+
+def display_func(verbose):
+    return print_func(verbose)
