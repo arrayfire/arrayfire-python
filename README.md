@@ -3,9 +3,9 @@
 [ArrayFire](https://github.com/arrayfire/arrayfire) is a high performance library for parallel computing with an easy-to-use API. It enables users to write scientific computing code that is portable across CUDA, OpenCL and CPU devices. This project provides Python bindings for the ArrayFire library.
 
 ## Status
-|  OS    | Status |
+|  OS    | Tests |
 |:------:|:------:|
-| Linux | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/python-linux)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/python-linux/) | 
+| Linux | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/python-linux)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/python-linux/) |
 | Windows | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/python-windows)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/python-windows/) |
 
 ## Example
