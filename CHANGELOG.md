@@ -1,3 +1,10 @@
+### v3.2.20151224
+- Bug fixes:
+    - A default `AF_PATH` is set if none is found as an environment variable.
+
+- Examples:
+    - Heston model example uses a smaller data set to help run on low end GPUs.
+
 ### v3.2.20151214
 - Bug fixes:
     - `get_version()` now returns ints instead of `c_int`
