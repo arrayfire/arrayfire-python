@@ -67,9 +67,9 @@ def simulateHestonModel( T, N, R, mu, kappa, vBar, sigmaV, rho, x0, v0 ) :
 
 def main():
     T = 1
-    nT = 10 * T
+    nT = 20 * T
     R_first = 1000
-    R = 20000000
+    R = 5000000
 
     x0 = 0 # initial log stock price
     v0 = 0.087**2 # initial volatility
