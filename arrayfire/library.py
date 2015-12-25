@@ -322,10 +322,12 @@ def _setup():
     platform_name = platform.system()
 
     try:
-        AF_SEARCH_PATH = os.environ['AF_PATH']
+        AF_PATH = os.environ['AF_PATH']
     except:
-        AF_SEARCH_PATH = None
+        AF_PATH = None
         pass
+
+    AF_SEARCH_PATH = AF_PATH
 
     try:
         CUDA_PATH = os.environ['CUDA_PATH']
@@ -333,7 +335,7 @@ def _setup():
         CUDA_PATH= None
         pass
 
-    CUDA_EXISTS = False
+    CUDA_FOUND = False
 
     assert(len(platform_name) >= 3)
     if platform_name == 'Windows' or platform_name[:3] == 'CYG':
@@ -353,7 +355,7 @@ def _setup():
             AF_SEARCH_PATH="C:/Program Files/ArrayFire/v3/"
 
         if CUDA_PATH is not None:
-            CUDA_EXISTS = os.path.isdir(CUDA_PATH + '/bin') and os.path.isdir(CUDA_PATH + '/nvvm/bin/')
+            CUDA_FOUND = os.path.isdir(CUDA_PATH + '/bin') and os.path.isdir(CUDA_PATH + '/nvvm/bin/')
 
     elif platform_name == 'Darwin':
 
@@ -367,7 +369,7 @@ def _setup():
         if CUDA_PATH is None:
             CUDA_PATH='/usr/local/cuda/'
 
-        CUDA_EXISTS = os.path.isdir(CUDA_PATH + '/lib') and os.path.isdir(CUDA_PATH + '/nvvm/lib')
+        CUDA_FOUND = os.path.isdir(CUDA_PATH + '/lib') and os.path.isdir(CUDA_PATH + '/nvvm/lib')
 
     elif platform_name == 'Linux':
         pre = 'lib'
@@ -379,20 +381,23 @@ def _setup():
         if CUDA_PATH is None:
             CUDA_PATH='/usr/local/cuda/'
 
-        if platform.architecture()[0][:2] == 64:
-            CUDA_EXISTS = os.path.isdir(CUDA_PATH + '/lib64') and os.path.isdir(CUDA_PATH + '/nvvm/lib64')
+        if platform.architecture()[0][:2] == '64':
+            CUDA_FOUND = os.path.isdir(CUDA_PATH + '/lib64') and os.path.isdir(CUDA_PATH + '/nvvm/lib64')
         else:
-            CUDA_EXISTS = os.path.isdir(CUDA_PATH + '/lib') and os.path.isdir(CUDA_PATH + '/nvvm/lib')
+            CUDA_FOUND = os.path.isdir(CUDA_PATH + '/lib') and os.path.isdir(CUDA_PATH + '/nvvm/lib')
     else:
         raise OSError(platform_name + ' not supported')
 
-    return pre, post, AF_SEARCH_PATH, CUDA_EXISTS
+    if AF_PATH is None:
+        os.environ['AF_PATH'] = AF_SEARCH_PATH
+
+    return pre, post, AF_SEARCH_PATH, CUDA_FOUND
 
 class _clibrary(object):
 
     def __libname(self, name, head='af'):
         libname = self.__pre + head + name + self.__post
-        libname_full = self.AF_SEARCH_PATH + '/lib/' + libname
+        libname_full = self.AF_PATH + '/lib/' + libname
         return (libname, libname_full)
 
     def set_unsafe(self, name):
@@ -405,25 +410,27 @@ class _clibrary(object):
 
         more_info_str = "Please look at https://github.com/arrayfire/arrayfire-python/wiki for more information."
 
-        pre, post, AF_SEARCH_PATH, CUDA_EXISTS = _setup()
+        pre, post, AF_PATH, CUDA_FOUND = _setup()
 
         self.__pre = pre
         self.__post = post
-        self.AF_SEARCH_PATH = AF_SEARCH_PATH
+        self.AF_PATH = AF_PATH
+        self.CUDA_FOUND = CUDA_FOUND
 
         self.__name = None
 
-        self.__clibs = {'cuda'   : None,
-                        'opencl' : None,
-                        'cpu'    : None,
-                        ''       : None}
+        self.__clibs = {'cuda'    : None,
+                        'opencl'  : None,
+                        'cpu'     : None,
+                        'unified' : None}
 
-        self.__backend_map = {0 : 'default',
+        self.__backend_map = {0 : 'unified',
                               1 : 'cpu'    ,
                               2 : 'cuda'   ,
                               4 : 'opencl' }
 
         self.__backend_name_map = {'default' : 0,
+                                   'unified' : 0,
                                    'cpu'     : 1,
                                    'cuda'    : 2,
                                    'opencl'  : 4}
@@ -442,8 +449,9 @@ class _clibrary(object):
             for libname in libnames:
                 try:
                     ct.cdll.LoadLibrary(libname)
-                    self.__clibs[name] = ct.CDLL(libname)
-                    self.__name = name
+                    __name = 'unified' if name == '' else name
+                    self.__clibs[__name] = ct.CDLL(libname)
+                    self.__name = __name
                     break;
                 except:
                     pass
