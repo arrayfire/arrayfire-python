@@ -23,5 +23,5 @@ setup(
     description="Python bindings for ArrayFire",
     license="BSD",
     url="http://arrayfire.com",
-    packages=find_packages(exclude=['examples', 'tests']),
+    packages=['arrayfire'],
 )
