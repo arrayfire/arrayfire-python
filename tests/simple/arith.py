@@ -15,8 +15,8 @@ def simple_arith(verbose = False):
     display_func = _util.display_func(verbose)
     print_func   = _util.print_func(verbose)
 
-    a = af.randu(3,3,dtype=af.Dtype.u32)
-    b = af.constant(4, 3, 3, dtype=af.Dtype.u32)
+    a = af.randu(3,3)
+    b = af.constant(4, 3, 3)
     display_func(a)
     display_func(b)
 
@@ -98,6 +98,9 @@ def simple_arith(verbose = False):
     display_func(a == b)
     display_func(a == 0.5)
     display_func(0.5 == a)
+
+    a = af.randu(3,3,dtype=af.Dtype.u32)
+    b = af.constant(4, 3, 3, dtype=af.Dtype.u32)
 
     display_func(a & b)
     display_func(a & 2)
