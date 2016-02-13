@@ -455,6 +455,25 @@ class Array(BaseArray):
 
     def device_ptr(self):
         """
+        Return the device pointer exclusively held by the array.
+
+        Returns
+        ------
+        ptr : int
+              Contains location of the device pointer
+
+        Note
+        ----
+        - This can be used to integrate with custom C code and / or PyCUDA or PyOpenCL.
+        - No other arrays will share the same device pointer. 
+        - If multiple arrays share the same memory a copy of the memory is done and a pointer to the new copy is returned.
+        """
+        ptr = ct.c_void_p(0)
+        backend.get().af_get_device_ptr(ct.pointer(ptr), self.arr)
+        return ptr.value
+
+    def raw_ptr(self):
+        """
         Return the device pointer held by the array.
 
         Returns
@@ -466,9 +485,10 @@ class Array(BaseArray):
         ----
         - This can be used to integrate with custom C code and / or PyCUDA or PyOpenCL.
         - No mem copy is peformed, this function returns the raw device pointer.
+        - This pointer may be shared with other arrays. Use this function with caution.
         """
         ptr = ct.c_void_p(0)
-        backend.get().af_get_device_ptr(ct.pointer(ptr), self.arr)
+        backend.get().af_get_raw_ptr(ct.pointer(ptr), self.arr)
         return ptr.value
 
     def elements(self):
