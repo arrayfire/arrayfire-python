@@ -642,6 +642,14 @@ class Array(BaseArray):
         safe_call(backend.get().af_is_bool(ct.pointer(res), self.arr))
         return res.value
 
+    def is_linear(self):
+        """
+        Check if all elements of the array are contiguous.
+        """
+        res = ct.c_bool(False)
+        safe_call(backend.get().af_is_linear(ct.pointer(res), self.arr))
+        return res.value
+
     def __add__(self, other):
         """
         Return self + other.
