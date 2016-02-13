@@ -491,6 +491,19 @@ class Array(BaseArray):
         backend.get().af_get_raw_ptr(ct.pointer(ptr), self.arr)
         return ptr.value
 
+    def offset(self):
+        """
+        Return the offset, of the first element relative to the raw pointer.
+
+        Returns
+        ------
+        offset : int
+                 The offset in number of elements
+        """
+        offset = ct.c_longlong(0)
+        safe_call(backend.get().af_get_offset(ct.pointer(offset), self.arr))
+        return offset.value
+
     def strides(self):
         """
         Return the distance in bytes between consecutive elements for each dimension.
