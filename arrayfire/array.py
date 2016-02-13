@@ -491,6 +491,24 @@ class Array(BaseArray):
         backend.get().af_get_raw_ptr(ct.pointer(ptr), self.arr)
         return ptr.value
 
+    def strides(self):
+        """
+        Return the distance in bytes between consecutive elements for each dimension.
+
+        Returns
+        ------
+        strides : tuple
+                  The strides for each dimension
+        """
+        s0 = ct.c_longlong(0)
+        s1 = ct.c_longlong(0)
+        s2 = ct.c_longlong(0)
+        s3 = ct.c_longlong(0)
+        safe_call(backend.get().af_get_strides(ct.pointer(s0), ct.pointer(s1),
+                                   ct.pointer(s2), ct.pointer(s3), self.arr))
+        strides = (s0.value,s1.value,s2.value,s3.value)
+        return strides[:self.numdims()]
+
     def elements(self):
         """
         Return the number of elements in the array.
