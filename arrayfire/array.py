@@ -650,6 +650,14 @@ class Array(BaseArray):
         safe_call(backend.get().af_is_linear(ct.pointer(res), self.arr))
         return res.value
 
+    def is_owner(self):
+        """
+        Check if the array owns the raw pointer or is a derived array.
+        """
+        res = ct.c_bool(False)
+        safe_call(backend.get().af_is_owner(ct.pointer(res), self.arr))
+        return res.value
+
     def __add__(self, other):
         """
         Return self + other.
