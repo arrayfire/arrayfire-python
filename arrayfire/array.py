@@ -31,6 +31,27 @@ def _create_array(buf, numdims, idims, dtype, is_device):
                                                 numdims, ct.pointer(c_dims), dtype.value))
     return out_arr
 
+def _create_strided_array(buf, numdims, idims, dtype, is_device, offset, strides):
+    out_arr = ct.c_void_p(0)
+    c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
+    if offset is None:
+        offset = 0
+    offset = ct.c_ulonglong(offset)
+    if strides is None:
+        strides = (1, idims[0], idims[0]*idims[1], idims[0]*idims[1]*idims[2])
+    while len(strides) < 4:
+        strides = strides + (strides[-1],)
+    strides = dim4(strides[0], strides[1], strides[2], strides[3])
+    if is_device:
+        location = Source.device
+    else:
+        location = Source.host
+    safe_call(backend.get().af_create_strided_array(ct.pointer(out_arr), ct.c_void_p(buf),
+                                                    offset, numdims, ct.pointer(c_dims),
+                                                    ct.pointer(strides), dtype.value,
+                                                    location.value))
+    return out_arr
+
 def _create_empty_array(numdims, idims, dtype):
     out_arr = ct.c_void_p(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
@@ -352,7 +373,7 @@ class Array(BaseArray):
 
     """
 
-    def __init__(self, src=None, dims=(0,), dtype=None, is_device=False):
+    def __init__(self, src=None, dims=(0,), dtype=None, is_device=False, offset=None, strides=None):
 
         super(Array, self).__init__()
 
@@ -409,8 +430,10 @@ class Array(BaseArray):
             if (type_char is not None and
                 type_char != _type_char):
                 raise TypeError("Can not create array of requested type from input data type")
-
-            self.arr = _create_array(buf, numdims, idims, to_dtype[_type_char], is_device)
+            if(offset is None and strides is None):
+                self.arr = _create_array(buf, numdims, idims, to_dtype[_type_char], is_device)
+            else:
+                self.arr = _create_strided_array(buf, numdims, idims, to_dtype[_type_char], is_device, offset, strides)
 
         else:
 
