@@ -489,7 +489,8 @@ class Array(BaseArray):
         ----
         - This can be used to integrate with custom C code and / or PyCUDA or PyOpenCL.
         - No other arrays will share the same device pointer. 
-        - If multiple arrays share the same memory a copy of the memory is done and a pointer to the new copy is returned.
+        - A copy of the memory is done if multiple arrays share the same memory or the array is not the owner of the memory.
+        - In case of a copy the return value points to the newly allocated memory which is now exclusively owned by the array.
         """
         ptr = ct.c_void_p(0)
         backend.get().af_get_device_ptr(ct.pointer(ptr), self.arr)
@@ -509,6 +510,8 @@ class Array(BaseArray):
         - This can be used to integrate with custom C code and / or PyCUDA or PyOpenCL.
         - No mem copy is peformed, this function returns the raw device pointer.
         - This pointer may be shared with other arrays. Use this function with caution.
+        - In particular the JIT compiler will not be aware of the shared arrays.
+        - This results in JITed operations not being immediately visible through the other array.
         """
         ptr = ct.c_void_p(0)
         backend.get().af_get_raw_ptr(ct.pointer(ptr), self.arr)
