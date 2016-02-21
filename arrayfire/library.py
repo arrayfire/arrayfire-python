@@ -488,7 +488,7 @@ def set_backend(name, unsafe=False):
     unsafe : optional: bool. Default: False.
            If False, does not switch backend if current backend is not unified backend.
     """
-    if (backend.is_unified() == False and unsanfe == False):
+    if (backend.is_unified() == False and unsafe == False):
         raise RuntimeError("Can not change backend after loading %s" % name)
 
     if (backend.is_unified()):
