@@ -46,7 +46,9 @@ def simple_device(verbose=False):
     print_func(dev_ptr)
     b = af.Array(src=dev_ptr, dims=a.dims(), dtype=a.dtype(), is_device=True)
     display_func(b)
-    af.lock_device_ptr(b)
-    af.unlock_device_ptr(b)
+
+    c = af.randu(10,10)
+    af.lock_device_ptr(c)
+    af.unlock_device_ptr(c)
 
 _util.tests['device'] = simple_device
