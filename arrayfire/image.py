@@ -208,6 +208,7 @@ def transform(image, trans_mat, odim0 = 0, odim1 = 0, method=INTERP.NEAREST, is_
                                          method.value, is_inverse))
     return output
 
+
 def rotate(image, theta, is_crop = True, method = INTERP.NEAREST):
     """
     Rotate an image.
@@ -1154,3 +1155,11 @@ def rgb2ycbcr(image, standard=YCC_STD.BT_601):
     out = Array()
     safe_call(backend.get().af_rgb2ycbcr(ct.pointer(out.arr), image.arr, standard.value))
     return out
+
+def is_image_io_available():
+    """
+    Function to check if the arrayfire library was built with Image IO support.
+    """
+    res = ct.c_bool(False)
+    safe_call(backend.get().af_is_image_io_available(ct.pointer(res)))
+    return res.value

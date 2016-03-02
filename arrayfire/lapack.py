@@ -408,3 +408,11 @@ def svd_inplace(A):
     safe_call(backend.get().af_svd_inplace(ct.pointer(U.arr), ct.pointer(S.arr), ct.pointer(Vt.arr),
                                            A.arr))
     return U, S, Vt
+
+def is_lapack_available():
+    """
+    Function to check if the arrayfire library was built with lapack support.
+    """
+    res = ct.c_bool(False)
+    safe_call(backend.get().af_is_lapack_available(ct.pointer(res)))
+    return res.value
