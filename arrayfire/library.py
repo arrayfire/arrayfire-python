@@ -19,8 +19,15 @@ try:
     def _Enum_Type(v):
         return v
 except:
+    class _MetaEnum(type):
+        def __init__(cls, name, bases, attrs):
+            for attrname, attrvalue in attrs.iteritems():
+                if name != '_Enum' and isinstance(attrvalue, _Enum_Type):
+                    attrvalue.__class__ = cls
+                    attrs[attrname] = attrvalue
+
     class _Enum(object):
-        pass
+        __metaclass__ = _MetaEnum
 
     class _Enum_Type(object):
         def __init__(self, v):
@@ -31,7 +38,7 @@ class ERR(_Enum):
     Error values. For internal use only.
     """
 
-    NONE            =   _Enum_Type(0)
+    NONE            = _Enum_Type(0)
 
     #100-199 Errors in environment
     NO_MEM         = _Enum_Type(101)
