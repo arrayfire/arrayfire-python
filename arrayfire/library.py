@@ -373,7 +373,7 @@ def _setup():
 
         ## OSX specific setup
         pre = 'lib'
-        post = '.dylib'
+        post = '.3.dylib'
 
         if AF_SEARCH_PATH is None:
             AF_SEARCH_PATH='/usr/local/'
@@ -385,7 +385,7 @@ def _setup():
 
     elif platform_name == 'Linux':
         pre = 'lib'
-        post = '.so'
+        post = '.so.3'
 
         if AF_SEARCH_PATH is None:
             AF_SEARCH_PATH='/opt/arrayfire-3/'
