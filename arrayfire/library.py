@@ -315,6 +315,19 @@ class BACKEND(_Enum):
     CUDA    = _Enum_Type(2)
     OPENCL  = _Enum_Type(4)
 
+class MARKER(_Enum):
+    """
+    Markers used for different points in graphics plots
+    """
+    NONE       = _Enum_Type(0)
+    POINT      = _Enum_Type(1)
+    CIRCLE     = _Enum_Type(2)
+    SQUARE     = _Enum_Type(3)
+    TRIANGE    = _Enum_Type(4)
+    CROSS      = _Enum_Type(5)
+    PLUS       = _Enum_Type(6)
+    STAR       = _Enum_Type(7)
+
 def _setup():
     import platform
     import os

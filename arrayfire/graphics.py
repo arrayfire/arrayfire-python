@@ -140,6 +140,46 @@ class Window(object):
         _cell = _Cell(self._r, self._c, title, self._cmap)
         safe_call(backend.get().af_draw_image(self._wnd, img.arr, ct.pointer(_cell)))
 
+    def scatter(self, X, Y, marker=MARKER.POINT, title=None):
+        """
+        Renders input arrays as 2D scatter plot.
+
+        Paramters
+        ---------
+
+        X: af.Array.
+             A 1 dimensional array containing X co-ordinates.
+
+        Y: af.Array.
+             A 1 dimensional array containing Y co-ordinates.
+
+        marker: af.MARKER
+             Specifies how the points look
+
+        title: str.
+             Title used for the plot.
+        """
+        _cell = _Cell(self._r, self._c, title, self._cmap)
+        safe_call(backend.get().af_draw_scatter(self._wnd, X.arr, Y.arr,
+                                                marker.value, ct.pointer(_cell)))
+
+    def scatter3(self, P, marker=MARKER.POINT, title=None):
+        """
+        Renders the input array as a 3D Scatter plot.
+
+        Paramters
+        ---------
+
+        P: af.Array.
+             A 2 dimensional array containing (X,Y,Z) co-ordinates.
+
+        title: str.
+             Title used for the plot.
+        """
+        _cell = _Cell(self._r, self._c, title, self._cmap)
+        safe_call(backend.get().af_draw_scatter3(self._wnd, P.arr,
+                                                 marker.value, ct.pointer(_cell)))
+
     def plot(self, X, Y, title=None):
         """
         Display a 2D Plot.
@@ -254,6 +294,16 @@ class Window(object):
         tmp = ct.c_bool(True)
         safe_call(backend.get().af_is_window_closed(ct.pointer(tmp), self._wnd))
         return tmp
+
+    def set_visibility(is_visible):
+        """
+        A flag that shows or hides the window as requested.
+
+        Parameters
+        ----------
+        is_visible: Flag specifying the visibility of the flag.
+        """
+        safe_call(backend.get().af_set_visibility(self._wnd, is_visible))
 
     def __getitem__(self, keys):
         """
