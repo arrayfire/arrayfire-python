@@ -282,4 +282,52 @@ def unlock_array(a):
     """
     safe_call(backend.get().af_unlock_array(a.arr))
 
+def alloc_device(num_bytes):
+    """
+    Allocate a buffer on the device with specified number of bytes.
+    """
+    ptr = ct.c_void_p(0)
+    c_num_bytes = ct.c_longlong(num_bytes)
+    safe_call(backend.get().af_alloc_device(ct.pointer(ptr), c_num_bytes))
+    return ptr.value
+
+def alloc_host(num_bytes):
+    """
+    Allocate a buffer on the host with specified number of bytes.
+    """
+    ptr = ct.c_void_p(0)
+    c_num_bytes = ct.c_longlong(num_bytes)
+    safe_call(backend.get().af_alloc_host(ct.pointer(ptr), c_num_bytes))
+    return ptr.value
+
+def alloc_pinned(num_bytes):
+    """
+    Allocate a buffer on the host using pinned memory with specified number of bytes.
+    """
+    ptr = ct.c_void_p(0)
+    c_num_bytes = ct.c_longlong(num_bytes)
+    safe_call(backend.get().af_alloc_pinned(ct.pointer(ptr), c_num_bytes))
+    return ptr.value
+
+def free_device(ptr):
+    """
+    Free the device memory allocated by alloc_device
+    """
+    cptr = ct.c_void_p(ptr)
+    safe_call(backend.get().af_free_device(cptr))
+
+def free_host(ptr):
+    """
+    Free the host memory allocated by alloc_host
+    """
+    cptr = ct.c_void_p(ptr)
+    safe_call(backend.get().af_free_host(cptr))
+
+def free_pinned(ptr):
+    """
+    Free the pinned memory allocated by alloc_pinned
+    """
+    cptr = ct.c_void_p(ptr)
+    safe_call(backend.get().af_free_pinned(cptr))
+
 from .array import Array
