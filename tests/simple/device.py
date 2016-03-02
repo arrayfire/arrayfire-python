@@ -48,7 +48,7 @@ def simple_device(verbose=False):
     display_func(b)
 
     c = af.randu(10,10)
-    af.lock_device_ptr(c)
-    af.unlock_device_ptr(c)
+    af.lock_array(c)
+    af.unlock_array(c)
 
 _util.tests['device'] = simple_device
