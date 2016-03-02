@@ -45,6 +45,7 @@ class ERR(_Enum):
     TYPE           = _Enum_Type(204)
     DIFF_TYPE      = _Enum_Type(205)
     BATCH          = _Enum_Type(207)
+    DEVICE         = _Enum_Type(208)
 
     # 300-399 Errors for missing software features
     NOT_SUPPORTED  = _Enum_Type(301)
@@ -524,12 +525,9 @@ def get_backend_id(A):
     name : str.
          Backend name
     """
-    if (backend.is_unified()):
-        backend_id = ct.c_int(BACKEND.DEFAULT.value)
-        safe_call(backend.get().af_get_backend_id(ct.pointer(backend_id), A.arr))
-        return backend.get_name(backend_id.value)
-    else:
-        return backend.name()
+    backend_id = ct.c_int(BACKEND.CPU.value)
+    safe_call(backend.get().af_get_backend_id(ct.pointer(backend_id), A.arr))
+    return backend.get_name(backend_id.value)
 
 def get_backend_count():
     """
@@ -541,12 +539,9 @@ def get_backend_count():
     count : int
           Number of available backends
     """
-    if (backend.is_unified()):
-        count = ct.c_int(0)
-        safe_call(backend.get().af_get_backend_count(ct.pointer(count)))
-        return count.value
-    else:
-        return 1
+    count = ct.c_int(0)
+    safe_call(backend.get().af_get_backend_count(ct.pointer(count)))
+    return count.value
 
 def get_available_backends():
     """
@@ -558,11 +553,37 @@ def get_available_backends():
     names : tuple of strings
           Names of available backends
     """
-    if (backend.is_unified()):
-        available = ct.c_int(0)
-        safe_call(backend.get().af_get_available_backends(ct.pointer(available)))
-        return backend.parse(int(available.value))
-    else:
-        return (backend.name(),)
+    available = ct.c_int(0)
+    safe_call(backend.get().af_get_available_backends(ct.pointer(available)))
+    return backend.parse(int(available.value))
+
+def get_active_backend():
+    """
+    Get the current active backend
+
+    name : str.
+         Backend name
+    """
+    backend_id = ct.c_int(BACKEND.CPU.value)
+    safe_call(backend.get().af_get_active_backend(ct.pointer(backend_id)))
+    return backend.get_name(backend_id.value)
+
+def get_device_id(A):
+    """
+    Get the device id of the array
+
+    Parameters
+    ----------
+    A    : af.Array
+
+    Returns
+    ----------
+
+    dev : Integer
+         id of the device array was created on
+    """
+    device_id = ct.c_int(0)
+    safe_call(backend.get().af_get_device_id(ct.pointer(device_id), A.arr))
+    return device_id
 
 from .util import safe_call
