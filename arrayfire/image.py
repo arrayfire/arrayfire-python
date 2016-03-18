@@ -235,7 +235,7 @@ def rotate(image, theta, is_crop = True, method = INTERP.NEAREST):
     """
     output = Array()
     safe_call(backend.get().af_rotate(ct.pointer(output.arr), image.arr,
-                                      ct.c_double(theta), is_crop, method.value))
+                                      ct.c_float(theta), is_crop, method.value))
     return output
 
 def translate(image, trans0, trans1, odim0 = 0, odim1 = 0, method = INTERP.NEAREST):
@@ -318,7 +318,7 @@ def scale(image, scale0, scale1, odim0 = 0, odim1 = 0, method = INTERP.NEAREST):
     """
     output = Array()
     safe_call(backend.get().af_scale(ct.pointer(output.arr),
-                                     image.arr, ct.c_double(scale0), ct.c_double(scale1),
+                                     image.arr, ct.c_float(scale0), ct.c_float(scale1),
                                      ct.c_longlong(odim0), ct.c_longlong(odim1), method.value))
     return output
 
@@ -363,7 +363,7 @@ def skew(image, skew0, skew1, odim0 = 0, odim1 = 0, method = INTERP.NEAREST, is_
     """
     output = Array()
     safe_call(backend.get().af_skew(ct.pointer(output.arr),
-                                    image.arr, ct.c_double(skew0), ct.c_double(skew1),
+                                    image.arr, ct.c_float(skew0), ct.c_float(skew1),
                                     ct.c_longlong(odim0), ct.c_longlong(odim1),
                                     method.value, is_inverse))
 
@@ -408,7 +408,7 @@ def histogram(image, nbins, min_val = None, max_val = None):
     output = Array()
     safe_call(backend.get().af_histogram(ct.pointer(output.arr),
                                          image.arr, ct.c_uint(nbins),
-                                         ct.c_double(min_val), ct.c_double(max_val)))
+                                         ct.c_float(min_val), ct.c_float(max_val)))
     return output
 
 def hist_equal(image, hist):
@@ -580,8 +580,8 @@ def bilateral(image, s_sigma, c_sigma, is_color = False):
     """
     output = Array()
     safe_call(backend.get().af_bilateral(ct.pointer(output.arr),
-                                         image.arr, ct.c_double(s_sigma),
-                                         ct.c_double(c_sigma), is_color))
+                                         image.arr, ct.c_float(s_sigma),
+                                         ct.c_float(c_sigma), is_color))
     return output
 
 def mean_shift(image, s_sigma, c_sigma, n_iter, is_color = False):
@@ -615,7 +615,7 @@ def mean_shift(image, s_sigma, c_sigma, n_iter, is_color = False):
     """
     output = Array()
     safe_call(backend.get().af_mean_shift(ct.pointer(output.arr),
-                                          image.arr, ct.c_double(s_sigma), ct.c_double(c_sigma),
+                                          image.arr, ct.c_float(s_sigma), ct.c_float(c_sigma),
                                           ct.c_uint(n_iter), is_color))
     return output
 
