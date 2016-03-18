@@ -72,7 +72,7 @@ def safe_call(af_error):
         err_str = ct.c_char_p(0)
         err_len = ct.c_longlong(0)
         backend.get().af_get_last_error(ct.pointer(err_str), ct.pointer(err_len))
-        raise RuntimeError(to_str(err_str), af_error)
+        raise RuntimeError(to_str(err_str))
 
 def get_version():
     """
