@@ -488,7 +488,7 @@ class Array(BaseArray):
         Note
         ----
         - This can be used to integrate with custom C code and / or PyCUDA or PyOpenCL.
-        - No other arrays will share the same device pointer. 
+        - No other arrays will share the same device pointer.
         - A copy of the memory is done if multiple arrays share the same memory or the array is not the owner of the memory.
         - In case of a copy the return value points to the newly allocated memory which is now exclusively owned by the array.
         """
@@ -985,6 +985,12 @@ class Array(BaseArray):
         try:
             out = Array()
             n_dims = self.numdims()
+
+            if (isinstance(key, Array) and key.type() == Dtype.b8.value):
+                n_dims = 1
+                if (count(key) == 0):
+                    return out
+
             inds = _get_indices(key)
 
             safe_call(backend.get().af_index_gen(ct.pointer(out.arr),
@@ -1005,9 +1011,21 @@ class Array(BaseArray):
         try:
             n_dims = self.numdims()
 
+            is_boolean_idx = isinstance(key, Array) and key.type() == Dtype.b8.value
+
+            if (is_boolean_idx):
+                n_dims = 1
+                num = count(key)
+                if (num == 0):
+                    return
+
             if (_is_number(val)):
                 tdims = _get_assign_dims(key, self.dims())
-                other_arr = constant_array(val, tdims[0], tdims[1], tdims[2], tdims[3], self.type())
+                if (is_boolean_idx):
+                    n_dims = 1
+                    other_arr = constant_array(val, int(num), dtype=self.type())
+                else:
+                    other_arr = constant_array(val, tdims[0] , tdims[1], tdims[2], tdims[3], self.type())
                 del_other = True
             else:
                 other_arr = val.arr
@@ -1017,8 +1035,8 @@ class Array(BaseArray):
             inds  = _get_indices(key)
 
             safe_call(backend.get().af_assign_gen(ct.pointer(out_arr),
-                                         self.arr, ct.c_longlong(n_dims), inds.pointer,
-                                         other_arr))
+                                                  self.arr, ct.c_longlong(n_dims), inds.pointer,
+                                                  other_arr))
             safe_call(backend.get().af_release_array(self.arr))
             if del_other:
                 safe_call(backend.get().af_release_array(other_arr))
@@ -1235,5 +1253,5 @@ def read_array(filename, index=None, key=None):
 
     return out
 
-from .algorithm import sum
+from .algorithm import (sum, count)
 from .arith import cast
