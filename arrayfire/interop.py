@@ -17,7 +17,7 @@ This module provides interoperability with the following python packages.
 """
 
 from .array import *
-from .device import lock_array
+from .device import *
 
 try:
     import numpy as np
@@ -117,3 +117,75 @@ try:
             return pycuda_to_af_array(pycu_arr.copy())
 except:
     AF_PYCUDA_FOUND=False
+
+try:
+    import pyopencl.array as CLArray
+    from .opencl import add_device_context as _add_device_context
+    from .opencl import set_device_context as _set_device_context
+    from .opencl import get_device_id as _get_device_id
+    from .opencl import get_context as _get_context
+    AF_PYOPENCL_FOUND=True
+
+    def pyopencl_to_af_array(pycl_arr):
+        """
+        Convert pyopencl.gpuarray to arrayfire.Array
+
+        Parameters
+        -----------
+        pycl_arr  : pyopencl.Array()
+
+        Returns
+        ----------
+        af_arr    : arrayfire.Array()
+        """
+
+        ctx = pycl_arr.context.int_ptr
+        que = pycl_arr.queue.int_ptr
+        dev = pycl_arr.queue.device.int_ptr
+
+        dev_idx = None
+        ctx_idx = None
+        for n in range(get_device_count()):
+            set_device(n)
+            dev_idx = _get_device_id()
+            ctx_idx = _get_context()
+            if (dev_idx == dev and ctx_idx == ctx):
+                break
+
+        if (dev_idx == None or ctx_idx == None or
+            dev_idx != dev or ctx_idx != ctx):
+            _add_device_context(dev, ctx, que)
+            _set_device_context(dev, ctx)
+
+        in_ptr = pycl_arr.base_data.int_ptr
+        in_shape = pycl_arr.shape
+        in_dtype = pycl_arr.dtype.char
+
+        if (pycl_arr.flags.f_contiguous):
+            res = Array(in_ptr, in_shape, in_dtype, is_device=True)
+            lock_array(res)
+            return res
+        elif (pycl_arr.flags.c_contiguous):
+            if pycl_arr.ndim == 1:
+                return Array(in_ptr, in_shape, in_dtype, is_device=True)
+            elif pycl_arr.ndim == 2:
+                shape = (in_shape[1], in_shape[0])
+                res = Array(in_ptr, shape, in_dtype, is_device=True)
+                lock_array(res)
+                return reorder(res, 1, 0)
+            elif pycl_arr.ndim == 3:
+                shape = (in_shape[2], in_shape[1], in_shape[0])
+                res = Array(in_ptr, shape, in_dtype, is_device=True)
+                lock_array(res)
+                return reorder(res, 2, 1, 0)
+            elif pycl_arr.ndim == 4:
+                shape = (in_shape[3], in_shape[2], in_shape[1], in_shape[0])
+                res = Array(in_ptr, shape, in_dtype, is_device=True)
+                lock_array(res)
+                return reorder(res, 3, 2, 1, 0)
+            else:
+                raise RuntimeError("Unsupported ndim")
+        else:
+            return pyopencl_to_af_array(pycl_arr.copy())
+except:
+    AF_PYOPENCL_FOUND=False
