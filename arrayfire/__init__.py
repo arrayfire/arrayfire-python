@@ -35,6 +35,11 @@ where name is one of 'cuda', 'opencl' or 'cpu'
 
 """
 
+try:
+    import pycuda.autoinit
+except:
+    pass
+
 from .library    import *
 from .array      import *
 from .data       import *

@@ -16,7 +16,7 @@ if __name__ == "__main__":
     verbose = False
 
     if len(sys.argv) > 1:
-        verbose = int(sys.argv[1]) != False
+        verbose = int(sys.argv[1])
 
     test_list = None
     if len(sys.argv) > 2:

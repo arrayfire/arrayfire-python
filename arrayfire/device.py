@@ -241,6 +241,14 @@ def get_device_ptr(a):
 
 def lock_device_ptr(a):
     """
+    This functions is deprecated. Please use lock_array instead.
+    """
+    import warnings
+    warnings.warn("This function is deprecated. Use lock_array instead.", DeprecationWarning)
+    lock_array(a)
+
+def lock_array(a):
+    """
     Ask arrayfire to not perform garbage collection on raw data held by an array.
 
     Parameters
@@ -252,10 +260,17 @@ def lock_device_ptr(a):
     -----
         - The device pointer of `a` is not freed by memory manager until `unlock_device_ptr()` is called.
     """
-    ptr = ct.c_void_p(0)
-    safe_call(backend.get().af_lock_device_ptr(a.arr))
+    safe_call(backend.get().af_lock_array(a.arr))
 
 def unlock_device_ptr(a):
+    """
+    This functions is deprecated. Please use unlock_array instead.
+    """
+    import warnings
+    warnings.warn("This function is deprecated. Use unlock_array instead.", DeprecationWarning)
+    unlock_array(a)
+
+def unlock_array(a):
     """
     Tell arrayfire to resume garbage collection on raw data held by an array.
 
@@ -265,7 +280,54 @@ def unlock_device_ptr(a):
        - A multi dimensional arrayfire array.
 
     """
+    safe_call(backend.get().af_unlock_array(a.arr))
+
+def alloc_device(num_bytes):
+    """
+    Allocate a buffer on the device with specified number of bytes.
+    """
     ptr = ct.c_void_p(0)
-    safe_call(backend.get().af_unlock_device_ptr(a.arr))
+    c_num_bytes = ct.c_longlong(num_bytes)
+    safe_call(backend.get().af_alloc_device(ct.pointer(ptr), c_num_bytes))
+    return ptr.value
+
+def alloc_host(num_bytes):
+    """
+    Allocate a buffer on the host with specified number of bytes.
+    """
+    ptr = ct.c_void_p(0)
+    c_num_bytes = ct.c_longlong(num_bytes)
+    safe_call(backend.get().af_alloc_host(ct.pointer(ptr), c_num_bytes))
+    return ptr.value
+
+def alloc_pinned(num_bytes):
+    """
+    Allocate a buffer on the host using pinned memory with specified number of bytes.
+    """
+    ptr = ct.c_void_p(0)
+    c_num_bytes = ct.c_longlong(num_bytes)
+    safe_call(backend.get().af_alloc_pinned(ct.pointer(ptr), c_num_bytes))
+    return ptr.value
+
+def free_device(ptr):
+    """
+    Free the device memory allocated by alloc_device
+    """
+    cptr = ct.c_void_p(ptr)
+    safe_call(backend.get().af_free_device(cptr))
+
+def free_host(ptr):
+    """
+    Free the host memory allocated by alloc_host
+    """
+    cptr = ct.c_void_p(ptr)
+    safe_call(backend.get().af_free_host(cptr))
+
+def free_pinned(ptr):
+    """
+    Free the pinned memory allocated by alloc_pinned
+    """
+    cptr = ct.c_void_p(ptr)
+    safe_call(backend.get().af_free_pinned(cptr))
 
 from .array import Array

@@ -19,8 +19,15 @@ try:
     def _Enum_Type(v):
         return v
 except:
+    class _MetaEnum(type):
+        def __init__(cls, name, bases, attrs):
+            for attrname, attrvalue in attrs.iteritems():
+                if name != '_Enum' and isinstance(attrvalue, _Enum_Type):
+                    attrvalue.__class__ = cls
+                    attrs[attrname] = attrvalue
+
     class _Enum(object):
-        pass
+        __metaclass__ = _MetaEnum
 
     class _Enum_Type(object):
         def __init__(self, v):
@@ -31,7 +38,7 @@ class ERR(_Enum):
     Error values. For internal use only.
     """
 
-    NONE            =   _Enum_Type(0)
+    NONE            = _Enum_Type(0)
 
     #100-199 Errors in environment
     NO_MEM         = _Enum_Type(101)
@@ -45,6 +52,7 @@ class ERR(_Enum):
     TYPE           = _Enum_Type(204)
     DIFF_TYPE      = _Enum_Type(205)
     BATCH          = _Enum_Type(207)
+    DEVICE         = _Enum_Type(208)
 
     # 300-399 Errors for missing software features
     NOT_SUPPORTED  = _Enum_Type(301)
@@ -315,6 +323,19 @@ class BACKEND(_Enum):
     CUDA    = _Enum_Type(2)
     OPENCL  = _Enum_Type(4)
 
+class MARKER(_Enum):
+    """
+    Markers used for different points in graphics plots
+    """
+    NONE       = _Enum_Type(0)
+    POINT      = _Enum_Type(1)
+    CIRCLE     = _Enum_Type(2)
+    SQUARE     = _Enum_Type(3)
+    TRIANGE    = _Enum_Type(4)
+    CROSS      = _Enum_Type(5)
+    PLUS       = _Enum_Type(6)
+    STAR       = _Enum_Type(7)
+
 def _setup():
     import platform
     import os
@@ -361,7 +382,7 @@ def _setup():
 
         ## OSX specific setup
         pre = 'lib'
-        post = '.dylib'
+        post = '.3.dylib'
 
         if AF_SEARCH_PATH is None:
             AF_SEARCH_PATH='/usr/local/'
@@ -373,7 +394,7 @@ def _setup():
 
     elif platform_name == 'Linux':
         pre = 'lib'
-        post = '.so'
+        post = '.so.3'
 
         if AF_SEARCH_PATH is None:
             AF_SEARCH_PATH='/opt/arrayfire-3/'
@@ -519,12 +540,9 @@ def get_backend_id(A):
     name : str.
          Backend name
     """
-    if (backend.is_unified()):
-        backend_id = ct.c_int(BACKEND.DEFAULT.value)
-        safe_call(backend.get().af_get_backend_id(ct.pointer(backend_id), A.arr))
-        return backend.get_name(backend_id.value)
-    else:
-        return backend.name()
+    backend_id = ct.c_int(BACKEND.CPU.value)
+    safe_call(backend.get().af_get_backend_id(ct.pointer(backend_id), A.arr))
+    return backend.get_name(backend_id.value)
 
 def get_backend_count():
     """
@@ -536,12 +554,9 @@ def get_backend_count():
     count : int
           Number of available backends
     """
-    if (backend.is_unified()):
-        count = ct.c_int(0)
-        safe_call(backend.get().af_get_backend_count(ct.pointer(count)))
-        return count.value
-    else:
-        return 1
+    count = ct.c_int(0)
+    safe_call(backend.get().af_get_backend_count(ct.pointer(count)))
+    return count.value
 
 def get_available_backends():
     """
@@ -553,11 +568,37 @@ def get_available_backends():
     names : tuple of strings
           Names of available backends
     """
-    if (backend.is_unified()):
-        available = ct.c_int(0)
-        safe_call(backend.get().af_get_available_backends(ct.pointer(available)))
-        return backend.parse(int(available.value))
-    else:
-        return (backend.name(),)
+    available = ct.c_int(0)
+    safe_call(backend.get().af_get_available_backends(ct.pointer(available)))
+    return backend.parse(int(available.value))
+
+def get_active_backend():
+    """
+    Get the current active backend
+
+    name : str.
+         Backend name
+    """
+    backend_id = ct.c_int(BACKEND.CPU.value)
+    safe_call(backend.get().af_get_active_backend(ct.pointer(backend_id)))
+    return backend.get_name(backend_id.value)
+
+def get_device_id(A):
+    """
+    Get the device id of the array
+
+    Parameters
+    ----------
+    A    : af.Array
+
+    Returns
+    ----------
+
+    dev : Integer
+         id of the device array was created on
+    """
+    device_id = ct.c_int(0)
+    safe_call(backend.get().af_get_device_id(ct.pointer(device_id), A.arr))
+    return device_id
 
 from .util import safe_call

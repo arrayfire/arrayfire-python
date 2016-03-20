@@ -19,9 +19,9 @@ setup(
     author="Pavan Yalamanchili",
     author_email="pavan@arrayfire.com",
     name="arrayfire",
-    version="3.2.20151224",
+    version="3.3.20160320",
     description="Python bindings for ArrayFire",
     license="BSD",
     url="http://arrayfire.com",
-    packages=find_packages(exclude=['examples', 'tests']),
+    packages=['arrayfire'],
 )
