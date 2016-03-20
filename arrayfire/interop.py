@@ -37,22 +37,27 @@ try:
         ---------
         af_arr  : arrayfire.Array()
         """
+
+        in_shape = np_arr.shape
+        in_ptr = np_arr.ctypes.data
+        in_dtype = np_arr.dtype.char
+
         if (np_arr.flags['F_CONTIGUOUS']):
-            return Array(np_arr.ctypes.data, np_arr.shape, np_arr.dtype.char)
+            return Array(in_ptr, in_shape, in_dtype)
         elif (np_arr.flags['C_CONTIGUOUS']):
             if np_arr.ndim == 1:
-                return Array(np_arr.ctypes.data, np_arr.shape, np_arr.dtype.char)
+                return Array(in_ptr, in_shape, in_dtype)
             elif np_arr.ndim == 2:
-                shape = (np_arr.shape[1], np_arr.shape[0])
-                res = Array(np_arr.ctypes.data, shape, np_arr.dtype.char)
+                shape = (in_shape[1], in_shape[0])
+                res = Array(in_ptr, shape, in_dtype)
                 return reorder(res, 1, 0)
             elif np_arr.ndim == 3:
-                shape = (np_arr.shape[2], np_arr.shape[1], np_arr.shape[0])
-                res = Array(np_arr.ctypes.data, shape, np_arr.dtype.char)
+                shape = (in_shape[2], in_shape[1], in_shape[0])
+                res = Array(in_ptr, shape, in_dtype)
                 return reorder(res, 2, 1, 0)
             elif np_arr.ndim == 4:
-                shape = (np_arr.shape[3], np_arr.shape[2], np_arr.shape[1], np_arr.shape[0])
-                res = Array(np_arr.ctypes.data, shape, np_arr.dtype.char)
+                shape = (in_shape[3], in_shape[2], in_shape[1], in_shape[0])
+                res = Array(in_ptr, shape, in_dtype)
                 return reorder(res, 3, 2, 1, 0)
             else:
                 raise RuntimeError("Unsupported ndim")
@@ -79,26 +84,31 @@ try:
         ----------
         af_arr    : arrayfire.Array()
         """
+
+        in_ptr = pycu_arr.ptr
+        in_shape = pycu_arr.shape
+        in_dtype = pycu_arr.dtype.char
+
         if (pycu_arr.flags.f_contiguous):
-            res = Array(pycu_arr.ptr, pycu_arr.shape, pycu_arr.dtype.char, is_device=True)
+            res = Array(in_ptr, in_shape, in_dtype, is_device=True)
             lock_array(res)
             return res
         elif (pycu_arr.flags.c_contiguous):
             if pycu_arr.ndim == 1:
-                return Array(pycu_arr.ptr, pycu_arr.shape, pycu_arr.dtype.char, is_device=True)
+                return Array(in_ptr, in_shape, in_dtype, is_device=True)
             elif pycu_arr.ndim == 2:
-                shape = (pycu_arr.shape[1], pycu_arr.shape[0])
-                res = Array(pycu_arr.ptr, shape, pycu_arr.dtype.char, is_device=True)
+                shape = (in_shape[1], in_shape[0])
+                res = Array(in_ptr, shape, in_dtype, is_device=True)
                 lock_array(res)
                 return reorder(res, 1, 0)
             elif pycu_arr.ndim == 3:
-                shape = (pycu_arr.shape[2], pycu_arr.shape[1], pycu_arr.shape[0])
-                res = Array(pycu_arr.ptr, shape, pycu_arr.dtype.char, is_device=True)
+                shape = (in_shape[2], in_shape[1], in_shape[0])
+                res = Array(in_ptr, shape, in_dtype, is_device=True)
                 lock_array(res)
                 return reorder(res, 2, 1, 0)
             elif pycu_arr.ndim == 4:
-                shape = (pycu_arr.shape[3], pycu_arr.shape[2], pycu_arr.shape[1], pycu_arr.shape[0])
-                res = Array(pycu_arr.ptr, shape, pycu_arr.dtype.char, is_device=True)
+                shape = (in_shape[3], in_shape[2], in_shape[1], in_shape[0])
+                res = Array(in_ptr, shape, in_dtype, is_device=True)
                 lock_array(res)
                 return reorder(res, 3, 2, 1, 0)
             else:
