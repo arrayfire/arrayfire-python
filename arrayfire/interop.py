@@ -21,6 +21,7 @@ from .device import *
 
 try:
     import numpy as np
+    from numpy import ndarray as NumpyArray
     from .data import reorder
 
     AF_NUMPY_FOUND=True
@@ -69,7 +70,8 @@ except:
     AF_NUMPY_FOUND=False
 
 try:
-    import pycuda.gpuarray as CudaArray
+    import pycuda.gpuarray
+    from pycuda.gpuarray import GPUArray as CudaArray
     AF_PYCUDA_FOUND=True
 
     def pycuda_to_af_array(pycu_arr):
@@ -83,6 +85,10 @@ try:
         Returns
         ----------
         af_arr    : arrayfire.Array()
+
+        Note
+        ----------
+        The input array is copied to af.Array
         """
 
         in_ptr = pycu_arr.ptr
@@ -92,6 +98,7 @@ try:
         if (pycu_arr.flags.f_contiguous):
             res = Array(in_ptr, in_shape, in_dtype, is_device=True)
             lock_array(res)
+            res = res.copy()
             return res
         elif (pycu_arr.flags.c_contiguous):
             if pycu_arr.ndim == 1:
@@ -119,7 +126,7 @@ except:
     AF_PYCUDA_FOUND=False
 
 try:
-    import pyopencl.array as CLArray
+    from pyopencl.array import Array as OpenclArray
     from .opencl import add_device_context as _add_device_context
     from .opencl import set_device_context as _set_device_context
     from .opencl import get_device_id as _get_device_id
@@ -137,6 +144,10 @@ try:
         Returns
         ----------
         af_arr    : arrayfire.Array()
+
+        Note
+        ----------
+        The input array is copied to af.Array
         """
 
         ctx = pycl_arr.context.int_ptr
@@ -189,3 +200,28 @@ try:
             return pyopencl_to_af_array(pycl_arr.copy())
 except:
     AF_PYOPENCL_FOUND=False
+
+
+def to_array(in_array):
+    """
+    Helper function to convert input from a different module to af.Array
+
+    Parameters
+    -------------
+
+    in_array : array like object
+             Can be one of numpy.ndarray, pycuda.GPUArray, pyopencl.Array, array.array, list
+
+    Returns
+    --------------
+    af.Array of same dimensions as input after copying the data from the input
+
+
+    """
+    if AF_NUMPY_FOUND and isinstance(in_array, NumpyArray):
+        return np_to_af_array(in_array)
+    if AF_PYCUDA_FOUND and isinstance(in_array, CudaArray):
+        return pycuda_to_af_array(in_array)
+    if AF_PYOPENCL_FOUND and isinstance(in_array, OpenclArray):
+        return pyopencl_to_af_array(in_array)
+    return Array(src=in_array)
