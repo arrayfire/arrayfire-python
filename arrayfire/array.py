@@ -373,6 +373,12 @@ class Array(BaseArray):
 
     """
 
+    # Numpy checks this attribute to know which class handles binary builtin operations, such as __add__.
+    # Setting to such a high value should make sure that arrayfire has priority over
+    # other classes, ensuring that e.g. numpy.float32(1)*arrayfire.randu(3) is handled by
+    # arrayfire's __radd__() instead of numpy's __add__()
+    __array_priority__ = 30
+
     def __init__(self, src=None, dims=(0,), dtype=None, is_device=False, offset=None, strides=None):
 
         super(Array, self).__init__()
