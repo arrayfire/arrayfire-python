@@ -127,7 +127,7 @@ def fft(signal, dim0 = None , scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(backend.get().af_fft(ct.pointer(output.arr), signal.arr, ct.c_double(scale), ct.c_longlong(dim0)))
+    safe_call(backend.get().af_fft(ct.pointer(output.arr), signal.arr, ct.c_double(scale), c_dim_t(dim0)))
     return output
 
 def fft2(signal, dim0 = None, dim1 = None , scale = None):
@@ -170,7 +170,7 @@ def fft2(signal, dim0 = None, dim1 = None , scale = None):
 
     output = Array()
     safe_call(backend.get().af_fft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
-                                    ct.c_longlong(dim0), ct.c_longlong(dim1)))
+                                    c_dim_t(dim0), c_dim_t(dim1)))
     return output
 
 def fft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
@@ -220,7 +220,7 @@ def fft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
 
     output = Array()
     safe_call(backend.get().af_fft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
-                                    ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
+                                    c_dim_t(dim0), c_dim_t(dim1), c_dim_t(dim2)))
     return output
 
 def ifft(signal, dim0 = None , scale = None):
@@ -261,7 +261,7 @@ def ifft(signal, dim0 = None , scale = None):
         scale = 1.0/float(dim0)
 
     output = Array()
-    safe_call(backend.get().af_ifft(ct.pointer(output.arr), signal.arr, ct.c_double(scale), ct.c_longlong(dim0)))
+    safe_call(backend.get().af_ifft(ct.pointer(output.arr), signal.arr, ct.c_double(scale), c_dim_t(dim0)))
     return output
 
 def ifft2(signal, dim0 = None, dim1 = None , scale = None):
@@ -312,7 +312,7 @@ def ifft2(signal, dim0 = None, dim1 = None , scale = None):
 
     output = Array()
     safe_call(backend.get().af_ifft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
-                                     ct.c_longlong(dim0), ct.c_longlong(dim1)))
+                                     c_dim_t(dim0), c_dim_t(dim1)))
     return output
 
 def ifft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
@@ -370,7 +370,7 @@ def ifft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
 
     output = Array()
     safe_call(backend.get().af_ifft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
-                                     ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
+                                     c_dim_t(dim0), c_dim_t(dim1), c_dim_t(dim2)))
     return output
 
 def fft_inplace(signal, scale = None):
@@ -539,7 +539,7 @@ def fft_r2c(signal, dim0 = None , scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(backend.get().af_fft_r2c(ct.pointer(output.arr), signal.arr, ct.c_double(scale), ct.c_longlong(dim0)))
+    safe_call(backend.get().af_fft_r2c(ct.pointer(output.arr), signal.arr, ct.c_double(scale), c_dim_t(dim0)))
     return output
 
 def fft2_r2c(signal, dim0 = None, dim1 = None , scale = None):
@@ -582,7 +582,7 @@ def fft2_r2c(signal, dim0 = None, dim1 = None , scale = None):
 
     output = Array()
     safe_call(backend.get().af_fft2_r2c(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
-                                        ct.c_longlong(dim0), ct.c_longlong(dim1)))
+                                        c_dim_t(dim0), c_dim_t(dim1)))
     return output
 
 def fft3_r2c(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
@@ -632,7 +632,7 @@ def fft3_r2c(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
 
     output = Array()
     safe_call(backend.get().af_fft3_r2c(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
-                                        ct.c_longlong(dim0), ct.c_longlong(dim1), ct.c_longlong(dim2)))
+                                        c_dim_t(dim0), c_dim_t(dim1), c_dim_t(dim2)))
     return output
 
 def _get_c2r_dim(dim, is_odd):

@@ -14,6 +14,19 @@ module containing enums and other constants from arrayfire library
 import platform
 import ctypes as ct
 
+# Work around for unexpected architectures
+if 'c_dim_t_forced' in globals():
+    global c_dim_t_forced
+    c_dim_t = c_dim_t_forced
+else:
+    # dim_t is long long by default
+    c_dim_t = ct.c_longlong
+    # Change to int for 32 bit x86 and amr architectures
+    if (platform.architecture()[0][0:2] == '32' and
+        (platform.machine()[-2:] == '86' or
+         platform.machine()[0:3] == 'arm')):
+        c_dim_t = ct.c_int
+
 try:
     from enum import Enum as _Enum
     def _Enum_Type(v):

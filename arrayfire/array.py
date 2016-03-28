@@ -36,7 +36,7 @@ def _create_strided_array(buf, numdims, idims, dtype, is_device, offset, strides
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
     if offset is None:
         offset = 0
-    offset = ct.c_ulonglong(offset)
+    offset = c_dim_t(offset)
     if strides is None:
         strides = (1, idims[0], idims[0]*idims[1], idims[0]*idims[1]*idims[2])
     while len(strides) < 4:
@@ -85,10 +85,10 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
         safe_call(backend.get().af_constant_complex(ct.pointer(out), c_real, c_imag,
                                                     4, ct.pointer(dims), dtype))
     elif dtype.value == Dtype.s64.value:
-        c_val = ct.c_longlong(val.real)
+        c_val = c_dim_t(val.real)
         safe_call(backend.get().af_constant_long(ct.pointer(out), c_val, 4, ct.pointer(dims)))
     elif dtype.value == Dtype.u64.value:
-        c_val = ct.c_ulonglong(val.real)
+        c_val = c_dim_t(val.real)
         safe_call(backend.get().af_constant_ulong(ct.pointer(out), c_val, 4, ct.pointer(dims)))
     else:
         c_val = ct.c_double(val)
@@ -526,7 +526,7 @@ class Array(BaseArray):
         offset : int
                  The offset in number of elements
         """
-        offset = ct.c_longlong(0)
+        offset = c_dim_t(0)
         safe_call(backend.get().af_get_offset(ct.pointer(offset), self.arr))
         return offset.value
 
@@ -539,10 +539,10 @@ class Array(BaseArray):
         strides : tuple
                   The strides for each dimension
         """
-        s0 = ct.c_longlong(0)
-        s1 = ct.c_longlong(0)
-        s2 = ct.c_longlong(0)
-        s3 = ct.c_longlong(0)
+        s0 = c_dim_t(0)
+        s1 = c_dim_t(0)
+        s2 = c_dim_t(0)
+        s3 = c_dim_t(0)
         safe_call(backend.get().af_get_strides(ct.pointer(s0), ct.pointer(s1),
                                    ct.pointer(s2), ct.pointer(s3), self.arr))
         strides = (s0.value,s1.value,s2.value,s3.value)
@@ -552,7 +552,7 @@ class Array(BaseArray):
         """
         Return the number of elements in the array.
         """
-        num = ct.c_ulonglong(0)
+        num = c_dim_t(0)
         safe_call(backend.get().af_get_elements(ct.pointer(num), self.arr))
         return num.value
 
@@ -574,10 +574,10 @@ class Array(BaseArray):
         """
         Return the shape of the array as a tuple.
         """
-        d0 = ct.c_longlong(0)
-        d1 = ct.c_longlong(0)
-        d2 = ct.c_longlong(0)
-        d3 = ct.c_longlong(0)
+        d0 = c_dim_t(0)
+        d1 = c_dim_t(0)
+        d2 = c_dim_t(0)
+        d3 = c_dim_t(0)
         safe_call(backend.get().af_get_dims(ct.pointer(d0), ct.pointer(d1),
                                    ct.pointer(d2), ct.pointer(d3), self.arr))
         dims = (d0.value,d1.value,d2.value,d3.value)
@@ -994,7 +994,7 @@ class Array(BaseArray):
             inds = _get_indices(key)
 
             safe_call(backend.get().af_index_gen(ct.pointer(out.arr),
-                                    self.arr, ct.c_longlong(n_dims), inds.pointer))
+                                    self.arr, c_dim_t(n_dims), inds.pointer))
             return out
         except RuntimeError as e:
             raise IndexError(str(e))
@@ -1035,7 +1035,7 @@ class Array(BaseArray):
             inds  = _get_indices(key)
 
             safe_call(backend.get().af_assign_gen(ct.pointer(out_arr),
-                                                  self.arr, ct.c_longlong(n_dims), inds.pointer,
+                                                  self.arr, c_dim_t(n_dims), inds.pointer,
                                                   other_arr))
             safe_call(backend.get().af_release_array(self.arr))
             if del_other:

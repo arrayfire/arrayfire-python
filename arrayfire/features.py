@@ -28,13 +28,13 @@ class Features(object):
         self.feat = ct.c_void_p(0)
         if num is not None:
             assert(isinstance(num, numbers.Number))
-            safe_call(backend.get().af_create_features(ct.pointer(self.feat), ct.c_longlong(num)))
+            safe_call(backend.get().af_create_features(ct.pointer(self.feat), c_dim_t(num)))
 
     def num_features():
         """
         Returns the number of features detected.
         """
-        num = ct.c_longlong(0)
+        num = c_dim_t(0)
         safe_call(backend.get().af_get_features_num(ct.pointer(num), self.feat))
         return num
 
