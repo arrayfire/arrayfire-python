@@ -1,3 +1,6 @@
+### v3.3.20160328
+- Fixes to make arrayfire-python to work on 32 bit systems
+
 ### v3.3.20160320
 - Feature parity with Arrayfire 3.3 libs
     - Functions to interact with arryafire's internal data structures.
