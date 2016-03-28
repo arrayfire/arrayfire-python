@@ -85,10 +85,10 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
         safe_call(backend.get().af_constant_complex(ct.pointer(out), c_real, c_imag,
                                                     4, ct.pointer(dims), dtype))
     elif dtype.value == Dtype.s64.value:
-        c_val = c_dim_t(val.real)
+        c_val = ct.c_longlong(val.real)
         safe_call(backend.get().af_constant_long(ct.pointer(out), c_val, 4, ct.pointer(dims)))
     elif dtype.value == Dtype.u64.value:
-        c_val = c_dim_t(val.real)
+        c_val = ct.c_ulonglong(val.real)
         safe_call(backend.get().af_constant_ulong(ct.pointer(out), c_val, 4, ct.pointer(dims)))
     else:
         c_val = ct.c_double(val)

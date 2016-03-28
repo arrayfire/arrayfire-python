@@ -15,7 +15,7 @@ def dim4(d0=1, d1=1, d2=1, d3=1):
     out = c_dim4(1, 1, 1, 1)
 
     for i, dim in enumerate((d0, d1, d2, d3)):
-        if (dim is not None): out[i] = dim
+        if (dim is not None): out[i] = c_dim_t(dim)
 
     return out
 
