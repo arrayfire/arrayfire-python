@@ -42,7 +42,6 @@
     - Fixed typo that prevented changing backend
     - Fixed image processing functions that accepted floating point scalar paramters.
         - Affected functions include: `translate`, `scale`, `skew`, `histogram`, `bilateral`, `mean_shift`.
-
 ### v3.2.20151224
 - Bug fixes:
     - A default `AF_PATH` is set if none is found as an environment variable.

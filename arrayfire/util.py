@@ -11,11 +11,11 @@ from .library import *
 import numbers
 
 def dim4(d0=1, d1=1, d2=1, d3=1):
-    c_dim4 = ct.c_longlong * 4
+    c_dim4 = c_dim_t * 4
     out = c_dim4(1, 1, 1, 1)
 
     for i, dim in enumerate((d0, d1, d2, d3)):
-        if (dim is not None): out[i] = dim
+        if (dim is not None): out[i] = c_dim_t(dim)
 
     return out
 
@@ -70,7 +70,7 @@ def to_str(c_str):
 def safe_call(af_error):
     if (af_error != ERR.NONE.value):
         err_str = ct.c_char_p(0)
-        err_len = ct.c_longlong(0)
+        err_len = c_dim_t(0)
         backend.get().af_get_last_error(ct.pointer(err_str), ct.pointer(err_len))
         raise RuntimeError(to_str(err_str))
 

@@ -287,7 +287,7 @@ def alloc_device(num_bytes):
     Allocate a buffer on the device with specified number of bytes.
     """
     ptr = ct.c_void_p(0)
-    c_num_bytes = ct.c_longlong(num_bytes)
+    c_num_bytes = c_dim_t(num_bytes)
     safe_call(backend.get().af_alloc_device(ct.pointer(ptr), c_num_bytes))
     return ptr.value
 
@@ -296,7 +296,7 @@ def alloc_host(num_bytes):
     Allocate a buffer on the host with specified number of bytes.
     """
     ptr = ct.c_void_p(0)
-    c_num_bytes = ct.c_longlong(num_bytes)
+    c_num_bytes = c_dim_t(num_bytes)
     safe_call(backend.get().af_alloc_host(ct.pointer(ptr), c_num_bytes))
     return ptr.value
 
@@ -305,7 +305,7 @@ def alloc_pinned(num_bytes):
     Allocate a buffer on the host using pinned memory with specified number of bytes.
     """
     ptr = ct.c_void_p(0)
-    c_num_bytes = ct.c_longlong(num_bytes)
+    c_num_bytes = c_dim_t(num_bytes)
     safe_call(backend.get().af_alloc_pinned(ct.pointer(ptr), c_num_bytes))
     return ptr.value
 

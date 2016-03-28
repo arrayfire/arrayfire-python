@@ -166,7 +166,7 @@ def hamming_matcher(query, database, dim = 0, num_nearest = 1):
     dist = Array()
     safe_call(backend.get().af_hamming_matcher(ct.pointer(idx.arr), ct.pointer(dist.arr),
                                                query.arr, database.arr,
-                                               ct.c_longlong(dim), ct.c_longlong(num_nearest)))
+                                               c_dim_t(dim), c_dim_t(num_nearest)))
     return index, dist
 
 def nearest_neighbour(query, database, dim = 0, num_nearest = 1, match_type=MATCH.SSD):
@@ -202,7 +202,7 @@ def nearest_neighbour(query, database, dim = 0, num_nearest = 1, match_type=MATC
     dist = Array()
     safe_call(backend.get().af_nearest_neighbour(ct.pointer(idx.arr), ct.pointer(dist.arr),
                                                  query.arr, database.arr,
-                                                 ct.c_longlong(dim), ct.c_longlong(num_nearest),
+                                                 c_dim_t(dim), c_dim_t(num_nearest),
                                                  match_type.value))
     return index, dist
 

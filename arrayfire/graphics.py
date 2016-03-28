@@ -48,7 +48,7 @@ class Window(object):
     def __init__(self, width=1280, height=720, title="ArrayFire"):
         self._r = -1
         self._c = -1
-        self._wnd = ct.c_longlong(0)
+        self._wnd = ct.c_void_p(0)
         self._cmap = COLORMAP.DEFAULT
 
         _width  = 1280 if  width is None else  width
