@@ -109,7 +109,7 @@ pip install arrayfire
 **Install the development version:**
 
 ```
-pip install git+git://github.com/arrayfire/arrayfire.git@devel
+pip install git+git://github.com/arrayfire/arrayfire-python.git@devel
 ```
 
 **Installing offline**
