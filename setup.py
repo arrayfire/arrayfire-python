@@ -17,7 +17,7 @@ from setuptools import setup, find_packages
 
 # Some hackery to avoid merge conflicts between master and devel
 current_version = "3.3.20160320"
-devel_version = "3.3.0"
+devel_version = "3.4.0"
 release_version = current_version if current_version > devel_version else devel_version
 
 setup(
