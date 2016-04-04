@@ -66,7 +66,7 @@ while (not simple_win.close()) and (not pretty_win.close()):
     A2 = (state == 0) & C1
     A3 = (state == 1) & (neighborhood > 3)
 
-    display = (af.join(2, A0 + A1, A1 + A2, A3).as_type(af.Dtype.f32)
+    display = af.join(2, A0 + A1, A1 + A2, A3).as_type(af.Dtype.f32)
 
     state = state * C0 + C1
 
