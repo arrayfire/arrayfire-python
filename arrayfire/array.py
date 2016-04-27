@@ -407,7 +407,7 @@ class Array(BaseArray):
                 buf,buf_len = tmp.buffer_info()
                 _type_char = tmp.typecode
                 numdims, idims = _get_info(dims, buf_len)
-            elif isinstance(src, int) or isinstance(src, ct.c_void_p):
+            elif isinstance(src, long) or isinstance(src, int) or isinstance(src, ct.c_void_p):
                 buf = src if not isinstance(src, ct.c_void_p) else src.value
 
                 numdims, idims = _get_info(dims, buf_len)
