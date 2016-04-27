@@ -16,7 +16,7 @@ from setuptools import setup, find_packages
 ## 2) Include test suite
 
 # Some hackery to avoid merge conflicts between master and devel
-current_version = "3.3.20160328"
+current_version = "3.3.20160427"
 devel_version = "3.3.0"
 release_version = current_version if current_version > devel_version else devel_version
 
