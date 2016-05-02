@@ -1,3 +1,8 @@
+### v3.3.20160427
+- Fixes to numpy interop on Windows
+- Fixes issues with occasional double free
+- Fixes to graphics examples
+
 ### v3.3.20160328
 - Fixes to make arrayfire-python to work on 32 bit systems
 

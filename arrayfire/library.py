@@ -507,7 +507,7 @@ class _clibrary(object):
         return self.__name
 
     def is_unified(self):
-        return self.__name == ''
+        return self.__name == 'unified'
 
     def parse(self, res):
         lst = []

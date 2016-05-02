@@ -40,7 +40,7 @@ try:
         """
 
         in_shape = np_arr.shape
-        in_ptr = np_arr.ctypes.data
+        in_ptr = np_arr.ctypes.data_as(ct.c_void_p)
         in_dtype = np_arr.dtype.char
 
         if (np_arr.flags['F_CONTIGUOUS']):

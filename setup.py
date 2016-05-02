@@ -15,10 +15,7 @@ from setuptools import setup, find_packages
 ## 1) Look for af libraries during setup
 ## 2) Include test suite
 
-# Some hackery to avoid merge conflicts between master and devel
-current_version = "3.3.20160328"
-devel_version = "3.4.0"
-release_version = current_version if current_version > devel_version else devel_version
+release_version = "3.4.0"
 
 setup(
     author="Pavan Yalamanchili",

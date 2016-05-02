@@ -29,7 +29,7 @@ if __name__ == "__main__":
     hist_win = af.Window(512, 512, "3D Plot example using ArrayFire")
     img_win  = af.Window(480, 640, "Input Image")
 
-    img = (af.load_image(sys.argv[1])).(af.Dtype.u8)
+    img = af.load_image(sys.argv[1]).as_type(af.Dtype.u8)
     hist = af.histogram(img, 256, 0, 255)
 
     while (not hist_win.close()) and (not img_win.close()):

@@ -481,6 +481,7 @@ class Array(BaseArray):
         """
         if self.arr.value:
             backend.get().af_release_array(self.arr)
+            self.arr.value = 0
 
     def device_ptr(self):
         """
