@@ -11,7 +11,7 @@
 
 from random import random
 from time import time
-from arrayfire import (array, randu)
+import numpy as np
 import arrayfire as af
 import sys
 
@@ -21,15 +21,20 @@ try:
 except NameError:
     frange = range   #Python3
 
-
-def calc_pi_device(samples):
-    x = randu(samples)
-    y = randu(samples)
-    return 4 * af.sum((x * x  + y * y) < 1) / samples
-
 # Having the function outside is faster than the lambda inside
 def in_circle(x, y):
     return (x*x + y*y) < 1
+
+def calc_pi_device(samples):
+    x = af.randu(samples)
+    y = af.randu(samples)
+    return 4 * af.sum(in_circle(x, y)) / samples
+
+def calc_pi_numpy(samples):
+    np.random.seed(1)
+    x = np.random.rand(samples)
+    y = np.random.rand(samples)
+    return 4 * np.sum(in_circle(x, y)) / samples
 
 def calc_pi_host(samples):
     count = sum(1 for k in frange(samples) if in_circle(random(), random()))
@@ -53,4 +58,5 @@ if __name__ == "__main__":
     af.info()
 
     bench(calc_pi_device)
+    bench(calc_pi_numpy)
     bench(calc_pi_host)
