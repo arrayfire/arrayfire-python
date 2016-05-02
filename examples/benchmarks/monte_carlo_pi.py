@@ -11,9 +11,13 @@
 
 from random import random
 from time import time
-import numpy as np
 import arrayfire as af
 import sys
+
+try:
+    import numpy as np
+except:
+    np = None
 
 #alias range / xrange because xrange is faster than range in python2
 try:
@@ -32,8 +36,8 @@ def calc_pi_device(samples):
 
 def calc_pi_numpy(samples):
     np.random.seed(1)
-    x = np.random.rand(samples)
-    y = np.random.rand(samples)
+    x = np.random.rand(samples).astype(np.float32)
+    y = np.random.rand(samples).astype(np.float32)
     return 4 * np.sum(in_circle(x, y)) / samples
 
 def calc_pi_host(samples):
@@ -58,5 +62,6 @@ if __name__ == "__main__":
     af.info()
 
     bench(calc_pi_device)
-    bench(calc_pi_numpy)
+    if np:
+        bench(calc_pi_numpy)
     bench(calc_pi_host)
