@@ -11,7 +11,7 @@
 
 
 import sys
-from timeit import timeit
+from time import time
 import arrayfire as af
 
 try:
@@ -24,8 +24,9 @@ def calc_arrayfire(n):
     A = af.randu(n, n)
     af.sync()
 
-    def run():
-        B = af.matmul(A, A)
+    def run(iters):
+        for t in range(iters):
+            B = af.matmul(A, A)
         af.sync()
 
     return run
@@ -35,8 +36,9 @@ def calc_numpy(n):
     np.random.seed(1)
     A = np.random.rand(n, n).astype(np.float32)
 
-    def run():
-        B = np.dot(A, A)
+    def run(iters):
+        for t in range(iters):
+            B = np.dot(A, A)
 
     return run
 
@@ -46,7 +48,10 @@ def bench(calc, iters=100, upto=2048):
     print("Benchmark N x N matrix multiply on %s" % name)
 
     for n in range(128, upto + 128, 128):
-        t = timeit(calc(n), number=iters) / iters
+        run = calc(n)
+        start = time()
+        run(iters)
+        t = (time() - start) / iters
         gflops = 2.0 * (n ** 3) / (t * 1E9)
         print("Time taken for %4d x %4d: %0.4f Gflops" % (n, n, gflops))
 
