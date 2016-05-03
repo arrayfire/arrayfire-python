@@ -11,16 +11,45 @@
 
 
 import sys
-from time import time
-from arrayfire import (array, randu, matmul)
+from timeit import timeit
 import arrayfire as af
 
-def bench(A, iters = 100):
-    start = time()
-    for t in range(iters):
-        B = af.matmul(A, A)
+try:
+    import numpy as np
+except:
+    np = None
+
+
+def calc_device(n):
+    A = af.randu(n, n)
     af.sync()
-    return (time() - start) / iters
+
+    def run():
+        B = af.matmul(A, A)
+        af.sync()
+
+    return run
+
+
+def calc_numpy(n):
+    np.random.seed(1)
+    A = np.random.rand(n, n).astype(np.float32)
+
+    def run():
+        B = np.dot(A, A)
+
+    return run
+
+
+def bench(calc, iters=100, upto=2048):
+    _, name = calc.__name__.split("_")
+    print("Benchmark N x N matrix multiply on %s" % name)
+
+    for n in range(128, upto + 128, 128):
+        t = timeit(calc(n), number=iters) / iters
+        gflops = 2.0 * (n ** 3) / (t * 1E9)
+        print("Time taken for %4d x %4d: %0.4f Gflops" % (n, n, gflops))
+
 
 if __name__ == "__main__":
 
@@ -28,12 +57,7 @@ if __name__ == "__main__":
         af.set_device(int(sys.argv[1]))
 
     af.info()
-    print("Benchmark N x N matrix multiply")
 
-    for n in range(128, 2048 + 128, 128):
-        A = af.randu(n, n)
-        af.sync()
-
-        t = bench(A)
-        gflops = 2.0 * (n**3) / (t * 1E9)
-        print("Time taken for %4d x %4d: %0.4f Gflops" % (n, n, gflops))
+    bench(calc_device)
+    if np:
+        bench(calc_numpy, upto=512)
