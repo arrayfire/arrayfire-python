@@ -20,7 +20,7 @@ except:
     np = None
 
 
-def calc_device(n):
+def calc_arrayfire(n):
     A = af.randu(n, n)
     af.sync()
 
@@ -58,6 +58,6 @@ if __name__ == "__main__":
 
     af.info()
 
-    bench(calc_device)
+    bench(calc_arrayfire)
     if np:
         bench(calc_numpy, upto=512)
