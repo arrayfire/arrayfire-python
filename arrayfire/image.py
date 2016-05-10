@@ -408,7 +408,7 @@ def histogram(image, nbins, min_val = None, max_val = None):
     output = Array()
     safe_call(backend.get().af_histogram(ct.pointer(output.arr),
                                          image.arr, ct.c_uint(nbins),
-                                         ct.c_float(min_val), ct.c_float(max_val)))
+                                         ct.c_double(min_val), ct.c_double(max_val)))
     return output
 
 def hist_equal(image, hist):
