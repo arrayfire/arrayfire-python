@@ -1,3 +1,14 @@
+### v3.3.20160510
+- Bugfix to `af.histogram`
+
+- Added missing functions / methods
+   - `gaussian_kernel`
+
+- Added new array properties
+   - `Array.T` now returns transpose
+   - `Array.H` now returns hermitian transpose
+   - `Array.shape` now allows easier access individual dimensions
+
 ### v3.3.20160427
 - Fixes to numpy interop on Windows
 - Fixes issues with occasional double free

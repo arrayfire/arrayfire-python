@@ -18,6 +18,9 @@ def simple_array(verbose=False):
 
     a = af.Array([1, 2, 3])
     display_func(a)
+    display_func(a.T)
+    display_func(a.H)
+    print_func(a.shape)
 
     b = a.as_type(af.Dtype.s32)
     display_func(b)

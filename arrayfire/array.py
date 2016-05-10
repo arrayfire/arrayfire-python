@@ -577,6 +577,20 @@ class Array(BaseArray):
         """
         return self.dtype().value
 
+    @property
+    def T(self):
+        """
+        Return the transpose of the array
+        """
+        return transpose(self, False)
+
+    @property
+    def H(self):
+        """
+        Return the hermitian transpose of the array
+        """
+        return transpose(self, False)
+
     def dims(self):
         """
         Return the shape of the array as a tuple.
@@ -589,6 +603,13 @@ class Array(BaseArray):
                                    ct.pointer(d2), ct.pointer(d3), self.arr))
         dims = (d0.value,d1.value,d2.value,d3.value)
         return dims[:self.numdims()]
+
+    @property
+    def shape(self):
+        """
+        The shape of the array
+        """
+        return self.dims()
 
     def numdims(self):
         """

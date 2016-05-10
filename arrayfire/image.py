@@ -408,7 +408,7 @@ def histogram(image, nbins, min_val = None, max_val = None):
     output = Array()
     safe_call(backend.get().af_histogram(ct.pointer(output.arr),
                                          image.arr, ct.c_uint(nbins),
-                                         ct.c_float(min_val), ct.c_float(max_val)))
+                                         ct.c_double(min_val), ct.c_double(max_val)))
     return output
 
 def hist_equal(image, hist):
@@ -768,6 +768,48 @@ def sobel_derivatives(image, w_len=3):
     safe_call(backend.get().af_sobel_operator(ct.pointer(dx.arr), ct.pointer(dy.arr),
                                               image.arr, ct.c_uint(w_len)))
     return dx,dy
+
+def gaussian_kernel(rows, cols, sigma_r = None, sigma_c = None):
+    """
+    Create a gaussian kernel with the given parameters.
+
+    Parameters
+    ----------
+    image : af.Array
+          - A 2 D arrayfire array representing an image, or
+          - A multi dimensional array representing batch of images.
+
+    rows : int
+         - The number of rows in the gaussian kernel.
+
+    cols : int
+         - The number of columns in the gaussian kernel.
+
+    sigma_r : optional: number. default: None.
+         - The sigma value along rows
+         - If None, calculated as (0.25 * rows + 0.75)
+
+    sigma_c : optional: number. default: None.
+         - The sigma value along columns
+         - If None, calculated as (0.25 * cols + 0.75)
+
+    Returns
+    -------
+    out   : af.Array
+          - A gaussian kernel of size (rows, cols)
+    """
+    out = Array()
+
+    if (sigma_r is None):
+        sigma_r = 0.25 * rows + 0.75
+
+    if (sigma_c is None):
+        sigma_c = 0.25 * cols + 0.75
+
+    safe_call(backend.get().af_gaussian_kernel(ct.pointer(out.arr),
+                                               ct.c_int(rows), ct.c_int(cols),
+                                               ct.c_double(sigma_r), ct.c_double(sigma_c)))
+    return out
 
 def sobel_filter(image, w_len = 3, is_fast = False):
     """
