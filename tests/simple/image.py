@@ -54,6 +54,8 @@ def simple_image(verbose = False):
     display_func(dx)
     display_func(dy)
     display_func(af.sobel_filter(a))
+    display_func(af.gaussian_kernel(3, 3))
+    display_func(af.gaussian_kernel(3, 3, 1, 1))
 
     ac = af.gray2rgb(a)
     display_func(ac)
