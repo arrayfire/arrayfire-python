@@ -531,13 +531,19 @@ def set_backend(name, unsafe=False):
            If False, does not switch backend if current backend is not unified backend.
     """
     if (backend.is_unified() == False and unsafe == False):
-        raise RuntimeError("Can not change backend after loading %s" % name)
+        raise RuntimeError("Can not change backend to %s after loading %s" % (name, backend.name()))
 
     if (backend.is_unified()):
         safe_call(backend.get().af_set_backend(backend.get_id(name)))
     else:
         backend.set_unsafe(name)
     return
+
+def get_backend():
+    """
+    Return the name of the backend
+    """
+    return backend.name()
 
 def get_backend_id(A):
     """
