@@ -29,7 +29,7 @@ The default backend is chosen in the following order of preference based on the 
 
 The backend can be chosen at the beginning of the program by using the following function
 
-    >>> af.backend.set(name)
+    >>> af.set_backend(name)
 
 where name is one of 'cuda', 'opencl' or 'cpu'
 
