@@ -1,3 +1,9 @@
+### v3.3.20160516
+- Bugfix: Increase arrayfire's priority over numpy for mixed operations
+
+- Added new library functions
+   - `get_backend` returns backend name
+
 ### v3.3.20160510
 - Bugfix to `af.histogram`
 
