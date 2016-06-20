@@ -300,6 +300,8 @@ class Array(BaseArray):
                - 'd' for double
                - 'b' for bool
                - 'B' for unsigned char
+               - 'h' for signed 16 bit integer
+               - 'H' for unsigned 16 bit integer
                - 'i' for signed 32 bit integer
                - 'I' for unsigned 32 bit integer
                - 'l' for signed 64 bit integer
@@ -311,6 +313,8 @@ class Array(BaseArray):
                - Dtype.f64 for double
                - Dtype.b8  for bool
                - Dtype.u8  for unsigned char
+               - Dtype.s16 for signed 16 bit integer
+               - Dtype.u16 for unsigned 16 bit integer
                - Dtype.s32 for signed 32 bit integer
                - Dtype.u32 for unsigned 32 bit integer
                - Dtype.s64 for signed 64 bit integer
