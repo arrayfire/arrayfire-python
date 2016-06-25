@@ -384,7 +384,7 @@ def join(dim, first, second, third=None, fourth=None):
           An array containing the input arrays joined along the specified dimension.
 
     Examples
-    -------
+    ---------
 
     >>> import arrayfire as af
     >>> a = af.randu(2, 3)
@@ -460,7 +460,7 @@ def tile(a, d0, d1=1, d2=1, d3=1):
           An array containing the input after tiling the the specified number of times.
 
     Examples
-    -------
+    ---------
 
     >>> import arrayfire as af
     >>> a = af.randu(2, 3)
@@ -710,7 +710,7 @@ def flip(a, dim=0):
           The output after flipping `a` along `dim`.
 
     Examples
-    -------
+    ---------
 
     >>> import arrayfire as af
     >>> a = af.randu(3, 3)

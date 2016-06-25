@@ -8,7 +8,7 @@
 ########################################################
 
 """
-graphics functions for arrayfire
+Graphics functions (plot, image, etc).
 """
 
 from .library import *

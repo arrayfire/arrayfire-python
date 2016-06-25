@@ -7,7 +7,7 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 """
-Functions to time arrayfire functions
+Functions to time arrayfire.
 """
 
 from .library import *

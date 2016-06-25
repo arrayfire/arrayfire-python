@@ -76,7 +76,7 @@ def set_device(num):
     Change the active device to the specified id.
 
     Parameters
-    ---------
+    -----------
     num: int.
          id of the desired device.
     """
@@ -136,7 +136,7 @@ def is_dbl_supported(device=None):
     Check if double precision is supported on specified device.
 
     Parameters
-    ---------
+    -----------
     device: optional: int. default: None.
          id of the desired device.
 
@@ -155,7 +155,7 @@ def sync(device=None):
     Block until all the functions on the device have completed execution.
 
     Parameters
-    ---------
+    -----------
     device: optional: int. default: None.
          id of the desired device.
     """

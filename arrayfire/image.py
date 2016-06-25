@@ -8,7 +8,7 @@
 ########################################################
 
 """
-Image processing functions for arrayfire.
+Image processing functions.
 """
 
 from .library import *

@@ -14,6 +14,7 @@ This module provides interoperability with the following python packages.
 
      1. numpy
      2. pycuda
+     3. pyopencl
 """
 
 from .array import *

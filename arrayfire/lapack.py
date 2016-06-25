@@ -8,7 +8,7 @@
 ########################################################
 
 """
-Dense Linear Algebra functions for arrayfire.
+Dense Linear Algebra functions (solve, inverse, etc).
 """
 
 from .library import *

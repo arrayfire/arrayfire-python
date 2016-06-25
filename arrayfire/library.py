@@ -8,7 +8,7 @@
 ########################################################
 
 """
-module containing enums and other constants from arrayfire library
+Module containing enums and other constants.
 """
 
 import platform

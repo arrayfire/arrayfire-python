@@ -8,7 +8,7 @@
 ########################################################
 
 """
-Computer vision functions for arrayfire.
+Computer vision functions (FAST, ORB, etc)
 """
 
 from .library import *

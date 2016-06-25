@@ -7,7 +7,7 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 """
-arrayfire.Features class
+Features class used for Computer Vision algorithms.
 """
 from .library import *
 from .array import *

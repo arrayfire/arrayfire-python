@@ -8,7 +8,7 @@
 ########################################################
 
 """
-signal processing functions for arrayfire.
+Signal processing functions (fft, convolve, etc).
 """
 
 from .library import *
