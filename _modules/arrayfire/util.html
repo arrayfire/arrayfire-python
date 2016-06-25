@@ -10,11 +10,12 @@
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.4.0',
+        VERSION:     '3.3.20160624',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -139,6 +140,8 @@
             <span class="s1">&#39;d&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="p">,</span>
             <span class="s1">&#39;b&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span><span class="p">,</span>
             <span class="s1">&#39;B&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u8</span><span class="p">,</span>
+            <span class="s1">&#39;h&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s16</span><span class="p">,</span>
+            <span class="s1">&#39;H&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u16</span><span class="p">,</span>
             <span class="s1">&#39;i&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s32</span><span class="p">,</span>
             <span class="s1">&#39;I&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u32</span><span class="p">,</span>
             <span class="s1">&#39;l&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="p">,</span>
@@ -150,6 +153,8 @@
                <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">u8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">s16</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">u16</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">s32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">u32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span>
@@ -161,6 +166,8 @@
              <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span>
              <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_char</span><span class="p">,</span>
              <span class="n">Dtype</span><span class="o">.</span><span class="n">u8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_ubyte</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">s16</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_short</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">u16</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_ushort</span><span class="p">,</span>
              <span class="n">Dtype</span><span class="o">.</span><span class="n">s32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
              <span class="n">Dtype</span><span class="o">.</span><span class="n">u32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">,</span>
              <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_longlong</span><span class="p">,</span>
@@ -172,6 +179,8 @@
                <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;double&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;bool&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">u8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;unsigned char&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">s16</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;short int&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">u16</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;unsigned short int&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">s32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">u32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;unsigned int&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;long int&#39;</span><span class="p">,</span>

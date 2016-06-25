@@ -5,6 +5,3 @@ arrayfire.algorithm module
     :members:
     :undoc-members:
     :show-inheritance:
-
-    .. autosummary:: arrayfire.algorithm
-       :members:
