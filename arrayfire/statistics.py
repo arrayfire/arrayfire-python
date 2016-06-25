@@ -7,6 +7,10 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
+"""
+Statistical algorithms (mean, var, stdev, etc).
+"""
+
 from .library import *
 from .array import *
 

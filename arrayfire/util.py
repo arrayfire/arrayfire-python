@@ -7,6 +7,10 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
+"""
+Utility functions to help with Array metadata.
+"""
+
 from .library import *
 import numbers
 

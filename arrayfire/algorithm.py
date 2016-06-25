@@ -8,7 +8,7 @@
 ########################################################
 
 """
-Vector algorithms for ArrayFire
+Vector algorithms (sum, min, sort, etc).
 """
 
 from .library import *
@@ -283,7 +283,7 @@ def imax(a, dim=None):
 
 def accum(a, dim=0):
     """
-    Cumulative sum of an array along a specified dimension.
+    Cumulative sum of an array along a specified dimension
 
     Parameters
     ----------

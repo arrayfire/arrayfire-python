@@ -8,7 +8,7 @@
 ########################################################
 
 """
-BLAS functions for arrayfire.
+BLAS functions (matmul, dot, etc)
 """
 
 from .library import *

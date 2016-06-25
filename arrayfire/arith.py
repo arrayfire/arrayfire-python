@@ -8,7 +8,7 @@
 ########################################################
 
 """
-Math functions for ArrayFire
+Math functions (sin, sqrt, exp, etc).
 """
 
 from .library import *

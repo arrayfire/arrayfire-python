@@ -8,7 +8,7 @@
 ########################################################
 
 """
-arrayfire.Array class and helper functions.
+Array class and helper functions.
 """
 
 import inspect
@@ -492,7 +492,7 @@ class Array(BaseArray):
         Return the device pointer exclusively held by the array.
 
         Returns
-        ------
+        --------
         ptr : int
               Contains location of the device pointer
 
@@ -512,7 +512,7 @@ class Array(BaseArray):
         Return the device pointer held by the array.
 
         Returns
-        ------
+        --------
         ptr : int
               Contains location of the device pointer
 
@@ -533,7 +533,7 @@ class Array(BaseArray):
         Return the offset, of the first element relative to the raw pointer.
 
         Returns
-        ------
+        --------
         offset : int
                  The offset in number of elements
         """
@@ -546,7 +546,7 @@ class Array(BaseArray):
         Return the distance in bytes between consecutive elements for each dimension.
 
         Returns
-        ------
+        --------
         strides : tuple
                   The strides for each dimension
         """
@@ -1082,7 +1082,7 @@ class Array(BaseArray):
         Return the data as a ctype C array after copying to host memory
 
         Parameters
-        ---------
+        -----------
 
         row_major: optional: bool. default: False.
             Specifies if a transpose needs to occur before copying to host memory.
@@ -1116,7 +1116,7 @@ class Array(BaseArray):
         Return the data as array.array
 
         Parameters
-        ---------
+        -----------
 
         row_major: optional: bool. default: False.
             Specifies if a transpose needs to occur before copying to host memory.
@@ -1151,7 +1151,7 @@ class Array(BaseArray):
         Return the data as list
 
         Parameters
-        ---------
+        -----------
 
         row_major: optional: bool. default: False.
             Specifies if a transpose needs to occur before copying to host memory.

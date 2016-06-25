@@ -7,7 +7,7 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 """
-classes required for indexing operations
+Index and Seq classes used in indexing operations.
 """
 
 from .library import *

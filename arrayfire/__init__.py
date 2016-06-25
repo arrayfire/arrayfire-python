@@ -8,18 +8,22 @@
 ########################################################
 
 """
-A high performance scientific computing library for CUDA, OpenCL and CPU devices.
+ArrayFire is a high performance scientific computing library with an easy to use API.
 
-The functionality provided by ArrayFire spans the following domains:
 
-    1. Vector Algorithms
-    2. Image Processing
-    3. Signal Processing
-    4. Computer Vision
-    5. Linear Algebra
-    6. Statistics
+    >>> # Monte Carlo estimation of pi
+    >>> def calc_pi_device(samples):
+            # Simple, array based API
+            # Generate uniformly distributed random numers
+            x = af.randu(samples)
+            y = af.randu(samples)
+            # Supports Just In Time Compilation
+            # The following line generates a single kernel
+            within_unit_circle = (x * x + y * y) < 1
+            # Intuitive function names
+            return 4 * af.count(within_unit_circle) / samples
 
-Programs written using ArrayFire are portable across CUDA, OpenCL and CPU devices
+Programs written using ArrayFire are portable across CUDA, OpenCL and CPU devices.
 
 The default backend is chosen in the following order of preference based on the available libraries:
 
@@ -31,7 +35,16 @@ The backend can be chosen at the beginning of the program by using the following
 
     >>> af.set_backend(name)
 
-where name is one of 'cuda', 'opencl' or 'cpu'
+where name is one of 'cuda', 'opencl' or 'cpu'.
+
+The functionality provided by ArrayFire spans the following domains:
+
+    1. Vector Algorithms
+    2. Image Processing
+    3. Signal Processing
+    4. Computer Vision
+    5. Linear Algebra
+    6. Statistics
 
 """
 
