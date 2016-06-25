@@ -10,21 +10,17 @@
 ########################################################
 
 from setuptools import setup, find_packages
+from __af_version__ import full_version
 
-## TODO:
-## 1) Look for af libraries during setup
-## 2) Include test suite
-
-# Some hackery to avoid merge conflicts between master and devel
-current_version = "3.3.20160516"
-devel_version = "3.3.0"
-release_version = current_version if current_version > devel_version else devel_version
+TODO:
+1) Look for af libraries during setup
+2) Include test suite
 
 setup(
     author="Pavan Yalamanchili",
     author_email="pavan@arrayfire.com",
     name="arrayfire",
-    version=release_version,
+    version=full_version,
     description="Python bindings for ArrayFire",
     license="BSD",
     url="http://arrayfire.com",
