@@ -1,3 +1,7 @@
+### v3.3.20160624
+- Adding 16 bit integer support
+- Adding support for sphinx documentation
+
 ### v3.3.20160516
 - Bugfix: Increase arrayfire's priority over numpy for mixed operations
 
