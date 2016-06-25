@@ -10,7 +10,7 @@
 ########################################################
 
 from setuptools import setup, find_packages
-from __af_version__ import full_version
+#from __af_version__ import full_version
 
 #TODO:
 #1) Look for af libraries during setup
@@ -20,7 +20,7 @@ setup(
     author="Pavan Yalamanchili",
     author_email="pavan@arrayfire.com",
     name="arrayfire",
-    version=full_version,
+    version="3.4.0"
     description="Python bindings for ArrayFire",
     license="BSD",
     url="http://arrayfire.com",

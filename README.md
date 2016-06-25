@@ -10,80 +10,26 @@
 | OSX     | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/python-osx)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/python-osx/)          |
 | Linux on ARM | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/python-tegrak1)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/python-tegrak1/)|
 
+## Documentation
+
+Documentation for this project can be found [over here](http://arrayfire.org/arrayfire-python/).
+
 ## Example
 
 ```python
-import arrayfire as af
-
-# Display backend information
-af.info()
-
-# Generate a uniform random array with a size of 5 elements
-a = af.randu(5, 1)
-
-# Print a and its minimum value
-af.display(a)
-
-# Print min and max values of a
-print("Minimum, Maximum: ", af.min(a), af.max(a))
+# Monte Carlo estimation of pi
+def calc_pi_device(samples):
+    # Simple, array based API
+    # Generate uniformly distributed random numers
+    x = af.randu(samples)
+    y = af.randu(samples)
+    # Supports Just In Time Compilation
+    # The following line generates a single kernel
+    within_unit_circle = (x * x + y * y) < 1
+    # Intuitive function names
+    return 4 * af.count(within_unit_circle) / samples
 ```
 
-## Sample outputs
-
-On an AMD GPU:
-
-```
-Using opencl backend
-ArrayFire v3.0.1 (OpenCL, 64-bit Linux, build 17db1c9)
-[0] AMD     : Spectre
--1- AMD     : AMD A10-7850K Radeon R7, 12 Compute Cores 4C+8G
-
-[5 1 1 1]
-0.4107
-0.8224
-0.9518
-0.1794
-0.4198
-
-Minimum, Maximum:  0.17936542630195618 0.9517996311187744
-```
-
-On an NVIDIA GPU:
-
-```
-Using cuda backend
-ArrayFire v3.0.0 (CUDA, 64-bit Linux, build 86426db)
-Platform: CUDA Toolkit 7, Driver: 346.46
-[0] Tesla K40c, 12288 MB, CUDA Compute 3.5
--1- GeForce GTX 750, 1024 MB, CUDA Compute 5.0
-
-Generate a random matrix a:
-[5 1 1 1]
-0.7402
-0.9210
-0.0390
-0.9690
-0.9251
-
-Minimum, Maximum:  0.039020489901304245 0.9689629077911377
-```
-
-Fallback to CPU when CUDA and OpenCL are not availabe:
-
-```
-Using cpu backend
-ArrayFire v3.0.0 (CPU, 64-bit Linux, build 86426db)
-
-Generate a random matrix a:
-[5 1 1 1]
-0.0000
-0.1315
-0.7556
-0.4587
-0.5328
-
-Minimum, Maximum:  7.825903594493866e-06 0.7556053400039673
-```
 
 Choosing a particular backend can be done using `af.backend.set( backend_name )`  where backend_name can be one of: "_cuda_", "_opencl_", or "_cpu_". The default device is chosen in the same order of preference.
 
