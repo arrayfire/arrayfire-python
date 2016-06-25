@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.util &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.util</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Utility functions to help with Array metadata.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numbers</span>
+
+<div class="viewcode-block" id="dim4"><a class="viewcode-back" href="../../arrayfire.util.html#arrayfire.util.dim4">[docs]</a><span class="k">def</span> <span class="nf">dim4</span><span class="p">(</span><span class="n">d0</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="n">c_dim4</span> <span class="o">=</span> <span class="n">c_dim_t</span> <span class="o">*</span> <span class="mi">4</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">c_dim4</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">((</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">):</span> <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<span class="k">def</span> <span class="nf">_is_number</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">)</span>
+
+<div class="viewcode-block" id="number_dtype"><a class="viewcode-back" href="../../arrayfire.util.html#arrayfire.util.number_dtype">[docs]</a><span class="k">def</span> <span class="nf">number_dtype</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">bool</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">to_dtype</span><span class="p">[</span><span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">char</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="implicit_dtype"><a class="viewcode-back" href="../../arrayfire.util.html#arrayfire.util.implicit_dtype">[docs]</a><span class="k">def</span> <span class="nf">implicit_dtype</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">a_dtype</span><span class="p">):</span>
+    <span class="n">n_dtype</span> <span class="o">=</span> <span class="n">number_dtype</span><span class="p">(</span><span class="n">number</span><span class="p">)</span>
+    <span class="n">n_value</span> <span class="o">=</span> <span class="n">n_dtype</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="n">f64v</span> <span class="o">=</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">f32v</span> <span class="o">=</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">c32v</span> <span class="o">=</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">c64v</span> <span class="o">=</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="o">.</span><span class="n">value</span>
+
+    <span class="k">if</span> <span class="n">n_value</span> <span class="o">==</span> <span class="n">f64v</span> <span class="ow">and</span> <span class="p">(</span><span class="n">a_dtype</span> <span class="o">==</span> <span class="n">f32v</span> <span class="ow">or</span> <span class="n">a_dtype</span> <span class="o">==</span> <span class="n">c32v</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span>
+
+    <span class="k">if</span> <span class="n">n_value</span> <span class="o">==</span> <span class="n">c64v</span> <span class="ow">and</span> <span class="p">(</span><span class="n">a_dtype</span> <span class="o">==</span> <span class="n">f32v</span> <span class="ow">or</span> <span class="n">a_dtype</span> <span class="o">==</span> <span class="n">c32v</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span>
+
+    <span class="k">return</span> <span class="n">n_dtype</span></div>
+
+<div class="viewcode-block" id="dim4_to_tuple"><a class="viewcode-back" href="../../arrayfire.util.html#arrayfire.util.dim4_to_tuple">[docs]</a><span class="k">def</span> <span class="nf">dim4_to_tuple</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">_is_number</span><span class="p">(</span><span class="n">default</span><span class="p">))</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[</span><span class="n">default</span><span class="p">]</span><span class="o">*</span><span class="mi">4</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">dim</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dims</span><span class="p">):</span>
+        <span class="n">out</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dim</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">out</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="to_str"><a class="viewcode-back" href="../../arrayfire.util.html#arrayfire.util.to_str">[docs]</a><span class="k">def</span> <span class="nf">to_str</span><span class="p">(</span><span class="n">c_str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">c_str</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="safe_call"><a class="viewcode-back" href="../../arrayfire.util.html#arrayfire.util.safe_call">[docs]</a><span class="k">def</span> <span class="nf">safe_call</span><span class="p">(</span><span class="n">af_error</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">af_error</span> <span class="o">!=</span> <span class="n">ERR</span><span class="o">.</span><span class="n">NONE</span><span class="o">.</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">err_str</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">err_len</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_last_error</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">err_str</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">err_len</span><span class="p">))</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="n">to_str</span><span class="p">(</span><span class="n">err_str</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="get_version"><a class="viewcode-back" href="../../arrayfire.util.html#arrayfire.util.get_version">[docs]</a><span class="k">def</span> <span class="nf">get_version</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to get the version of arrayfire.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">major</span><span class="o">=</span><span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">minor</span><span class="o">=</span><span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">patch</span><span class="o">=</span><span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_version</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">major</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">minor</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">patch</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">major</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">minor</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">patch</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="get_reversion"><a class="viewcode-back" href="../../arrayfire.util.html#arrayfire.util.get_reversion">[docs]</a><span class="k">def</span> <span class="nf">get_reversion</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to get the revision hash of the library.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">to_str</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_revision</span><span class="p">())</span></div>
+
+<span class="n">to_dtype</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;f&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">,</span>
+            <span class="s1">&#39;d&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="p">,</span>
+            <span class="s1">&#39;b&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span><span class="p">,</span>
+            <span class="s1">&#39;B&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u8</span><span class="p">,</span>
+            <span class="s1">&#39;i&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s32</span><span class="p">,</span>
+            <span class="s1">&#39;I&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u32</span><span class="p">,</span>
+            <span class="s1">&#39;l&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="p">,</span>
+            <span class="s1">&#39;L&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u64</span><span class="p">,</span>
+            <span class="s1">&#39;F&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="p">,</span>
+            <span class="s1">&#39;D&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="p">}</span>
+
+<span class="n">to_typecode</span> <span class="o">=</span> <span class="p">{</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">u8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;B&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">s32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;i&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">u32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;I&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">u64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;D&#39;</span><span class="p">}</span>
+
+<span class="n">to_c_type</span> <span class="o">=</span> <span class="p">{</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_char</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">u8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_ubyte</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">s32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">u32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_longlong</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">u64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_ulonglong</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span> <span class="o">*</span> <span class="mi">2</span><span class="p">}</span>
+
+<span class="n">to_typename</span> <span class="o">=</span> <span class="p">{</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;float&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;double&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;bool&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">u8</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;unsigned char&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">s32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;int&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">u32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;unsigned int&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;long int&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">u64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;unsigned long int&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;float complex&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;double complex&#39;</span><span class="p">}</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

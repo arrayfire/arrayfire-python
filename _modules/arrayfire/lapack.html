@@ -1,0 +1,505 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.lapack &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.lapack</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Dense Linear Algebra functions (solve, inverse, etc).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="lu"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.lu">[docs]</a><span class="k">def</span> <span class="nf">lu</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    LU decomposition.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A: af.Array</span>
+<span class="sd">       A 2 dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (L,U,P): tuple of af.Arrays</span>
+<span class="sd">           - L - Lower triangular matrix.</span>
+<span class="sd">           - U - Upper triangular matrix.</span>
+<span class="sd">           - P - Permutation array.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    The original matrix `A` can be reconstructed using the outputs in the following manner.</span>
+
+<span class="sd">    &gt;&gt;&gt; A[P, :] = af.matmul(L, U)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">L</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lu</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">L</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">P</span></div>
+
+<div class="viewcode-block" id="lu_inplace"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.lu_inplace">[docs]</a><span class="k">def</span> <span class="nf">lu_inplace</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">pivot</span><span class="o">=</span><span class="s2">&quot;lapack&quot;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In place LU decomposition.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A: af.Array</span>
+<span class="sd">       - a 2 dimensional arrayfire array on entry.</span>
+<span class="sd">       - Contains L in the lower triangle on exit.</span>
+<span class="sd">       - Contains U in the upper triangle on exit.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    P: af.Array</span>
+<span class="sd">       - Permutation array.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    This function is primarily used with `af.solve_lu` to reduce computations.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">is_pivot_lapack</span> <span class="o">=</span> <span class="bp">False</span> <span class="k">if</span> <span class="p">(</span><span class="n">pivot</span> <span class="o">==</span> <span class="s2">&quot;full&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="bp">True</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lu_inplace</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_pivot_lapack</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">P</span></div>
+
+<div class="viewcode-block" id="qr"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.qr">[docs]</a><span class="k">def</span> <span class="nf">qr</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    QR decomposition.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A: af.Array</span>
+<span class="sd">       A 2 dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (Q,R,T): tuple of af.Arrays</span>
+<span class="sd">           - Q - Orthogonal matrix.</span>
+<span class="sd">           - R - Upper triangular matrix.</span>
+<span class="sd">           - T - Vector containing additional information to solve a least squares problem.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    The outputs of this funciton have the following properties.</span>
+
+<span class="sd">    &gt;&gt;&gt; A = af.matmul(Q, R)</span>
+<span class="sd">    &gt;&gt;&gt; I = af.matmulNT(Q, Q) # Identity matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Q</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lu</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Q</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">T</span></div>
+
+<div class="viewcode-block" id="qr_inplace"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.qr_inplace">[docs]</a><span class="k">def</span> <span class="nf">qr_inplace</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In place QR decomposition.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A: af.Array</span>
+<span class="sd">       - a 2 dimensional arrayfire array on entry.</span>
+<span class="sd">       - Packed Q and R matrices on exit.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    T: af.Array</span>
+<span class="sd">       - Vector containing additional information to solve a least squares problem.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    This function is used to save space only when `R` is required.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">T</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_qr_inplace</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">T</span></div>
+
+<div class="viewcode-block" id="cholesky"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.cholesky">[docs]</a><span class="k">def</span> <span class="nf">cholesky</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">is_upper</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cholesky decomposition</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A: af.Array</span>
+<span class="sd">       A 2 dimensional, symmetric, positive definite matrix.</span>
+
+<span class="sd">    is_upper: optional: bool. default: True</span>
+<span class="sd">       Specifies if output `R` is upper triangular (if True) or lower triangular (if False).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (R,info): tuple of af.Array, int.</span>
+<span class="sd">           - R - triangular matrix.</span>
+<span class="sd">           - info - 0 if decomposition sucessful.</span>
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    The original matrix `A` can be reconstructed using the outputs in the following manner.</span>
+
+<span class="sd">    &gt;&gt;&gt; A = af.matmulNT(R, R) #if R is upper triangular</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">R</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cholesky</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">info</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_upper</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">R</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="cholesky_inplace"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.cholesky_inplace">[docs]</a><span class="k">def</span> <span class="nf">cholesky_inplace</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">is_upper</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In place Cholesky decomposition.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A: af.Array</span>
+<span class="sd">       - a 2 dimensional, symmetric, positive definite matrix.</span>
+<span class="sd">       - Trinangular matrix on exit.</span>
+
+<span class="sd">    is_upper: optional: bool. default: True.</span>
+<span class="sd">       Specifies if output `R` is upper triangular (if True) or lower triangular (if False).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    info : int.</span>
+<span class="sd">           0 if decomposition sucessful.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cholesky_inplace</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">info</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_upper</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">info</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="solve"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.solve">[docs]</a><span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solve a system of linear equations.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    A: af.Array</span>
+<span class="sd">       A 2 dimensional arrayfire array representing the coefficients of the system.</span>
+
+<span class="sd">    B: af.Array</span>
+<span class="sd">       A 1 or 2 dimensional arrayfire array representing the constants of the system.</span>
+
+<span class="sd">    options: optional: af.MATPROP. default: af.MATPROP.NONE.</span>
+<span class="sd">       - Additional options to speed up computations.</span>
+<span class="sd">       - Currently needs to be one of `af.MATPROP.NONE`, `af.MATPROP.LOWER`, `af.MATPROP.UPPER`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X: af.Array</span>
+<span class="sd">       A 1 or 2 dimensional arrayfire array representing the unknowns in the system.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_solve</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">X</span></div>
+
+<div class="viewcode-block" id="solve_lu"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.solve_lu">[docs]</a><span class="k">def</span> <span class="nf">solve_lu</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solve a system of linear equations, using LU decomposition.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    A: af.Array</span>
+<span class="sd">       - A 2 dimensional arrayfire array representing the coefficients of the system.</span>
+<span class="sd">       - This matrix should be decomposed previously using `lu_inplace(A)`.</span>
+
+<span class="sd">    P: af.Array</span>
+<span class="sd">       - Permutation array.</span>
+<span class="sd">       - This array is the output of an earlier call to `lu_inplace(A)`</span>
+
+<span class="sd">    B: af.Array</span>
+<span class="sd">       A 1 or 2 dimensional arrayfire array representing the constants of the system.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    X: af.Array</span>
+<span class="sd">       A 1 or 2 dimensional arrayfire array representing the unknowns in the system.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_solve_lu</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">P</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">X</span></div>
+
+<div class="viewcode-block" id="inverse"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.inverse">[docs]</a><span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Invert a matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    A: af.Array</span>
+<span class="sd">       - A 2 dimensional arrayfire array</span>
+
+<span class="sd">    options: optional: af.MATPROP. default: af.MATPROP.NONE.</span>
+<span class="sd">       - Additional options to speed up computations.</span>
+<span class="sd">       - Currently needs to be one of `af.MATPROP.NONE`.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    AI: af.Array</span>
+<span class="sd">       - A 2 dimensional array that is the inverse of `A`</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    `A` needs to be a square matrix.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">AI</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_inverse</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">AI</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">AI</span></div>
+
+<div class="viewcode-block" id="rank"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.rank">[docs]</a><span class="k">def</span> <span class="nf">rank</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1E-5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rank of a matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    A: af.Array</span>
+<span class="sd">       - A 2 dimensional arrayfire array</span>
+
+<span class="sd">    tol: optional: scalar. default: 1E-5.</span>
+<span class="sd">       - Tolerance for calculating rank</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    r: int</span>
+<span class="sd">       - Rank of `A` within the given tolerance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rank</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">r</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">tol</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="det"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.det">[docs]</a><span class="k">def</span> <span class="nf">det</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determinant of a matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    A: af.Array</span>
+<span class="sd">       - A 2 dimensional arrayfire array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    res: scalar</span>
+<span class="sd">       - Determinant of the matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">re</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_det</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">re</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">im</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">return</span> <span class="n">re</span> <span class="k">if</span> <span class="p">(</span><span class="n">im</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="n">re</span> <span class="o">+</span> <span class="n">im</span> <span class="o">*</span> <span class="mi">1j</span></div>
+
+<div class="viewcode-block" id="norm"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.norm">[docs]</a><span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">norm_type</span><span class="o">=</span><span class="n">NORM</span><span class="o">.</span><span class="n">EUCLID</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Norm of an array or a matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    A: af.Array</span>
+<span class="sd">       - A 1 or 2 dimensional arrayfire array</span>
+
+<span class="sd">    norm_type: optional: af.NORM. default: af.NORM.EUCLID.</span>
+<span class="sd">       - Type of norm to be calculated.</span>
+
+<span class="sd">    p: scalar. default 1.0.</span>
+<span class="sd">       - Used only if `norm_type` is one of `af.NORM.VECTOR_P`, `af.NORM_MATRIX_L_PQ`</span>
+
+<span class="sd">    q: scalar. default 1.0.</span>
+<span class="sd">       - Used only if `norm_type` is `af.NORM_MATRIX_L_PQ`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    res: scalar</span>
+<span class="sd">       - norm of the input</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_norm</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">norm_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                    <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">q</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="svd"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.svd">[docs]</a><span class="k">def</span> <span class="nf">svd</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Singular Value Decomposition</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A: af.Array</span>
+<span class="sd">       A 2 dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (U,S,Vt): tuple of af.Arrays</span>
+<span class="sd">           - U - A unitary matrix</span>
+<span class="sd">           - S - An array containing the elements of diagonal matrix</span>
+<span class="sd">           - Vt - A unitary matrix</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    - The original matrix `A` is preserved and additional storage space is required for decomposition.</span>
+
+<span class="sd">    - If the original matrix `A` need not be preserved, use `svd_inplace` instead.</span>
+
+<span class="sd">    - The original matrix `A` can be reconstructed using the outputs in the following manner.</span>
+<span class="sd">    &gt;&gt;&gt; Smat = af.diag(S, 0, False)</span>
+<span class="sd">    &gt;&gt;&gt; A_recon = af.matmul(af.matmul(U, Smat), Vt)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">Vt</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_svd</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">Vt</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vt</span></div>
+
+<div class="viewcode-block" id="svd_inplace"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.svd_inplace">[docs]</a><span class="k">def</span> <span class="nf">svd_inplace</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Singular Value Decomposition</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A: af.Array</span>
+<span class="sd">       A 2 dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (U,S,Vt): tuple of af.Arrays</span>
+<span class="sd">           - U - A unitary matrix</span>
+<span class="sd">           - S - An array containing the elements of diagonal matrix</span>
+<span class="sd">           - Vt - A unitary matrix</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    - The original matrix `A` is not preserved.</span>
+
+<span class="sd">    - If the original matrix `A` needs to be preserved, use `svd` instead.</span>
+
+<span class="sd">    - The original matrix `A` can be reconstructed using the outputs in the following manner.</span>
+<span class="sd">    &gt;&gt;&gt; Smat = af.diag(S, 0, False)</span>
+<span class="sd">    &gt;&gt;&gt; A_recon = af.matmul(af.matmul(U, Smat), Vt)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">U</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">S</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">Vt</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_svd_inplace</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">Vt</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                           <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vt</span></div>
+
+<div class="viewcode-block" id="is_lapack_available"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.is_lapack_available">[docs]</a><span class="k">def</span> <span class="nf">is_lapack_available</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to check if the arrayfire library was built with lapack support.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_lapack_available</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

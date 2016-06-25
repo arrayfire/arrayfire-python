@@ -1,0 +1,1328 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.arith module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.arith">
+<span id="arrayfire-arith-module"></span><h1>arrayfire.arith module<a class="headerlink" href="#module-arrayfire.arith" title="Permalink to this headline">¶</a></h1>
+<p>Math functions (sin, sqrt, exp, etc).</p>
+<dl class="function">
+<dt id="arrayfire.arith.abs">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">abs</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#abs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.abs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the absolute values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Contains the absolute values of the inputs.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.acos">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">acos</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#acos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.acos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arc Cosine of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the arc cosine of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.acosh">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">acosh</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#acosh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.acosh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arc Hyperbolic Cosine of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the arc hyperbolic cosine of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.arg">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">arg</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#arg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.arg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the theta value of the inputs in polar co-ordinates.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Contains the theta values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.asin">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">asin</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#asin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.asin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arc Sine of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the arc sine of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.asinh">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">asinh</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#asinh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.asinh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arc Hyperbolic Sine of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the arc hyperbolic sine of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.atan">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">atan</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#atan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.atan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arc Tangent of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the arc tangent of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.atan2">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">atan2</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#atan2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.atan2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the arc tan using two values.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Contains the value arc tan values where:
+- <cite>lhs</cite> contains the sine values.
+- <cite>rhs</cite> contains the cosine values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.atanh">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">atanh</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#atanh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.atanh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Arc Hyperbolic Tangent of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the arc hyperbolic tangent of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.cast">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">cast</code><span class="sig-paren">(</span><em>a</em>, <em>dtype</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#cast"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.cast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cast an array to a specified type</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dtype: af.Dtype</strong></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Must be one of the following:</dt>
+<dd><ul class="first last simple">
+<li>Dtype.f32 for float</li>
+<li>Dtype.f64 for double</li>
+<li>Dtype.b8  for bool</li>
+<li>Dtype.u8  for unsigned char</li>
+<li>Dtype.s32 for signed 32 bit integer</li>
+<li>Dtype.u32 for unsigned 32 bit integer</li>
+<li>Dtype.s64 for signed 64 bit integer</li>
+<li>Dtype.u64 for unsigned 64 bit integer</li>
+<li>Dtype.c32 for 32 bit complex number</li>
+<li>Dtype.c64 for 64 bit complex number</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>Returns</strong></p>
+<p><strong>&#8212;&#8212;&#8211;</strong></p>
+<p><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the values from <cite>a</cite> after converting to <cite>dtype</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.cbrt">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">cbrt</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#cbrt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.cbrt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cube root of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the cube root of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.ceil">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">ceil</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#ceil"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.ceil" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round the values towards a bigger integer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the ceiled values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.conjg">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">conjg</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#conjg"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.conjg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the complex conjugate values of the input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing copmplex conjugate values from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.cos">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">cos</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#cos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.cos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cosine of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the cosine of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.cosh">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">cosh</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#cosh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.cosh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hyperbolic Cosine of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the hyperbolic cosine of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.cplx">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">cplx</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#cplx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.cplx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a complex array from real inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : optional: af.Array or scalar. default: None.</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Contains complex values whose
+- real values contain values from <cite>lhs</cite>
+- imaginary values contain values from <cite>rhs</cite> (0 if <cite>rhs</cite> is None)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.erf">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">erf</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#erf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.erf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Error function of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the error function of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.erfc">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">erfc</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#erfc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.erfc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Complementary error function of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the complementary error function of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.exp">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">exp</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#exp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.exp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exponential of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the exponential of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.expm1">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">expm1</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#expm1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.expm1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exponential of each element in the array minus 1.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the exponential of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.factorial">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">factorial</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#factorial"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.factorial" title="Permalink to this definition">¶</a></dt>
+<dd><p>factorial of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the factorial of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.floor">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">floor</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#floor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.floor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round the values towards a smaller integer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the floored values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.hypot">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">hypot</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#hypot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.hypot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the value of the hypotunese.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Contains the value of <cite>sqrt(lhs**2, rhs**2)</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.imag">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">imag</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#imag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.imag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the imaginary values of the input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the imaginary values from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.isinf">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">isinf</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#isinf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.isinf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if each element of the input is infinity.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the output after checking if each value of <cite>a</cite> is inifnite.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.isnan">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">isnan</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#isnan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.isnan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if each element of the input is NaN.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the output after checking if each value of <cite>a</cite> is NaN.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.iszero">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">iszero</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#iszero"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.iszero" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if each element of the input is zero.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the output after checking if each value of <cite>a</cite> is 0.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.lgamma">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">lgamma</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#lgamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.lgamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the logarithm of gamma function for each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the output of logarithm of gamma function of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.log">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">log</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#log"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.log" title="Permalink to this definition">¶</a></dt>
+<dd><p>Natural logarithm of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the natural logarithm of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.log10">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">log10</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#log10"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.log10" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logarithm base 10 of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the logarithm base 10 of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.log1p">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">log1p</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#log1p"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.log1p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logarithm of each element in the array plus 1.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the the values of <cite>log(a) + 1</cite></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.log2">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">log2</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#log2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.log2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Logarithm base 2 of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the logarithm base 2 of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.maxof">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">maxof</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#maxof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.maxof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the maximum value of two inputs at each location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the maximum value at each location of the inputs.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.minof">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">minof</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#minof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.minof" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the minimum value of two inputs at each location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the minimum value at each location of the inputs.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.pow">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">pow</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#pow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.pow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the power of two inputs at each location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the value of <cite>lhs ** (rhs)</cite></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.pow2">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">pow2</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#pow2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.pow2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise 2 to the power of each element in input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array where each element is 2 raised to power of the corresponding value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.real">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">real</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#real"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.real" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the real values of the input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the real values from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.rem">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">rem</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#rem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.rem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the remainder.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Contains the remainders after dividing each value of lhs` with those in <cite>rhs</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.root">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">root</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#root"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.root" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the root values of two inputs at each location.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the value of <cite>lhs ** (1/rhs)</cite></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.round">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">round</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#round"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.round" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round the values to nearest integer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the values rounded to nearest integer.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.sigmoid">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">sigmoid</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#sigmoid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.sigmoid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raise 2 to the power of each element in input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array where each element is outout of a sigmoid function for the corresponding value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.sign">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">sign</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#sign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.sign" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the sign of the inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing -1 for negative values, 1 otherwise.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.sin">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">sin</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#sin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.sin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sine of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the sine of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.sinh">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">sinh</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#sinh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.sinh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hyperbolic Sine of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the hyperbolic sine of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.sqrt">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">sqrt</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#sqrt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.sqrt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Square root of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the square root of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.tan">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">tan</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#tan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.tan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tangent of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the tangent of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.tanh">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">tanh</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#tanh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.tanh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hyperbolic Tangent of each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the hyperbolic tangent of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.tgamma">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">tgamma</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#tgamma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.tgamma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs the gamma function for each element in the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the output of gamma function of each value from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.trunc">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">trunc</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#trunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.trunc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Round the values towards zero.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>array containing the truncated values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.arith.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.arith.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

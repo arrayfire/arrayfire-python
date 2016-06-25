@@ -1,0 +1,304 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.opencl &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.opencl</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions specific to OpenCL backend.</span>
+
+<span class="sd">This module provides interoperability with other OpenCL libraries.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="p">(</span><span class="n">_Enum</span><span class="p">,</span> <span class="n">_Enum_Type</span><span class="p">)</span>
+
+<div class="viewcode-block" id="DEVICE_TYPE"><a class="viewcode-back" href="../../arrayfire.opencl.html#arrayfire.opencl.DEVICE_TYPE">[docs]</a><span class="k">class</span> <span class="nc">DEVICE_TYPE</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ArrayFire wrapper for CL_DEVICE_TYPE</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">CPU</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">GPU</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">ACC</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="o">&lt;&lt;</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PLATFORM"><a class="viewcode-back" href="../../arrayfire.opencl.html#arrayfire.opencl.PLATFORM">[docs]</a><span class="k">class</span> <span class="nc">PLATFORM</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ArrayFire enum for common platforms</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">AMD</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">APPLE</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">INTEL</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">NVIDIA</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">BEIGNET</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">POCL</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">UNKNOWN</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="get_context"><a class="viewcode-back" href="../../arrayfire.opencl.html#arrayfire.opencl.get_context">[docs]</a><span class="k">def</span> <span class="nf">get_context</span><span class="p">(</span><span class="n">retain</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the current OpenCL context being used by ArrayFire.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    retain : bool. optional. Default: False.</span>
+<span class="sd">        Specifies if the context needs to be retained by arrayfire before returning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -----------</span>
+<span class="sd">    context : integer denoting the context id.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">import</span> <span class="nn">ctypes</span> <span class="kn">as</span> <span class="nn">ct</span>
+    <span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">safe_call</span> <span class="k">as</span> <span class="n">safe_call</span>
+    <span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">backend</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;opencl&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid backend loaded&quot;</span><span class="p">)</span>
+
+    <span class="n">context</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcl_get_context</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">context</span><span class="p">),</span> <span class="n">retain</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">context</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="get_queue"><a class="viewcode-back" href="../../arrayfire.opencl.html#arrayfire.opencl.get_queue">[docs]</a><span class="k">def</span> <span class="nf">get_queue</span><span class="p">(</span><span class="n">retain</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the current OpenCL command queue being used by ArrayFire.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    retain : bool. optional. Default: False.</span>
+<span class="sd">        Specifies if the context needs to be retained by arrayfire before returning.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -----------</span>
+<span class="sd">    queue : integer denoting the queue id.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">import</span> <span class="nn">ctypes</span> <span class="kn">as</span> <span class="nn">ct</span>
+    <span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">safe_call</span> <span class="k">as</span> <span class="n">safe_call</span>
+    <span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">backend</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;opencl&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid backend loaded&quot;</span><span class="p">)</span>
+
+    <span class="n">queue</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcl_get_queue</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">queue</span><span class="p">),</span> <span class="n">retain</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">queue</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="get_device_id"><a class="viewcode-back" href="../../arrayfire.opencl.html#arrayfire.opencl.get_device_id">[docs]</a><span class="k">def</span> <span class="nf">get_device_id</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get native (unsorted) OpenCL device ID</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    idx : int.</span>
+<span class="sd">        Specifies the `cl_device_id` of the device.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">import</span> <span class="nn">ctypes</span> <span class="kn">as</span> <span class="nn">ct</span>
+    <span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">safe_call</span> <span class="k">as</span> <span class="n">safe_call</span>
+    <span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">backend</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;opencl&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid backend loaded&quot;</span><span class="p">)</span>
+
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcl_get_device_id</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">idx</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">idx</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="set_device_id"><a class="viewcode-back" href="../../arrayfire.opencl.html#arrayfire.opencl.set_device_id">[docs]</a><span class="k">def</span> <span class="nf">set_device_id</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set native (unsorted) OpenCL device ID</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    idx : int.</span>
+<span class="sd">        Specifies the `cl_device_id` of the device.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="kn">import</span> <span class="nn">ctypes</span> <span class="kn">as</span> <span class="nn">ct</span>
+    <span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">safe_call</span> <span class="k">as</span> <span class="n">safe_call</span>
+    <span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">backend</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;opencl&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid backend loaded&quot;</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcl_set_device_id</span><span class="p">(</span><span class="n">idx</span><span class="p">))</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="add_device_context"><a class="viewcode-back" href="../../arrayfire.opencl.html#arrayfire.opencl.add_device_context">[docs]</a><span class="k">def</span> <span class="nf">add_device_context</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">que</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Add a new device to arrayfire opencl device manager</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    dev : cl_device_id</span>
+
+<span class="sd">    ctx : cl_context</span>
+
+<span class="sd">    que : cl_command_queue</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;opencl&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid backend loaded&quot;</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcl_add_device_context</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">que</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="set_device_context"><a class="viewcode-back" href="../../arrayfire.opencl.html#arrayfire.opencl.set_device_context">[docs]</a><span class="k">def</span> <span class="nf">set_device_context</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">ctx</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set a device as current active device</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    dev  : cl_device_id</span>
+
+<span class="sd">    ctx  : cl_context</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;opencl&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid backend loaded&quot;</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcl_set_device_context</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">ctx</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="delete_device_context"><a class="viewcode-back" href="../../arrayfire.opencl.html#arrayfire.opencl.delete_device_context">[docs]</a><span class="k">def</span> <span class="nf">delete_device_context</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">ctx</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Delete a device</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    dev  : cl_device_id</span>
+
+<span class="sd">    ctx  : cl_context</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;opencl&quot;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid backend loaded&quot;</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcl_delete_device_context</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">ctx</span><span class="p">))</span></div>
+
+
+<span class="n">_to_device_type</span> <span class="o">=</span> <span class="p">{</span><span class="n">DEVICE_TYPE</span><span class="o">.</span><span class="n">CPU</span><span class="o">.</span><span class="n">value</span>     <span class="p">:</span> <span class="n">DEVICE_TYPE</span><span class="o">.</span><span class="n">CPU</span><span class="p">,</span>
+                   <span class="n">DEVICE_TYPE</span><span class="o">.</span><span class="n">GPU</span><span class="o">.</span><span class="n">value</span>     <span class="p">:</span> <span class="n">DEVICE_TYPE</span><span class="o">.</span><span class="n">GPU</span><span class="p">,</span>
+                   <span class="n">DEVICE_TYPE</span><span class="o">.</span><span class="n">ACC</span><span class="o">.</span><span class="n">value</span>     <span class="p">:</span> <span class="n">DEVICE_TYPE</span><span class="o">.</span><span class="n">ACC</span><span class="p">,</span>
+                   <span class="n">DEVICE_TYPE</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">DEVICE_TYPE</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="p">}</span>
+
+<span class="n">_to_platform</span>    <span class="o">=</span> <span class="p">{</span><span class="n">PLATFORM</span><span class="o">.</span><span class="n">AMD</span><span class="o">.</span><span class="n">value</span>     <span class="p">:</span> <span class="n">PLATFORM</span><span class="o">.</span><span class="n">AMD</span><span class="p">,</span>
+                   <span class="n">PLATFORM</span><span class="o">.</span><span class="n">APPLE</span><span class="o">.</span><span class="n">value</span>   <span class="p">:</span> <span class="n">PLATFORM</span><span class="o">.</span><span class="n">APPLE</span><span class="p">,</span>
+                   <span class="n">PLATFORM</span><span class="o">.</span><span class="n">INTEL</span><span class="o">.</span><span class="n">value</span>   <span class="p">:</span> <span class="n">PLATFORM</span><span class="o">.</span><span class="n">INTEL</span><span class="p">,</span>
+                   <span class="n">PLATFORM</span><span class="o">.</span><span class="n">NVIDIA</span><span class="o">.</span><span class="n">value</span>  <span class="p">:</span> <span class="n">PLATFORM</span><span class="o">.</span><span class="n">NVIDIA</span><span class="p">,</span>
+                   <span class="n">PLATFORM</span><span class="o">.</span><span class="n">BEIGNET</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">PLATFORM</span><span class="o">.</span><span class="n">BEIGNET</span><span class="p">,</span>
+                   <span class="n">PLATFORM</span><span class="o">.</span><span class="n">POCL</span><span class="o">.</span><span class="n">value</span>    <span class="p">:</span> <span class="n">PLATFORM</span><span class="o">.</span><span class="n">POCL</span><span class="p">,</span>
+                   <span class="n">PLATFORM</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">PLATFORM</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="get_device_type"><a class="viewcode-back" href="../../arrayfire.opencl.html#arrayfire.opencl.get_device_type">[docs]</a><span class="k">def</span> <span class="nf">get_device_type</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get opencl device type</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">DEVICE_TYPE</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcl_get_device_type</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">_to_device_type</span><span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">value</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="get_platform"><a class="viewcode-back" href="../../arrayfire.opencl.html#arrayfire.opencl.get_platform">[docs]</a><span class="k">def</span> <span class="nf">get_platform</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get opencl platform</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">PLATFORM</span><span class="o">.</span><span class="n">UNKNOWN</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcl_get_platform</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">_to_platform</span><span class="p">[</span><span class="n">res</span><span class="o">.</span><span class="n">value</span><span class="p">]</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

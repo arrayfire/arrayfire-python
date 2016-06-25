@@ -1,0 +1,1673 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.image module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.image">
+<span id="arrayfire-image-module"></span><h1>arrayfire.image module<a class="headerlink" href="#module-arrayfire.image" title="Permalink to this headline">¶</a></h1>
+<p>Image processing functions.</p>
+<dl class="function">
+<dt id="arrayfire.image.bilateral">
+<code class="descclassname">arrayfire.image.</code><code class="descname">bilateral</code><span class="sig-paren">(</span><em>image</em>, <em>s_sigma</em>, <em>c_sigma</em>, <em>is_color=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#bilateral"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.bilateral" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply bilateral filter to the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>s_sigma</strong> : scalar.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Sigma value for the co-ordinate space.</li>
+</ul>
+</div></blockquote>
+<p><strong>c_sigma</strong> : scalar.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Sigma value for the color space.</li>
+</ul>
+</div></blockquote>
+<p><strong>is_color</strong> : optional: bool. default: False.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the third dimension is 3rd channel (if True) or a batch (if False).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The image after the application of the bilateral filter.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.color_space">
+<code class="descclassname">arrayfire.image.</code><code class="descname">color_space</code><span class="sig-paren">(</span><em>image</em>, <em>to_type</em>, <em>from_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#color_space"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.color_space" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert an image from one color space to another.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A multi dimensional array representing batch of images in <cite>from_type</cite> color space.</li>
+</ul>
+</div></blockquote>
+<p><strong>to_type</strong> : af.CSPACE</p>
+<blockquote>
+<div><ul class="simple">
+<li>An enum for the destination color space.</li>
+</ul>
+</div></blockquote>
+<p><strong>from_type</strong> : af.CSPACE</p>
+<blockquote>
+<div><ul class="simple">
+<li>An enum for the source color space.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>An image in the <cite>to_type</cite> color space.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.dilate">
+<code class="descclassname">arrayfire.image.</code><code class="descname">dilate</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#dilate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.dilate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run image dilate on the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>mask</strong> : optional: af.Array. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the neighborhood of a pixel.</li>
+<li>When None, a [3, 3] array of all ones is used.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The dilated image.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.dilate3">
+<code class="descclassname">arrayfire.image.</code><code class="descname">dilate3</code><span class="sig-paren">(</span><em>volume</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#dilate3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.dilate3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run volume dilate on a volume.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>volume</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 3 D arrayfire array representing a volume, or</li>
+<li>A multi dimensional array representing batch of volumes.</li>
+</ul>
+</div></blockquote>
+<p><strong>mask</strong> : optional: af.Array. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the neighborhood of a pixel.</li>
+<li>When None, a [3, 3, 3] array of all ones is used.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The dilated volume.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.erode">
+<code class="descclassname">arrayfire.image.</code><code class="descname">erode</code><span class="sig-paren">(</span><em>image</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#erode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.erode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run image erode on the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>mask</strong> : optional: af.Array. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the neighborhood of a pixel.</li>
+<li>When None, a [3, 3] array of all ones is used.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The eroded image.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.erode3">
+<code class="descclassname">arrayfire.image.</code><code class="descname">erode3</code><span class="sig-paren">(</span><em>volume</em>, <em>mask=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#erode3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.erode3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run volume erode on the volume.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>volume</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 3 D arrayfire array representing an volume, or</li>
+<li>A multi dimensional array representing batch of volumes.</li>
+</ul>
+</div></blockquote>
+<p><strong>mask</strong> : optional: af.Array. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the neighborhood of a pixel.</li>
+<li>When None, a [3, 3, 3] array of all ones is used.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The eroded volume.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.gaussian_kernel">
+<code class="descclassname">arrayfire.image.</code><code class="descname">gaussian_kernel</code><span class="sig-paren">(</span><em>rows</em>, <em>cols</em>, <em>sigma_r=None</em>, <em>sigma_c=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#gaussian_kernel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.gaussian_kernel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a gaussian kernel with the given parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>rows</strong> : int</p>
+<blockquote>
+<div><ul class="simple">
+<li>The number of rows in the gaussian kernel.</li>
+</ul>
+</div></blockquote>
+<p><strong>cols</strong> : int</p>
+<blockquote>
+<div><ul class="simple">
+<li>The number of columns in the gaussian kernel.</li>
+</ul>
+</div></blockquote>
+<p><strong>sigma_r</strong> : optional: number. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The sigma value along rows</li>
+<li>If None, calculated as (0.25 * rows + 0.75)</li>
+</ul>
+</div></blockquote>
+<p><strong>sigma_c</strong> : optional: number. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The sigma value along columns</li>
+<li>If None, calculated as (0.25 * cols + 0.75)</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>A gaussian kernel of size (rows, cols)</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.gradient">
+<code class="descclassname">arrayfire.image.</code><code class="descname">gradient</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.gradient" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the horizontal and vertical gradients.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(dx, dy)</strong> : Tuple of af.Array.</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li><cite>dx</cite> containing the horizontal gradients of <cite>image</cite>.</li>
+<li><cite>dy</cite> containing the vertical gradients of <cite>image</cite>.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.gray2rgb">
+<code class="descclassname">arrayfire.image.</code><code class="descname">gray2rgb</code><span class="sig-paren">(</span><em>image</em>, <em>r_factor=1.0</em>, <em>g_factor=1.0</em>, <em>b_factor=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#gray2rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.gray2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert Grayscale image to an RGB image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>r_factor</strong> : optional: scalar. default: 1.0.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Scale factor for the red channel.</li>
+</ul>
+</div></blockquote>
+<p><strong>g_factor</strong> : optional: scalar. default: 1.0.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Scale factor for the green channel.</li>
+</ul>
+</div></blockquote>
+<p><strong>b_factor</strong> : optional: scalar. default: 1.0</p>
+<blockquote>
+<div><ul class="simple">
+<li>Scale factor for the blue channel.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>An RGB image.</li>
+<li>The channels are not coalesced, i.e. they appear along the third dimension.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.hist_equal">
+<code class="descclassname">arrayfire.image.</code><code class="descname">hist_equal</code><span class="sig-paren">(</span><em>image</em>, <em>hist</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#hist_equal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.hist_equal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Equalize an image based on a histogram.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>hist</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>Containing the histogram of an image.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The equalized image.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.histogram">
+<code class="descclassname">arrayfire.image.</code><code class="descname">histogram</code><span class="sig-paren">(</span><em>image</em>, <em>nbins</em>, <em>min_val=None</em>, <em>max_val=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#histogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the histogram of an image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>nbins</strong> : int.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Number of bins in the histogram.</li>
+</ul>
+</div></blockquote>
+<p><strong>min_val</strong> : optional: scalar. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The lower bound for the bin values.</li>
+<li>If None, <cite>af.min(image)</cite> is used.</li>
+</ul>
+</div></blockquote>
+<p><strong>max_val</strong> : optional: scalar. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The upper bound for the bin values.</li>
+<li>If None, <cite>af.max(image)</cite> is used.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>hist</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Containing the histogram of the image.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.hsv2rgb">
+<code class="descclassname">arrayfire.image.</code><code class="descname">hsv2rgb</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#hsv2rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.hsv2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert HSV image to RGB.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 3 D arrayfire array representing an 3 channel image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>A HSV image.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.is_image_io_available">
+<code class="descclassname">arrayfire.image.</code><code class="descname">is_image_io_available</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#is_image_io_available"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.is_image_io_available" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to check if the arrayfire library was built with Image IO support.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.load_image">
+<code class="descclassname">arrayfire.image.</code><code class="descname">load_image</code><span class="sig-paren">(</span><em>file_name</em>, <em>is_color=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#load_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.load_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an image on the disk as an array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file_name: str</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Full path of the file name on disk.</li>
+</ul>
+</div></blockquote>
+<p><strong>is_color</strong> : optional: bool. default: False.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the image is loaded as 1 channel (if False) or 3 channel image (if True).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">image - af.Array</p>
+<blockquote class="last">
+<div><p>A 2 dimensional (1 channel) or 3 dimensional (3 channel) array containing the image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.load_image_native">
+<code class="descclassname">arrayfire.image.</code><code class="descname">load_image_native</code><span class="sig-paren">(</span><em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#load_image_native"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.load_image_native" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load an image on the disk as an array in native format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>file_name: str</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Full path of the file name on disk.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">image - af.Array</p>
+<blockquote class="last">
+<div><p>A 2 dimensional (1 channel) or 3 dimensional (3 or 4 channel) array containing the image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.maxfilt">
+<code class="descclassname">arrayfire.image.</code><code class="descname">maxfilt</code><span class="sig-paren">(</span><em>image</em>, <em>w_len=3</em>, <em>w_wid=3</em>, <em>edge_pad=&lt;PAD.ZERO: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#maxfilt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.maxfilt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply max filter for the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>w0</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The length of the filter along the first dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>w1</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The length of the filter along the second dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>edge_pad</strong> : optional: af.PAD. default: af.PAD.ZERO</p>
+<blockquote>
+<div><ul class="simple">
+<li>Flag specifying how the max at the edge should be treated.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The image after max filter is applied.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.mean_shift">
+<code class="descclassname">arrayfire.image.</code><code class="descname">mean_shift</code><span class="sig-paren">(</span><em>image</em>, <em>s_sigma</em>, <em>c_sigma</em>, <em>n_iter</em>, <em>is_color=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#mean_shift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.mean_shift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply mean shift to the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>s_sigma</strong> : scalar.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Sigma value for the co-ordinate space.</li>
+</ul>
+</div></blockquote>
+<p><strong>c_sigma</strong> : scalar.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Sigma value for the color space.</li>
+</ul>
+</div></blockquote>
+<p><strong>n_iter</strong> : int.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Number of mean shift iterations.</li>
+</ul>
+</div></blockquote>
+<p><strong>is_color</strong> : optional: bool. default: False.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the third dimension is 3rd channel (if True) or a batch (if False).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The image after the application of the meanshift.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.medfilt">
+<code class="descclassname">arrayfire.image.</code><code class="descname">medfilt</code><span class="sig-paren">(</span><em>image</em>, <em>w0=3</em>, <em>w1=3</em>, <em>edge_pad=&lt;PAD.ZERO: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#medfilt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.medfilt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply median filter for the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>w0</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The length of the filter along the first dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>w1</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The length of the filter along the second dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>edge_pad</strong> : optional: af.PAD. default: af.PAD.ZERO</p>
+<blockquote>
+<div><ul class="simple">
+<li>Flag specifying how the median at the edge should be treated.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The image after median filter is applied.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.minfilt">
+<code class="descclassname">arrayfire.image.</code><code class="descname">minfilt</code><span class="sig-paren">(</span><em>image</em>, <em>w_len=3</em>, <em>w_wid=3</em>, <em>edge_pad=&lt;PAD.ZERO: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#minfilt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.minfilt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply min filter for the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>w0</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The length of the filter along the first dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>w1</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The length of the filter along the second dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>edge_pad</strong> : optional: af.PAD. default: af.PAD.ZERO</p>
+<blockquote>
+<div><ul class="simple">
+<li>Flag specifying how the min at the edge should be treated.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The image after min filter is applied.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.regions">
+<code class="descclassname">arrayfire.image.</code><code class="descname">regions</code><span class="sig-paren">(</span><em>image</em>, <em>conn=&lt;CONNECTIVITY.FOUR: 4&gt;</em>, <em>out_type=&lt;Dtype.f32: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#regions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.regions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the connected components in the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image.</li>
+</ul>
+</div></blockquote>
+<p><strong>conn</strong> : optional: af.CONNECTIVITY. default: af.CONNECTIVITY.FOUR.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the connectivity of the pixels.</li>
+</ul>
+</div></blockquote>
+<p><strong>out_type</strong> : optional: af.Dtype. default: af.Dtype.f32.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the type for the output.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>An array where each pixel is labeled with its component number.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.resize">
+<code class="descclassname">arrayfire.image.</code><code class="descname">resize</code><span class="sig-paren">(</span><em>image</em>, <em>scale=None</em>, <em>odim0=None</em>, <em>odim1=None</em>, <em>method=&lt;INTERP.NEAREST: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#resize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resize an image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale</strong> : optional: scalar. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Scale factor for the image resizing.</li>
+</ul>
+</div></blockquote>
+<p><strong>odim0</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Size of the first dimension of the output.</li>
+</ul>
+</div></blockquote>
+<p><strong>odim1</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Size of the second dimension of the output.</li>
+</ul>
+</div></blockquote>
+<p><strong>method</strong> : optional: af.INTERP. default: af.INTERP.NEAREST.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Interpolation method used for resizing.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output image after resizing.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.rgb2gray">
+<code class="descclassname">arrayfire.image.</code><code class="descname">rgb2gray</code><span class="sig-paren">(</span><em>image</em>, <em>r_factor=0.2126</em>, <em>g_factor=0.7152</em>, <em>b_factor=0.0722</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#rgb2gray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.rgb2gray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert RGB image to Grayscale.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 3 D arrayfire array representing an 3 channel image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>r_factor</strong> : optional: scalar. default: 0.2126.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Weight for the red channel.</li>
+</ul>
+</div></blockquote>
+<p><strong>g_factor</strong> : optional: scalar. default: 0.7152.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Weight for the green channel.</li>
+</ul>
+</div></blockquote>
+<p><strong>b_factor</strong> : optional: scalar. default: 0.0722.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Weight for the blue channel.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>A grayscale image.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.rgb2hsv">
+<code class="descclassname">arrayfire.image.</code><code class="descname">rgb2hsv</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#rgb2hsv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.rgb2hsv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert RGB image to HSV.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 3 D arrayfire array representing an 3 channel image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>A RGB image.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.rgb2ycbcr">
+<code class="descclassname">arrayfire.image.</code><code class="descname">rgb2ycbcr</code><span class="sig-paren">(</span><em>image</em>, <em>standard=&lt;YCC_STD.BT_601: 601&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#rgb2ycbcr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.rgb2ycbcr" title="Permalink to this definition">¶</a></dt>
+<dd><p>RGB to YCbCr colorspace conversion.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><p>A multi dimensional array containing an image or batch of images in RGB format.</p>
+</div></blockquote>
+<p><strong>standard: YCC_STD. optional. default: YCC_STD.BT_601</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the YCbCr format.</li>
+<li>Can be one of YCC_STD.BT_601, YCC_STD.BT_709, and YCC_STD.BT_2020.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>A multi dimensional array containing an image or batch of images in YCbCr format</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.rotate">
+<code class="descclassname">arrayfire.image.</code><code class="descname">rotate</code><span class="sig-paren">(</span><em>image</em>, <em>theta</em>, <em>is_crop=True</em>, <em>method=&lt;INTERP.NEAREST: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#rotate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rotate an image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>theta</strong> : scalar</p>
+<blockquote>
+<div><ul class="simple">
+<li>The angle to rotate in radians.</li>
+</ul>
+</div></blockquote>
+<p><strong>is_crop</strong> : optional: bool. default: True.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the output should be cropped to the input size.</li>
+</ul>
+</div></blockquote>
+<p><strong>method</strong> : optional: af.INTERP. default: af.INTERP.NEAREST.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Interpolation method used for rotating.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output image after rotating.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.sat">
+<code class="descclassname">arrayfire.image.</code><code class="descname">sat</code><span class="sig-paren">(</span><em>image</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#sat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.sat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summed Area Tables</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><p>A multi dimensional array specifying image or batch of images</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>A multi dimensional array containing the summed area table of input image</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.save_image">
+<code class="descclassname">arrayfire.image.</code><code class="descname">save_image</code><span class="sig-paren">(</span><em>image</em>, <em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#save_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.save_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save an array as an image on the disk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image.</li>
+</ul>
+</div></blockquote>
+<p><strong>file_name: str</strong></p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Full path of the file name on the disk.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.save_image_native">
+<code class="descclassname">arrayfire.image.</code><code class="descname">save_image_native</code><span class="sig-paren">(</span><em>image</em>, <em>file_name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#save_image_native"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.save_image_native" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save an array as an image on the disk in native format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 or 3 dimensional arrayfire array representing an image.</li>
+</ul>
+</div></blockquote>
+<p><strong>file_name: str</strong></p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Full path of the file name on the disk.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.scale">
+<code class="descclassname">arrayfire.image.</code><code class="descname">scale</code><span class="sig-paren">(</span><em>image</em>, <em>scale0</em>, <em>scale1</em>, <em>odim0=0</em>, <em>odim1=0</em>, <em>method=&lt;INTERP.NEAREST: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#scale"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Scale an image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale0</strong> : scalar.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Scale factor for the first dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale1</strong> : scalar.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Scale factor for the second dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>odim0</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Size of the first dimension of the output.</li>
+</ul>
+</div></blockquote>
+<p><strong>odim1</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Size of the second dimension of the output.</li>
+</ul>
+</div></blockquote>
+<p><strong>method</strong> : optional: af.INTERP. default: af.INTERP.NEAREST.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Interpolation method used for resizing.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output image after scaling.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.skew">
+<code class="descclassname">arrayfire.image.</code><code class="descname">skew</code><span class="sig-paren">(</span><em>image</em>, <em>skew0</em>, <em>skew1</em>, <em>odim0=0</em>, <em>odim1=0</em>, <em>method=&lt;INTERP.NEAREST: 0&gt;</em>, <em>is_inverse=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#skew"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.skew" title="Permalink to this definition">¶</a></dt>
+<dd><p>Skew an image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>skew0</strong> : scalar.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Skew factor for the first dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>skew1</strong> : scalar.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Skew factor for the second dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>odim0</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Size of the first dimension of the output.</li>
+</ul>
+</div></blockquote>
+<p><strong>odim1</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Size of the second dimension of the output.</li>
+</ul>
+</div></blockquote>
+<p><strong>method</strong> : optional: af.INTERP. default: af.INTERP.NEAREST.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Interpolation method used for resizing.</li>
+</ul>
+</div></blockquote>
+<p><strong>is_inverse</strong> : optional: bool. default: True.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the inverse skew  is applied.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output image after skewing.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.sobel_derivatives">
+<code class="descclassname">arrayfire.image.</code><code class="descname">sobel_derivatives</code><span class="sig-paren">(</span><em>image</em>, <em>w_len=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#sobel_derivatives"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.sobel_derivatives" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the sobel derivatives of the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>w_len</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The size of the sobel operator.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(dx, dy)</strong> : tuple of af.Arrays.</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li><cite>dx</cite> is the sobel derivative along the horizontal direction.</li>
+<li><cite>dy</cite> is the sobel derivative along the vertical direction.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.sobel_filter">
+<code class="descclassname">arrayfire.image.</code><code class="descname">sobel_filter</code><span class="sig-paren">(</span><em>image</em>, <em>w_len=3</em>, <em>is_fast=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#sobel_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.sobel_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply sobel filter to the image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>w_len</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The size of the sobel operator.</li>
+</ul>
+</div></blockquote>
+<p><strong>is_fast</strong> : optional: bool. default: False.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the magnitude is generated using SAD (if True) or SSD (if False).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Image containing the magnitude of the sobel derivatives.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.transform">
+<code class="descclassname">arrayfire.image.</code><code class="descname">transform</code><span class="sig-paren">(</span><em>image</em>, <em>trans_mat</em>, <em>odim0=0</em>, <em>odim1=0</em>, <em>method=&lt;INTERP.NEAREST: 0&gt;</em>, <em>is_inverse=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#transform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform an image using a transformation matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>trans_mat</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D floating point arrayfire array of size [3, 2].</li>
+</ul>
+</div></blockquote>
+<p><strong>odim0</strong> : optional: int. default: 0.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Size of the first dimension of the output.</li>
+</ul>
+</div></blockquote>
+<p><strong>odim1</strong> : optional: int. default: 0.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Size of the second dimension of the output.</li>
+</ul>
+</div></blockquote>
+<p><strong>method</strong> : optional: af.INTERP. default: af.INTERP.NEAREST.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Interpolation method used for transformation.</li>
+</ul>
+</div></blockquote>
+<p><strong>is_inverse</strong> : optional: bool. default: True.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the inverse transform is applied.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output image after transformation.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.translate">
+<code class="descclassname">arrayfire.image.</code><code class="descname">translate</code><span class="sig-paren">(</span><em>image</em>, <em>trans0</em>, <em>trans1</em>, <em>odim0=0</em>, <em>odim1=0</em>, <em>method=&lt;INTERP.NEAREST: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#translate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate an image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing an image, or</li>
+<li>A multi dimensional array representing batch of images.</li>
+</ul>
+</div></blockquote>
+<p><strong>trans0: int.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Translation along first dimension in pixels.</li>
+</ul>
+</div></blockquote>
+<p><strong>trans1: int.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Translation along second dimension in pixels.</li>
+</ul>
+</div></blockquote>
+<p><strong>odim0</strong> : optional: int. default: 0.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Size of the first dimension of the output.</li>
+</ul>
+</div></blockquote>
+<p><strong>odim1</strong> : optional: int. default: 0.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Size of the second dimension of the output.</li>
+</ul>
+</div></blockquote>
+<p><strong>method</strong> : optional: af.INTERP. default: af.INTERP.NEAREST.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Interpolation method used for translation.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output image after translation.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.unwrap">
+<code class="descclassname">arrayfire.image.</code><code class="descname">unwrap</code><span class="sig-paren">(</span><em>image</em>, <em>wx</em>, <em>wy</em>, <em>sx</em>, <em>sy</em>, <em>px=0</em>, <em>py=0</em>, <em>is_column=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#unwrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.unwrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unrwap an image into an array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><p>A multi dimensional array specifying an image or batch of images.</p>
+</div></blockquote>
+<p><strong>wx</strong> : Integer.</p>
+<blockquote>
+<div><p>Block window size along the first dimension.</p>
+</div></blockquote>
+<p><strong>wy</strong> : Integer.</p>
+<blockquote>
+<div><p>Block window size along the second dimension.</p>
+</div></blockquote>
+<p><strong>sx</strong> : Integer.</p>
+<blockquote>
+<div><p>Stride along the first dimension.</p>
+</div></blockquote>
+<p><strong>sy</strong> : Integer.</p>
+<blockquote>
+<div><p>Stride along the second dimension.</p>
+</div></blockquote>
+<p><strong>px</strong> : Integer. Optional. Default: 0</p>
+<blockquote>
+<div><p>Padding along the first dimension.</p>
+</div></blockquote>
+<p><strong>py</strong> : Integer. Optional. Default: 0</p>
+<blockquote>
+<div><p>Padding along the second dimension.</p>
+</div></blockquote>
+<p><strong>is_column</strong> : Boolean. Optional. Default: True.</p>
+<blockquote>
+<div><p>Specifies if the patch should be laid along row or columns.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>A multi dimensional array contianing the image patches along specified dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>[6 6 1 1]</dt>
+<dd>0.4107     0.3775     0.0901     0.8060     0.0012     0.9250
+0.8224     0.3027     0.5933     0.5938     0.8703     0.3063
+0.9518     0.6456     0.1098     0.8395     0.5259     0.9313
+0.1794     0.5591     0.1046     0.1933     0.1443     0.8684
+0.4198     0.6600     0.8827     0.7270     0.3253     0.6592
+0.0081     0.0764     0.1647     0.0322     0.5081     0.4387</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>[4 9 1 1]</dt>
+<dd>0.4107     0.9518     0.4198     0.0901     0.1098     0.8827     0.0012     0.5259     0.3253
+0.8224     0.1794     0.0081     0.5933     0.1046     0.1647     0.8703     0.1443     0.5081
+0.3775     0.6456     0.6600     0.8060     0.8395     0.7270     0.9250     0.9313     0.6592
+0.3027     0.5591     0.0764     0.5938     0.1933     0.0322     0.3063     0.8684     0.4387</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.wrap">
+<code class="descclassname">arrayfire.image.</code><code class="descname">wrap</code><span class="sig-paren">(</span><em>a</em>, <em>ox</em>, <em>oy</em>, <em>wx</em>, <em>wy</em>, <em>sx</em>, <em>sy</em>, <em>px=0</em>, <em>py=0</em>, <em>is_column=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#wrap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.wrap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap an array into an image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>A multi dimensional array containing patches of images.</p>
+</div></blockquote>
+<p><strong>wx</strong> : Integer.</p>
+<blockquote>
+<div><p>Block window size along the first dimension.</p>
+</div></blockquote>
+<p><strong>wy</strong> : Integer.</p>
+<blockquote>
+<div><p>Block window size along the second dimension.</p>
+</div></blockquote>
+<p><strong>sx</strong> : Integer.</p>
+<blockquote>
+<div><p>Stride along the first dimension.</p>
+</div></blockquote>
+<p><strong>sy</strong> : Integer.</p>
+<blockquote>
+<div><p>Stride along the second dimension.</p>
+</div></blockquote>
+<p><strong>px</strong> : Integer. Optional. Default: 0</p>
+<blockquote>
+<div><p>Padding along the first dimension.</p>
+</div></blockquote>
+<p><strong>py</strong> : Integer. Optional. Default: 0</p>
+<blockquote>
+<div><p>Padding along the second dimension.</p>
+</div></blockquote>
+<p><strong>is_column</strong> : Boolean. Optional. Default: True.</p>
+<blockquote>
+<div><p>Specifies if the patch should be laid along row or columns.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>A multi dimensional array contianing the images.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>[6 6 1 1]</dt>
+<dd>0.4107     0.3775     0.0901     0.8060     0.0012     0.9250
+0.8224     0.3027     0.5933     0.5938     0.8703     0.3063
+0.9518     0.6456     0.1098     0.8395     0.5259     0.9313
+0.1794     0.5591     0.1046     0.1933     0.1443     0.8684
+0.4198     0.6600     0.8827     0.7270     0.3253     0.6592
+0.0081     0.0764     0.1647     0.0322     0.5081     0.4387</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">unwrap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>[4 9 1 1]</dt>
+<dd>0.4107     0.9518     0.4198     0.0901     0.1098     0.8827     0.0012     0.5259     0.3253
+0.8224     0.1794     0.0081     0.5933     0.1046     0.1647     0.8703     0.1443     0.5081
+0.3775     0.6456     0.6600     0.8060     0.8395     0.7270     0.9250     0.9313     0.6592
+0.3027     0.5591     0.0764     0.5938     0.1933     0.0322     0.3063     0.8684     0.4387</dd>
+</dl>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt>[6 6 1 1]</dt>
+<dd>0.4107     0.3775     0.0901     0.8060     0.0012     0.9250
+0.8224     0.3027     0.5933     0.5938     0.8703     0.3063
+0.9518     0.6456     0.1098     0.8395     0.5259     0.9313
+0.1794     0.5591     0.1046     0.1933     0.1443     0.8684
+0.4198     0.6600     0.8827     0.7270     0.3253     0.6592
+0.0081     0.0764     0.1647     0.0322     0.5081     0.4387</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.image.ycbcr2rgb">
+<code class="descclassname">arrayfire.image.</code><code class="descname">ycbcr2rgb</code><span class="sig-paren">(</span><em>image</em>, <em>standard=&lt;YCC_STD.BT_601: 601&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/image.html#ycbcr2rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.image.ycbcr2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>YCbCr to RGB colorspace conversion.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
+<blockquote>
+<div><p>A multi dimensional array containing an image or batch of images in YCbCr format.</p>
+</div></blockquote>
+<p><strong>standard: YCC_STD. optional. default: YCC_STD.BT_601</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the YCbCr format.</li>
+<li>Can be one of YCC_STD.BT_601, YCC_STD.BT_709, and YCC_STD.BT_2020.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>A multi dimensional array containing an image or batch of images in RGB format</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.image.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.image.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

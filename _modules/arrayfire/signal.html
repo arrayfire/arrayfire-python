@@ -1,0 +1,1353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.signal &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.signal</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Signal processing functions (fft, convolve, etc).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="approx1"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.approx1">[docs]</a><span class="k">def</span> <span class="nf">approx1</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">pos0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">,</span> <span class="n">off_grid</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interpolate along a single dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            A 1 dimensional signal or batch of 1 dimensional signals.</span>
+
+<span class="sd">    pos0  : af.Array</span>
+<span class="sd">            Locations of the interpolation points.</span>
+
+<span class="sd">    method: optional: af.INTERP. default: af.INTERP.LINEAR.</span>
+<span class="sd">            Interpolation method.</span>
+
+<span class="sd">    off_grid: optional: scalar. default: 0.0.</span>
+<span class="sd">            The value used for positions outside the range.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            Values calculated at interpolation points.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The initial measurements are assumed to have taken place at equal steps between [0, N - 1],</span>
+<span class="sd">    where N is the length of the first dimension of `signal`.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx1</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                       <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="approx2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.approx2">[docs]</a><span class="k">def</span> <span class="nf">approx2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">pos0</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">,</span> <span class="n">off_grid</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interpolate along a two dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            A 2 dimensional signal or batch of 2 dimensional signals.</span>
+
+<span class="sd">    pos0  : af.Array</span>
+<span class="sd">            Locations of the interpolation points along the first dimension.</span>
+
+<span class="sd">    pos1  : af.Array</span>
+<span class="sd">            Locations of the interpolation points along the second dimension.</span>
+
+<span class="sd">    method: optional: af.INTERP. default: af.INTERP.LINEAR.</span>
+<span class="sd">            Interpolation method.</span>
+
+<span class="sd">    off_grid: optional: scalar. default: 0.0.</span>
+<span class="sd">            The value used for positions outside the range.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            Values calculated at interpolation points.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    The initial measurements are assumed to have taken place at equal steps between [(0,0) - [M - 1, N - 1]]</span>
+<span class="sd">    where M is the length of the first dimension of `signal`,</span>
+<span class="sd">    and N is the length of the second dimension of `signal`.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx2</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                       <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos1</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="fft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft">[docs]</a><span class="k">def</span> <span class="nf">fft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fast Fourier Transform: 1D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 1 dimensional signal or a batch of 1 dimensional signals.</span>
+
+<span class="sd">    dim0: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim0 is calculated to be the first dimension of `signal`.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A complex af.Array containing the full output of the fft.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="fft2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2">[docs]</a><span class="k">def</span> <span class="nf">fft2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fast Fourier Transform: 2D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 2 dimensional signal or a batch of 2 dimensional signals.</span>
+
+<span class="sd">    dim0: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim0 is calculated to be the first dimension of `signal`.</span>
+
+<span class="sd">    dim1: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim1 is calculated to be the second dimension of `signal`.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A complex af.Array containing the full output of the fft.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim1</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+                                    <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="fft3"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3">[docs]</a><span class="k">def</span> <span class="nf">fft3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">dim2</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fast Fourier Transform: 3D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 3 dimensional signal or a batch of 3 dimensional signals.</span>
+
+<span class="sd">    dim0: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim0 is calculated to be the first dimension of `signal`.</span>
+
+<span class="sd">    dim1: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim1 is calculated to be the second dimension of `signal`.</span>
+
+<span class="sd">    dim2: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim2 is calculated to be the third dimension of `signal`.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A complex af.Array containing the full output of the fft.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim1</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">dim2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim2</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+                                    <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim2</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="ifft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft">[docs]</a><span class="k">def</span> <span class="nf">ifft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inverse Fast Fourier Transform: 1D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 1 dimensional signal or a batch of 1 dimensional signals.</span>
+
+<span class="sd">    dim0: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim0 is calculated to be the first dimension of `signal`.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.0 / (dim0)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A complex af.Array containing the full output of the inverse fft.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    The output is always complex.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="ifft2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft2">[docs]</a><span class="k">def</span> <span class="nf">ifft2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inverse Fast Fourier Transform: 2D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 2 dimensional signal or a batch of 2 dimensional signals.</span>
+
+<span class="sd">    dim0: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim0 is calculated to be the first dimension of `signal`.</span>
+
+<span class="sd">    dim1: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim1 is calculated to be the second dimension of `signal`.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.0 / (dim0 * dim1)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A complex af.Array containing the full output of the inverse fft.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    The output is always complex.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft2</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+                                     <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="ifft3"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft3">[docs]</a><span class="k">def</span> <span class="nf">ifft3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">dim2</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inverse Fast Fourier Transform: 3D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 3 dimensional signal or a batch of 3 dimensional signals.</span>
+
+<span class="sd">    dim0: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim0 is calculated to be the first dimension of `signal`.</span>
+
+<span class="sd">    dim1: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim1 is calculated to be the second dimension of `signal`.</span>
+
+<span class="sd">    dim2: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim2 is calculated to be the third dimension of `signal`.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.0 / (dim0 * dim1 * dim2).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A complex af.Array containing the full output of the inverse fft.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    The output is always complex.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">dim2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim2</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span> <span class="o">*</span> <span class="n">dim2</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+                                     <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim2</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="fft_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_inplace">[docs]</a><span class="k">def</span> <span class="nf">fft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In-place Fast Fourier Transform: 1D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 1 dimensional signal or a batch of 1 dimensional signals.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="fft2_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2_inplace">[docs]</a><span class="k">def</span> <span class="nf">fft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In-place Fast Fourier Transform: 2D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 2 dimensional signal or a batch of 2 dimensional signals.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="fft3_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3_inplace">[docs]</a><span class="k">def</span> <span class="nf">fft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    In-place Fast Fourier Transform: 3D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 3 dimensional signal or a batch of 3 dimensional signals.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="ifft_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft_inplace">[docs]</a><span class="k">def</span> <span class="nf">ifft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inverse In-place Fast Fourier Transform: 1D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 1 dimensional signal or a batch of 1 dimensional signals.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.0 / (signal.dims()[0])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="ifft2_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft2_inplace">[docs]</a><span class="k">def</span> <span class="nf">ifft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inverse In-place Fast Fourier Transform: 2D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 2 dimensional signal or a batch of 2 dimensional signals.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.0 / (signal.dims()[0] * signal.dims()[1])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="ifft3_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft3_inplace">[docs]</a><span class="k">def</span> <span class="nf">ifft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Inverse In-place Fast Fourier Transform: 3D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 3 dimensional signal or a batch of 3 dimensional signals.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.0 / (signal.dims()[0] * signal.dims()[1] * signal.dims()[2]).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">dim2</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span> <span class="o">*</span> <span class="n">dim2</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="fft_r2c"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_r2c">[docs]</a><span class="k">def</span> <span class="nf">fft_r2c</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Real to Complex Fast Fourier Transform: 1D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 1 dimensional signal or a batch of 1 dimensional signals.</span>
+
+<span class="sd">    dim0: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim0 is calculated to be the first dimension of `signal`.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A complex af.Array containing the non-redundant parts of the full FFT.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_r2c</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="fft2_r2c"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2_r2c">[docs]</a><span class="k">def</span> <span class="nf">fft2_r2c</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Real to Complex Fast Fourier Transform: 2D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 2 dimensional signal or a batch of 2 dimensional signals.</span>
+
+<span class="sd">    dim0: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim0 is calculated to be the first dimension of `signal`.</span>
+
+<span class="sd">    dim1: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim1 is calculated to be the second dimension of `signal`.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A complex af.Array containing the non-redundant parts of the full FFT.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim1</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2_r2c</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+                                        <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="fft3_r2c"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3_r2c">[docs]</a><span class="k">def</span> <span class="nf">fft3_r2c</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">dim2</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Real to Complex Fast Fourier Transform: 3D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 3 dimensional signal or a batch of 3 dimensional signals.</span>
+
+<span class="sd">    dim0: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim0 is calculated to be the first dimension of `signal`.</span>
+
+<span class="sd">    dim1: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim1 is calculated to be the second dimension of `signal`.</span>
+
+<span class="sd">    dim2: optional: int. default: None.</span>
+<span class="sd">          - Specifies the size of the output.</span>
+<span class="sd">          - If None, dim2 is calculated to be the third dimension of `signal`.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A complex af.Array containing the non-redundant parts of the full FFT.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim1</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">dim2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim2</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3_r2c</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+                                        <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim2</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<span class="k">def</span> <span class="nf">_get_c2r_dim</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">is_odd</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span><span class="p">(</span><span class="n">dim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">is_odd</span><span class="p">)</span>
+
+<div class="viewcode-block" id="fft_c2r"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_c2r">[docs]</a><span class="k">def</span> <span class="nf">fft_c2r</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">is_odd</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Real to Complex Fast Fourier Transform: 1D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 1 dimensional signal or a batch of 1 dimensional signals.</span>
+
+<span class="sd">    is_odd: optional: Boolean. default: False.</span>
+<span class="sd">          - Specifies if the first dimension of output should be even or odd.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1 / (signal.dims()[0]).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A real af.Array containing the full output of the fft.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="n">_get_c2r_dim</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">is_odd</span><span class="p">)</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_c2r</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">is_odd</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="fft2_c2r"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2_c2r">[docs]</a><span class="k">def</span> <span class="nf">fft2_c2r</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">is_odd</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Real to Complex Fast Fourier Transform: 2D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 2 dimensional signal or a batch of 2 dimensional signals.</span>
+
+<span class="sd">    is_odd: optional: Boolean. default: False.</span>
+<span class="sd">          - Specifies if the first dimension of output should be even or odd.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1 / (signal.dims()[0] * signal.dims()[1]).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A real af.Array containing the full output of the fft.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="n">_get_c2r_dim</span><span class="p">(</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">is_odd</span><span class="p">)</span>
+        <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2_c2r</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">is_odd</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="fft3_c2r"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3_c2r">[docs]</a><span class="k">def</span> <span class="nf">fft3_c2r</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">is_odd</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Real to Complex Fast Fourier Transform: 3D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">           A 3 dimensional signal or a batch of 3 dimensional signals.</span>
+
+<span class="sd">    is_odd: optional: Boolean. default: False.</span>
+<span class="sd">          - Specifies if the first dimension of output should be even or odd.</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">          - Specifies the scaling factor.</span>
+<span class="sd">          - If None, scale is set to 1 / (signal.dims()[0] * signal.dims()[1] * signal.dims()[2]).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            A real af.Array containing the full output of the fft.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">dim0</span> <span class="o">=</span> <span class="n">_get_c2r_dim</span><span class="p">(</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">is_odd</span><span class="p">)</span>
+        <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">dim2</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span> <span class="o">*</span> <span class="n">dim2</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3_c2r</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">is_odd</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="dft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.dft">[docs]</a><span class="k">def</span> <span class="nf">dft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">odims</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Non batched Fourier transform.</span>
+
+<span class="sd">    This function performs n-dimensional fourier transform depending on the input dimensions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">          - A multi dimensional arrayfire array.</span>
+
+<span class="sd">    odims: optional: tuple of ints. default: (None, None, None, None).</span>
+<span class="sd">          - If None, calculated to be `signal.dims()`</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">           - Scale factor for the fourier transform.</span>
+<span class="sd">           - If none, calculated to be 1.0.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    output: af.Array</span>
+<span class="sd">           - A complex array that is the ouput of n-dimensional fourier transform.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">odims4</span> <span class="o">=</span> <span class="n">dim4_to_tuple</span><span class="p">(</span><span class="n">odims</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
+    <span class="n">ndims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ndims</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">fft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">scale</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">ndims</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">fft2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">scale</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fft3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">scale</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="idft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.idft">[docs]</a><span class="k">def</span> <span class="nf">idft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">odims</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Non batched Inverse Fourier transform.</span>
+
+<span class="sd">    This function performs n-dimensional inverse fourier transform depending on the input dimensions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">          - A multi dimensional arrayfire array.</span>
+
+<span class="sd">    odims: optional: tuple of ints. default: (None, None, None, None).</span>
+<span class="sd">          - If None, calculated to be `signal.dims()`</span>
+
+<span class="sd">    scale: optional: scalar. default: None.</span>
+<span class="sd">           - Scale factor for the fourier transform.</span>
+<span class="sd">           - If none, calculated to be 1.0 / signal.elements()</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    output: af.Array</span>
+<span class="sd">           - A complex array that is the ouput of n-dimensional inverse fourier transform.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    the output is always complex.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">odims4</span> <span class="o">=</span> <span class="n">dim4_to_tuple</span><span class="p">(</span><span class="n">odims</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
+    <span class="n">ndims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ndims</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ifft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">ndims</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ifft2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ifft3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="convolve1"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.convolve1">[docs]</a><span class="k">def</span> <span class="nf">convolve1</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span> <span class="o">=</span> <span class="n">CONV_MODE</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span> <span class="n">conv_domain</span> <span class="o">=</span> <span class="n">CONV_DOMAIN</span><span class="o">.</span><span class="n">AUTO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convolution: 1D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            - A 1 dimensional signal or batch of 1 dimensional signals.</span>
+
+<span class="sd">    kernel: af.Array</span>
+<span class="sd">            - A 1 dimensional kernel or batch of 1 dimensional kernels.</span>
+
+<span class="sd">    conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</span>
+<span class="sd">            - Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or</span>
+<span class="sd">              maintains the same size as input (af.CONV_MODE.DEFAULT).</span>
+
+<span class="sd">    conv_domain: optional: af.CONV_DOMAIN. default: af.CONV_DOMAIN.AUTO.</span>
+<span class="sd">            - Specifies the domain in which convolution is performed.</span>
+<span class="sd">            - af.CONV_DOMAIN.SPATIAL: Performs convolution in spatial domain.</span>
+<span class="sd">            - af.CONV_DOMAIN.FREQ: Performs convolution in frequency domain.</span>
+<span class="sd">            - af.CONV_DOMAIN.AUTO: Switches between spatial and frequency based on input size.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">          - Output of 1D convolution.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    Supported batch combinations:</span>
+
+<span class="sd">    | Signal    | Kernel    | output    |</span>
+<span class="sd">    |:---------:|:---------:|:---------:|</span>
+<span class="sd">    | [m 1 1 1] | [m 1 1 1] | [m 1 1 1] |</span>
+<span class="sd">    | [m n 1 1] | [m n 1 1] | [m n 1 1] |</span>
+<span class="sd">    | [m n p 1] | [m n 1 1] | [m n p 1] |</span>
+<span class="sd">    | [m n p 1] | [m n p 1] | [m n p 1] |</span>
+<span class="sd">    | [m n p 1] | [m n 1 q] | [m n p q] |</span>
+<span class="sd">    | [m n 1 p] | [m n q 1] | [m n q p] |</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve1</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                         <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">conv_domain</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="convolve2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.convolve2">[docs]</a><span class="k">def</span> <span class="nf">convolve2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span> <span class="o">=</span> <span class="n">CONV_MODE</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span> <span class="n">conv_domain</span> <span class="o">=</span> <span class="n">CONV_DOMAIN</span><span class="o">.</span><span class="n">AUTO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convolution: 2D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            - A 2 dimensional signal or batch of 2 dimensional signals.</span>
+
+<span class="sd">    kernel: af.Array</span>
+<span class="sd">            - A 2 dimensional kernel or batch of 2 dimensional kernels.</span>
+
+<span class="sd">    conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</span>
+<span class="sd">            - Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or</span>
+<span class="sd">              maintains the same size as input (af.CONV_MODE.DEFAULT).</span>
+
+<span class="sd">    conv_domain: optional: af.CONV_DOMAIN. default: af.CONV_DOMAIN.AUTO.</span>
+<span class="sd">            - Specifies the domain in which convolution is performed.</span>
+<span class="sd">            - af.CONV_DOMAIN.SPATIAL: Performs convolution in spatial domain.</span>
+<span class="sd">            - af.CONV_DOMAIN.FREQ: Performs convolution in frequency domain.</span>
+<span class="sd">            - af.CONV_DOMAIN.AUTO: Switches between spatial and frequency based on input size.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">          - Output of 2D convolution.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    Supported batch combinations:</span>
+
+<span class="sd">    | Signal    | Kernel    | output    |</span>
+<span class="sd">    |:---------:|:---------:|:---------:|</span>
+<span class="sd">    | [m n 1 1] | [m n 1 1] | [m n 1 1] |</span>
+<span class="sd">    | [m n p 1] | [m n 1 1] | [m n p 1] |</span>
+<span class="sd">    | [m n p 1] | [m n p 1] | [m n p 1] |</span>
+<span class="sd">    | [m n p 1] | [m n 1 q] | [m n p q] |</span>
+<span class="sd">    | [m n 1 p] | [m n q 1] | [m n q p] |</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve2</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                         <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">conv_domain</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="convolve2_separable"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.convolve2_separable">[docs]</a><span class="k">def</span> <span class="nf">convolve2_separable</span><span class="p">(</span><span class="n">col_kernel</span><span class="p">,</span> <span class="n">row_kernel</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">conv_mode</span> <span class="o">=</span> <span class="n">CONV_MODE</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convolution: 2D separable convolution</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    col_kernel: af.Array</span>
+<span class="sd">            - A column vector to be applied along each column of `signal`</span>
+
+<span class="sd">    row_kernel: af.Array</span>
+<span class="sd">            - A row vector to be applied along each row of `signal`</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            - A 2 dimensional signal or batch of 2 dimensional signals.</span>
+
+<span class="sd">    conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</span>
+<span class="sd">            - Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or</span>
+<span class="sd">              maintains the same size as input (af.CONV_MODE.DEFAULT).</span>
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">          - Output of 2D sepearable convolution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve2_sep</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                             <span class="n">col_kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">row_kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                             <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="convolve3"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.convolve3">[docs]</a><span class="k">def</span> <span class="nf">convolve3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span> <span class="o">=</span> <span class="n">CONV_MODE</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span> <span class="n">conv_domain</span> <span class="o">=</span> <span class="n">CONV_DOMAIN</span><span class="o">.</span><span class="n">AUTO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convolution: 3D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            - A 3 dimensional signal or batch of 3 dimensional signals.</span>
+
+<span class="sd">    kernel: af.Array</span>
+<span class="sd">            - A 3 dimensional kernel or batch of 3 dimensional kernels.</span>
+
+<span class="sd">    conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</span>
+<span class="sd">            - Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or</span>
+<span class="sd">              maintains the same size as input (af.CONV_MODE.DEFAULT).</span>
+
+<span class="sd">    conv_domain: optional: af.CONV_DOMAIN. default: af.CONV_DOMAIN.AUTO.</span>
+<span class="sd">            - Specifies the domain in which convolution is performed.</span>
+<span class="sd">            - af.CONV_DOMAIN.SPATIAL: Performs convolution in spatial domain.</span>
+<span class="sd">            - af.CONV_DOMAIN.FREQ: Performs convolution in frequency domain.</span>
+<span class="sd">            - af.CONV_DOMAIN.AUTO: Switches between spatial and frequency based on input size.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">          - Output of 3D convolution.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    Supported batch combinations:</span>
+
+<span class="sd">    | Signal    | Kernel    | output    |</span>
+<span class="sd">    |:---------:|:---------:|:---------:|</span>
+<span class="sd">    | [m n p 1] | [m n p 1] | [m n p 1] |</span>
+<span class="sd">    | [m n p 1] | [m n p q] | [m n p q] |</span>
+<span class="sd">    | [m n q p] | [m n q p] | [m n q p] |</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                         <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">conv_domain</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="convolve"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.convolve">[docs]</a><span class="k">def</span> <span class="nf">convolve</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span> <span class="o">=</span> <span class="n">CONV_MODE</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span> <span class="n">conv_domain</span> <span class="o">=</span> <span class="n">CONV_DOMAIN</span><span class="o">.</span><span class="n">AUTO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Non batched Convolution.</span>
+
+<span class="sd">    This function performs n-dimensional convolution based on input dimensionality.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            - An n-dimensional array.</span>
+
+<span class="sd">    kernel: af.Array</span>
+<span class="sd">            - A n-dimensional kernel.</span>
+
+<span class="sd">    conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</span>
+<span class="sd">            - Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or</span>
+<span class="sd">              maintains the same size as input (af.CONV_MODE.DEFAULT).</span>
+
+<span class="sd">    conv_domain: optional: af.CONV_DOMAIN. default: af.CONV_DOMAIN.AUTO.</span>
+<span class="sd">            - Specifies the domain in which convolution is performed.</span>
+<span class="sd">            - af.CONV_DOMAIN.SPATIAL: Performs convolution in spatial domain.</span>
+<span class="sd">            - af.CONV_DOMAIN.FREQ: Performs convolution in frequency domain.</span>
+<span class="sd">            - af.CONV_DOMAIN.AUTO: Switches between spatial and frequency based on input size.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">          - Output of n-dimensional convolution.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
+    <span class="n">ndims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ndims</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">convolve1</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span><span class="p">,</span> <span class="n">conv_domain</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">ndims</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">convolve2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span><span class="p">,</span> <span class="n">conv_domain</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">convolve3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span><span class="p">,</span> <span class="n">conv_domain</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="fft_convolve1"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_convolve1">[docs]</a><span class="k">def</span> <span class="nf">fft_convolve1</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span> <span class="o">=</span> <span class="n">CONV_MODE</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    FFT based Convolution: 1D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            - A 1 dimensional signal or batch of 1 dimensional signals.</span>
+
+<span class="sd">    kernel: af.Array</span>
+<span class="sd">            - A 1 dimensional kernel or batch of 1 dimensional kernels.</span>
+
+<span class="sd">    conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</span>
+<span class="sd">            - Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or</span>
+<span class="sd">              maintains the same size as input (af.CONV_MODE.DEFAULT).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">          - Output of 1D convolution.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This is same as convolve1(..., conv_mode=af.CONV_MODE.FREQ)</span>
+
+<span class="sd">    Supported batch combinations:</span>
+
+<span class="sd">    | Signal    | Kernel    | output    |</span>
+<span class="sd">    |:---------:|:---------:|:---------:|</span>
+<span class="sd">    | [m 1 1 1] | [m 1 1 1] | [m 1 1 1] |</span>
+<span class="sd">    | [m n 1 1] | [m n 1 1] | [m n 1 1] |</span>
+<span class="sd">    | [m n p 1] | [m n 1 1] | [m n p 1] |</span>
+<span class="sd">    | [m n p 1] | [m n p 1] | [m n p 1] |</span>
+<span class="sd">    | [m n p 1] | [m n 1 q] | [m n p q] |</span>
+<span class="sd">    | [m n 1 p] | [m n q 1] | [m n q p] |</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_convolve1</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                             <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="fft_convolve2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_convolve2">[docs]</a><span class="k">def</span> <span class="nf">fft_convolve2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span> <span class="o">=</span> <span class="n">CONV_MODE</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    FFT based Convolution: 2D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            - A 2 dimensional signal or batch of 2 dimensional signals.</span>
+
+<span class="sd">    kernel: af.Array</span>
+<span class="sd">            - A 2 dimensional kernel or batch of 2 dimensional kernels.</span>
+
+<span class="sd">    conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</span>
+<span class="sd">            - Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or</span>
+<span class="sd">              maintains the same size as input (af.CONV_MODE.DEFAULT).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">          - Output of 2D convolution.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This is same as convolve2(..., conv_mode=af.CONV_MODE.FREQ)</span>
+
+<span class="sd">    Supported batch combinations:</span>
+
+<span class="sd">    | Signal    | Kernel    | output    |</span>
+<span class="sd">    |:---------:|:---------:|:---------:|</span>
+<span class="sd">    | [m n 1 1] | [m n 1 1] | [m n 1 1] |</span>
+<span class="sd">    | [m n p 1] | [m n 1 1] | [m n p 1] |</span>
+<span class="sd">    | [m n p 1] | [m n p 1] | [m n p 1] |</span>
+<span class="sd">    | [m n p 1] | [m n 1 q] | [m n p q] |</span>
+<span class="sd">    | [m n 1 p] | [m n q 1] | [m n q p] |</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_convolve2</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                             <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="fft_convolve3"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_convolve3">[docs]</a><span class="k">def</span> <span class="nf">fft_convolve3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span> <span class="o">=</span> <span class="n">CONV_MODE</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    FFT based Convolution: 3D</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            - A 3 dimensional signal or batch of 3 dimensional signals.</span>
+
+<span class="sd">    kernel: af.Array</span>
+<span class="sd">            - A 3 dimensional kernel or batch of 3 dimensional kernels.</span>
+
+<span class="sd">    conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</span>
+<span class="sd">            - Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or</span>
+<span class="sd">              maintains the same size as input (af.CONV_MODE.DEFAULT).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">          - Output of 3D convolution.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This is same as convolve3(..., conv_mode=af.CONV_MODE.FREQ)</span>
+
+<span class="sd">    Supported batch combinations:</span>
+
+<span class="sd">    | Signal    | Kernel    | output    |</span>
+<span class="sd">    |:---------:|:---------:|:---------:|</span>
+<span class="sd">    | [m n p 1] | [m n p 1] | [m n p 1] |</span>
+<span class="sd">    | [m n p 1] | [m n p q] | [m n p q] |</span>
+<span class="sd">    | [m n q p] | [m n q p] | [m n q p] |</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_convolve3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                             <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="fft_convolve"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_convolve">[docs]</a><span class="k">def</span> <span class="nf">fft_convolve</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span> <span class="o">=</span> <span class="n">CONV_MODE</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Non batched FFT Convolution.</span>
+
+<span class="sd">    This function performs n-dimensional convolution based on input dimensionality.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            - An n-dimensional array.</span>
+
+<span class="sd">    kernel: af.Array</span>
+<span class="sd">            - A n-dimensional kernel.</span>
+
+<span class="sd">    conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</span>
+<span class="sd">            - Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or</span>
+<span class="sd">              maintains the same size as input (af.CONV_MODE.DEFAULT).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">          - Output of n-dimensional convolution.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    This is same as convolve(..., conv_mode=af.CONV_MODE.FREQ)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
+    <span class="n">ndims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">ndims</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">fft_convolve1</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">ndims</span> <span class="o">==</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">fft_convolve2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fft_convolve3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">conv_mode</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="fir"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fir">[docs]</a><span class="k">def</span> <span class="nf">fir</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Finite impulse response filter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    B : af.Array</span>
+<span class="sd">        A 1 dimensional array containing the coefficients of the filter.</span>
+
+<span class="sd">    X : af.Array</span>
+<span class="sd">        A 1 dimensional array containing the signal.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Y : af.Array</span>
+<span class="sd">        The output of the filter.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fir</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Y</span></div>
+
+<div class="viewcode-block" id="iir"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.iir">[docs]</a><span class="k">def</span> <span class="nf">iir</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Infinite impulse response filter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    B : af.Array</span>
+<span class="sd">        A 1 dimensional array containing the feed forward coefficients of the filter.</span>
+
+<span class="sd">    A : af.Array</span>
+<span class="sd">        A 1 dimensional array containing the feed back coefficients of the filter.</span>
+
+<span class="sd">    X : af.Array</span>
+<span class="sd">        A 1 dimensional array containing the signal.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Y : af.Array</span>
+<span class="sd">        The output of the filter.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_iir</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">Y</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

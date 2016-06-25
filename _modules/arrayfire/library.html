@@ -1,0 +1,710 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.library &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.library</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Module containing enums and other constants.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">import</span> <span class="nn">ctypes</span> <span class="kn">as</span> <span class="nn">ct</span>
+
+<span class="c1"># Work around for unexpected architectures</span>
+<span class="k">if</span> <span class="s1">&#39;c_dim_t_forced&#39;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">c_dim_t_forced</span>
+    <span class="n">c_dim_t</span> <span class="o">=</span> <span class="n">c_dim_t_forced</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="c1"># dim_t is long long by default</span>
+    <span class="n">c_dim_t</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_longlong</span>
+    <span class="c1"># Change to int for 32 bit x86 and amr architectures</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">platform</span><span class="o">.</span><span class="n">architecture</span><span class="p">()[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;32&#39;</span> <span class="ow">and</span>
+        <span class="p">(</span><span class="n">platform</span><span class="o">.</span><span class="n">machine</span><span class="p">()[</span><span class="o">-</span><span class="mi">2</span><span class="p">:]</span> <span class="o">==</span> <span class="s1">&#39;86&#39;</span> <span class="ow">or</span>
+         <span class="n">platform</span><span class="o">.</span><span class="n">machine</span><span class="p">()[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;arm&#39;</span><span class="p">)):</span>
+        <span class="n">c_dim_t</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span> <span class="k">as</span> <span class="n">_Enum</span>
+    <span class="k">def</span> <span class="nf">_Enum_Type</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">v</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">class</span> <span class="nc">_MetaEnum</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">attrname</span><span class="p">,</span> <span class="n">attrvalue</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;_Enum&#39;</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attrvalue</span><span class="p">,</span> <span class="n">_Enum_Type</span><span class="p">):</span>
+                    <span class="n">attrvalue</span><span class="o">.</span><span class="n">__class__</span> <span class="o">=</span> <span class="n">cls</span>
+                    <span class="n">attrs</span><span class="p">[</span><span class="n">attrname</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrvalue</span>
+
+    <span class="k">class</span> <span class="nc">_Enum</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">_MetaEnum</span>
+
+    <span class="k">class</span> <span class="nc">_Enum_Type</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="n">v</span>
+
+<div class="viewcode-block" id="ERR"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.ERR">[docs]</a><span class="k">class</span> <span class="nc">ERR</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Error values. For internal use only.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">NONE</span>            <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="c1">#100-199 Errors in environment</span>
+    <span class="n">NO_MEM</span>         <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">101</span><span class="p">)</span>
+    <span class="n">DRIVER</span>         <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">102</span><span class="p">)</span>
+    <span class="n">RUNTIME</span>        <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">103</span><span class="p">)</span>
+
+    <span class="c1"># 200-299 Errors in input parameters</span>
+    <span class="n">INVALID_ARRAY</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">201</span><span class="p">)</span>
+    <span class="n">ARG</span>            <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">202</span><span class="p">)</span>
+    <span class="n">SIZE</span>           <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">203</span><span class="p">)</span>
+    <span class="n">TYPE</span>           <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">204</span><span class="p">)</span>
+    <span class="n">DIFF_TYPE</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">205</span><span class="p">)</span>
+    <span class="n">BATCH</span>          <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">207</span><span class="p">)</span>
+    <span class="n">DEVICE</span>         <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">208</span><span class="p">)</span>
+
+    <span class="c1"># 300-399 Errors for missing software features</span>
+    <span class="n">NOT_SUPPORTED</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">301</span><span class="p">)</span>
+    <span class="n">NOT_CONFIGURED</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">302</span><span class="p">)</span>
+    <span class="n">NONFREE</span>        <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">303</span><span class="p">)</span>
+
+    <span class="c1"># 400-499 Errors for missing hardware features</span>
+    <span class="n">NO_DBL</span>         <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">401</span><span class="p">)</span>
+    <span class="n">NO_GFX</span>         <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">402</span><span class="p">)</span>
+
+    <span class="c1"># 500-599 Errors specific to the heterogeneous API</span>
+    <span class="n">LOAD_LIB</span>       <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">501</span><span class="p">)</span>
+    <span class="n">LOAD_SYM</span>       <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">502</span><span class="p">)</span>
+    <span class="n">ARR_BKND_MISMATCH</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">503</span><span class="p">)</span>
+
+    <span class="c1"># 900-999 Errors from upstream libraries and runtimes</span>
+    <span class="n">INTERNAL</span>       <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">998</span><span class="p">)</span>
+    <span class="n">UNKNOWN</span>        <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">999</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Dtype"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.Dtype">[docs]</a><span class="k">class</span> <span class="nc">Dtype</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Error values. For internal use only.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">f32</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">c32</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">f64</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">c64</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">b8</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">s32</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">u32</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">u8</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">s64</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">u64</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+    <span class="n">s16</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">u16</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Source"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.Source">[docs]</a><span class="k">class</span> <span class="nc">Source</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Source of the pointer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">device</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">host</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="INTERP"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.INTERP">[docs]</a><span class="k">class</span> <span class="nc">INTERP</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interpolation method</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NEAREST</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">LINEAR</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">BILINEAR</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">CUBIC</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">LOWER</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PAD"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.PAD">[docs]</a><span class="k">class</span> <span class="nc">PAD</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Edge padding types</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ZERO</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">SYM</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CONNECTIVITY"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.CONNECTIVITY">[docs]</a><span class="k">class</span> <span class="nc">CONNECTIVITY</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Neighborhood connectivity</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">FOUR</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">EIGHT</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CONV_MODE"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.CONV_MODE">[docs]</a><span class="k">class</span> <span class="nc">CONV_MODE</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convolution mode</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DEFAULT</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">EXPAND</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CONV_DOMAIN"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.CONV_DOMAIN">[docs]</a><span class="k">class</span> <span class="nc">CONV_DOMAIN</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convolution domain</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">AUTO</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">SPATIAL</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">FREQ</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MATCH"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.MATCH">[docs]</a><span class="k">class</span> <span class="nc">MATCH</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Match type</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sum of absolute differences</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SAD</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zero mean SAD</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ZSAD</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Locally scaled SAD</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LSAD</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sum of squared differences</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SSD</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zero mean SSD</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ZSSD</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Locally scaled SSD</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LSSD</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Normalized cross correlation</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NCC</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Zero mean NCC</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ZNCC</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sum of hamming distances</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SHD</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="YCC_STD"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.YCC_STD">[docs]</a><span class="k">class</span> <span class="nc">YCC_STD</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    YCC Standard formats</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">BT_601</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">601</span><span class="p">)</span>
+    <span class="n">BT_709</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">709</span><span class="p">)</span>
+    <span class="n">BT_2020</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2020</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CSPACE"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.CSPACE">[docs]</a><span class="k">class</span> <span class="nc">CSPACE</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Colorspace formats</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">GRAY</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">RGB</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">HSV</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">YCbCr</span><span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MATPROP"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.MATPROP">[docs]</a><span class="k">class</span> <span class="nc">MATPROP</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Matrix properties</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    None, general.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NONE</span>       <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transposed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TRANS</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Conjugate transposed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">CTRANS</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Upper triangular matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">UPPER</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">32</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Lower triangular matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">LOWER</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">64</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Treat diagonal as units.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DIAG_UNIT</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">128</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Symmetric matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">SYM</span>        <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">512</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Positive definite matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">POSDEF</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Orthogonal matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ORTHOG</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2048</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tri diagonal matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">TRI_DIAG</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">4096</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Block diagonal matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">BLOCK_DIAG</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">8192</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NORM"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.NORM">[docs]</a><span class="k">class</span> <span class="nc">NORM</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Norm types</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">VECTOR_1</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">VECTOR_INF</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">VECTOR_2</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">VECTOR_P</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">MATRIX_1</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">MATRIX_INF</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">MATRIX_2</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">MATRIX_L_PQ</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+    <span class="n">EUCLID</span>      <span class="o">=</span> <span class="n">VECTOR_2</span></div>
+
+<div class="viewcode-block" id="COLORMAP"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.COLORMAP">[docs]</a><span class="k">class</span> <span class="nc">COLORMAP</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Colormaps</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DEFAULT</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">SPECTRUM</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">COLORS</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">RED</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">MOOD</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">HEAT</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">BLUE</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="IMAGE_FORMAT"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.IMAGE_FORMAT">[docs]</a><span class="k">class</span> <span class="nc">IMAGE_FORMAT</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Image Formats</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">BMP</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">ICO</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">JPEG</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">JNG</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">PNG</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+    <span class="n">PPM</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">PPMRAW</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+    <span class="n">TIFF</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">18</span><span class="p">)</span>
+    <span class="n">PSD</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">HDR</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">26</span><span class="p">)</span>
+    <span class="n">EXR</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">29</span><span class="p">)</span>
+    <span class="n">JP2</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">31</span><span class="p">)</span>
+    <span class="n">RAW</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">34</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="HOMOGRAPHY"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.HOMOGRAPHY">[docs]</a><span class="k">class</span> <span class="nc">HOMOGRAPHY</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Homography Types</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">RANSAC</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">LMEDS</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="BACKEND"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.BACKEND">[docs]</a><span class="k">class</span> <span class="nc">BACKEND</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Backend libraries</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">DEFAULT</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">CPU</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">CUDA</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">OPENCL</span>  <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MARKER"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.MARKER">[docs]</a><span class="k">class</span> <span class="nc">MARKER</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Markers used for different points in graphics plots</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">NONE</span>       <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">POINT</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">CIRCLE</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">SQUARE</span>     <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">TRIANGE</span>    <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">CROSS</span>      <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">PLUS</span>       <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">STAR</span>       <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">_setup</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">platform</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+
+    <span class="n">platform_name</span> <span class="o">=</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">AF_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;AF_PATH&#39;</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">AF_PATH</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">pass</span>
+
+    <span class="n">AF_SEARCH_PATH</span> <span class="o">=</span> <span class="n">AF_PATH</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">CUDA_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;CUDA_PATH&#39;</span><span class="p">]</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">CUDA_PATH</span><span class="o">=</span> <span class="bp">None</span>
+        <span class="k">pass</span>
+
+    <span class="n">CUDA_FOUND</span> <span class="o">=</span> <span class="bp">False</span>
+
+    <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">platform_name</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">platform_name</span> <span class="o">==</span> <span class="s1">&#39;Windows&#39;</span> <span class="ow">or</span> <span class="n">platform_name</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;CYG&#39;</span><span class="p">:</span>
+
+        <span class="c1">## Windows specific setup</span>
+        <span class="n">pre</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="s1">&#39;.dll&#39;</span>
+        <span class="k">if</span> <span class="n">platform_name</span> <span class="o">==</span> <span class="s2">&quot;Windows&quot;</span><span class="p">:</span>
+            <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">            Supressing crashes caused by missing dlls</span>
+<span class="sd">            http://stackoverflow.com/questions/8347266/missing-dll-print-message-instead-of-launching-a-popup</span>
+<span class="sd">            https://msdn.microsoft.com/en-us/library/windows/desktop/ms680621.aspx</span>
+<span class="sd">            &#39;&#39;&#39;</span>
+            <span class="n">ct</span><span class="o">.</span><span class="n">windll</span><span class="o">.</span><span class="n">kernel32</span><span class="o">.</span><span class="n">SetErrorMode</span><span class="p">(</span><span class="mh">0x0001</span> <span class="o">|</span> <span class="mh">0x0002</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">AF_SEARCH_PATH</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">AF_SEARCH_PATH</span><span class="o">=</span><span class="s2">&quot;C:/Program Files/ArrayFire/v3/&quot;</span>
+
+        <span class="k">if</span> <span class="n">CUDA_PATH</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">CUDA_FOUND</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">CUDA_PATH</span> <span class="o">+</span> <span class="s1">&#39;/bin&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">CUDA_PATH</span> <span class="o">+</span> <span class="s1">&#39;/nvvm/bin/&#39;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">platform_name</span> <span class="o">==</span> <span class="s1">&#39;Darwin&#39;</span><span class="p">:</span>
+
+        <span class="c1">## OSX specific setup</span>
+        <span class="n">pre</span> <span class="o">=</span> <span class="s1">&#39;lib&#39;</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="s1">&#39;.3.dylib&#39;</span>
+
+        <span class="k">if</span> <span class="n">AF_SEARCH_PATH</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">AF_SEARCH_PATH</span><span class="o">=</span><span class="s1">&#39;/usr/local/&#39;</span>
+
+        <span class="k">if</span> <span class="n">CUDA_PATH</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">CUDA_PATH</span><span class="o">=</span><span class="s1">&#39;/usr/local/cuda/&#39;</span>
+
+        <span class="n">CUDA_FOUND</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">CUDA_PATH</span> <span class="o">+</span> <span class="s1">&#39;/lib&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">CUDA_PATH</span> <span class="o">+</span> <span class="s1">&#39;/nvvm/lib&#39;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">platform_name</span> <span class="o">==</span> <span class="s1">&#39;Linux&#39;</span><span class="p">:</span>
+        <span class="n">pre</span> <span class="o">=</span> <span class="s1">&#39;lib&#39;</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="s1">&#39;.so.3&#39;</span>
+
+        <span class="k">if</span> <span class="n">AF_SEARCH_PATH</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">AF_SEARCH_PATH</span><span class="o">=</span><span class="s1">&#39;/opt/arrayfire-3/&#39;</span>
+
+        <span class="k">if</span> <span class="n">CUDA_PATH</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">CUDA_PATH</span><span class="o">=</span><span class="s1">&#39;/usr/local/cuda/&#39;</span>
+
+        <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">architecture</span><span class="p">()[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;64&#39;</span><span class="p">:</span>
+            <span class="n">CUDA_FOUND</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">CUDA_PATH</span> <span class="o">+</span> <span class="s1">&#39;/lib64&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">CUDA_PATH</span> <span class="o">+</span> <span class="s1">&#39;/nvvm/lib64&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">CUDA_FOUND</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">CUDA_PATH</span> <span class="o">+</span> <span class="s1">&#39;/lib&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">CUDA_PATH</span> <span class="o">+</span> <span class="s1">&#39;/nvvm/lib&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="n">platform_name</span> <span class="o">+</span> <span class="s1">&#39; not supported&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">AF_PATH</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;AF_PATH&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">AF_SEARCH_PATH</span>
+
+    <span class="k">return</span> <span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">AF_SEARCH_PATH</span><span class="p">,</span> <span class="n">CUDA_FOUND</span>
+
+<span class="k">class</span> <span class="nc">_clibrary</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">__libname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">head</span><span class="o">=</span><span class="s1">&#39;af&#39;</span><span class="p">):</span>
+        <span class="n">libname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pre</span> <span class="o">+</span> <span class="n">head</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__post</span>
+        <span class="n">libname_full</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AF_PATH</span> <span class="o">+</span> <span class="s1">&#39;/lib/&#39;</span> <span class="o">+</span> <span class="n">libname</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">libname</span><span class="p">,</span> <span class="n">libname_full</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_unsafe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="n">lib</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__clibs</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">lib</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Backend not found&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">more_info_str</span> <span class="o">=</span> <span class="s2">&quot;Please look at https://github.com/arrayfire/arrayfire-python/wiki for more information.&quot;</span>
+
+        <span class="n">pre</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">AF_PATH</span><span class="p">,</span> <span class="n">CUDA_FOUND</span> <span class="o">=</span> <span class="n">_setup</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__pre</span> <span class="o">=</span> <span class="n">pre</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__post</span> <span class="o">=</span> <span class="n">post</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AF_PATH</span> <span class="o">=</span> <span class="n">AF_PATH</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">CUDA_FOUND</span> <span class="o">=</span> <span class="n">CUDA_FOUND</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__name</span> <span class="o">=</span> <span class="bp">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__clibs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;cuda&#39;</span>    <span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                        <span class="s1">&#39;opencl&#39;</span>  <span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                        <span class="s1">&#39;cpu&#39;</span>     <span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+                        <span class="s1">&#39;unified&#39;</span> <span class="p">:</span> <span class="bp">None</span><span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__backend_map</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span> <span class="p">:</span> <span class="s1">&#39;unified&#39;</span><span class="p">,</span>
+                              <span class="mi">1</span> <span class="p">:</span> <span class="s1">&#39;cpu&#39;</span>    <span class="p">,</span>
+                              <span class="mi">2</span> <span class="p">:</span> <span class="s1">&#39;cuda&#39;</span>   <span class="p">,</span>
+                              <span class="mi">4</span> <span class="p">:</span> <span class="s1">&#39;opencl&#39;</span> <span class="p">}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__backend_name_map</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;default&#39;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                   <span class="s1">&#39;unified&#39;</span> <span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+                                   <span class="s1">&#39;cpu&#39;</span>     <span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                                   <span class="s1">&#39;cuda&#39;</span>    <span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+                                   <span class="s1">&#39;opencl&#39;</span>  <span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+
+        <span class="c1"># Try to pre-load forge library if it exists</span>
+        <span class="n">libnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__libname</span><span class="p">(</span><span class="s1">&#39;forge&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">libname</span> <span class="ow">in</span> <span class="n">libnames</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ct</span><span class="o">.</span><span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="n">libname</span><span class="p">)</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+        <span class="c1"># Iterate in reverse order of preference</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;cpu&#39;</span><span class="p">,</span> <span class="s1">&#39;opencl&#39;</span><span class="p">,</span> <span class="s1">&#39;cuda&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+            <span class="n">libnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__libname</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">libname</span> <span class="ow">in</span> <span class="n">libnames</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">ct</span><span class="o">.</span><span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="n">libname</span><span class="p">)</span>
+                    <span class="n">__name</span> <span class="o">=</span> <span class="s1">&#39;unified&#39;</span> <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;&#39;</span> <span class="k">else</span> <span class="n">name</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__clibs</span><span class="p">[</span><span class="n">__name</span><span class="p">]</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">CDLL</span><span class="p">(</span><span class="n">libname</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__name</span> <span class="o">=</span> <span class="n">__name</span>
+                    <span class="k">break</span><span class="p">;</span>
+                <span class="k">except</span><span class="p">:</span>
+                    <span class="k">pass</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Could not load any ArrayFire libraries.</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span>
+                               <span class="n">more_info_str</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__backend_name_map</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bk_id</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__backend_map</span><span class="p">[</span><span class="n">bk_id</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__clibs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">__name</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__name</span>
+
+    <span class="k">def</span> <span class="nf">is_unified</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__name</span> <span class="o">==</span> <span class="s1">&#39;unified&#39;</span>
+
+    <span class="k">def</span> <span class="nf">parse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">res</span><span class="p">):</span>
+        <span class="n">lst</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span><span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__backend_name_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">&amp;</span> <span class="n">res</span><span class="p">):</span>
+                <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">lst</span><span class="p">)</span>
+
+<span class="n">backend</span> <span class="o">=</span> <span class="n">_clibrary</span><span class="p">()</span>
+
+<div class="viewcode-block" id="set_backend"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.set_backend">[docs]</a><span class="k">def</span> <span class="nf">set_backend</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">unsafe</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set a specific backend by name</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    name : str.</span>
+
+<span class="sd">    unsafe : optional: bool. Default: False.</span>
+<span class="sd">           If False, does not switch backend if current backend is not unified backend.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">is_unified</span><span class="p">()</span> <span class="o">==</span> <span class="bp">False</span> <span class="ow">and</span> <span class="n">unsafe</span> <span class="o">==</span> <span class="bp">False</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Can not change backend to </span><span class="si">%s</span><span class="s2"> after loading </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()))</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">is_unified</span><span class="p">()):</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_backend</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get_id</span><span class="p">(</span><span class="n">name</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">backend</span><span class="o">.</span><span class="n">set_unsafe</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+    <span class="k">return</span></div>
+
+<div class="viewcode-block" id="get_backend"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.get_backend">[docs]</a><span class="k">def</span> <span class="nf">get_backend</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Return the name of the backend</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="get_backend_id"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.get_backend_id">[docs]</a><span class="k">def</span> <span class="nf">get_backend_id</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get backend name of an array</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A    : af.Array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    name : str.</span>
+<span class="sd">         Backend name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">backend_id</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">BACKEND</span><span class="o">.</span><span class="n">CPU</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_backend_id</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">backend_id</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="n">backend_id</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="get_backend_count"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.get_backend_count">[docs]</a><span class="k">def</span> <span class="nf">get_backend_count</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get number of available backends</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    count : int</span>
+<span class="sd">          Number of available backends</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">count</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_backend_count</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">count</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">count</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="get_available_backends"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.get_available_backends">[docs]</a><span class="k">def</span> <span class="nf">get_available_backends</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get names of available backends</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    names : tuple of strings</span>
+<span class="sd">          Names of available backends</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">available</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_available_backends</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">available</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">backend</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">available</span><span class="o">.</span><span class="n">value</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="get_active_backend"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.get_active_backend">[docs]</a><span class="k">def</span> <span class="nf">get_active_backend</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the current active backend</span>
+
+<span class="sd">    name : str.</span>
+<span class="sd">         Backend name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">backend_id</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">BACKEND</span><span class="o">.</span><span class="n">CPU</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_active_backend</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">backend_id</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">backend</span><span class="o">.</span><span class="n">get_name</span><span class="p">(</span><span class="n">backend_id</span><span class="o">.</span><span class="n">value</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="get_device_id"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.get_device_id">[docs]</a><span class="k">def</span> <span class="nf">get_device_id</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the device id of the array</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    A    : af.Array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    dev : Integer</span>
+<span class="sd">         id of the device array was created on</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">device_id</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_device_id</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">device_id</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">device_id</span></div>
+
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">safe_call</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

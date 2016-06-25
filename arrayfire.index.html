@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.index module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.index">
+<span id="arrayfire-index-module"></span><h1>arrayfire.index module<a class="headerlink" href="#module-arrayfire.index" title="Permalink to this headline">¶</a></h1>
+<p>Index and Seq classes used in indexing operations.</p>
+<dl class="class">
+<dt id="arrayfire.index.Index">
+<em class="property">class </em><code class="descclassname">arrayfire.index.</code><code class="descname">Index</code><span class="sig-paren">(</span><em>idx</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/index.html#Index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.index.Index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">_ctypes.Structure</span></code></p>
+<dl class="attribute">
+<dt id="arrayfire.index.Index.idx">
+<code class="descname">idx</code><a class="headerlink" href="#arrayfire.index.Index.idx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.index.Index.isBatch">
+<code class="descname">isBatch</code><a class="headerlink" href="#arrayfire.index.Index.isBatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.index.Index.isSeq">
+<code class="descname">isSeq</code><a class="headerlink" href="#arrayfire.index.Index.isSeq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.index.ParallelRange">
+<em class="property">class </em><code class="descclassname">arrayfire.index.</code><code class="descname">ParallelRange</code><span class="sig-paren">(</span><em>start</em>, <em>stop=None</em>, <em>step=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/index.html#ParallelRange"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.index.ParallelRange" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#arrayfire.index.Seq" title="arrayfire.index.Seq"><code class="xref py py-class docutils literal"><span class="pre">arrayfire.index.Seq</span></code></a></p>
+<p>Class used to parallelize for loop.</p>
+<p>Inherits from Seq.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>start: number</strong></p>
+<blockquote>
+<div><p>Beginning of parallel range.</p>
+</div></blockquote>
+<p><strong>stop</strong> : number</p>
+<blockquote>
+<div><p>End of parallel range.</p>
+</div></blockquote>
+<p><strong>step</strong> : number</p>
+<blockquote class="last">
+<div><p>Step size for parallel range.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="n">af</span><span class="o">.</span><span class="n">ParallelRange</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">c</span><span class="p">[:,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="n">a</span><span class="p">[:,</span> <span class="n">ii</span><span class="p">]</span> <span class="o">+</span> <span class="n">b</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.4107     0.1794     0.3775</span>
+<span class="go">    0.8224     0.4198     0.3027</span>
+<span class="go">    0.9518     0.0081     0.6456</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[3 1 1 1]</span>
+<span class="go">    0.7269</span>
+<span class="go">    0.7104</span>
+<span class="go">    0.5201</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    1.1377     0.9063     1.1045</span>
+<span class="go">    1.5328     1.1302     1.0131</span>
+<span class="go">    1.4719     0.5282     1.1657</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="44%" />
+<col width="56%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>S: slice</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.index.ParallelRange.next" title="arrayfire.index.ParallelRange.next"><code class="xref py py-obj docutils literal"><span class="pre">next</span></code></a>()</td>
+<td>Function called by the iterator in Python 2</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="arrayfire.index.ParallelRange.next">
+<code class="descname">next</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/index.html#ParallelRange.next"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.index.ParallelRange.next" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function called by the iterator in Python 2</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.index.Seq">
+<em class="property">class </em><code class="descclassname">arrayfire.index.</code><code class="descname">Seq</code><span class="sig-paren">(</span><em>S</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/index.html#Seq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.index.Seq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">_ctypes.Structure</span></code></p>
+<p>arrayfire equivalent of slice</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>S: slice or number.</strong></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="34%" />
+<col width="66%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>begin: number</td>
+<td>Start of the sequence.</td>
+</tr>
+<tr class="row-even"><td>end</td>
+<td>(number) End of sequence.</td>
+</tr>
+<tr class="row-odd"><td>step</td>
+<td>(number) Step size.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="arrayfire.index.Seq.begin">
+<code class="descname">begin</code><a class="headerlink" href="#arrayfire.index.Seq.begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.index.Seq.end">
+<code class="descname">end</code><a class="headerlink" href="#arrayfire.index.Seq.end" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.index.Seq.step">
+<code class="descname">step</code><a class="headerlink" href="#arrayfire.index.Seq.step" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.index.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.index.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,386 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.device module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.device">
+<span id="arrayfire-device-module"></span><h1>arrayfire.device module<a class="headerlink" href="#module-arrayfire.device" title="Permalink to this headline">¶</a></h1>
+<p>Functions to handle the available devices in the backend.</p>
+<dl class="function">
+<dt id="arrayfire.device.alloc_device">
+<code class="descclassname">arrayfire.device.</code><code class="descname">alloc_device</code><span class="sig-paren">(</span><em>num_bytes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#alloc_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.alloc_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allocate a buffer on the device with specified number of bytes.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.alloc_host">
+<code class="descclassname">arrayfire.device.</code><code class="descname">alloc_host</code><span class="sig-paren">(</span><em>num_bytes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#alloc_host"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.alloc_host" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allocate a buffer on the host with specified number of bytes.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.alloc_pinned">
+<code class="descclassname">arrayfire.device.</code><code class="descname">alloc_pinned</code><span class="sig-paren">(</span><em>num_bytes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#alloc_pinned"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.alloc_pinned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Allocate a buffer on the host using pinned memory with specified number of bytes.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.device_gc">
+<code class="descclassname">arrayfire.device.</code><code class="descname">device_gc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#device_gc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.device_gc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ask the garbage collector to free all unlocked memory</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.device_info">
+<code class="descclassname">arrayfire.device.</code><code class="descname">device_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#device_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.device_info" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a map with the following fields:</dt>
+<dd><ul class="first last simple">
+<li>&#8216;device&#8217;: Name of the current device.</li>
+<li>&#8216;backend&#8217;: The current backend being used.</li>
+<li>&#8216;toolkit&#8217;: The toolkit version for the backend.</li>
+<li>&#8216;compute&#8217;: The compute version of the device.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.device_mem_info">
+<code class="descclassname">arrayfire.device.</code><code class="descname">device_mem_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#device_mem_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.device_mem_info" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns a map with the following fields:</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>&#8216;alloc&#8217;: Contains the map of the following</dt>
+<dd><ul class="first last simple">
+<li>&#8216;buffers&#8217; : Total number of buffers allocated by memory manager.</li>
+<li>&#8216;bytes&#8217;   : Total number of bytes allocated by memory manager.</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>&#8216;lock&#8217;: Contains the map of the following</dt>
+<dd><ul class="first last simple">
+<li>&#8216;buffers&#8217; : Total number of buffers currently in scope.</li>
+<li>&#8216;bytes&#8217;   : Total number of bytes currently in scope.</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.eval">
+<code class="descclassname">arrayfire.device.</code><code class="descname">eval</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#eval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.eval" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluate the input</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> : arguments to be evaluated</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.free_device">
+<code class="descclassname">arrayfire.device.</code><code class="descname">free_device</code><span class="sig-paren">(</span><em>ptr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#free_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.free_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Free the device memory allocated by alloc_device</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.free_host">
+<code class="descclassname">arrayfire.device.</code><code class="descname">free_host</code><span class="sig-paren">(</span><em>ptr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#free_host"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.free_host" title="Permalink to this definition">¶</a></dt>
+<dd><p>Free the host memory allocated by alloc_host</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.free_pinned">
+<code class="descclassname">arrayfire.device.</code><code class="descname">free_pinned</code><span class="sig-paren">(</span><em>ptr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#free_pinned"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.free_pinned" title="Permalink to this definition">¶</a></dt>
+<dd><p>Free the pinned memory allocated by alloc_pinned</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.get_device">
+<code class="descclassname">arrayfire.device.</code><code class="descname">get_device</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#get_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.get_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the id of the current device.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.get_device_count">
+<code class="descclassname">arrayfire.device.</code><code class="descname">get_device_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#get_device_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.get_device_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of devices available.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.get_device_ptr">
+<code class="descclassname">arrayfire.device.</code><code class="descname">get_device_ptr</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#get_device_ptr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.get_device_ptr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the raw device pointer of an array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A multi dimensional arrayfire array.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="first last simple">
+<li>internal device pointer held by a</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.info">
+<code class="descclassname">arrayfire.device.</code><code class="descname">info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.info" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Displays the information about the following:</dt>
+<dd><ul class="first last simple">
+<li>ArrayFire build and version number.</li>
+<li>The number of devices available.</li>
+<li>The names of the devices.</li>
+<li>The current device being used.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.info_str">
+<code class="descclassname">arrayfire.device.</code><code class="descname">info_str</code><span class="sig-paren">(</span><em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#info_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.info_str" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Returns information about the following as a string:</dt>
+<dd><ul class="first last simple">
+<li>ArrayFire version number.</li>
+<li>The number of devices available.</li>
+<li>The names of the devices.</li>
+<li>The current device being used.</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.init">
+<code class="descclassname">arrayfire.device.</code><code class="descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.init" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.is_dbl_supported">
+<code class="descclassname">arrayfire.device.</code><code class="descname">is_dbl_supported</code><span class="sig-paren">(</span><em>device=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#is_dbl_supported"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.is_dbl_supported" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if double precision is supported on specified device.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>device: optional: int. default: None.</strong></p>
+<blockquote>
+<div><p>id of the desired device.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="first last">
+<li><p class="first">True if double precision supported.</p>
+<blockquote>
+<div><ul class="simple">
+<li>False if double precision not supported.</li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.lock_array">
+<code class="descclassname">arrayfire.device.</code><code class="descname">lock_array</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#lock_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.lock_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Ask arrayfire to not perform garbage collection on raw data held by an array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>A multi dimensional arrayfire array.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.lock_device_ptr">
+<code class="descclassname">arrayfire.device.</code><code class="descname">lock_device_ptr</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#lock_device_ptr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.lock_device_ptr" title="Permalink to this definition">¶</a></dt>
+<dd><p>This functions is deprecated. Please use lock_array instead.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.set_device">
+<code class="descclassname">arrayfire.device.</code><code class="descname">set_device</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#set_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.set_device" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change the active device to the specified id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>num: int.</strong></p>
+<blockquote class="last">
+<div><p>id of the desired device.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.sync">
+<code class="descclassname">arrayfire.device.</code><code class="descname">sync</code><span class="sig-paren">(</span><em>device=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#sync"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.sync" title="Permalink to this definition">¶</a></dt>
+<dd><p>Block until all the functions on the device have completed execution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>device: optional: int. default: None.</strong></p>
+<blockquote class="last">
+<div><p>id of the desired device.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.unlock_array">
+<code class="descclassname">arrayfire.device.</code><code class="descname">unlock_array</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#unlock_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.unlock_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tell arrayfire to resume garbage collection on raw data held by an array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>A multi dimensional arrayfire array.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.device.unlock_device_ptr">
+<code class="descclassname">arrayfire.device.</code><code class="descname">unlock_device_ptr</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#unlock_device_ptr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.unlock_device_ptr" title="Permalink to this definition">¶</a></dt>
+<dd><p>This functions is deprecated. Please use unlock_array instead.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.device.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.device.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

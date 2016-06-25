@@ -1,0 +1,986 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.data &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.data</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions to create and manipulate arrays.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">version_info</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">_is_number</span>
+
+<div class="viewcode-block" id="constant"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.constant">[docs]</a><span class="k">def</span> <span class="nf">constant</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a multi dimensional array whose elements contain the same value.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    val : scalar.</span>
+<span class="sd">          Value of each element of the constant array.</span>
+
+<span class="sd">    d0 : int.</span>
+<span class="sd">         Length of first dimension.</span>
+
+<span class="sd">    d1 : optional: int. default: None.</span>
+<span class="sd">         Length of second dimension.</span>
+
+<span class="sd">    d2 : optional: int. default: None.</span>
+<span class="sd">         Length of third dimension.</span>
+
+<span class="sd">    d3 : optional: int. default: None.</span>
+<span class="sd">         Length of fourth dimension.</span>
+
+<span class="sd">    dtype : optional: af.Dtype. default: af.Dtype.f32.</span>
+<span class="sd">           Data type of the array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Multi dimensional array whose elements are of value `val`.</span>
+<span class="sd">          - If d1 is None, `out` is 1D of size (d0,).</span>
+<span class="sd">          - If d1 is not None and d2 is None, `out` is 2D of size (d0, d1).</span>
+<span class="sd">          - If d1 and d2 are not None and d3 is None, `out` is 3D of size (d0, d1, d2).</span>
+<span class="sd">          - If d1, d2, d3 are all not None, `out` is 4D of size (d0, d1, d2, d3).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">out</span><span class="o">.</span><span class="n">arr</span> <span class="o">=</span> <span class="n">constant_array</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<span class="c1"># Store builtin range function to be used later</span>
+<span class="n">_brange</span> <span class="o">=</span> <span class="nb">range</span>
+
+<div class="viewcode-block" id="range"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.range">[docs]</a><span class="k">def</span> <span class="nf">range</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a multi dimensional array using length of a dimension as range.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    val : scalar.</span>
+<span class="sd">          Value of each element of the constant array.</span>
+
+<span class="sd">    d0 : int.</span>
+<span class="sd">         Length of first dimension.</span>
+
+<span class="sd">    d1 : optional: int. default: None.</span>
+<span class="sd">         Length of second dimension.</span>
+
+<span class="sd">    d2 : optional: int. default: None.</span>
+<span class="sd">         Length of third dimension.</span>
+
+<span class="sd">    d3 : optional: int. default: None.</span>
+<span class="sd">         Length of fourth dimension.</span>
+
+<span class="sd">    dim : optional: int. default: 0.</span>
+<span class="sd">         The dimension along which the range is calculated.</span>
+
+<span class="sd">    dtype : optional: af.Dtype. default: af.Dtype.f32.</span>
+<span class="sd">           Data type of the array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Multi dimensional array whose elements are along `dim` fall between [0 - self.dims[dim]-1]</span>
+<span class="sd">          - If d1 is None, `out` is 1D of size (d0,).</span>
+<span class="sd">          - If d1 is not None and d2 is None, `out` is 2D of size (d0, d1).</span>
+<span class="sd">          - If d1 and d2 are not None and d3 is None, `out` is 3D of size (d0, d1, d2).</span>
+<span class="sd">          - If d1, d2, d3 are all not None, `out` is 4D of size (d0, d1, d2, d3).</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.range(3, 2) # dim is not specified, range is along first dimension.</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a) # The data ranges from [0 - 2] (3 elements along first dimension)</span>
+<span class="sd">    [3 2 1 1]</span>
+<span class="sd">        0.0000     0.0000</span>
+<span class="sd">        1.0000     1.0000</span>
+<span class="sd">        2.0000     2.0000</span>
+
+<span class="sd">    &gt;&gt;&gt; a = af.range(3, 2, dim=1) # dim is 1, range is along second dimension.</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a) # The data ranges from [0 - 1] (2 elements along second dimension)</span>
+<span class="sd">    [3 2 1 1]</span>
+<span class="sd">        0.0000     1.0000</span>
+<span class="sd">        0.0000     1.0000</span>
+<span class="sd">        0.0000     1.0000</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_range</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dim</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="iota"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.iota">[docs]</a><span class="k">def</span> <span class="nf">iota</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tile_dims</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a multi dimensional array using the number of elements in the array as the range.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    val : scalar.</span>
+<span class="sd">          Value of each element of the constant array.</span>
+
+<span class="sd">    d0 : int.</span>
+<span class="sd">         Length of first dimension.</span>
+
+<span class="sd">    d1 : optional: int. default: None.</span>
+<span class="sd">         Length of second dimension.</span>
+
+<span class="sd">    d2 : optional: int. default: None.</span>
+<span class="sd">         Length of third dimension.</span>
+
+<span class="sd">    d3 : optional: int. default: None.</span>
+<span class="sd">         Length of fourth dimension.</span>
+
+<span class="sd">    tile_dims : optional: tuple of ints. default: None.</span>
+<span class="sd">         The number of times the data is tiled.</span>
+
+<span class="sd">    dtype : optional: af.Dtype. default: af.Dtype.f32.</span>
+<span class="sd">           Data type of the array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Multi dimensional array whose elements are along `dim` fall between [0 - self.elements() - 1].</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.iota(3,3) # tile_dim is not specified, data is not tiled</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a) # the elements range from [0 - 8] (9 elements)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.0000     3.0000     6.0000</span>
+<span class="sd">        1.0000     4.0000     7.0000</span>
+<span class="sd">        2.0000     5.0000     8.0000</span>
+
+<span class="sd">    &gt;&gt;&gt; b = af.iota(3,3,tile_dims(1,2)) # Asking to tile along second dimension.</span>
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+<span class="sd">    [3 6 1 1]</span>
+<span class="sd">        0.0000     3.0000     6.0000     0.0000     3.0000     6.0000</span>
+<span class="sd">        1.0000     4.0000     7.0000     1.0000     4.0000     7.0000</span>
+<span class="sd">        2.0000     5.0000     8.0000     2.0000     5.0000     8.0000</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
+    <span class="n">td</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">4</span>
+
+    <span class="k">if</span> <span class="n">tile_dims</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">_brange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile_dims</span><span class="p">)):</span>
+            <span class="n">td</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile_dims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="n">tdims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">td</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">td</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">td</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_iota</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span>
+                                    <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">tdims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="randu"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.randu">[docs]</a><span class="k">def</span> <span class="nf">randu</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a multi dimensional array containing values from a uniform distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d0 : int.</span>
+<span class="sd">         Length of first dimension.</span>
+
+<span class="sd">    d1 : optional: int. default: None.</span>
+<span class="sd">         Length of second dimension.</span>
+
+<span class="sd">    d2 : optional: int. default: None.</span>
+<span class="sd">         Length of third dimension.</span>
+
+<span class="sd">    d3 : optional: int. default: None.</span>
+<span class="sd">         Length of fourth dimension.</span>
+
+<span class="sd">    dtype : optional: af.Dtype. default: af.Dtype.f32.</span>
+<span class="sd">           Data type of the array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Multi dimensional array whose elements are sampled uniformly between [0, 1].</span>
+<span class="sd">          - If d1 is None, `out` is 1D of size (d0,).</span>
+<span class="sd">          - If d1 is not None and d2 is None, `out` is 2D of size (d0, d1).</span>
+<span class="sd">          - If d1 and d2 are not None and d3 is None, `out` is 3D of size (d0, d1, d2).</span>
+<span class="sd">          - If d1, d2, d3 are all not None, `out` is 4D of size (d0, d1, d2, d3).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_randu</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="randn"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.randn">[docs]</a><span class="k">def</span> <span class="nf">randn</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a multi dimensional array containing values from a normal distribution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d0 : int.</span>
+<span class="sd">         Length of first dimension.</span>
+
+<span class="sd">    d1 : optional: int. default: None.</span>
+<span class="sd">         Length of second dimension.</span>
+
+<span class="sd">    d2 : optional: int. default: None.</span>
+<span class="sd">         Length of third dimension.</span>
+
+<span class="sd">    d3 : optional: int. default: None.</span>
+<span class="sd">         Length of fourth dimension.</span>
+
+<span class="sd">    dtype : optional: af.Dtype. default: af.Dtype.f32.</span>
+<span class="sd">           Data type of the array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Multi dimensional array whose elements are sampled from a normal distribution with mean 0 and sigma of 1.</span>
+<span class="sd">          - If d1 is None, `out` is 1D of size (d0,).</span>
+<span class="sd">          - If d1 is not None and d2 is None, `out` is 2D of size (d0, d1).</span>
+<span class="sd">          - If d1 and d2 are not None and d3 is None, `out` is 3D of size (d0, d1, d2).</span>
+<span class="sd">          - If d1, d2, d3 are all not None, `out` is 4D of size (d0, d1, d2, d3).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_randn</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="set_seed"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.set_seed">[docs]</a><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Set the seed for the random number generator.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    seed: int.</span>
+<span class="sd">          Seed for the random number generator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_seed</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_ulonglong</span><span class="p">(</span><span class="n">seed</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="get_seed"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.get_seed">[docs]</a><span class="k">def</span> <span class="nf">get_seed</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the seed for the random number generator.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ----------</span>
+<span class="sd">    seed: int.</span>
+<span class="sd">          Seed for the random number generator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_ulonglong</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_seed</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">seed</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">seed</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="identity"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.identity">[docs]</a><span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create an identity matrix or batch of identity matrices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    d0 : int.</span>
+<span class="sd">         Length of first dimension.</span>
+
+<span class="sd">    d1 : int.</span>
+<span class="sd">         Length of second dimension.</span>
+
+<span class="sd">    d2 : optional: int. default: None.</span>
+<span class="sd">         Length of third dimension.</span>
+
+<span class="sd">    d3 : optional: int. default: None.</span>
+<span class="sd">         Length of fourth dimension.</span>
+
+<span class="sd">    dtype : optional: af.Dtype. default: af.Dtype.f32.</span>
+<span class="sd">           Data type of the array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Multi dimensional array whose first two dimensions form a identity matrix.</span>
+<span class="sd">          - If d2 is  None, `out` is 2D of size (d0, d1).</span>
+<span class="sd">          - If d2 is not None and d3 is None, `out` is 3D of size (d0, d1, d2).</span>
+<span class="sd">          - If d2, d3 are not None, `out` is 4D of size (d0, d1, d2, d3).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_identity</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="diag"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.diag">[docs]</a><span class="k">def</span> <span class="nf">diag</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a diagonal matrix or Extract the diagonal from a matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array.</span>
+<span class="sd">        1 dimensional or 2 dimensional arrayfire array.</span>
+
+<span class="sd">    num : optional: int. default: 0.</span>
+<span class="sd">        The index of the diagonal.</span>
+<span class="sd">        - num == 0 signifies the diagonal.</span>
+<span class="sd">        - num  &gt; 0 signifies super diagonals.</span>
+<span class="sd">        - num &lt;  0 signifies sub diagonals.</span>
+
+<span class="sd">    extract : optional: bool. default: True.</span>
+<span class="sd">         - If True , diagonal is extracted. `a` has to be 2D.</span>
+<span class="sd">         - If False, diagonal matrix is created. `a` has to be 1D.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">         - if extract is True, `out` contains the num&#39;th diagonal from `a`.</span>
+<span class="sd">         - if extract is False, `out` contains `a` as the num&#39;th diagonal.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">extract</span><span class="p">:</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_diag_extract</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">num</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_diag_create</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">num</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="join"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.join">[docs]</a><span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">third</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fourth</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Join two or more arrayfire arrays along a specified dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    dim: int.</span>
+<span class="sd">        Dimension along which the join occurs.</span>
+
+<span class="sd">    first : af.Array.</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    second : af.Array.</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    third : optional: af.Array. default: None.</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    fourth : optional: af.Array. default: None.</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          An array containing the input arrays joined along the specified dimension.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(2, 3)</span>
+<span class="sd">    &gt;&gt;&gt; b = af.randu(2, 3)</span>
+<span class="sd">    &gt;&gt;&gt; c = af.join(0, a, b)</span>
+<span class="sd">    &gt;&gt;&gt; d = af.join(1, a, b)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+<span class="sd">    [2 3 1 1]</span>
+<span class="sd">        0.9508     0.2591     0.7928</span>
+<span class="sd">        0.5367     0.8359     0.8719</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+<span class="sd">    [2 3 1 1]</span>
+<span class="sd">        0.3266     0.6009     0.2442</span>
+<span class="sd">        0.6275     0.0495     0.6591</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(c)</span>
+<span class="sd">    [4 3 1 1]</span>
+<span class="sd">        0.9508     0.2591     0.7928</span>
+<span class="sd">        0.5367     0.8359     0.8719</span>
+<span class="sd">        0.3266     0.6009     0.2442</span>
+<span class="sd">        0.6275     0.0495     0.6591</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(d)</span>
+<span class="sd">    [2 6 1 1]</span>
+<span class="sd">        0.9508     0.2591     0.7928     0.3266     0.6009     0.2442</span>
+<span class="sd">        0.5367     0.8359     0.8719     0.6275     0.0495     0.6591</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">third</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">fourth</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_join</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">dim</span><span class="p">,</span> <span class="n">first</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">second</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">c_void_p_4</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="n">c_array_vec</span> <span class="o">=</span> <span class="n">c_void_p_4</span><span class="p">(</span><span class="n">first</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">second</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">if</span> <span class="n">third</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">c_array_vec</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="n">third</span><span class="o">.</span><span class="n">arr</span>
+            <span class="n">num</span><span class="o">+=</span><span class="mi">1</span>
+        <span class="k">if</span> <span class="n">fourth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">c_array_vec</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="n">fourth</span><span class="o">.</span><span class="n">arr</span>
+            <span class="n">num</span><span class="o">+=</span><span class="mi">1</span>
+
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_join_many</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">dim</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">c_array_vec</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="tile"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.tile">[docs]</a><span class="k">def</span> <span class="nf">tile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tile an array along specified dimensions.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    a : af.Array.</span>
+<span class="sd">       Multi dimensional array.</span>
+
+<span class="sd">    d0: int.</span>
+<span class="sd">        The number of times `a` has to be tiled along first dimension.</span>
+
+<span class="sd">    d1: optional: int. default: 1.</span>
+<span class="sd">        The number of times `a` has to be tiled along second dimension.</span>
+
+<span class="sd">    d2: optional: int. default: 1.</span>
+<span class="sd">        The number of times `a` has to be tiled along third dimension.</span>
+
+<span class="sd">    d3: optional: int. default: 1.</span>
+<span class="sd">        The number of times `a` has to be tiled along fourth dimension.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          An array containing the input after tiling the the specified number of times.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(2, 3)</span>
+<span class="sd">    &gt;&gt;&gt; b = af.tile(a, 2)</span>
+<span class="sd">    &gt;&gt;&gt; c = af.tile(a, 1, 2)</span>
+<span class="sd">    &gt;&gt;&gt; d = af.tile(a, 2, 2)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+<span class="sd">    [2 3 1 1]</span>
+<span class="sd">        0.9508     0.2591     0.7928</span>
+<span class="sd">        0.5367     0.8359     0.8719</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+<span class="sd">    [4 3 1 1]</span>
+<span class="sd">        0.4107     0.9518     0.4198</span>
+<span class="sd">        0.8224     0.1794     0.0081</span>
+<span class="sd">        0.4107     0.9518     0.4198</span>
+<span class="sd">        0.8224     0.1794     0.0081</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(c)</span>
+<span class="sd">    [2 6 1 1]</span>
+<span class="sd">        0.4107     0.9518     0.4198     0.4107     0.9518     0.4198</span>
+<span class="sd">        0.8224     0.1794     0.0081     0.8224     0.1794     0.0081</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(d)</span>
+<span class="sd">    [4 6 1 1]</span>
+<span class="sd">        0.4107     0.9518     0.4198     0.4107     0.9518     0.4198</span>
+<span class="sd">        0.8224     0.1794     0.0081     0.8224     0.1794     0.0081</span>
+<span class="sd">        0.4107     0.9518     0.4198     0.4107     0.9518     0.4198</span>
+<span class="sd">        0.8224     0.1794     0.0081     0.8224     0.1794     0.0081</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_tile</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<div class="viewcode-block" id="reorder"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.reorder">[docs]</a><span class="k">def</span> <span class="nf">reorder</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d0</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reorder the dimensions of the input.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    a : af.Array.</span>
+<span class="sd">       Multi dimensional array.</span>
+
+<span class="sd">    d0: optional: int. default: 1.</span>
+<span class="sd">        The location of the first dimension in the output.</span>
+
+<span class="sd">    d1: optional: int. default: 0.</span>
+<span class="sd">        The location of the second dimension in the output.</span>
+
+<span class="sd">    d2: optional: int. default: 2.</span>
+<span class="sd">        The location of the third dimension in the output.</span>
+
+<span class="sd">    d3: optional: int. default: 3.</span>
+<span class="sd">        The location of the fourth dimension in the output.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          - An array containing the input aftern reordering its dimensions.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ------</span>
+<span class="sd">    - `af.reorder(a, 1, 0)` is the same as `transpose(a)`</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(5, 5, 3)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+<span class="sd">    [5 5 3 1]</span>
+<span class="sd">        0.4107     0.0081     0.6600     0.1046     0.8395</span>
+<span class="sd">        0.8224     0.3775     0.0764     0.8827     0.1933</span>
+<span class="sd">        0.9518     0.3027     0.0901     0.1647     0.7270</span>
+<span class="sd">        0.1794     0.6456     0.5933     0.8060     0.0322</span>
+<span class="sd">        0.4198     0.5591     0.1098     0.5938     0.0012</span>
+
+<span class="sd">        0.8703     0.9250     0.4387     0.6530     0.4224</span>
+<span class="sd">        0.5259     0.3063     0.3784     0.5476     0.5293</span>
+<span class="sd">        0.1443     0.9313     0.4002     0.8577     0.0212</span>
+<span class="sd">        0.3253     0.8684     0.4390     0.8370     0.1103</span>
+<span class="sd">        0.5081     0.6592     0.4718     0.0618     0.4420</span>
+
+<span class="sd">        0.8355     0.6767     0.1033     0.9426     0.9276</span>
+<span class="sd">        0.4878     0.6742     0.2119     0.4817     0.8662</span>
+<span class="sd">        0.2055     0.4523     0.5955     0.9097     0.3578</span>
+<span class="sd">        0.1794     0.1236     0.3745     0.6821     0.6263</span>
+<span class="sd">        0.5606     0.7924     0.9165     0.6056     0.9747</span>
+
+
+<span class="sd">    &gt;&gt;&gt; b = af.reorder(a, 2, 0, 1)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+<span class="sd">    [3 5 5 1]</span>
+<span class="sd">        0.4107     0.8224     0.9518     0.1794     0.4198</span>
+<span class="sd">        0.8703     0.5259     0.1443     0.3253     0.5081</span>
+<span class="sd">        0.8355     0.4878     0.2055     0.1794     0.5606</span>
+
+<span class="sd">        0.0081     0.3775     0.3027     0.6456     0.5591</span>
+<span class="sd">        0.9250     0.3063     0.9313     0.8684     0.6592</span>
+<span class="sd">        0.6767     0.6742     0.4523     0.1236     0.7924</span>
+
+<span class="sd">        0.6600     0.0764     0.0901     0.5933     0.1098</span>
+<span class="sd">        0.4387     0.3784     0.4002     0.4390     0.4718</span>
+<span class="sd">        0.1033     0.2119     0.5955     0.3745     0.9165</span>
+
+<span class="sd">        0.1046     0.8827     0.1647     0.8060     0.5938</span>
+<span class="sd">        0.6530     0.5476     0.8577     0.8370     0.0618</span>
+<span class="sd">        0.9426     0.4817     0.9097     0.6821     0.6056</span>
+
+<span class="sd">        0.8395     0.1933     0.7270     0.0322     0.0012</span>
+<span class="sd">        0.4224     0.5293     0.0212     0.1103     0.4420</span>
+<span class="sd">        0.9276     0.8662     0.3578     0.6263     0.9747</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_reorder</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="shift"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.shift">[docs]</a><span class="k">def</span> <span class="nf">shift</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Shift the input along each dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    a : af.Array.</span>
+<span class="sd">       Multi dimensional array.</span>
+
+<span class="sd">    d0: int.</span>
+<span class="sd">        The amount of shift along first dimension.</span>
+
+<span class="sd">    d1: optional: int. default: 0.</span>
+<span class="sd">        The amount of shift along second dimension.</span>
+
+<span class="sd">    d2: optional: int. default: 0.</span>
+<span class="sd">        The amount of shift along third dimension.</span>
+
+<span class="sd">    d3: optional: int. default: 0.</span>
+<span class="sd">        The amount of shift along fourth dimension.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          - An array the same shape as `a` after shifting it by the specified amounts.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(3, 3)</span>
+<span class="sd">    &gt;&gt;&gt; b = af.shift(a, 2)</span>
+<span class="sd">    &gt;&gt;&gt; c = af.shift(a, 1, -1)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.7269     0.3569     0.3341</span>
+<span class="sd">        0.7104     0.1437     0.0899</span>
+<span class="sd">        0.5201     0.4563     0.5363</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.7104     0.1437     0.0899</span>
+<span class="sd">        0.5201     0.4563     0.5363</span>
+<span class="sd">        0.7269     0.3569     0.3341</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(c)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.4563     0.5363     0.5201</span>
+<span class="sd">        0.3569     0.3341     0.7269</span>
+<span class="sd">        0.1437     0.0899     0.7104</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_shift</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="moddims"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.moddims">[docs]</a><span class="k">def</span> <span class="nf">moddims</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Modify the shape of the array without changing the data layout.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    a : af.Array.</span>
+<span class="sd">       Multi dimensional array.</span>
+
+<span class="sd">    d0: int.</span>
+<span class="sd">        The first dimension of output.</span>
+
+<span class="sd">    d1: optional: int. default: 1.</span>
+<span class="sd">        The second dimension of output.</span>
+
+<span class="sd">    d2: optional: int. default: 1.</span>
+<span class="sd">        The third dimension of output.</span>
+
+<span class="sd">    d3: optional: int. default: 1.</span>
+<span class="sd">        The fourth dimension of output.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          - An containing the same data as `a` with the specified shape.</span>
+<span class="sd">          - The number of elements in `a` must match `d0 x d1 x d2 x d3`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_moddims</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="flat"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.flat">[docs]</a><span class="k">def</span> <span class="nf">flat</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Flatten the input array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    a : af.Array.</span>
+<span class="sd">       Multi dimensional array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          - 1 dimensional array containing all the elements from `a`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_flat</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="flip"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.flip">[docs]</a><span class="k">def</span> <span class="nf">flip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Flip an array along a dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    a : af.Array.</span>
+<span class="sd">       Multi dimensional array.</span>
+
+<span class="sd">    dim : optional: int. default: 0.</span>
+<span class="sd">       The dimension along which the flip is performed.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          The output after flipping `a` along `dim`.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(3, 3)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.7269     0.3569     0.3341</span>
+<span class="sd">        0.7104     0.1437     0.0899</span>
+<span class="sd">        0.5201     0.4563     0.5363</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.5201     0.4563     0.5363</span>
+<span class="sd">        0.7104     0.1437     0.0899</span>
+<span class="sd">        0.7269     0.3569     0.3341</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(c)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.3341     0.3569     0.7269</span>
+<span class="sd">        0.0899     0.1437     0.7104</span>
+<span class="sd">        0.5363     0.4563     0.5201</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_flip</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">dim</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="lower"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.lower">[docs]</a><span class="k">def</span> <span class="nf">lower</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract the lower triangular matrix from the input.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    a : af.Array.</span>
+<span class="sd">       Multi dimensional array.</span>
+
+<span class="sd">    is_unit_diag: optional: bool. default: False.</span>
+<span class="sd">       Flag specifying if the diagonal elements are 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          An array containing the lower triangular elements from `a`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lower</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="upper"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.upper">[docs]</a><span class="k">def</span> <span class="nf">upper</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Extract the upper triangular matrix from the input.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    a : af.Array.</span>
+<span class="sd">       Multi dimensional array.</span>
+
+<span class="sd">    is_unit_diag: optional: bool. default: False.</span>
+<span class="sd">       Flag specifying if the diagonal elements are 1.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          An array containing the upper triangular elements from `a`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_upper</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="select"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.select">[docs]</a><span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Select elements from one of two arrays based on condition.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    cond : af.Array</span>
+<span class="sd">           Conditional array</span>
+
+<span class="sd">    lhs  : af.Array or scalar</span>
+<span class="sd">           numerical array whose elements are picked when conditional element is True</span>
+
+<span class="sd">    rhs  : af.Array or scalar</span>
+<span class="sd">           numerical array whose elements are picked when conditional element is False</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    out: af.Array</span>
+<span class="sd">         An array containing elements from `lhs` when `cond` is True and `rhs` when False.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(3,3)</span>
+<span class="sd">    &gt;&gt;&gt; b = af.randu(3,3)</span>
+<span class="sd">    &gt;&gt;&gt; cond = a &gt; b</span>
+<span class="sd">    &gt;&gt;&gt; res = af.select(cond, a, b)</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.4107     0.1794     0.3775</span>
+<span class="sd">        0.8224     0.4198     0.3027</span>
+<span class="sd">        0.9518     0.0081     0.6456</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.7269     0.3569     0.3341</span>
+<span class="sd">        0.7104     0.1437     0.0899</span>
+<span class="sd">        0.5201     0.4563     0.5363</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(res)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.7269     0.3569     0.3775</span>
+<span class="sd">        0.8224     0.4198     0.3027</span>
+<span class="sd">        0.9518     0.4563     0.6456</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+
+    <span class="n">is_left_array</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">Array</span><span class="p">)</span>
+    <span class="n">is_right_array</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">Array</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">is_left_array</span> <span class="ow">or</span> <span class="n">is_right_array</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Atleast one input needs to be of type arrayfire.array&quot;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="p">(</span><span class="n">is_left_array</span> <span class="ow">and</span> <span class="n">is_right_array</span><span class="p">):</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_select</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+
+    <span class="k">elif</span> <span class="p">(</span><span class="n">_is_number</span><span class="p">(</span><span class="n">rhs</span><span class="p">)):</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_select_scalar_r</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">rhs</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_select_scalar_l</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">lhs</span><span class="p">),</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="replace"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.replace">[docs]</a><span class="k">def</span> <span class="nf">replace</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">cond</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Select elements from one of two arrays based on condition.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    lhs  : af.Array or scalar</span>
+<span class="sd">           numerical array whose elements are replaced with `rhs` when conditional element is False</span>
+
+<span class="sd">    cond : af.Array</span>
+<span class="sd">           Conditional array</span>
+
+<span class="sd">    rhs  : af.Array or scalar</span>
+<span class="sd">           numerical array whose elements are picked when conditional element is False</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    ---------</span>
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(3,3)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.4107     0.1794     0.3775</span>
+<span class="sd">        0.8224     0.4198     0.3027</span>
+<span class="sd">        0.9518     0.0081     0.6456</span>
+
+<span class="sd">    &gt;&gt;&gt; cond = (a &gt;= 0.25) &amp; (a &lt;= 0.75)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(cond)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">             1          0          1</span>
+<span class="sd">             0          1          1</span>
+<span class="sd">             0          0          1</span>
+
+<span class="sd">    &gt;&gt;&gt; af.replace(a, cond, 0.3333)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.3333     0.1794     0.3333</span>
+<span class="sd">        0.8224     0.3333     0.3333</span>
+<span class="sd">        0.9518     0.0081     0.3333</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">is_right_array</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">Array</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">is_right_array</span><span class="p">):</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_replace</span><span class="p">(</span><span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_replace_scalar</span><span class="p">(</span><span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">rhs</span><span class="p">)))</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

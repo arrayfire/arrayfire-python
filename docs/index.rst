@@ -1,1 +1,0 @@
-arrayfire.rst

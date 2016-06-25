@@ -1,0 +1,1128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.arith &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.arith</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Math functions (sin, sqrt, exp, etc).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.bcast</span> <span class="kn">import</span> <span class="n">_bcast_var</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">_is_number</span>
+
+<span class="k">def</span> <span class="nf">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">c_func</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+
+    <span class="n">is_left_array</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">Array</span><span class="p">)</span>
+    <span class="n">is_right_array</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">Array</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">is_left_array</span> <span class="ow">or</span> <span class="n">is_right_array</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Atleast one input needs to be of type arrayfire.array&quot;</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="p">(</span><span class="n">is_left_array</span> <span class="ow">and</span> <span class="n">is_right_array</span><span class="p">):</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+
+    <span class="k">elif</span> <span class="p">(</span><span class="n">_is_number</span><span class="p">(</span><span class="n">rhs</span><span class="p">)):</span>
+        <span class="n">ldims</span> <span class="o">=</span> <span class="n">dim4_to_tuple</span><span class="p">(</span><span class="n">lhs</span><span class="o">.</span><span class="n">dims</span><span class="p">())</span>
+        <span class="n">rty</span> <span class="o">=</span> <span class="n">implicit_dtype</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">lhs</span><span class="o">.</span><span class="n">type</span><span class="p">())</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">arr</span> <span class="o">=</span> <span class="n">constant_array</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">ldims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ldims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ldims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ldims</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">rty</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">rdims</span> <span class="o">=</span> <span class="n">dim4_to_tuple</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">dims</span><span class="p">())</span>
+        <span class="n">lty</span> <span class="o">=</span> <span class="n">implicit_dtype</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">type</span><span class="p">())</span>
+        <span class="n">other</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+        <span class="n">other</span><span class="o">.</span><span class="n">arr</span> <span class="o">=</span> <span class="n">constant_array</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rdims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rdims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rdims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">rdims</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">lty</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">other</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="k">def</span> <span class="nf">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c_func</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+<div class="viewcode-block" id="cast"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.cast">[docs]</a><span class="k">def</span> <span class="nf">cast</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cast an array to a specified type</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a    : af.Array</span>
+<span class="sd">           Multi dimensional arrayfire array.</span>
+<span class="sd">    dtype: af.Dtype</span>
+<span class="sd">           Must be one of the following:</span>
+<span class="sd">               - Dtype.f32 for float</span>
+<span class="sd">               - Dtype.f64 for double</span>
+<span class="sd">               - Dtype.b8  for bool</span>
+<span class="sd">               - Dtype.u8  for unsigned char</span>
+<span class="sd">               - Dtype.s32 for signed 32 bit integer</span>
+<span class="sd">               - Dtype.u32 for unsigned 32 bit integer</span>
+<span class="sd">               - Dtype.s64 for signed 64 bit integer</span>
+<span class="sd">               - Dtype.u64 for unsigned 64 bit integer</span>
+<span class="sd">               - Dtype.c32 for 32 bit complex number</span>
+<span class="sd">               - Dtype.c64 for 64 bit complex number</span>
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out  : af.Array</span>
+<span class="sd">           array containing the values from `a` after converting to `dtype`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span><span class="o">=</span><span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cast</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="minof"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.minof">[docs]</a><span class="k">def</span> <span class="nf">minof</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the minimum value of two inputs at each location.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    rhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the minimum value at each location of the inputs.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    - Atleast one of `lhs` and `rhs` needs to be af.Array.</span>
+<span class="sd">    - If `lhs` and `rhs` are both af.Array, they must be of same size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_minof</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="maxof"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.maxof">[docs]</a><span class="k">def</span> <span class="nf">maxof</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the maximum value of two inputs at each location.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    rhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the maximum value at each location of the inputs.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    - Atleast one of `lhs` and `rhs` needs to be af.Array.</span>
+<span class="sd">    - If `lhs` and `rhs` are both af.Array, they must be of same size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_maxof</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="rem"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.rem">[docs]</a><span class="k">def</span> <span class="nf">rem</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the remainder.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    rhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         Contains the remainders after dividing each value of lhs` with those in `rhs`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    - Atleast one of `lhs` and `rhs` needs to be af.Array.</span>
+<span class="sd">    - If `lhs` and `rhs` are both af.Array, they must be of same size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rem</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="abs"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.abs">[docs]</a><span class="k">def</span> <span class="nf">abs</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the absolute values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         Contains the absolute values of the inputs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_abs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="arg"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.arg">[docs]</a><span class="k">def</span> <span class="nf">arg</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the theta value of the inputs in polar co-ordinates.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         Contains the theta values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_arg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="sign"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.sign">[docs]</a><span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the sign of the inputs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing -1 for negative values, 1 otherwise.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sign</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="round"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.round">[docs]</a><span class="k">def</span> <span class="nf">round</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Round the values to nearest integer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the values rounded to nearest integer.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_round</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="trunc"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.trunc">[docs]</a><span class="k">def</span> <span class="nf">trunc</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Round the values towards zero.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the truncated values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_trunc</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="floor"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.floor">[docs]</a><span class="k">def</span> <span class="nf">floor</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Round the values towards a smaller integer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the floored values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_floor</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ceil"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.ceil">[docs]</a><span class="k">def</span> <span class="nf">ceil</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Round the values towards a bigger integer.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the ceiled values.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ceil</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="hypot"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.hypot">[docs]</a><span class="k">def</span> <span class="nf">hypot</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the value of the hypotunese.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    rhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         Contains the value of `sqrt(lhs**2, rhs**2)`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    - Atleast one of `lhs` and `rhs` needs to be af.Array.</span>
+<span class="sd">    - If `lhs` and `rhs` are both af.Array, they must be of same size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_hypot</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="sin"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.sin">[docs]</a><span class="k">def</span> <span class="nf">sin</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sine of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the sine of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sin</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="cos"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.cos">[docs]</a><span class="k">def</span> <span class="nf">cos</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cosine of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the cosine of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cos</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="tan"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.tan">[docs]</a><span class="k">def</span> <span class="nf">tan</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tangent of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the tangent of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_tan</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="asin"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.asin">[docs]</a><span class="k">def</span> <span class="nf">asin</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Arc Sine of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the arc sine of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_asin</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="acos"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.acos">[docs]</a><span class="k">def</span> <span class="nf">acos</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Arc Cosine of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the arc cosine of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_acos</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="atan"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.atan">[docs]</a><span class="k">def</span> <span class="nf">atan</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Arc Tangent of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the arc tangent of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_atan</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="atan2"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.atan2">[docs]</a><span class="k">def</span> <span class="nf">atan2</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the arc tan using two values.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    rhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         Contains the value arc tan values where:</span>
+<span class="sd">         - `lhs` contains the sine values.</span>
+<span class="sd">         - `rhs` contains the cosine values.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    - Atleast one of `lhs` and `rhs` needs to be af.Array.</span>
+<span class="sd">    - If `lhs` and `rhs` are both af.Array, they must be of same size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_atan2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="cplx"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.cplx">[docs]</a><span class="k">def</span> <span class="nf">cplx</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a complex array from real inputs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    rhs : optional: af.Array or scalar. default: None.</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         Contains complex values whose</span>
+<span class="sd">         - real values contain values from `lhs`</span>
+<span class="sd">         - imaginary values contain values from `rhs` (0 if `rhs` is None)</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    - Atleast one of `lhs` and `rhs` needs to be af.Array.</span>
+<span class="sd">    - If `lhs` and `rhs` are both af.Array, they must be of same size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">rhs</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cplx</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cplx2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="real"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.real">[docs]</a><span class="k">def</span> <span class="nf">real</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the real values of the input.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the real values from `a`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_real</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="imag"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.imag">[docs]</a><span class="k">def</span> <span class="nf">imag</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the imaginary values of the input.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the imaginary values from `a`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_imag</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="conjg"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.conjg">[docs]</a><span class="k">def</span> <span class="nf">conjg</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the complex conjugate values of the input.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing copmplex conjugate values from `a`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_conjg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="sinh"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.sinh">[docs]</a><span class="k">def</span> <span class="nf">sinh</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Hyperbolic Sine of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the hyperbolic sine of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sinh</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="cosh"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.cosh">[docs]</a><span class="k">def</span> <span class="nf">cosh</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Hyperbolic Cosine of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the hyperbolic cosine of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cosh</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="tanh"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.tanh">[docs]</a><span class="k">def</span> <span class="nf">tanh</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Hyperbolic Tangent of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the hyperbolic tangent of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_tanh</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="asinh"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.asinh">[docs]</a><span class="k">def</span> <span class="nf">asinh</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Arc Hyperbolic Sine of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the arc hyperbolic sine of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_asinh</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="acosh"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.acosh">[docs]</a><span class="k">def</span> <span class="nf">acosh</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Arc Hyperbolic Cosine of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the arc hyperbolic cosine of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_acosh</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="atanh"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.atanh">[docs]</a><span class="k">def</span> <span class="nf">atanh</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Arc Hyperbolic Tangent of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the arc hyperbolic tangent of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_atanh</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="root"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.root">[docs]</a><span class="k">def</span> <span class="nf">root</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the root values of two inputs at each location.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    rhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the value of `lhs ** (1/rhs)`</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    - Atleast one of `lhs` and `rhs` needs to be af.Array.</span>
+<span class="sd">    - If `lhs` and `rhs` are both af.Array, they must be of same size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_root</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="pow"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.pow">[docs]</a><span class="k">def</span> <span class="nf">pow</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the power of two inputs at each location.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    lhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    rhs : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the value of `lhs ** (rhs)`</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    - Atleast one of `lhs` and `rhs` needs to be af.Array.</span>
+<span class="sd">    - If `lhs` and `rhs` are both af.Array, they must be of same size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_pow</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="pow2"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.pow2">[docs]</a><span class="k">def</span> <span class="nf">pow2</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raise 2 to the power of each element in input.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array where each element is 2 raised to power of the corresponding value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_pow2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="sigmoid"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.sigmoid">[docs]</a><span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Raise 2 to the power of each element in input.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array where each element is outout of a sigmoid function for the corresponding value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sigmoid</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="exp"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.exp">[docs]</a><span class="k">def</span> <span class="nf">exp</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exponential of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the exponential of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_exp</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="expm1"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.expm1">[docs]</a><span class="k">def</span> <span class="nf">expm1</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Exponential of each element in the array minus 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the exponential of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    - `a` must not be complex.</span>
+<span class="sd">    - This function provides a more stable result for small values of `a`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_expm1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="erf"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.erf">[docs]</a><span class="k">def</span> <span class="nf">erf</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Error function of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the error function of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_erf</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="erfc"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.erfc">[docs]</a><span class="k">def</span> <span class="nf">erfc</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Complementary error function of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the complementary error function of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_erfc</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="log"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.log">[docs]</a><span class="k">def</span> <span class="nf">log</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Natural logarithm of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the natural logarithm of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_log</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="log1p"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.log1p">[docs]</a><span class="k">def</span> <span class="nf">log1p</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Logarithm of each element in the array plus 1.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the the values of `log(a) + 1`</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    - `a` must not be complex.</span>
+<span class="sd">    - This function provides a more stable result for small values of `a`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_log1p</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="log10"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.log10">[docs]</a><span class="k">def</span> <span class="nf">log10</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Logarithm base 10 of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the logarithm base 10 of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_log10</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="log2"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.log2">[docs]</a><span class="k">def</span> <span class="nf">log2</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Logarithm base 2 of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the logarithm base 2 of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_log2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="sqrt"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.sqrt">[docs]</a><span class="k">def</span> <span class="nf">sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Square root of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the square root of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sqrt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="cbrt"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.cbrt">[docs]</a><span class="k">def</span> <span class="nf">cbrt</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cube root of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the cube root of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cbrt</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="factorial"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.factorial">[docs]</a><span class="k">def</span> <span class="nf">factorial</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    factorial of each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the factorial of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_factorial</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="tgamma"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.tgamma">[docs]</a><span class="k">def</span> <span class="nf">tgamma</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs the gamma function for each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the output of gamma function of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_tgamma</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="lgamma"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.lgamma">[docs]</a><span class="k">def</span> <span class="nf">lgamma</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Performs the logarithm of gamma function for each element in the array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the output of logarithm of gamma function of each value from `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lgamma</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="iszero"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.iszero">[docs]</a><span class="k">def</span> <span class="nf">iszero</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if each element of the input is zero.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the output after checking if each value of `a` is 0.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_iszero</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="isinf"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.isinf">[docs]</a><span class="k">def</span> <span class="nf">isinf</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if each element of the input is infinity.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the output after checking if each value of `a` is inifnite.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_isinf</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="isnan"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.isnan">[docs]</a><span class="k">def</span> <span class="nf">isnan</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if each element of the input is NaN.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a : af.Array</span>
+<span class="sd">        Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out : af.Array</span>
+<span class="sd">         array containing the output after checking if each value of `a` is NaN.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    `a` must not be complex.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_isnan</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

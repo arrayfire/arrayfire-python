@@ -1,0 +1,419 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.graphics &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.graphics</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Graphics functions (plot, image, etc).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">_is_number</span>
+
+<span class="k">class</span> <span class="nc">_Cell</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;col&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">cmap</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="n">r</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">c</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span><span class="o">.</span><span class="n">value</span>
+
+<div class="viewcode-block" id="Window"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window">[docs]</a><span class="k">class</span> <span class="nc">Window</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to create the Window object.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    width: optional: int. default: 1280.</span>
+<span class="sd">           - Specifies the width of the window in pixels.</span>
+
+<span class="sd">    height: optional: int. default: 720.</span>
+<span class="sd">           - Specifies the height of the window in pixels.</span>
+
+<span class="sd">    title: optional: str. default: &quot;ArrayFire&quot;.</span>
+<span class="sd">          - Specifies the title used for the window.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1280</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">720</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;ArrayFire&quot;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_r</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span> <span class="o">=</span> <span class="n">COLORMAP</span><span class="o">.</span><span class="n">DEFAULT</span>
+
+        <span class="n">_width</span>  <span class="o">=</span> <span class="mi">1280</span> <span class="k">if</span>  <span class="n">width</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span>  <span class="n">width</span>
+        <span class="n">_height</span> <span class="o">=</span>  <span class="mi">720</span> <span class="k">if</span> <span class="n">height</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">height</span>
+        <span class="n">_title</span>  <span class="o">=</span> <span class="s2">&quot;ArrayFire&quot;</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">title</span>
+
+        <span class="n">_title</span> <span class="o">=</span> <span class="n">_title</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
+
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_window</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">),</span>
+                                                 <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">_width</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">_height</span><span class="p">),</span>
+                                                 <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="n">_title</span><span class="p">)))</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Destroys the window when going out of scope.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_destroy_window</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Window.set_pos"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.set_pos">[docs]</a>    <span class="k">def</span> <span class="nf">set_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the position of window on the screen.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        x : int.</span>
+<span class="sd">            Pixel offset from left.</span>
+
+<span class="sd">        y : int.</span>
+<span class="sd">            Pixel offset from top</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_position</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.set_title"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.set_title">[docs]</a>    <span class="k">def</span> <span class="nf">set_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the title of the window</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        title : str.</span>
+<span class="sd">            Title used for the current window.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_title</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">title</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Window.set_colormap"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.set_colormap">[docs]</a>    <span class="k">def</span> <span class="nf">set_colormap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cmap</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the colormap for the window.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        cmap : af.COLORMAP.</span>
+<span class="sd">            Set the colormap for the window.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span> <span class="o">=</span> <span class="n">cmap</span></div>
+
+<div class="viewcode-block" id="Window.set_size"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.set_size">[docs]</a>    <span class="k">def</span> <span class="nf">set_size</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set the windo height and width.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        w  : int</span>
+<span class="sd">           Width if window.</span>
+
+<span class="sd">        h  : int</span>
+<span class="sd">           Height of window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Window.image"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.image">[docs]</a>    <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display an arrayfire array as an image.</span>
+
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        img: af.Array.</span>
+<span class="sd">             A 2 dimensional array for single channel image.</span>
+<span class="sd">             A 3 dimensional array for 3 channel image.</span>
+
+<span class="sd">        title: str.</span>
+<span class="sd">             Title used for the image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.scatter"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.scatter">[docs]</a>    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">MARKER</span><span class="o">.</span><span class="n">POINT</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Renders input arrays as 2D scatter plot.</span>
+
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        X: af.Array.</span>
+<span class="sd">             A 1 dimensional array containing X co-ordinates.</span>
+
+<span class="sd">        Y: af.Array.</span>
+<span class="sd">             A 1 dimensional array containing Y co-ordinates.</span>
+
+<span class="sd">        marker: af.MARKER</span>
+<span class="sd">             Specifies how the points look</span>
+
+<span class="sd">        title: str.</span>
+<span class="sd">             Title used for the plot.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_scatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                <span class="n">marker</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.scatter3"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.scatter3">[docs]</a>    <span class="k">def</span> <span class="nf">scatter3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">MARKER</span><span class="o">.</span><span class="n">POINT</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Renders the input array as a 3D Scatter plot.</span>
+
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        P: af.Array.</span>
+<span class="sd">             A 2 dimensional array containing (X,Y,Z) co-ordinates.</span>
+
+<span class="sd">        title: str.</span>
+<span class="sd">             Title used for the plot.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_scatter3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">P</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                 <span class="n">marker</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.plot"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display a 2D Plot.</span>
+
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        X: af.Array.</span>
+<span class="sd">             A 1 dimensional array containing X co-ordinates.</span>
+
+<span class="sd">        Y: af.Array.</span>
+<span class="sd">             A 1 dimensional array containing Y co-ordinates.</span>
+
+<span class="sd">        title: str.</span>
+<span class="sd">             Title used for the plot.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.plot3"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.plot3">[docs]</a>    <span class="k">def</span> <span class="nf">plot3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Renders the input array as a 3D line plot.</span>
+
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        line: af.Array.</span>
+<span class="sd">             A 2 dimensional array containing (X,Y,Z) co-ordinates.</span>
+
+<span class="sd">        title: str.</span>
+<span class="sd">             Title used for the plot.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_plot3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.surface"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.surface">[docs]</a>    <span class="k">def</span> <span class="nf">surface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">z_vals</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Renders the input array as a 3D surface plot.</span>
+
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        x_vals: af.Array.</span>
+<span class="sd">             A 1 dimensional array containing X co-ordinates.</span>
+
+<span class="sd">        y_vals: af.Array.</span>
+<span class="sd">             A 1 dimensional array containing Y co-ordinates.</span>
+
+<span class="sd">        z_vals: af.Array.</span>
+<span class="sd">             A 1 dimensional array containing Z co-ordinates.</span>
+
+<span class="sd">        title: str.</span>
+<span class="sd">             Title used for the plot.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_surface</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span>
+                                                <span class="n">x_vals</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">y_vals</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">z_vals</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.hist"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.hist">[docs]</a>    <span class="k">def</span> <span class="nf">hist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display a histogram Plot.</span>
+
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        X: af.Array.</span>
+<span class="sd">             A 1 dimensional array containing the histogram.</span>
+
+<span class="sd">        min_val: scalar.</span>
+<span class="sd">             A scalar value specifying the lower bound of the histogram.</span>
+
+<span class="sd">        max_val: scalar.</span>
+<span class="sd">             A scalar value specifying the upper bound of the histogram.</span>
+
+<span class="sd">        title: str.</span>
+<span class="sd">             Title used for the histogram.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_hist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                             <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">max_val</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">min_val</span><span class="p">),</span>
+                                             <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.grid"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.grid">[docs]</a>    <span class="k">def</span> <span class="nf">grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a grid for sub plotting within the window.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        rows: int.</span>
+<span class="sd">              Number of rows in the grid.</span>
+
+<span class="sd">        cols: int.</span>
+<span class="sd">              Number of columns in the grid.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_grid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">rows</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">cols</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.show"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Force the window to display the contents.</span>
+
+<span class="sd">        Note: This is only needed when using the window as a grid.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_show</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Window.close"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.close">[docs]</a>    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Close the window.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_window_closed</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">tmp</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">tmp</span></div>
+
+<div class="viewcode-block" id="Window.set_visibility"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.set_visibility">[docs]</a>    <span class="k">def</span> <span class="nf">set_visibility</span><span class="p">(</span><span class="n">is_visible</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        A flag that shows or hides the window as requested.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        is_visible: Flag specifying the visibility of the flag.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_visibility</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">is_visible</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get access to a specific grid location within the window.</span>
+
+<span class="sd">        Examples</span>
+<span class="sd">        --------</span>
+
+<span class="sd">        &gt;&gt;&gt; a = af.randu(5,5)</span>
+<span class="sd">        &gt;&gt;&gt; b = af.randu(5,5)</span>
+<span class="sd">        &gt;&gt;&gt; w = af.Window()</span>
+<span class="sd">        &gt;&gt;&gt; w.grid(1,2)</span>
+<span class="sd">        &gt;&gt;&gt; w[0, 0].image(a)</span>
+<span class="sd">        &gt;&gt;&gt; w[0, 1].image(b)</span>
+<span class="sd">        &gt;&gt;&gt; w.show()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Window expects indexing along two dimensions&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">keys</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Window expects indexing along two dimensions only&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">_is_number</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="ow">and</span> <span class="n">_is_number</span><span class="p">(</span><span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">])):</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Window expects the indices to be numbers&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_r</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">=</span> <span class="n">keys</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="bp">self</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

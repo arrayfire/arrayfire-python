@@ -1,0 +1,306 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.opencl module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.opencl">
+<span id="arrayfire-opencl-module"></span><h1>arrayfire.opencl module<a class="headerlink" href="#module-arrayfire.opencl" title="Permalink to this headline">¶</a></h1>
+<p>Functions specific to OpenCL backend.</p>
+<p>This module provides interoperability with other OpenCL libraries.</p>
+<dl class="class">
+<dt id="arrayfire.opencl.DEVICE_TYPE">
+<em class="property">class </em><code class="descclassname">arrayfire.opencl.</code><code class="descname">DEVICE_TYPE</code><a class="reference internal" href="_modules/arrayfire/opencl.html#DEVICE_TYPE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.opencl.DEVICE_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>ArrayFire wrapper for CL_DEVICE_TYPE</p>
+<dl class="attribute">
+<dt id="arrayfire.opencl.DEVICE_TYPE.ACC">
+<code class="descname">ACC</code><em class="property"> = &lt;DEVICE_TYPE.ACC: 8&gt;</em><a class="headerlink" href="#arrayfire.opencl.DEVICE_TYPE.ACC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.opencl.DEVICE_TYPE.CPU">
+<code class="descname">CPU</code><em class="property"> = &lt;DEVICE_TYPE.CPU: 2&gt;</em><a class="headerlink" href="#arrayfire.opencl.DEVICE_TYPE.CPU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.opencl.DEVICE_TYPE.GPU">
+<code class="descname">GPU</code><em class="property"> = &lt;DEVICE_TYPE.GPU: 4&gt;</em><a class="headerlink" href="#arrayfire.opencl.DEVICE_TYPE.GPU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.opencl.DEVICE_TYPE.UNKNOWN">
+<code class="descname">UNKNOWN</code><em class="property"> = &lt;DEVICE_TYPE.UNKNOWN: -1&gt;</em><a class="headerlink" href="#arrayfire.opencl.DEVICE_TYPE.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.opencl.PLATFORM">
+<em class="property">class </em><code class="descclassname">arrayfire.opencl.</code><code class="descname">PLATFORM</code><a class="reference internal" href="_modules/arrayfire/opencl.html#PLATFORM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.opencl.PLATFORM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>ArrayFire enum for common platforms</p>
+<dl class="attribute">
+<dt id="arrayfire.opencl.PLATFORM.AMD">
+<code class="descname">AMD</code><em class="property"> = &lt;PLATFORM.AMD: 0&gt;</em><a class="headerlink" href="#arrayfire.opencl.PLATFORM.AMD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.opencl.PLATFORM.APPLE">
+<code class="descname">APPLE</code><em class="property"> = &lt;PLATFORM.APPLE: 1&gt;</em><a class="headerlink" href="#arrayfire.opencl.PLATFORM.APPLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.opencl.PLATFORM.BEIGNET">
+<code class="descname">BEIGNET</code><em class="property"> = &lt;PLATFORM.BEIGNET: 4&gt;</em><a class="headerlink" href="#arrayfire.opencl.PLATFORM.BEIGNET" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.opencl.PLATFORM.INTEL">
+<code class="descname">INTEL</code><em class="property"> = &lt;PLATFORM.INTEL: 2&gt;</em><a class="headerlink" href="#arrayfire.opencl.PLATFORM.INTEL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.opencl.PLATFORM.NVIDIA">
+<code class="descname">NVIDIA</code><em class="property"> = &lt;PLATFORM.NVIDIA: 3&gt;</em><a class="headerlink" href="#arrayfire.opencl.PLATFORM.NVIDIA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.opencl.PLATFORM.POCL">
+<code class="descname">POCL</code><em class="property"> = &lt;PLATFORM.POCL: 5&gt;</em><a class="headerlink" href="#arrayfire.opencl.PLATFORM.POCL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.opencl.PLATFORM.UNKNOWN">
+<code class="descname">UNKNOWN</code><em class="property"> = &lt;PLATFORM.UNKNOWN: -1&gt;</em><a class="headerlink" href="#arrayfire.opencl.PLATFORM.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.opencl.add_device_context">
+<code class="descclassname">arrayfire.opencl.</code><code class="descname">add_device_context</code><span class="sig-paren">(</span><em>dev</em>, <em>ctx</em>, <em>que</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/opencl.html#add_device_context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.opencl.add_device_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new device to arrayfire opencl device manager</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dev</strong> : cl_device_id</p>
+<p><strong>ctx</strong> : cl_context</p>
+<p class="last"><strong>que</strong> : cl_command_queue</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.opencl.delete_device_context">
+<code class="descclassname">arrayfire.opencl.</code><code class="descname">delete_device_context</code><span class="sig-paren">(</span><em>dev</em>, <em>ctx</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/opencl.html#delete_device_context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.opencl.delete_device_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a device</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dev</strong> : cl_device_id</p>
+<p class="last"><strong>ctx</strong> : cl_context</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.opencl.get_context">
+<code class="descclassname">arrayfire.opencl.</code><code class="descname">get_context</code><span class="sig-paren">(</span><em>retain=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/opencl.html#get_context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.opencl.get_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current OpenCL context being used by ArrayFire.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>retain</strong> : bool. optional. Default: False.</p>
+<blockquote>
+<div><p>Specifies if the context needs to be retained by arrayfire before returning.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>context</strong> : integer denoting the context id.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.opencl.get_device_id">
+<code class="descclassname">arrayfire.opencl.</code><code class="descname">get_device_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/opencl.html#get_device_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.opencl.get_device_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get native (unsorted) OpenCL device ID</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>idx</strong> : int.</p>
+<blockquote class="last">
+<div><p>Specifies the <cite>cl_device_id</cite> of the device.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.opencl.get_device_type">
+<code class="descclassname">arrayfire.opencl.</code><code class="descname">get_device_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/opencl.html#get_device_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.opencl.get_device_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get opencl device type</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.opencl.get_platform">
+<code class="descclassname">arrayfire.opencl.</code><code class="descname">get_platform</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/opencl.html#get_platform"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.opencl.get_platform" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get opencl platform</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.opencl.get_queue">
+<code class="descclassname">arrayfire.opencl.</code><code class="descname">get_queue</code><span class="sig-paren">(</span><em>retain</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/opencl.html#get_queue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.opencl.get_queue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current OpenCL command queue being used by ArrayFire.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>retain</strong> : bool. optional. Default: False.</p>
+<blockquote>
+<div><p>Specifies if the context needs to be retained by arrayfire before returning.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>queue</strong> : integer denoting the queue id.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.opencl.set_device_context">
+<code class="descclassname">arrayfire.opencl.</code><code class="descname">set_device_context</code><span class="sig-paren">(</span><em>dev</em>, <em>ctx</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/opencl.html#set_device_context"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.opencl.set_device_context" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a device as current active device</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dev</strong> : cl_device_id</p>
+<p class="last"><strong>ctx</strong> : cl_context</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.opencl.set_device_id">
+<code class="descclassname">arrayfire.opencl.</code><code class="descname">set_device_id</code><span class="sig-paren">(</span><em>idx</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/opencl.html#set_device_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.opencl.set_device_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set native (unsorted) OpenCL device ID</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idx</strong> : int.</p>
+<blockquote class="last">
+<div><p>Specifies the <cite>cl_device_id</cite> of the device.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.opencl.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.opencl.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

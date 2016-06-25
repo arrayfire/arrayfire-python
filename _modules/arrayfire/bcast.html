@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.bcast &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.bcast</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Function to perform broadcasting operations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="k">class</span> <span class="nc">_bcast</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">_flag</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_bcast</span><span class="o">.</span><span class="n">_flag</span>
+
+    <span class="k">def</span> <span class="nf">set</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flag</span><span class="p">):</span>
+        <span class="n">_bcast</span><span class="o">.</span><span class="n">_flag</span> <span class="o">=</span> <span class="n">flag</span>
+
+    <span class="k">def</span> <span class="nf">toggle</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">_bcast</span><span class="o">.</span><span class="n">_flag</span> <span class="o">^=</span> <span class="bp">True</span>
+
+<span class="n">_bcast_var</span> <span class="o">=</span> <span class="n">_bcast</span><span class="p">()</span>
+
+<div class="viewcode-block" id="broadcast"><a class="viewcode-back" href="../../arrayfire.bcast.html#arrayfire.bcast.broadcast">[docs]</a><span class="k">def</span> <span class="nf">broadcast</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to perform broadcast operations.</span>
+
+<span class="sd">    This function can be used directly or as an annotation in the following manner.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Using broadcast as an annotation</span>
+
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; @af.broadcast</span>
+<span class="sd">    ... def add(a, b):</span>
+<span class="sd">    ...     return a + b</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(2,3)</span>
+<span class="sd">    &gt;&gt;&gt; b = af.randu(2,1) # b is a different size</span>
+<span class="sd">    &gt;&gt;&gt; # Trying to add arrays of different sizes raises an exceptions</span>
+<span class="sd">    &gt;&gt;&gt; c = add(a, b) # This call does not raise an exception because of the annotation</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+<span class="sd">    [2 3 1 1]</span>
+<span class="sd">        0.4107     0.9518     0.4198</span>
+<span class="sd">        0.8224     0.1794     0.0081</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+<span class="sd">    [2 1 1 1]</span>
+<span class="sd">        0.7269</span>
+<span class="sd">        0.7104</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(c)</span>
+<span class="sd">    [2 3 1 1]</span>
+<span class="sd">        1.1377     1.6787     1.1467</span>
+<span class="sd">        1.5328     0.8898     0.7185</span>
+
+<span class="sd">    Using broadcast as function</span>
+
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; add = lambda a,b: a + b</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(2,3)</span>
+<span class="sd">    &gt;&gt;&gt; b = af.randu(2,1) # b is a different size</span>
+<span class="sd">    &gt;&gt;&gt; # Trying to add arrays of different sizes raises an exceptions</span>
+<span class="sd">    &gt;&gt;&gt; c = af.broadcast(add, a, b) # This call does not raise an exception</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+<span class="sd">    [2 3 1 1]</span>
+<span class="sd">        0.4107     0.9518     0.4198</span>
+<span class="sd">        0.8224     0.1794     0.0081</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+<span class="sd">    [2 1 1 1]</span>
+<span class="sd">        0.7269</span>
+<span class="sd">        0.7104</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(c)</span>
+<span class="sd">    [2 3 1 1]</span>
+<span class="sd">        1.1377     1.6787     1.1467</span>
+<span class="sd">        1.5328     0.8898     0.7185</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">func_args</span><span class="p">):</span>
+        <span class="n">_bcast_var</span><span class="o">.</span><span class="n">toggle</span><span class="p">()</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">func_args</span><span class="p">)</span>
+        <span class="n">_bcast_var</span><span class="o">.</span><span class="n">toggle</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">wrapper</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

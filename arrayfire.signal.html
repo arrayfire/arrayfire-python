@@ -1,0 +1,1396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.signal module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.signal">
+<span id="arrayfire-signal-module"></span><h1>arrayfire.signal module<a class="headerlink" href="#module-arrayfire.signal" title="Permalink to this headline">¶</a></h1>
+<p>Signal processing functions (fft, convolve, etc).</p>
+<dl class="function">
+<dt id="arrayfire.signal.approx1">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">approx1</code><span class="sig-paren">(</span><em>signal</em>, <em>pos0</em>, <em>method=&lt;INTERP.LINEAR: 1&gt;</em>, <em>off_grid=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#approx1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.approx1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate along a single dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 1 dimensional signal or batch of 1 dimensional signals.</p>
+</div></blockquote>
+<p><strong>pos0</strong> : af.Array</p>
+<blockquote>
+<div><p>Locations of the interpolation points.</p>
+</div></blockquote>
+<p><strong>method: optional: af.INTERP. default: af.INTERP.LINEAR.</strong></p>
+<blockquote>
+<div><p>Interpolation method.</p>
+</div></blockquote>
+<p><strong>off_grid: optional: scalar. default: 0.0.</strong></p>
+<blockquote>
+<div><p>The value used for positions outside the range.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>Values calculated at interpolation points.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.approx2">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">approx2</code><span class="sig-paren">(</span><em>signal</em>, <em>pos0</em>, <em>pos1</em>, <em>method=&lt;INTERP.LINEAR: 1&gt;</em>, <em>off_grid=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#approx2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.approx2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate along a two dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 2 dimensional signal or batch of 2 dimensional signals.</p>
+</div></blockquote>
+<p><strong>pos0</strong> : af.Array</p>
+<blockquote>
+<div><p>Locations of the interpolation points along the first dimension.</p>
+</div></blockquote>
+<p><strong>pos1</strong> : af.Array</p>
+<blockquote>
+<div><p>Locations of the interpolation points along the second dimension.</p>
+</div></blockquote>
+<p><strong>method: optional: af.INTERP. default: af.INTERP.LINEAR.</strong></p>
+<blockquote>
+<div><p>Interpolation method.</p>
+</div></blockquote>
+<p><strong>off_grid: optional: scalar. default: 0.0.</strong></p>
+<blockquote>
+<div><p>The value used for positions outside the range.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>Values calculated at interpolation points.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.convolve">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">convolve</code><span class="sig-paren">(</span><em>signal</em>, <em>kernel</em>, <em>conv_mode=&lt;CONV_MODE.DEFAULT: 0&gt;</em>, <em>conv_domain=&lt;CONV_DOMAIN.AUTO: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#convolve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.convolve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non batched Convolution.</p>
+<p>This function performs n-dimensional convolution based on input dimensionality.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>An n-dimensional array.</li>
+</ul>
+</div></blockquote>
+<p><strong>kernel: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A n-dimensional kernel.</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or
+maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_domain: optional: af.CONV_DOMAIN. default: af.CONV_DOMAIN.AUTO.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the domain in which convolution is performed.</li>
+<li>af.CONV_DOMAIN.SPATIAL: Performs convolution in spatial domain.</li>
+<li>af.CONV_DOMAIN.FREQ: Performs convolution in frequency domain.</li>
+<li>af.CONV_DOMAIN.AUTO: Switches between spatial and frequency based on input size.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output of n-dimensional convolution.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.convolve1">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">convolve1</code><span class="sig-paren">(</span><em>signal</em>, <em>kernel</em>, <em>conv_mode=&lt;CONV_MODE.DEFAULT: 0&gt;</em>, <em>conv_domain=&lt;CONV_DOMAIN.AUTO: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#convolve1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.convolve1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convolution: 1D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional signal or batch of 1 dimensional signals.</li>
+</ul>
+</div></blockquote>
+<p><strong>kernel: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional kernel or batch of 1 dimensional kernels.</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or
+maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_domain: optional: af.CONV_DOMAIN. default: af.CONV_DOMAIN.AUTO.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the domain in which convolution is performed.</li>
+<li>af.CONV_DOMAIN.SPATIAL: Performs convolution in spatial domain.</li>
+<li>af.CONV_DOMAIN.FREQ: Performs convolution in frequency domain.</li>
+<li>af.CONV_DOMAIN.AUTO: Switches between spatial and frequency based on input size.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output of 1D convolution.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.convolve2">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">convolve2</code><span class="sig-paren">(</span><em>signal</em>, <em>kernel</em>, <em>conv_mode=&lt;CONV_MODE.DEFAULT: 0&gt;</em>, <em>conv_domain=&lt;CONV_DOMAIN.AUTO: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#convolve2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.convolve2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convolution: 2D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 dimensional signal or batch of 2 dimensional signals.</li>
+</ul>
+</div></blockquote>
+<p><strong>kernel: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 dimensional kernel or batch of 2 dimensional kernels.</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or
+maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_domain: optional: af.CONV_DOMAIN. default: af.CONV_DOMAIN.AUTO.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the domain in which convolution is performed.</li>
+<li>af.CONV_DOMAIN.SPATIAL: Performs convolution in spatial domain.</li>
+<li>af.CONV_DOMAIN.FREQ: Performs convolution in frequency domain.</li>
+<li>af.CONV_DOMAIN.AUTO: Switches between spatial and frequency based on input size.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output of 2D convolution.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.convolve2_separable">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">convolve2_separable</code><span class="sig-paren">(</span><em>col_kernel</em>, <em>row_kernel</em>, <em>signal</em>, <em>conv_mode=&lt;CONV_MODE.DEFAULT: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#convolve2_separable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.convolve2_separable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convolution: 2D separable convolution</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>col_kernel: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A column vector to be applied along each column of <cite>signal</cite></li>
+</ul>
+</div></blockquote>
+<p><strong>row_kernel: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A row vector to be applied along each row of <cite>signal</cite></li>
+</ul>
+</div></blockquote>
+<p><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 dimensional signal or batch of 2 dimensional signals.</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or
+maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
+</ul>
+</div></blockquote>
+<p><strong>Returns</strong></p>
+<p><strong>&#8212;&#8212;&#8211;</strong></p>
+<p><strong>output: af.Array</strong></p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output of 2D sepearable convolution.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.convolve3">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">convolve3</code><span class="sig-paren">(</span><em>signal</em>, <em>kernel</em>, <em>conv_mode=&lt;CONV_MODE.DEFAULT: 0&gt;</em>, <em>conv_domain=&lt;CONV_DOMAIN.AUTO: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#convolve3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.convolve3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convolution: 3D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 3 dimensional signal or batch of 3 dimensional signals.</li>
+</ul>
+</div></blockquote>
+<p><strong>kernel: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 3 dimensional kernel or batch of 3 dimensional kernels.</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or
+maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_domain: optional: af.CONV_DOMAIN. default: af.CONV_DOMAIN.AUTO.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the domain in which convolution is performed.</li>
+<li>af.CONV_DOMAIN.SPATIAL: Performs convolution in spatial domain.</li>
+<li>af.CONV_DOMAIN.FREQ: Performs convolution in frequency domain.</li>
+<li>af.CONV_DOMAIN.AUTO: Switches between spatial and frequency based on input size.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output of 3D convolution.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.dft">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">dft</code><span class="sig-paren">(</span><em>signal</em>, <em>odims=(None</em>, <em>None</em>, <em>None</em>, <em>None)</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#dft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.dft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non batched Fourier transform.</p>
+<p>This function performs n-dimensional fourier transform depending on the input dimensions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A multi dimensional arrayfire array.</li>
+</ul>
+</div></blockquote>
+<p><strong>odims: optional: tuple of ints. default: (None, None, None, None).</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>If None, calculated to be <cite>signal.dims()</cite></li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Scale factor for the fourier transform.</li>
+<li>If none, calculated to be 1.0.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>A complex array that is the ouput of n-dimensional fourier transform.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft</code><span class="sig-paren">(</span><em>signal</em>, <em>dim0=None</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fast Fourier Transform: 1D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 1 dimensional signal or a batch of 1 dimensional signals.</p>
+</div></blockquote>
+<p><strong>dim0: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim0 is calculated to be the first dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A complex af.Array containing the full output of the fft.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft2">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft2</code><span class="sig-paren">(</span><em>signal</em>, <em>dim0=None</em>, <em>dim1=None</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fast Fourier Transform: 2D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 2 dimensional signal or a batch of 2 dimensional signals.</p>
+</div></blockquote>
+<p><strong>dim0: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim0 is calculated to be the first dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>dim1: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim1 is calculated to be the second dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A complex af.Array containing the full output of the fft.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft2_c2r">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft2_c2r</code><span class="sig-paren">(</span><em>signal</em>, <em>is_odd=False</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft2_c2r"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft2_c2r" title="Permalink to this definition">¶</a></dt>
+<dd><p>Real to Complex Fast Fourier Transform: 2D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 2 dimensional signal or a batch of 2 dimensional signals.</p>
+</div></blockquote>
+<p><strong>is_odd: optional: Boolean. default: False.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the first dimension of output should be even or odd.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1 / (signal.dims()[0] * signal.dims()[1]).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A real af.Array containing the full output of the fft.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft2_inplace">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft2_inplace</code><span class="sig-paren">(</span><em>signal</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft2_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft2_inplace" title="Permalink to this definition">¶</a></dt>
+<dd><p>In-place Fast Fourier Transform: 2D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 2 dimensional signal or a batch of 2 dimensional signals.</p>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft2_r2c">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft2_r2c</code><span class="sig-paren">(</span><em>signal</em>, <em>dim0=None</em>, <em>dim1=None</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft2_r2c"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft2_r2c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Real to Complex Fast Fourier Transform: 2D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 2 dimensional signal or a batch of 2 dimensional signals.</p>
+</div></blockquote>
+<p><strong>dim0: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim0 is calculated to be the first dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>dim1: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim1 is calculated to be the second dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A complex af.Array containing the non-redundant parts of the full FFT.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft3">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft3</code><span class="sig-paren">(</span><em>signal</em>, <em>dim0=None</em>, <em>dim1=None</em>, <em>dim2=None</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fast Fourier Transform: 3D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 3 dimensional signal or a batch of 3 dimensional signals.</p>
+</div></blockquote>
+<p><strong>dim0: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim0 is calculated to be the first dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>dim1: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim1 is calculated to be the second dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>dim2: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim2 is calculated to be the third dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A complex af.Array containing the full output of the fft.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft3_c2r">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft3_c2r</code><span class="sig-paren">(</span><em>signal</em>, <em>is_odd=False</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft3_c2r"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft3_c2r" title="Permalink to this definition">¶</a></dt>
+<dd><p>Real to Complex Fast Fourier Transform: 3D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 3 dimensional signal or a batch of 3 dimensional signals.</p>
+</div></blockquote>
+<p><strong>is_odd: optional: Boolean. default: False.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the first dimension of output should be even or odd.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1 / (signal.dims()[0] * signal.dims()[1] * signal.dims()[2]).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A real af.Array containing the full output of the fft.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft3_inplace">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft3_inplace</code><span class="sig-paren">(</span><em>signal</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft3_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft3_inplace" title="Permalink to this definition">¶</a></dt>
+<dd><p>In-place Fast Fourier Transform: 3D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 3 dimensional signal or a batch of 3 dimensional signals.</p>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft3_r2c">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft3_r2c</code><span class="sig-paren">(</span><em>signal</em>, <em>dim0=None</em>, <em>dim1=None</em>, <em>dim2=None</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft3_r2c"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft3_r2c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Real to Complex Fast Fourier Transform: 3D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 3 dimensional signal or a batch of 3 dimensional signals.</p>
+</div></blockquote>
+<p><strong>dim0: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim0 is calculated to be the first dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>dim1: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim1 is calculated to be the second dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>dim2: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim2 is calculated to be the third dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A complex af.Array containing the non-redundant parts of the full FFT.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft_c2r">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft_c2r</code><span class="sig-paren">(</span><em>signal</em>, <em>is_odd=False</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft_c2r"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft_c2r" title="Permalink to this definition">¶</a></dt>
+<dd><p>Real to Complex Fast Fourier Transform: 1D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 1 dimensional signal or a batch of 1 dimensional signals.</p>
+</div></blockquote>
+<p><strong>is_odd: optional: Boolean. default: False.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the first dimension of output should be even or odd.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1 / (signal.dims()[0]).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A real af.Array containing the full output of the fft.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft_convolve">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft_convolve</code><span class="sig-paren">(</span><em>signal</em>, <em>kernel</em>, <em>conv_mode=&lt;CONV_MODE.DEFAULT: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft_convolve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft_convolve" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non batched FFT Convolution.</p>
+<p>This function performs n-dimensional convolution based on input dimensionality.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>An n-dimensional array.</li>
+</ul>
+</div></blockquote>
+<p><strong>kernel: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A n-dimensional kernel.</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or
+maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output of n-dimensional convolution.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft_convolve1">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft_convolve1</code><span class="sig-paren">(</span><em>signal</em>, <em>kernel</em>, <em>conv_mode=&lt;CONV_MODE.DEFAULT: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft_convolve1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft_convolve1" title="Permalink to this definition">¶</a></dt>
+<dd><p>FFT based Convolution: 1D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional signal or batch of 1 dimensional signals.</li>
+</ul>
+</div></blockquote>
+<p><strong>kernel: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional kernel or batch of 1 dimensional kernels.</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or
+maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output of 1D convolution.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft_convolve2">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft_convolve2</code><span class="sig-paren">(</span><em>signal</em>, <em>kernel</em>, <em>conv_mode=&lt;CONV_MODE.DEFAULT: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft_convolve2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft_convolve2" title="Permalink to this definition">¶</a></dt>
+<dd><p>FFT based Convolution: 2D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 dimensional signal or batch of 2 dimensional signals.</li>
+</ul>
+</div></blockquote>
+<p><strong>kernel: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 dimensional kernel or batch of 2 dimensional kernels.</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or
+maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output of 2D convolution.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft_convolve3">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft_convolve3</code><span class="sig-paren">(</span><em>signal</em>, <em>kernel</em>, <em>conv_mode=&lt;CONV_MODE.DEFAULT: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft_convolve3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft_convolve3" title="Permalink to this definition">¶</a></dt>
+<dd><p>FFT based Convolution: 3D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 3 dimensional signal or batch of 3 dimensional signals.</li>
+</ul>
+</div></blockquote>
+<p><strong>kernel: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 3 dimensional kernel or batch of 3 dimensional kernels.</li>
+</ul>
+</div></blockquote>
+<p><strong>conv_mode: optional: af.CONV_MODE. default: af.CONV_MODE.DEFAULT.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies if the output does full convolution (af.CONV_MODE.EXPAND) or
+maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Output of 3D convolution.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft_inplace">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft_inplace</code><span class="sig-paren">(</span><em>signal</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft_inplace" title="Permalink to this definition">¶</a></dt>
+<dd><p>In-place Fast Fourier Transform: 1D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 1 dimensional signal or a batch of 1 dimensional signals.</p>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fft_r2c">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fft_r2c</code><span class="sig-paren">(</span><em>signal</em>, <em>dim0=None</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fft_r2c"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fft_r2c" title="Permalink to this definition">¶</a></dt>
+<dd><p>Real to Complex Fast Fourier Transform: 1D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 1 dimensional signal or a batch of 1 dimensional signals.</p>
+</div></blockquote>
+<p><strong>dim0: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim0 is calculated to be the first dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A complex af.Array containing the non-redundant parts of the full FFT.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.fir">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">fir</code><span class="sig-paren">(</span><em>B</em>, <em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#fir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.fir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finite impulse response filter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>B</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1 dimensional array containing the coefficients of the filter.</p>
+</div></blockquote>
+<p><strong>X</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1 dimensional array containing the signal.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>Y</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>The output of the filter.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.idft">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">idft</code><span class="sig-paren">(</span><em>signal</em>, <em>scale=None</em>, <em>odims=(None</em>, <em>None</em>, <em>None</em>, <em>None)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#idft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.idft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Non batched Inverse Fourier transform.</p>
+<p>This function performs n-dimensional inverse fourier transform depending on the input dimensions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A multi dimensional arrayfire array.</li>
+</ul>
+</div></blockquote>
+<p><strong>odims: optional: tuple of ints. default: (None, None, None, None).</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>If None, calculated to be <cite>signal.dims()</cite></li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Scale factor for the fourier transform.</li>
+<li>If none, calculated to be 1.0 / signal.elements()</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>A complex array that is the ouput of n-dimensional inverse fourier transform.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.ifft">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">ifft</code><span class="sig-paren">(</span><em>signal</em>, <em>dim0=None</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#ifft"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.ifft" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse Fast Fourier Transform: 1D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 1 dimensional signal or a batch of 1 dimensional signals.</p>
+</div></blockquote>
+<p><strong>dim0: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim0 is calculated to be the first dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.0 / (dim0)</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A complex af.Array containing the full output of the inverse fft.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.ifft2">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">ifft2</code><span class="sig-paren">(</span><em>signal</em>, <em>dim0=None</em>, <em>dim1=None</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#ifft2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.ifft2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse Fast Fourier Transform: 2D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 2 dimensional signal or a batch of 2 dimensional signals.</p>
+</div></blockquote>
+<p><strong>dim0: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim0 is calculated to be the first dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>dim1: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim1 is calculated to be the second dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.0 / (dim0 * dim1)</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A complex af.Array containing the full output of the inverse fft.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.ifft2_inplace">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">ifft2_inplace</code><span class="sig-paren">(</span><em>signal</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#ifft2_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.ifft2_inplace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse In-place Fast Fourier Transform: 2D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 2 dimensional signal or a batch of 2 dimensional signals.</p>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.0 / (signal.dims()[0] * signal.dims()[1])</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.ifft3">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">ifft3</code><span class="sig-paren">(</span><em>signal</em>, <em>dim0=None</em>, <em>dim1=None</em>, <em>dim2=None</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#ifft3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.ifft3" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse Fast Fourier Transform: 3D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 3 dimensional signal or a batch of 3 dimensional signals.</p>
+</div></blockquote>
+<p><strong>dim0: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim0 is calculated to be the first dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>dim1: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim1 is calculated to be the second dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>dim2: optional: int. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the size of the output.</li>
+<li>If None, dim2 is calculated to be the third dimension of <cite>signal</cite>.</li>
+</ul>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.0 / (dim0 * dim1 * dim2).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>A complex af.Array containing the full output of the inverse fft.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.ifft3_inplace">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">ifft3_inplace</code><span class="sig-paren">(</span><em>signal</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#ifft3_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.ifft3_inplace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse In-place Fast Fourier Transform: 3D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 3 dimensional signal or a batch of 3 dimensional signals.</p>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.0 / (signal.dims()[0] * signal.dims()[1] * signal.dims()[2]).</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.ifft_inplace">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">ifft_inplace</code><span class="sig-paren">(</span><em>signal</em>, <em>scale=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#ifft_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.ifft_inplace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverse In-place Fast Fourier Transform: 1D</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
+<blockquote>
+<div><p>A 1 dimensional signal or a batch of 1 dimensional signals.</p>
+</div></blockquote>
+<p><strong>scale: optional: scalar. default: None.</strong></p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Specifies the scaling factor.</li>
+<li>If None, scale is set to 1.0 / (signal.dims()[0])</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.iir">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">iir</code><span class="sig-paren">(</span><em>B</em>, <em>A</em>, <em>X</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#iir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.iir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Infinite impulse response filter.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>B</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1 dimensional array containing the feed forward coefficients of the filter.</p>
+</div></blockquote>
+<p><strong>A</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1 dimensional array containing the feed back coefficients of the filter.</p>
+</div></blockquote>
+<p><strong>X</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1 dimensional array containing the signal.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>Y</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>The output of the filter.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.signal.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.signal.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

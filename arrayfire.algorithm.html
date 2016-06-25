@@ -1,0 +1,670 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.algorithm module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.algorithm">
+<span id="arrayfire-algorithm-module"></span><h1>arrayfire.algorithm module<a class="headerlink" href="#module-arrayfire.algorithm" title="Permalink to this headline">¶</a></h1>
+<p>Vector algorithms (sum, min, sort, etc).</p>
+<dl class="function">
+<dt id="arrayfire.algorithm.accum">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">accum</code><span class="sig-paren">(</span><em>a</em>, <em>dim=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#accum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.accum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cumulative sum of an array along a specified dimension</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: 0</strong></p>
+<blockquote>
+<div><p>Dimension along which the cumulative sum is required.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array</p>
+<blockquote class="last">
+<div><p>array of same size as <cite>a</cite> containing the cumulative sum along <cite>dim</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.all_true">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">all_true</code><span class="sig-paren">(</span><em>a</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#all_true"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.all_true" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if all the elements along a specified dimension are true.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None</strong></p>
+<blockquote>
+<div><p>Dimension along which the product is required.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array or scalar number</p>
+<blockquote class="last">
+<div><p>Af.array containing True if all elements in <cite>a</cite> along the dimension are True.
+If <cite>dim</cite> is <cite>None</cite>, output is True if <cite>a</cite> does not have any zeros, else False.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.any_true">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">any_true</code><span class="sig-paren">(</span><em>a</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#any_true"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.any_true" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if any the elements along a specified dimension are true.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None</strong></p>
+<blockquote>
+<div><p>Dimension along which the product is required.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array or scalar number</p>
+<blockquote class="last">
+<div><p>Af.array containing True if any elements in <cite>a</cite> along the dimension are True.
+If <cite>dim</cite> is <cite>None</cite>, output is True if <cite>a</cite> does not have any zeros, else False.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.count">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">count</code><span class="sig-paren">(</span><em>a</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Count the number of non zero elements in an array along a specified dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None</strong></p>
+<blockquote>
+<div><p>Dimension along which the the non zero elements are to be counted.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array or scalar number</p>
+<blockquote class="last">
+<div><p>The count of non zero elements in <cite>a</cite> along <cite>dim</cite>.
+If <cite>dim</cite> is <cite>None</cite>, the total number of non zero elements in <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.diff1">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">diff1</code><span class="sig-paren">(</span><em>a</em>, <em>dim=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#diff1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.diff1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the first order differences along specified dimensions</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: 0</strong></p>
+<blockquote>
+<div><p>Dimension along which the differences are required.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array</p>
+<blockquote class="last">
+<div><p>Array whose length along <cite>dim</cite> is 1 less than that of <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.diff2">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">diff2</code><span class="sig-paren">(</span><em>a</em>, <em>dim=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#diff2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.diff2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the second order differences along specified dimensions</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: 0</strong></p>
+<blockquote>
+<div><p>Dimension along which the differences are required.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array</p>
+<blockquote class="last">
+<div><p>Array whose length along <cite>dim</cite> is 2 less than that of <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.imax">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">imax</code><span class="sig-paren">(</span><em>a</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#imax"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.imax" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the value and location of the maximum value along a specified dimension</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None</strong></p>
+<blockquote>
+<div><p>Dimension along which the maximum value is required.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(val, idx): tuple of af.Array or scalars</p>
+<blockquote class="last">
+<div><p><cite>val</cite> contains the maximum value of <cite>a</cite> along <cite>dim</cite>.
+<cite>idx</cite> contains the location of where <cite>val</cite> occurs in <cite>a</cite> along <cite>dim</cite>.
+If <cite>dim</cite> is <cite>None</cite>, <cite>val</cite> and <cite>idx</cite> value and location of global maximum.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.imin">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">imin</code><span class="sig-paren">(</span><em>a</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#imin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.imin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the value and location of the minimum value along a specified dimension</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None</strong></p>
+<blockquote>
+<div><p>Dimension along which the minimum value is required.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(val, idx): tuple of af.Array or scalars</p>
+<blockquote class="last">
+<div><p><cite>val</cite> contains the minimum value of <cite>a</cite> along <cite>dim</cite>.
+<cite>idx</cite> contains the location of where <cite>val</cite> occurs in <cite>a</cite> along <cite>dim</cite>.
+If <cite>dim</cite> is <cite>None</cite>, <cite>val</cite> and <cite>idx</cite> value and location of global minimum.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.max">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">max</code><span class="sig-paren">(</span><em>a</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#max"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.max" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the maximum value of all the elements along a specified dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None</strong></p>
+<blockquote>
+<div><p>Dimension along which the maximum value is required.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array or scalar number</p>
+<blockquote class="last">
+<div><p>The maximum value of all elements in <cite>a</cite> along dimension <cite>dim</cite>.
+If <cite>dim</cite> is <cite>None</cite>, maximum value of the entire Array is returned.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.min">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">min</code><span class="sig-paren">(</span><em>a</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#min"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.min" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the minimum value of all the elements along a specified dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None</strong></p>
+<blockquote>
+<div><p>Dimension along which the minimum value is required.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array or scalar number</p>
+<blockquote class="last">
+<div><p>The minimum value of all elements in <cite>a</cite> along dimension <cite>dim</cite>.
+If <cite>dim</cite> is <cite>None</cite>, minimum value of the entire Array is returned.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.product">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">product</code><span class="sig-paren">(</span><em>a</em>, <em>dim=None</em>, <em>nan_val=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#product"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.product" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the product of all the elements along a specified dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None</strong></p>
+<blockquote>
+<div><p>Dimension along which the product is required.</p>
+</div></blockquote>
+<p><strong>nan_val: optional: scalar. default: None</strong></p>
+<blockquote>
+<div><p>The value that replaces NaN in the array</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array or scalar number</p>
+<blockquote class="last">
+<div><p>The product of all elements in <cite>a</cite> along dimension <cite>dim</cite>.
+If <cite>dim</cite> is <cite>None</cite>, product of the entire Array is returned.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.set_intersect">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">set_intersect</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>is_unique=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#set_intersect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.set_intersect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the intersect of two arrays.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1D arrayfire array.</p>
+</div></blockquote>
+<p><strong>b</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1D arrayfire array.</p>
+</div></blockquote>
+<p><strong>is_unique: optional: bool. default: False</strong></p>
+<blockquote>
+<div><p>Specifies if the both inputs contain unique elements.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array</p>
+<blockquote class="last">
+<div><p>an array values after performing the intersect of <cite>a</cite> and <cite>b</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.set_union">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">set_union</code><span class="sig-paren">(</span><em>a</em>, <em>b</em>, <em>is_unique=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#set_union"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.set_union" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the union of two arrays.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1D arrayfire array.</p>
+</div></blockquote>
+<p><strong>b</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1D arrayfire array.</p>
+</div></blockquote>
+<p><strong>is_unique: optional: bool. default: False</strong></p>
+<blockquote>
+<div><p>Specifies if the both inputs contain unique elements.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array</p>
+<blockquote class="last">
+<div><p>an array values after performing the union of <cite>a</cite> and <cite>b</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.set_unique">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">set_unique</code><span class="sig-paren">(</span><em>a</em>, <em>is_sorted=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#set_unique"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.set_unique" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the unique elements of an array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1D arrayfire array.</p>
+</div></blockquote>
+<p><strong>is_sorted: optional: bool. default: False</strong></p>
+<blockquote>
+<div><p>Specifies if the input is pre-sorted.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array</p>
+<blockquote class="last">
+<div><p>an array containing the unique values from <cite>a</cite></p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.sort">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">sort</code><span class="sig-paren">(</span><em>a</em>, <em>dim=0</em>, <em>is_ascending=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#sort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.sort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort the array along a specified dimension</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: 0</strong></p>
+<blockquote>
+<div><p>Dimension along which sort is to be performed.</p>
+</div></blockquote>
+<p><strong>is_ascending: optional: bool. default: True</strong></p>
+<blockquote>
+<div><p>Specifies the direction of the sort</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array</p>
+<blockquote class="last">
+<div><p>array containing the sorted values</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.sort_by_key">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">sort_by_key</code><span class="sig-paren">(</span><em>iv</em>, <em>ik</em>, <em>dim=0</em>, <em>is_ascending=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#sort_by_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.sort_by_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort an array based on specified keys</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>iv</strong> : af.Array</p>
+<blockquote>
+<div><p>An Array containing the values</p>
+</div></blockquote>
+<p><strong>ik</strong> : af.Array</p>
+<blockquote>
+<div><p>An Array containing the keys</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: 0</strong></p>
+<blockquote>
+<div><p>Dimension along which sort is to be performed.</p>
+</div></blockquote>
+<p><strong>is_ascending: optional: bool. default: True</strong></p>
+<blockquote>
+<div><p>Specifies the direction of the sort</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(ov, ok): tuple of af.Array</p>
+<blockquote class="last">
+<div><p><cite>ov</cite> contains the values from <cite>iv</cite> after sorting them based on <cite>ik</cite>
+<cite>ok</cite> contains the values from <cite>ik</cite> in sorted order</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.sort_index">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">sort_index</code><span class="sig-paren">(</span><em>a</em>, <em>dim=0</em>, <em>is_ascending=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#sort_index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.sort_index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sort the array along a specified dimension and get the indices.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: 0</strong></p>
+<blockquote>
+<div><p>Dimension along which sort is to be performed.</p>
+</div></blockquote>
+<p><strong>is_ascending: optional: bool. default: True</strong></p>
+<blockquote>
+<div><p>Specifies the direction of the sort</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(val, idx): tuple of af.Array</p>
+<blockquote class="last">
+<div><p><cite>val</cite> is an af.Array containing the sorted values.
+<cite>idx</cite> is an af.Array containing the original indices of <cite>val</cite> in <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.sum">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">sum</code><span class="sig-paren">(</span><em>a</em>, <em>dim=None</em>, <em>nan_val=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#sum"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the sum of all the elements along a specified dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None</strong></p>
+<blockquote>
+<div><p>Dimension along which the sum is required.</p>
+</div></blockquote>
+<p><strong>nan_val: optional: scalar. default: None</strong></p>
+<blockquote>
+<div><p>The value that replaces NaN in the array</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array or scalar number</p>
+<blockquote class="last">
+<div><p>The sum of all elements in <cite>a</cite> along dimension <cite>dim</cite>.
+If <cite>dim</cite> is <cite>None</cite>, sum of the entire Array is returned.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.algorithm.where">
+<code class="descclassname">arrayfire.algorithm.</code><code class="descname">where</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/algorithm.html#where"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.algorithm.where" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the indices of non zero elements</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">idx: af.Array</p>
+<blockquote class="last">
+<div><p>Linear indices for non zero elements.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.algorithm.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.algorithm.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.blas module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.blas">
+<span id="arrayfire-blas-module"></span><h1>arrayfire.blas module<a class="headerlink" href="#module-arrayfire.blas" title="Permalink to this headline">¶</a></h1>
+<p>BLAS functions (matmul, dot, etc)</p>
+<dl class="function">
+<dt id="arrayfire.blas.dot">
+<code class="descclassname">arrayfire.blas.</code><code class="descname">dot</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em>, <em>lhs_opts=&lt;MATPROP.NONE: 0&gt;</em>, <em>rhs_opts=&lt;MATPROP.NONE: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/blas.html#dot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.blas.dot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dot product of two input vectors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1 dimensional, real or complex arrayfire array.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array</p>
+<blockquote>
+<div><p>A 1 dimensional, real or complex arrayfire array.</p>
+</div></blockquote>
+<p><strong>lhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.</strong></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Can be one of</dt>
+<dd><ul class="first last simple">
+<li>af.MATPROP.NONE   - If no op should be done on <cite>lhs</cite>.</li>
+<li>No other options are currently supported.</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>rhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.</strong></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Can be one of</dt>
+<dd><ul class="first last simple">
+<li>af.MATPROP.NONE   - If no op should be done on <cite>rhs</cite>.</li>
+<li>No other options are currently supported.</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Output of dot product of <cite>lhs</cite> and <cite>rhs</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.blas.matmul">
+<code class="descclassname">arrayfire.blas.</code><code class="descname">matmul</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em>, <em>lhs_opts=&lt;MATPROP.NONE: 0&gt;</em>, <em>rhs_opts=&lt;MATPROP.NONE: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/blas.html#matmul"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.blas.matmul" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generalized matrix multiplication for two matrices.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array</p>
+<blockquote>
+<div><p>A 2 dimensional, real or complex arrayfire array.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array</p>
+<blockquote>
+<div><p>A 2 dimensional, real or complex arrayfire array.</p>
+</div></blockquote>
+<p><strong>lhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.</strong></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Can be one of</dt>
+<dd><ul class="first last simple">
+<li>af.MATPROP.NONE   - If no op should be done on <cite>lhs</cite>.</li>
+<li>af.MATPROP.TRANS  - If <cite>lhs</cite> has to be transposed before multiplying.</li>
+<li>af.MATPROP.CTRANS - If <cite>lhs</cite> has to be hermitian transposed before multiplying.</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+<p><strong>rhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.</strong></p>
+<blockquote>
+<div><dl class="docutils">
+<dt>Can be one of</dt>
+<dd><ul class="first last simple">
+<li>af.MATPROP.NONE   - If no op should be done on <cite>rhs</cite>.</li>
+<li>af.MATPROP.TRANS  - If <cite>rhs</cite> has to be transposed before multiplying.</li>
+<li>af.MATPROP.CTRANS - If <cite>rhs</cite> has to be hermitian transposed before multiplying.</li>
+</ul>
+</dd>
+</dl>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Output of the matrix multiplication on <cite>lhs</cite> and <cite>rhs</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.blas.matmulNT">
+<code class="descclassname">arrayfire.blas.</code><code class="descname">matmulNT</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/blas.html#matmulNT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.blas.matmulNT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matrix multiplication after transposing the second matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array</p>
+<blockquote>
+<div><p>A 2 dimensional, real or complex arrayfire array.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array</p>
+<blockquote>
+<div><p>A 2 dimensional, real or complex arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Output of the matrix multiplication on <cite>lhs</cite> and <cite>transpose(rhs)</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.blas.matmulTN">
+<code class="descclassname">arrayfire.blas.</code><code class="descname">matmulTN</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/blas.html#matmulTN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.blas.matmulTN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matrix multiplication after transposing the first matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array</p>
+<blockquote>
+<div><p>A 2 dimensional, real or complex arrayfire array.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array</p>
+<blockquote>
+<div><p>A 2 dimensional, real or complex arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Output of the matrix multiplication on <cite>transpose(lhs)</cite> and <cite>rhs</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.blas.matmulTT">
+<code class="descclassname">arrayfire.blas.</code><code class="descname">matmulTT</code><span class="sig-paren">(</span><em>lhs</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/blas.html#matmulTT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.blas.matmulTT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Matrix multiplication after transposing both inputs.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array</p>
+<blockquote>
+<div><p>A 2 dimensional, real or complex arrayfire array.</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array</p>
+<blockquote>
+<div><p>A 2 dimensional, real or complex arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Output of the matrix multiplication on <cite>transpose(lhs)</cite> and <cite>transpose(rhs)</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.blas.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.blas.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

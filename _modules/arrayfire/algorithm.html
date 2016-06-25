@@ -1,0 +1,591 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.algorithm &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.algorithm</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Vector algorithms (sum, min, sort, etc).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">c_func</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">dim</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="k">def</span> <span class="nf">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c_func</span><span class="p">):</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">imag</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">real</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">imag</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+
+    <span class="n">real</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">imag</span> <span class="o">=</span> <span class="n">imag</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">return</span> <span class="n">real</span> <span class="k">if</span> <span class="n">imag</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">real</span> <span class="o">+</span> <span class="n">imag</span> <span class="o">*</span> <span class="mi">1j</span>
+
+<span class="k">def</span> <span class="nf">_nan_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">c_func</span><span class="p">,</span> <span class="n">nan_val</span><span class="p">):</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">nan_val</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span>
+
+<span class="k">def</span> <span class="nf">_nan_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c_func</span><span class="p">,</span> <span class="n">nan_val</span><span class="p">):</span>
+    <span class="n">real</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">imag</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">real</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">imag</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">nan_val</span><span class="p">)))</span>
+
+    <span class="n">real</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">value</span>
+    <span class="n">imag</span> <span class="o">=</span> <span class="n">imag</span><span class="o">.</span><span class="n">value</span>
+    <span class="k">return</span> <span class="n">real</span> <span class="k">if</span> <span class="n">imag</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">real</span> <span class="o">+</span> <span class="n">imag</span> <span class="o">*</span> <span class="mi">1j</span>
+
+<div class="viewcode-block" id="sum"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.sum">[docs]</a><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">nan_val</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the sum of all the elements along a specified dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: None</span>
+<span class="sd">         Dimension along which the sum is required.</span>
+<span class="sd">    nan_val: optional: scalar. default: None</span>
+<span class="sd">         The value that replaces NaN in the array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array or scalar number</span>
+<span class="sd">         The sum of all elements in `a` along dimension `dim`.</span>
+<span class="sd">         If `dim` is `None`, sum of the entire Array is returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nan_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_nan_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sum_nan</span><span class="p">,</span> <span class="n">nan_val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_nan_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sum_nan_all</span><span class="p">,</span> <span class="n">nan_val</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sum</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sum_all</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="product"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.product">[docs]</a><span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">nan_val</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the product of all the elements along a specified dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: None</span>
+<span class="sd">         Dimension along which the product is required.</span>
+<span class="sd">    nan_val: optional: scalar. default: None</span>
+<span class="sd">         The value that replaces NaN in the array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array or scalar number</span>
+<span class="sd">         The product of all elements in `a` along dimension `dim`.</span>
+<span class="sd">         If `dim` is `None`, product of the entire Array is returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nan_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_nan_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_product_nan</span><span class="p">,</span> <span class="n">nan_val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_nan_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_product_nan_all</span><span class="p">,</span> <span class="n">nan_val</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_product</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_product_all</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="min"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.min">[docs]</a><span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the minimum value of all the elements along a specified dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: None</span>
+<span class="sd">         Dimension along which the minimum value is required.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array or scalar number</span>
+<span class="sd">         The minimum value of all elements in `a` along dimension `dim`.</span>
+<span class="sd">         If `dim` is `None`, minimum value of the entire Array is returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_min</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_min_all</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="max"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.max">[docs]</a><span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the maximum value of all the elements along a specified dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: None</span>
+<span class="sd">         Dimension along which the maximum value is required.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array or scalar number</span>
+<span class="sd">         The maximum value of all elements in `a` along dimension `dim`.</span>
+<span class="sd">         If `dim` is `None`, maximum value of the entire Array is returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_max</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_max_all</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="all_true"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.all_true">[docs]</a><span class="k">def</span> <span class="nf">all_true</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if all the elements along a specified dimension are true.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: None</span>
+<span class="sd">         Dimension along which the product is required.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array or scalar number</span>
+<span class="sd">         Af.array containing True if all elements in `a` along the dimension are True.</span>
+<span class="sd">         If `dim` is `None`, output is True if `a` does not have any zeros, else False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_all_true</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_all_true_all</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="any_true"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.any_true">[docs]</a><span class="k">def</span> <span class="nf">any_true</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if any the elements along a specified dimension are true.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: None</span>
+<span class="sd">         Dimension along which the product is required.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array or scalar number</span>
+<span class="sd">         Af.array containing True if any elements in `a` along the dimension are True.</span>
+<span class="sd">         If `dim` is `None`, output is True if `a` does not have any zeros, else False.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_any_true</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_any_true_all</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="count"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.count">[docs]</a><span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Count the number of non zero elements in an array along a specified dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: None</span>
+<span class="sd">         Dimension along which the the non zero elements are to be counted.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array or scalar number</span>
+<span class="sd">         The count of non zero elements in `a` along `dim`.</span>
+<span class="sd">         If `dim` is `None`, the total number of non zero elements in `a`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_count</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_count_all</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="imin"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.imin">[docs]</a><span class="k">def</span> <span class="nf">imin</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the value and location of the minimum value along a specified dimension</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: None</span>
+<span class="sd">         Dimension along which the minimum value is required.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (val, idx): tuple of af.Array or scalars</span>
+<span class="sd">                `val` contains the minimum value of `a` along `dim`.</span>
+<span class="sd">                `idx` contains the location of where `val` occurs in `a` along `dim`.</span>
+<span class="sd">                If `dim` is `None`, `val` and `idx` value and location of global minimum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_imin</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">dim</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">out</span><span class="p">,</span><span class="n">idx</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">real</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">imag</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">idx</span>  <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_imin_all</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">real</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">imag</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">real</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">imag</span> <span class="o">=</span> <span class="n">imag</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">real</span> <span class="k">if</span> <span class="n">imag</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">real</span> <span class="o">+</span> <span class="n">imag</span> <span class="o">*</span> <span class="mi">1j</span>
+        <span class="k">return</span> <span class="n">val</span><span class="p">,</span><span class="n">idx</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="imax"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.imax">[docs]</a><span class="k">def</span> <span class="nf">imax</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the value and location of the maximum value along a specified dimension</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: None</span>
+<span class="sd">         Dimension along which the maximum value is required.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (val, idx): tuple of af.Array or scalars</span>
+<span class="sd">                `val` contains the maximum value of `a` along `dim`.</span>
+<span class="sd">                `idx` contains the location of where `val` occurs in `a` along `dim`.</span>
+<span class="sd">                If `dim` is `None`, `val` and `idx` value and location of global maximum.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_imax</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">dim</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">out</span><span class="p">,</span><span class="n">idx</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">real</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">imag</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">idx</span>  <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_imax_all</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">real</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">imag</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">idx</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">real</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">imag</span> <span class="o">=</span> <span class="n">imag</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">real</span> <span class="k">if</span> <span class="n">imag</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">real</span> <span class="o">+</span> <span class="n">imag</span> <span class="o">*</span> <span class="mi">1j</span>
+        <span class="k">return</span> <span class="n">val</span><span class="p">,</span><span class="n">idx</span><span class="o">.</span><span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="accum"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.accum">[docs]</a><span class="k">def</span> <span class="nf">accum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cumulative sum of an array along a specified dimension</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: 0</span>
+<span class="sd">         Dimension along which the cumulative sum is required.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array</span>
+<span class="sd">         array of same size as `a` containing the cumulative sum along `dim`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_accum</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="where"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.where">[docs]</a><span class="k">def</span> <span class="nf">where</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the indices of non zero elements</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    idx: af.Array</span>
+<span class="sd">         Linear indices for non zero elements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_where</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="diff1"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.diff1">[docs]</a><span class="k">def</span> <span class="nf">diff1</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the first order differences along specified dimensions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: 0</span>
+<span class="sd">         Dimension along which the differences are required.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array</span>
+<span class="sd">         Array whose length along `dim` is 1 less than that of `a`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_diff1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="diff2"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.diff2">[docs]</a><span class="k">def</span> <span class="nf">diff2</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the second order differences along specified dimensions</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: 0</span>
+<span class="sd">         Dimension along which the differences are required.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array</span>
+<span class="sd">         Array whose length along `dim` is 2 less than that of `a`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_diff2</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="sort"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.sort">[docs]</a><span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sort the array along a specified dimension</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: 0</span>
+<span class="sd">         Dimension along which sort is to be performed.</span>
+<span class="sd">    is_ascending: optional: bool. default: True</span>
+<span class="sd">         Specifies the direction of the sort</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array</span>
+<span class="sd">         array containing the sorted values</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    Currently `dim` is only supported for 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sort</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">is_ascending</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="sort_index"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.sort_index">[docs]</a><span class="k">def</span> <span class="nf">sort_index</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sort the array along a specified dimension and get the indices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array.</span>
+<span class="sd">    dim: optional: int. default: 0</span>
+<span class="sd">         Dimension along which sort is to be performed.</span>
+<span class="sd">    is_ascending: optional: bool. default: True</span>
+<span class="sd">         Specifies the direction of the sort</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (val, idx): tuple of af.Array</span>
+<span class="sd">         `val` is an af.Array containing the sorted values.</span>
+<span class="sd">         `idx` is an af.Array containing the original indices of `val` in `a`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    Currently `dim` is only supported for 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sort_index</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                          <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">is_ascending</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span><span class="p">,</span><span class="n">idx</span></div>
+
+<div class="viewcode-block" id="sort_by_key"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.sort_by_key">[docs]</a><span class="k">def</span> <span class="nf">sort_by_key</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span> <span class="n">ik</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_ascending</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sort an array based on specified keys</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    iv  : af.Array</span>
+<span class="sd">         An Array containing the values</span>
+<span class="sd">    ik  : af.Array</span>
+<span class="sd">         An Array containing the keys</span>
+<span class="sd">    dim: optional: int. default: 0</span>
+<span class="sd">         Dimension along which sort is to be performed.</span>
+<span class="sd">    is_ascending: optional: bool. default: True</span>
+<span class="sd">         Specifies the direction of the sort</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (ov, ok): tuple of af.Array</span>
+<span class="sd">         `ov` contains the values from `iv` after sorting them based on `ik`</span>
+<span class="sd">         `ok` contains the values from `ik` in sorted order</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -------</span>
+<span class="sd">    Currently `dim` is only supported for 0.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ov</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">ok</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sort_by_key</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">ov</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">ok</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                           <span class="n">iv</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ik</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">is_ascending</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">ov</span><span class="p">,</span><span class="n">ok</span></div>
+
+<div class="viewcode-block" id="set_unique"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.set_unique">[docs]</a><span class="k">def</span> <span class="nf">set_unique</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">is_sorted</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the unique elements of an array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         A 1D arrayfire array.</span>
+<span class="sd">    is_sorted: optional: bool. default: False</span>
+<span class="sd">         Specifies if the input is pre-sorted.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array</span>
+<span class="sd">         an array containing the unique values from `a`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_unique</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">is_sorted</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="set_union"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.set_union">[docs]</a><span class="k">def</span> <span class="nf">set_union</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">is_unique</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the union of two arrays.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         A 1D arrayfire array.</span>
+<span class="sd">    b  : af.Array</span>
+<span class="sd">         A 1D arrayfire array.</span>
+<span class="sd">    is_unique: optional: bool. default: False</span>
+<span class="sd">         Specifies if the both inputs contain unique elements.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array</span>
+<span class="sd">         an array values after performing the union of `a` and `b`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_union</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">is_unique</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="set_intersect"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.set_intersect">[docs]</a><span class="k">def</span> <span class="nf">set_intersect</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">is_unique</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the intersect of two arrays.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a  : af.Array</span>
+<span class="sd">         A 1D arrayfire array.</span>
+<span class="sd">    b  : af.Array</span>
+<span class="sd">         A 1D arrayfire array.</span>
+<span class="sd">    is_unique: optional: bool. default: False</span>
+<span class="sd">         Specifies if the both inputs contain unique elements.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array</span>
+<span class="sd">         an array values after performing the intersect of `a` and `b`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_intersect</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">b</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="n">is_unique</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,1082 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.data module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.data">
+<span id="arrayfire-data-module"></span><h1>arrayfire.data module<a class="headerlink" href="#module-arrayfire.data" title="Permalink to this headline">¶</a></h1>
+<p>Functions to create and manipulate arrays.</p>
+<dl class="function">
+<dt id="arrayfire.data.constant">
+<code class="descclassname">arrayfire.data.</code><code class="descname">constant</code><span class="sig-paren">(</span><em>val</em>, <em>d0</em>, <em>d1=None</em>, <em>d2=None</em>, <em>d3=None</em>, <em>dtype=&lt;Dtype.f32: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#constant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.constant" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a multi dimensional array whose elements contain the same value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>val</strong> : scalar.</p>
+<blockquote>
+<div><p>Value of each element of the constant array.</p>
+</div></blockquote>
+<p><strong>d0</strong> : int.</p>
+<blockquote>
+<div><p>Length of first dimension.</p>
+</div></blockquote>
+<p><strong>d1</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of second dimension.</p>
+</div></blockquote>
+<p><strong>d2</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of third dimension.</p>
+</div></blockquote>
+<p><strong>d3</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of fourth dimension.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : optional: af.Dtype. default: af.Dtype.f32.</p>
+<blockquote>
+<div><p>Data type of the array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Multi dimensional array whose elements are of value <cite>val</cite>.
+- If d1 is None, <cite>out</cite> is 1D of size (d0,).
+- If d1 is not None and d2 is None, <cite>out</cite> is 2D of size (d0, d1).
+- If d1 and d2 are not None and d3 is None, <cite>out</cite> is 3D of size (d0, d1, d2).
+- If d1, d2, d3 are all not None, <cite>out</cite> is 4D of size (d0, d1, d2, d3).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.diag">
+<code class="descclassname">arrayfire.data.</code><code class="descname">diag</code><span class="sig-paren">(</span><em>a</em>, <em>num=0</em>, <em>extract=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#diag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.diag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a diagonal matrix or Extract the diagonal from a matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array.</p>
+<blockquote>
+<div><p>1 dimensional or 2 dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>num</strong> : optional: int. default: 0.</p>
+<blockquote>
+<div><p>The index of the diagonal.
+- num == 0 signifies the diagonal.
+- num  &gt; 0 signifies super diagonals.
+- num &lt;  0 signifies sub diagonals.</p>
+</div></blockquote>
+<p><strong>extract</strong> : optional: bool. default: True.</p>
+<blockquote>
+<div><ul class="simple">
+<li>If True , diagonal is extracted. <cite>a</cite> has to be 2D.</li>
+<li>If False, diagonal matrix is created. <cite>a</cite> has to be 1D.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>if extract is True, <cite>out</cite> contains the num&#8217;th diagonal from <cite>a</cite>.</li>
+<li>if extract is False, <cite>out</cite> contains <cite>a</cite> as the num&#8217;th diagonal.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.flat">
+<code class="descclassname">arrayfire.data.</code><code class="descname">flat</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#flat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.flat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flatten the input array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array.</p>
+<blockquote>
+<div><p>Multi dimensional array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>1 dimensional array containing all the elements from <cite>a</cite>.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.flip">
+<code class="descclassname">arrayfire.data.</code><code class="descname">flip</code><span class="sig-paren">(</span><em>a</em>, <em>dim=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#flip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.flip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Flip an array along a dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array.</p>
+<blockquote>
+<div><p>Multi dimensional array.</p>
+</div></blockquote>
+<p><strong>dim</strong> : optional: int. default: 0.</p>
+<blockquote>
+<div><p>The dimension along which the flip is performed.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>The output after flipping <cite>a</cite> along <cite>dim</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.7269     0.3569     0.3341</span>
+<span class="go">    0.7104     0.1437     0.0899</span>
+<span class="go">    0.5201     0.4563     0.5363</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.5201     0.4563     0.5363</span>
+<span class="go">    0.7104     0.1437     0.0899</span>
+<span class="go">    0.7269     0.3569     0.3341</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.3341     0.3569     0.7269</span>
+<span class="go">    0.0899     0.1437     0.7104</span>
+<span class="go">    0.5363     0.4563     0.5201</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.get_seed">
+<code class="descclassname">arrayfire.data.</code><code class="descname">get_seed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#get_seed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.get_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the seed for the random number generator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">seed: int.</p>
+<blockquote class="last">
+<div><p>Seed for the random number generator</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.identity">
+<code class="descclassname">arrayfire.data.</code><code class="descname">identity</code><span class="sig-paren">(</span><em>d0</em>, <em>d1</em>, <em>d2=None</em>, <em>d3=None</em>, <em>dtype=&lt;Dtype.f32: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#identity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.identity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an identity matrix or batch of identity matrices.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>d0</strong> : int.</p>
+<blockquote>
+<div><p>Length of first dimension.</p>
+</div></blockquote>
+<p><strong>d1</strong> : int.</p>
+<blockquote>
+<div><p>Length of second dimension.</p>
+</div></blockquote>
+<p><strong>d2</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of third dimension.</p>
+</div></blockquote>
+<p><strong>d3</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of fourth dimension.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : optional: af.Dtype. default: af.Dtype.f32.</p>
+<blockquote>
+<div><p>Data type of the array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Multi dimensional array whose first two dimensions form a identity matrix.
+- If d2 is  None, <cite>out</cite> is 2D of size (d0, d1).
+- If d2 is not None and d3 is None, <cite>out</cite> is 3D of size (d0, d1, d2).
+- If d2, d3 are not None, <cite>out</cite> is 4D of size (d0, d1, d2, d3).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.iota">
+<code class="descclassname">arrayfire.data.</code><code class="descname">iota</code><span class="sig-paren">(</span><em>d0</em>, <em>d1=None</em>, <em>d2=None</em>, <em>d3=None</em>, <em>dim=-1</em>, <em>tile_dims=None</em>, <em>dtype=&lt;Dtype.f32: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#iota"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.iota" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a multi dimensional array using the number of elements in the array as the range.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>val</strong> : scalar.</p>
+<blockquote>
+<div><p>Value of each element of the constant array.</p>
+</div></blockquote>
+<p><strong>d0</strong> : int.</p>
+<blockquote>
+<div><p>Length of first dimension.</p>
+</div></blockquote>
+<p><strong>d1</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of second dimension.</p>
+</div></blockquote>
+<p><strong>d2</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of third dimension.</p>
+</div></blockquote>
+<p><strong>d3</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of fourth dimension.</p>
+</div></blockquote>
+<p><strong>tile_dims</strong> : optional: tuple of ints. default: None.</p>
+<blockquote>
+<div><p>The number of times the data is tiled.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : optional: af.Dtype. default: af.Dtype.f32.</p>
+<blockquote>
+<div><p>Data type of the array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Multi dimensional array whose elements are along <cite>dim</cite> fall between [0 - self.elements() - 1].</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">iota</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span> <span class="c1"># tile_dim is not specified, data is not tiled</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># the elements range from [0 - 8] (9 elements)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.0000     3.0000     6.0000</span>
+<span class="go">    1.0000     4.0000     7.0000</span>
+<span class="go">    2.0000     5.0000     8.0000</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">iota</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="n">tile_dims</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span> <span class="c1"># Asking to tile along second dimension.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[3 6 1 1]</span>
+<span class="go">    0.0000     3.0000     6.0000     0.0000     3.0000     6.0000</span>
+<span class="go">    1.0000     4.0000     7.0000     1.0000     4.0000     7.0000</span>
+<span class="go">    2.0000     5.0000     8.0000     2.0000     5.0000     8.0000</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.join">
+<code class="descclassname">arrayfire.data.</code><code class="descname">join</code><span class="sig-paren">(</span><em>dim</em>, <em>first</em>, <em>second</em>, <em>third=None</em>, <em>fourth=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join two or more arrayfire arrays along a specified dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dim: int.</strong></p>
+<blockquote>
+<div><p>Dimension along which the join occurs.</p>
+</div></blockquote>
+<p><strong>first</strong> : af.Array.</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>second</strong> : af.Array.</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>third</strong> : optional: af.Array. default: None.</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>fourth</strong> : optional: af.Array. default: None.</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>An array containing the input arrays joined along the specified dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[2 3 1 1]</span>
+<span class="go">    0.9508     0.2591     0.7928</span>
+<span class="go">    0.5367     0.8359     0.8719</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[2 3 1 1]</span>
+<span class="go">    0.3266     0.6009     0.2442</span>
+<span class="go">    0.6275     0.0495     0.6591</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="go">[4 3 1 1]</span>
+<span class="go">    0.9508     0.2591     0.7928</span>
+<span class="go">    0.5367     0.8359     0.8719</span>
+<span class="go">    0.3266     0.6009     0.2442</span>
+<span class="go">    0.6275     0.0495     0.6591</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="go">[2 6 1 1]</span>
+<span class="go">    0.9508     0.2591     0.7928     0.3266     0.6009     0.2442</span>
+<span class="go">    0.5367     0.8359     0.8719     0.6275     0.0495     0.6591</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.lower">
+<code class="descclassname">arrayfire.data.</code><code class="descname">lower</code><span class="sig-paren">(</span><em>a</em>, <em>is_unit_diag=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#lower"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.lower" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the lower triangular matrix from the input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array.</p>
+<blockquote>
+<div><p>Multi dimensional array.</p>
+</div></blockquote>
+<p><strong>is_unit_diag: optional: bool. default: False.</strong></p>
+<blockquote>
+<div><p>Flag specifying if the diagonal elements are 1.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>An array containing the lower triangular elements from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.moddims">
+<code class="descclassname">arrayfire.data.</code><code class="descname">moddims</code><span class="sig-paren">(</span><em>a</em>, <em>d0</em>, <em>d1=1</em>, <em>d2=1</em>, <em>d3=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#moddims"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.moddims" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify the shape of the array without changing the data layout.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array.</p>
+<blockquote>
+<div><p>Multi dimensional array.</p>
+</div></blockquote>
+<p><strong>d0: int.</strong></p>
+<blockquote>
+<div><p>The first dimension of output.</p>
+</div></blockquote>
+<p><strong>d1: optional: int. default: 1.</strong></p>
+<blockquote>
+<div><p>The second dimension of output.</p>
+</div></blockquote>
+<p><strong>d2: optional: int. default: 1.</strong></p>
+<blockquote>
+<div><p>The third dimension of output.</p>
+</div></blockquote>
+<p><strong>d3: optional: int. default: 1.</strong></p>
+<blockquote>
+<div><p>The fourth dimension of output.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>An containing the same data as <cite>a</cite> with the specified shape.</li>
+<li>The number of elements in <cite>a</cite> must match <cite>d0 x d1 x d2 x d3</cite>.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.randn">
+<code class="descclassname">arrayfire.data.</code><code class="descname">randn</code><span class="sig-paren">(</span><em>d0</em>, <em>d1=None</em>, <em>d2=None</em>, <em>d3=None</em>, <em>dtype=&lt;Dtype.f32: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#randn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.randn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a multi dimensional array containing values from a normal distribution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>d0</strong> : int.</p>
+<blockquote>
+<div><p>Length of first dimension.</p>
+</div></blockquote>
+<p><strong>d1</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of second dimension.</p>
+</div></blockquote>
+<p><strong>d2</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of third dimension.</p>
+</div></blockquote>
+<p><strong>d3</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of fourth dimension.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : optional: af.Dtype. default: af.Dtype.f32.</p>
+<blockquote>
+<div><p>Data type of the array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Multi dimensional array whose elements are sampled from a normal distribution with mean 0 and sigma of 1.
+- If d1 is None, <cite>out</cite> is 1D of size (d0,).
+- If d1 is not None and d2 is None, <cite>out</cite> is 2D of size (d0, d1).
+- If d1 and d2 are not None and d3 is None, <cite>out</cite> is 3D of size (d0, d1, d2).
+- If d1, d2, d3 are all not None, <cite>out</cite> is 4D of size (d0, d1, d2, d3).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.randu">
+<code class="descclassname">arrayfire.data.</code><code class="descname">randu</code><span class="sig-paren">(</span><em>d0</em>, <em>d1=None</em>, <em>d2=None</em>, <em>d3=None</em>, <em>dtype=&lt;Dtype.f32: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#randu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.randu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a multi dimensional array containing values from a uniform distribution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>d0</strong> : int.</p>
+<blockquote>
+<div><p>Length of first dimension.</p>
+</div></blockquote>
+<p><strong>d1</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of second dimension.</p>
+</div></blockquote>
+<p><strong>d2</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of third dimension.</p>
+</div></blockquote>
+<p><strong>d3</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of fourth dimension.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : optional: af.Dtype. default: af.Dtype.f32.</p>
+<blockquote>
+<div><p>Data type of the array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Multi dimensional array whose elements are sampled uniformly between [0, 1].
+- If d1 is None, <cite>out</cite> is 1D of size (d0,).
+- If d1 is not None and d2 is None, <cite>out</cite> is 2D of size (d0, d1).
+- If d1 and d2 are not None and d3 is None, <cite>out</cite> is 3D of size (d0, d1, d2).
+- If d1, d2, d3 are all not None, <cite>out</cite> is 4D of size (d0, d1, d2, d3).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.range">
+<code class="descclassname">arrayfire.data.</code><code class="descname">range</code><span class="sig-paren">(</span><em>d0</em>, <em>d1=None</em>, <em>d2=None</em>, <em>d3=None</em>, <em>dim=0</em>, <em>dtype=&lt;Dtype.f32: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a multi dimensional array using length of a dimension as range.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>val</strong> : scalar.</p>
+<blockquote>
+<div><p>Value of each element of the constant array.</p>
+</div></blockquote>
+<p><strong>d0</strong> : int.</p>
+<blockquote>
+<div><p>Length of first dimension.</p>
+</div></blockquote>
+<p><strong>d1</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of second dimension.</p>
+</div></blockquote>
+<p><strong>d2</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of third dimension.</p>
+</div></blockquote>
+<p><strong>d3</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of fourth dimension.</p>
+</div></blockquote>
+<p><strong>dim</strong> : optional: int. default: 0.</p>
+<blockquote>
+<div><p>The dimension along which the range is calculated.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : optional: af.Dtype. default: af.Dtype.f32.</p>
+<blockquote>
+<div><p>Data type of the array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Multi dimensional array whose elements are along <cite>dim</cite> fall between [0 - self.dims[dim]-1]
+- If d1 is None, <cite>out</cite> is 1D of size (d0,).
+- If d1 is not None and d2 is None, <cite>out</cite> is 2D of size (d0, d1).
+- If d1 and d2 are not None and d3 is None, <cite>out</cite> is 3D of size (d0, d1, d2).
+- If d1, d2, d3 are all not None, <cite>out</cite> is 4D of size (d0, d1, d2, d3).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c1"># dim is not specified, range is along first dimension.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># The data ranges from [0 - 2] (3 elements along first dimension)</span>
+<span class="go">[3 2 1 1]</span>
+<span class="go">    0.0000     0.0000</span>
+<span class="go">    1.0000     1.0000</span>
+<span class="go">    2.0000     2.0000</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">range</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># dim is 1, range is along second dimension.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1"># The data ranges from [0 - 1] (2 elements along second dimension)</span>
+<span class="go">[3 2 1 1]</span>
+<span class="go">    0.0000     1.0000</span>
+<span class="go">    0.0000     1.0000</span>
+<span class="go">    0.0000     1.0000</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.reorder">
+<code class="descclassname">arrayfire.data.</code><code class="descname">reorder</code><span class="sig-paren">(</span><em>a</em>, <em>d0=1</em>, <em>d1=0</em>, <em>d2=2</em>, <em>d3=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#reorder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.reorder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reorder the dimensions of the input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array.</p>
+<blockquote>
+<div><p>Multi dimensional array.</p>
+</div></blockquote>
+<p><strong>d0: optional: int. default: 1.</strong></p>
+<blockquote>
+<div><p>The location of the first dimension in the output.</p>
+</div></blockquote>
+<p><strong>d1: optional: int. default: 0.</strong></p>
+<blockquote>
+<div><p>The location of the second dimension in the output.</p>
+</div></blockquote>
+<p><strong>d2: optional: int. default: 2.</strong></p>
+<blockquote>
+<div><p>The location of the third dimension in the output.</p>
+</div></blockquote>
+<p><strong>d3: optional: int. default: 3.</strong></p>
+<blockquote>
+<div><p>The location of the fourth dimension in the output.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>An array containing the input aftern reordering its dimensions.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[5 5 3 1]</span>
+<span class="go">    0.4107     0.0081     0.6600     0.1046     0.8395</span>
+<span class="go">    0.8224     0.3775     0.0764     0.8827     0.1933</span>
+<span class="go">    0.9518     0.3027     0.0901     0.1647     0.7270</span>
+<span class="go">    0.1794     0.6456     0.5933     0.8060     0.0322</span>
+<span class="go">    0.4198     0.5591     0.1098     0.5938     0.0012</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>0.8703     0.9250     0.4387     0.6530     0.4224
+0.5259     0.3063     0.3784     0.5476     0.5293
+0.1443     0.9313     0.4002     0.8577     0.0212
+0.3253     0.8684     0.4390     0.8370     0.1103
+0.5081     0.6592     0.4718     0.0618     0.4420</p>
+<p>0.8355     0.6767     0.1033     0.9426     0.9276
+0.4878     0.6742     0.2119     0.4817     0.8662
+0.2055     0.4523     0.5955     0.9097     0.3578
+0.1794     0.1236     0.3745     0.6821     0.6263
+0.5606     0.7924     0.9165     0.6056     0.9747</p>
+</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">reorder</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[3 5 5 1]</span>
+<span class="go">    0.4107     0.8224     0.9518     0.1794     0.4198</span>
+<span class="go">    0.8703     0.5259     0.1443     0.3253     0.5081</span>
+<span class="go">    0.8355     0.4878     0.2055     0.1794     0.5606</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>0.0081     0.3775     0.3027     0.6456     0.5591
+0.9250     0.3063     0.9313     0.8684     0.6592
+0.6767     0.6742     0.4523     0.1236     0.7924</p>
+<p>0.6600     0.0764     0.0901     0.5933     0.1098
+0.4387     0.3784     0.4002     0.4390     0.4718
+0.1033     0.2119     0.5955     0.3745     0.9165</p>
+<p>0.1046     0.8827     0.1647     0.8060     0.5938
+0.6530     0.5476     0.8577     0.8370     0.0618
+0.9426     0.4817     0.9097     0.6821     0.6056</p>
+<p>0.8395     0.1933     0.7270     0.0322     0.0012
+0.4224     0.5293     0.0212     0.1103     0.4420
+0.9276     0.8662     0.3578     0.6263     0.9747</p>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.replace">
+<code class="descclassname">arrayfire.data.</code><code class="descname">replace</code><span class="sig-paren">(</span><em>lhs</em>, <em>cond</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#replace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.replace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select elements from one of two arrays based on condition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>numerical array whose elements are replaced with <cite>rhs</cite> when conditional element is False</p>
+</div></blockquote>
+<p><strong>cond</strong> : af.Array</p>
+<blockquote>
+<div><p>Conditional array</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array or scalar</p>
+<blockquote class="last">
+<div><p>numerical array whose elements are picked when conditional element is False</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.4107     0.1794     0.3775</span>
+<span class="go">    0.8224     0.4198     0.3027</span>
+<span class="go">    0.9518     0.0081     0.6456</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cond</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">&gt;=</span> <span class="mf">0.25</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">a</span> <span class="o">&lt;=</span> <span class="mf">0.75</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">         1          0          1</span>
+<span class="go">         0          1          1</span>
+<span class="go">         0          0          1</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">cond</span><span class="p">,</span> <span class="mf">0.3333</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.3333     0.1794     0.3333</span>
+<span class="go">    0.8224     0.3333     0.3333</span>
+<span class="go">    0.9518     0.0081     0.3333</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.select">
+<code class="descclassname">arrayfire.data.</code><code class="descname">select</code><span class="sig-paren">(</span><em>cond</em>, <em>lhs</em>, <em>rhs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Select elements from one of two arrays based on condition.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cond</strong> : af.Array</p>
+<blockquote>
+<div><p>Conditional array</p>
+</div></blockquote>
+<p><strong>lhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>numerical array whose elements are picked when conditional element is True</p>
+</div></blockquote>
+<p><strong>rhs</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>numerical array whose elements are picked when conditional element is False</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array</p>
+<blockquote class="last">
+<div><p>An array containing elements from <cite>lhs</cite> when <cite>cond</cite> is True and <cite>rhs</cite> when False.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cond</span> <span class="o">=</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.4107     0.1794     0.3775</span>
+<span class="go">    0.8224     0.4198     0.3027</span>
+<span class="go">    0.9518     0.0081     0.6456</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.7269     0.3569     0.3341</span>
+<span class="go">    0.7104     0.1437     0.0899</span>
+<span class="go">    0.5201     0.4563     0.5363</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.7269     0.3569     0.3775</span>
+<span class="go">    0.8224     0.4198     0.3027</span>
+<span class="go">    0.9518     0.4563     0.6456</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.set_seed">
+<code class="descclassname">arrayfire.data.</code><code class="descname">set_seed</code><span class="sig-paren">(</span><em>seed=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#set_seed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.set_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the seed for the random number generator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>seed: int.</strong></p>
+<blockquote class="last">
+<div><p>Seed for the random number generator</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.shift">
+<code class="descclassname">arrayfire.data.</code><code class="descname">shift</code><span class="sig-paren">(</span><em>a</em>, <em>d0</em>, <em>d1=0</em>, <em>d2=0</em>, <em>d3=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#shift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.shift" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shift the input along each dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array.</p>
+<blockquote>
+<div><p>Multi dimensional array.</p>
+</div></blockquote>
+<p><strong>d0: int.</strong></p>
+<blockquote>
+<div><p>The amount of shift along first dimension.</p>
+</div></blockquote>
+<p><strong>d1: optional: int. default: 0.</strong></p>
+<blockquote>
+<div><p>The amount of shift along second dimension.</p>
+</div></blockquote>
+<p><strong>d2: optional: int. default: 0.</strong></p>
+<blockquote>
+<div><p>The amount of shift along third dimension.</p>
+</div></blockquote>
+<p><strong>d3: optional: int. default: 0.</strong></p>
+<blockquote>
+<div><p>The amount of shift along fourth dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>An array the same shape as <cite>a</cite> after shifting it by the specified amounts.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.7269     0.3569     0.3341</span>
+<span class="go">    0.7104     0.1437     0.0899</span>
+<span class="go">    0.5201     0.4563     0.5363</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.7104     0.1437     0.0899</span>
+<span class="go">    0.5201     0.4563     0.5363</span>
+<span class="go">    0.7269     0.3569     0.3341</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="go">[3 3 1 1]</span>
+<span class="go">    0.4563     0.5363     0.5201</span>
+<span class="go">    0.3569     0.3341     0.7269</span>
+<span class="go">    0.1437     0.0899     0.7104</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.tile">
+<code class="descclassname">arrayfire.data.</code><code class="descname">tile</code><span class="sig-paren">(</span><em>a</em>, <em>d0</em>, <em>d1=1</em>, <em>d2=1</em>, <em>d3=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.tile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tile an array along specified dimensions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array.</p>
+<blockquote>
+<div><p>Multi dimensional array.</p>
+</div></blockquote>
+<p><strong>d0: int.</strong></p>
+<blockquote>
+<div><p>The number of times <cite>a</cite> has to be tiled along first dimension.</p>
+</div></blockquote>
+<p><strong>d1: optional: int. default: 1.</strong></p>
+<blockquote>
+<div><p>The number of times <cite>a</cite> has to be tiled along second dimension.</p>
+</div></blockquote>
+<p><strong>d2: optional: int. default: 1.</strong></p>
+<blockquote>
+<div><p>The number of times <cite>a</cite> has to be tiled along third dimension.</p>
+</div></blockquote>
+<p><strong>d3: optional: int. default: 1.</strong></p>
+<blockquote>
+<div><p>The number of times <cite>a</cite> has to be tiled along fourth dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>An array containing the input after tiling the the specified number of times.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">[2 3 1 1]</span>
+<span class="go">    0.9508     0.2591     0.7928</span>
+<span class="go">    0.5367     0.8359     0.8719</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[4 3 1 1]</span>
+<span class="go">    0.4107     0.9518     0.4198</span>
+<span class="go">    0.8224     0.1794     0.0081</span>
+<span class="go">    0.4107     0.9518     0.4198</span>
+<span class="go">    0.8224     0.1794     0.0081</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+<span class="go">[2 6 1 1]</span>
+<span class="go">    0.4107     0.9518     0.4198     0.4107     0.9518     0.4198</span>
+<span class="go">    0.8224     0.1794     0.0081     0.8224     0.1794     0.0081</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="go">[4 6 1 1]</span>
+<span class="go">    0.4107     0.9518     0.4198     0.4107     0.9518     0.4198</span>
+<span class="go">    0.8224     0.1794     0.0081     0.8224     0.1794     0.0081</span>
+<span class="go">    0.4107     0.9518     0.4198     0.4107     0.9518     0.4198</span>
+<span class="go">    0.8224     0.1794     0.0081     0.8224     0.1794     0.0081</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.upper">
+<code class="descclassname">arrayfire.data.</code><code class="descname">upper</code><span class="sig-paren">(</span><em>a</em>, <em>is_unit_diag=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#upper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.upper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extract the upper triangular matrix from the input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array.</p>
+<blockquote>
+<div><p>Multi dimensional array.</p>
+</div></blockquote>
+<p><strong>is_unit_diag: optional: bool. default: False.</strong></p>
+<blockquote>
+<div><p>Flag specifying if the diagonal elements are 1.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>An array containing the upper triangular elements from <cite>a</cite>.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.data.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.data.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

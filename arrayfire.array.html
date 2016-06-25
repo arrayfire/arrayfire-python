@@ -1,0 +1,807 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.array module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.array">
+<span id="arrayfire-array-module"></span><h1>arrayfire.array module<a class="headerlink" href="#module-arrayfire.array" title="Permalink to this headline">¶</a></h1>
+<p>Array class and helper functions.</p>
+<dl class="class">
+<dt id="arrayfire.array.Array">
+<em class="property">class </em><code class="descclassname">arrayfire.array.</code><code class="descname">Array</code><span class="sig-paren">(</span><em>src=None</em>, <em>dims=(0</em>, <em>)</em>, <em>dtype=None</em>, <em>is_device=False</em>, <em>offset=None</em>, <em>strides=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="arrayfire.base.html#arrayfire.base.BaseArray" title="arrayfire.base.BaseArray"><code class="xref py py-class docutils literal"><span class="pre">arrayfire.base.BaseArray</span></code></a></p>
+<p>A multi dimensional array container.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>src</strong> : optional: array.array, list or C buffer. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>When <cite>src</cite> is <cite>array.array</cite> or <cite>list</cite>, the data is copied to create the Array()</li>
+<li>When <cite>src</cite> is None, an empty buffer is created.</li>
+</ul>
+</div></blockquote>
+<p><strong>dims</strong> : optional: tuple of ints. default: (0,)</p>
+<blockquote>
+<div><ul class="simple">
+<li>When using the default values of <cite>dims</cite>, the dims are caclulated as <cite>len(src)</cite></li>
+</ul>
+</div></blockquote>
+<p><strong>dtype: optional: str or arrayfire.Dtype. default: None.</strong></p>
+<blockquote class="last">
+<div><ul>
+<li><dl class="first docutils">
+<dt>if str, must be one of the following:</dt>
+<dd><ul class="first last simple">
+<li>&#8216;f&#8217; for float</li>
+<li>&#8216;d&#8217; for double</li>
+<li>&#8216;b&#8217; for bool</li>
+<li>&#8216;B&#8217; for unsigned char</li>
+<li>&#8216;i&#8217; for signed 32 bit integer</li>
+<li>&#8216;I&#8217; for unsigned 32 bit integer</li>
+<li>&#8216;l&#8217; for signed 64 bit integer</li>
+<li>&#8216;L&#8217; for unsigned 64 bit integer</li>
+<li>&#8216;F&#8217; for 32 bit complex number</li>
+<li>&#8216;D&#8217; for 64 bit complex number</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>if arrayfire.Dtype, must be one of the following:</dt>
+<dd><ul class="first last simple">
+<li>Dtype.f32 for float</li>
+<li>Dtype.f64 for double</li>
+<li>Dtype.b8  for bool</li>
+<li>Dtype.u8  for unsigned char</li>
+<li>Dtype.s32 for signed 32 bit integer</li>
+<li>Dtype.u32 for unsigned 32 bit integer</li>
+<li>Dtype.s64 for signed 64 bit integer</li>
+<li>Dtype.u64 for unsigned 64 bit integer</li>
+<li>Dtype.c32 for 32 bit complex number</li>
+<li>Dtype.c64 for 64 bit complex number</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li>if None, Dtype.f32 is assumed</li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Creating an af.Array() from array.array()</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[2 2 1 1]</span>
+<span class="go">    1.0000     3.0000</span>
+<span class="go">    2.0000     4.0000</span>
+</pre></div>
+</div>
+<p>Creating an af.Array() from a list</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">array</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[4 1 1 1]</span>
+<span class="go">    1.0000</span>
+<span class="go">    2.0000</span>
+<span class="go">    3.0000</span>
+<span class="go">    4.0000</span>
+</pre></div>
+</div>
+<p>Creating an af.Array() from numpy.array()</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
+<span class="go">array([[ 0.33042524,  0.36135449],</span>
+<span class="go">       [ 0.86748649,  0.42199135]])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">a</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">char</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">[2 2 1 1]</span>
+<span class="go">    0.3304     0.8675</span>
+<span class="go">    0.3614     0.4220</span>
+</pre></div>
+</div>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="75%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>arr: ctypes.c_void_p</td>
+<td>ctypes variable containing af_array from arrayfire library.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.as_type" title="arrayfire.array.Array.as_type"><code class="xref py py-obj docutils literal"><span class="pre">as_type</span></code></a>(ty)</td>
+<td>Cast current array to a specified data type</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.copy" title="arrayfire.array.Array.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
+<td>Performs a deep copy of the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.device_ptr" title="arrayfire.array.Array.device_ptr"><code class="xref py py-obj docutils literal"><span class="pre">device_ptr</span></code></a>()</td>
+<td>Return the device pointer exclusively held by the array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.dims" title="arrayfire.array.Array.dims"><code class="xref py py-obj docutils literal"><span class="pre">dims</span></code></a>()</td>
+<td>Return the shape of the array as a tuple.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.dtype" title="arrayfire.array.Array.dtype"><code class="xref py py-obj docutils literal"><span class="pre">dtype</span></code></a>()</td>
+<td>Return the data type as a arrayfire.Dtype enum value.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.elements" title="arrayfire.array.Array.elements"><code class="xref py py-obj docutils literal"><span class="pre">elements</span></code></a>()</td>
+<td>Return the number of elements in the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_bool" title="arrayfire.array.Array.is_bool"><code class="xref py py-obj docutils literal"><span class="pre">is_bool</span></code></a>()</td>
+<td>Check if the array is of type b8.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_column" title="arrayfire.array.Array.is_column"><code class="xref py py-obj docutils literal"><span class="pre">is_column</span></code></a>()</td>
+<td>Check if the array is a column i.e.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_complex" title="arrayfire.array.Array.is_complex"><code class="xref py py-obj docutils literal"><span class="pre">is_complex</span></code></a>()</td>
+<td>Check if the array is of complex type.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_double" title="arrayfire.array.Array.is_double"><code class="xref py py-obj docutils literal"><span class="pre">is_double</span></code></a>()</td>
+<td>Check if the array is of double precision floating point type.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_empty" title="arrayfire.array.Array.is_empty"><code class="xref py py-obj docutils literal"><span class="pre">is_empty</span></code></a>()</td>
+<td>Check if the array is empty i.e.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_floating" title="arrayfire.array.Array.is_floating"><code class="xref py py-obj docutils literal"><span class="pre">is_floating</span></code></a>()</td>
+<td>Check if the array is of floating point type.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_integer" title="arrayfire.array.Array.is_integer"><code class="xref py py-obj docutils literal"><span class="pre">is_integer</span></code></a>()</td>
+<td>Check if the array is of integer type.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_linear" title="arrayfire.array.Array.is_linear"><code class="xref py py-obj docutils literal"><span class="pre">is_linear</span></code></a>()</td>
+<td>Check if all elements of the array are contiguous.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_owner" title="arrayfire.array.Array.is_owner"><code class="xref py py-obj docutils literal"><span class="pre">is_owner</span></code></a>()</td>
+<td>Check if the array owns the raw pointer or is a derived array.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_real" title="arrayfire.array.Array.is_real"><code class="xref py py-obj docutils literal"><span class="pre">is_real</span></code></a>()</td>
+<td>Check if the array is not of complex type.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_real_floating" title="arrayfire.array.Array.is_real_floating"><code class="xref py py-obj docutils literal"><span class="pre">is_real_floating</span></code></a>()</td>
+<td>Check if the array is real and of floating point type.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_row" title="arrayfire.array.Array.is_row"><code class="xref py py-obj docutils literal"><span class="pre">is_row</span></code></a>()</td>
+<td>Check if the array is a row i.e.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_scalar" title="arrayfire.array.Array.is_scalar"><code class="xref py py-obj docutils literal"><span class="pre">is_scalar</span></code></a>()</td>
+<td>Check if the array is scalar i.e.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_single" title="arrayfire.array.Array.is_single"><code class="xref py py-obj docutils literal"><span class="pre">is_single</span></code></a>()</td>
+<td>Check if the array is of single precision floating point type.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_vector" title="arrayfire.array.Array.is_vector"><code class="xref py py-obj docutils literal"><span class="pre">is_vector</span></code></a>()</td>
+<td>Check if the array is a vector i.e.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.numdims" title="arrayfire.array.Array.numdims"><code class="xref py py-obj docutils literal"><span class="pre">numdims</span></code></a>()</td>
+<td>Return the number of dimensions of the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.offset" title="arrayfire.array.Array.offset"><code class="xref py py-obj docutils literal"><span class="pre">offset</span></code></a>()</td>
+<td>Return the offset, of the first element relative to the raw pointer.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.raw_ptr" title="arrayfire.array.Array.raw_ptr"><code class="xref py py-obj docutils literal"><span class="pre">raw_ptr</span></code></a>()</td>
+<td>Return the device pointer held by the array.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.strides" title="arrayfire.array.Array.strides"><code class="xref py py-obj docutils literal"><span class="pre">strides</span></code></a>()</td>
+<td>Return the distance in bytes between consecutive elements for each dimension.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.to_array" title="arrayfire.array.Array.to_array"><code class="xref py py-obj docutils literal"><span class="pre">to_array</span></code></a>([row_major,&nbsp;return_shape])</td>
+<td>Return the data as array.array</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.to_ctype" title="arrayfire.array.Array.to_ctype"><code class="xref py py-obj docutils literal"><span class="pre">to_ctype</span></code></a>([row_major,&nbsp;return_shape])</td>
+<td>Return the data as a ctype C array after copying to host memory</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.to_list" title="arrayfire.array.Array.to_list"><code class="xref py py-obj docutils literal"><span class="pre">to_list</span></code></a>([row_major])</td>
+<td>Return the data as list</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.type" title="arrayfire.array.Array.type"><code class="xref py py-obj docutils literal"><span class="pre">type</span></code></a>()</td>
+<td>Return the data type as an int.</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="arrayfire.array.Array.H">
+<code class="descname">H</code><a class="headerlink" href="#arrayfire.array.Array.H" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the hermitian transpose of the array</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.array.Array.T">
+<code class="descname">T</code><a class="headerlink" href="#arrayfire.array.Array.T" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the transpose of the array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.as_type">
+<code class="descname">as_type</code><span class="sig-paren">(</span><em>ty</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.as_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.as_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cast current array to a specified data type</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ty</strong> : Return data type</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Performs a deep copy of the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">out: af.Array()</p>
+<blockquote class="last">
+<div><p>An identical copy of self.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.device_ptr">
+<code class="descname">device_ptr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.device_ptr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.device_ptr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the device pointer exclusively held by the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ptr</strong> : int</p>
+<blockquote class="last">
+<div><p>Contains location of the device pointer</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.dims">
+<code class="descname">dims</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.dims"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.dims" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the shape of the array as a tuple.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.dtype">
+<code class="descname">dtype</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.dtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the data type as a arrayfire.Dtype enum value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.elements">
+<code class="descname">elements</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.elements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.elements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of elements in the array.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_bool">
+<code class="descname">is_bool</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_bool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is of type b8.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_column">
+<code class="descname">is_column</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_column"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_column" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is a column i.e. it has a shape of (rows, 1).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_complex">
+<code class="descname">is_complex</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_complex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_complex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is of complex type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_double">
+<code class="descname">is_double</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_double"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_double" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is of double precision floating point type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_empty">
+<code class="descname">is_empty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_empty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_empty" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is empty i.e. it has no elements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_floating">
+<code class="descname">is_floating</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_floating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_floating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is of floating point type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_integer">
+<code class="descname">is_integer</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_integer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_integer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is of integer type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_linear">
+<code class="descname">is_linear</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_linear"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_linear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if all elements of the array are contiguous.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_owner">
+<code class="descname">is_owner</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_owner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_owner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array owns the raw pointer or is a derived array.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_real">
+<code class="descname">is_real</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_real"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_real" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is not of complex type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_real_floating">
+<code class="descname">is_real_floating</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_real_floating"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_real_floating" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is real and of floating point type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_row">
+<code class="descname">is_row</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_row"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_row" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is a row i.e. it has a shape of (1, cols).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_scalar">
+<code class="descname">is_scalar</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_scalar"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_scalar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is scalar i.e. it has only one element.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_single">
+<code class="descname">is_single</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_single"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_single" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is of single precision floating point type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.is_vector">
+<code class="descname">is_vector</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.is_vector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.is_vector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the array is a vector i.e. it has a shape of one of the following:
+- (rows, 1)
+- (1, cols)
+- (1, 1, vols)
+- (1, 1, 1, batch)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.numdims">
+<code class="descname">numdims</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.numdims"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.numdims" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of dimensions of the array.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.offset">
+<code class="descname">offset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.offset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.offset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the offset, of the first element relative to the raw pointer.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>offset</strong> : int</p>
+<blockquote class="last">
+<div><p>The offset in number of elements</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.raw_ptr">
+<code class="descname">raw_ptr</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.raw_ptr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.raw_ptr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the device pointer held by the array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>ptr</strong> : int</p>
+<blockquote class="last">
+<div><p>Contains location of the device pointer</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.array.Array.shape">
+<code class="descname">shape</code><a class="headerlink" href="#arrayfire.array.Array.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>The shape of the array</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.strides">
+<code class="descname">strides</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.strides"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.strides" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the distance in bytes between consecutive elements for each dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>strides</strong> : tuple</p>
+<blockquote class="last">
+<div><p>The strides for each dimension</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.to_array">
+<code class="descname">to_array</code><span class="sig-paren">(</span><em>row_major=False</em>, <em>return_shape=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.to_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.to_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the data as array.array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>row_major: optional: bool. default: False.</strong></p>
+<blockquote>
+<div><p>Specifies if a transpose needs to occur before copying to host memory.</p>
+</div></blockquote>
+<p><strong>return_shape: optional: bool. default: False.</strong></p>
+<blockquote>
+<div><p>Specifies if the shape of the array needs to be returned.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">If return_shape is False:</p>
+<blockquote>
+<div><p>res: array.array of the appropriate type and length.</p>
+</div></blockquote>
+<p>else :</p>
+<blockquote class="last">
+<div><p>(res, dims): array.array and the shape of the array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.to_ctype">
+<code class="descname">to_ctype</code><span class="sig-paren">(</span><em>row_major=False</em>, <em>return_shape=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.to_ctype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.to_ctype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the data as a ctype C array after copying to host memory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>row_major: optional: bool. default: False.</strong></p>
+<blockquote>
+<div><p>Specifies if a transpose needs to occur before copying to host memory.</p>
+</div></blockquote>
+<p><strong>return_shape: optional: bool. default: False.</strong></p>
+<blockquote>
+<div><p>Specifies if the shape of the array needs to be returned.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">If return_shape is False:</p>
+<blockquote>
+<div><p>res: The ctypes array of the appropriate type and length.</p>
+</div></blockquote>
+<p>else :</p>
+<blockquote class="last">
+<div><p>(res, dims): tuple of the ctypes array and the shape of the array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.to_list">
+<code class="descname">to_list</code><span class="sig-paren">(</span><em>row_major=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.to_list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.to_list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the data as list</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>row_major: optional: bool. default: False.</strong></p>
+<blockquote>
+<div><p>Specifies if a transpose needs to occur before copying to host memory.</p>
+</div></blockquote>
+<p><strong>return_shape: optional: bool. default: False.</strong></p>
+<blockquote>
+<div><p>Specifies if the shape of the array needs to be returned.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">If return_shape is False:</p>
+<blockquote>
+<div><p>res: list of the appropriate type and length.</p>
+</div></blockquote>
+<p>else :</p>
+<blockquote class="last">
+<div><p>(res, dims): list and the shape of the array</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.array.Array.type">
+<code class="descname">type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the data type as an int.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.array.constant_array">
+<code class="descclassname">arrayfire.array.</code><code class="descname">constant_array</code><span class="sig-paren">(</span><em>val</em>, <em>d0</em>, <em>d1=None</em>, <em>d2=None</em>, <em>d3=None</em>, <em>dtype=&lt;Dtype.f32: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#constant_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.constant_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Internal function to create a C array. Should not be used externall.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.array.display">
+<code class="descclassname">arrayfire.array.</code><code class="descname">display</code><span class="sig-paren">(</span><em>a</em>, <em>precision=4</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#display"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.display" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the contents of an array.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array</p>
+</div></blockquote>
+<p><strong>precision: int. optional.</strong></p>
+<blockquote class="last">
+<div><p>Specifies the number of precision bits to display</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.array.read_array">
+<code class="descclassname">arrayfire.array.</code><code class="descname">read_array</code><span class="sig-paren">(</span><em>filename</em>, <em>index=None</em>, <em>key=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#read_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.read_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read an array from disk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>filename</strong> : str</p>
+<blockquote>
+<div><p>Location of the data file.</p>
+</div></blockquote>
+<p><strong>index</strong> : int. Optional. Default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The index of the array stored in the file.</li>
+<li>If None, key is used.</li>
+</ul>
+</div></blockquote>
+<p><strong>key</strong> : str. Optional. Default: None.</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>A name / key associated with the array</li>
+<li>If None, index is used.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.array.save_array">
+<code class="descclassname">arrayfire.array.</code><code class="descname">save_array</code><span class="sig-paren">(</span><em>key</em>, <em>a</em>, <em>filename</em>, <em>append=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#save_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.save_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save an array to disk.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>key</strong> : str</p>
+<blockquote>
+<div><p>A name / key associated with the array</p>
+</div></blockquote>
+<p><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>The array to be stored to disk</p>
+</div></blockquote>
+<p><strong>filename</strong> : str</p>
+<blockquote>
+<div><p>Location of the data file.</p>
+</div></blockquote>
+<p><strong>append</strong> : Boolean. optional. default: False.</p>
+<blockquote>
+<div><p>If the file already exists, specifies if the data should be appended or overwritten.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>index</strong> : int</p>
+<blockquote class="last">
+<div><p>The index of the array stored in the file.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.array.transpose">
+<code class="descclassname">arrayfire.array.</code><code class="descname">transpose</code><span class="sig-paren">(</span><em>a</em>, <em>conj=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#transpose"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.transpose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform the transpose on an input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array.</p>
+</div></blockquote>
+<p><strong>conj</strong> : optional: bool. default: False.</p>
+<blockquote>
+<div><p>Flag to specify if a complex conjugate needs to applied for complex inputs.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Containing the tranpose of <cite>a</cite> for all batches.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.array.transpose_inplace">
+<code class="descclassname">arrayfire.array.</code><code class="descname">transpose_inplace</code><span class="sig-paren">(</span><em>a</em>, <em>conj=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#transpose_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.transpose_inplace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform inplace transpose on an input.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>Multi dimensional arrayfire array.</li>
+<li>Contains transposed values on exit.</li>
+</ul>
+</div></blockquote>
+<p><strong>conj</strong> : optional: bool. default: False.</p>
+<blockquote class="last">
+<div><p>Flag to specify if a complex conjugate needs to applied for complex inputs.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.array.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.array.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.index &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.index</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Index and Seq classes used in indexing operations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">_is_number</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.bcast</span> <span class="kn">import</span> <span class="n">_bcast_var</span>
+<span class="kn">import</span> <span class="nn">math</span>
+
+<div class="viewcode-block" id="Seq"><a class="viewcode-back" href="../../arrayfire.index.html#arrayfire.index.Seq">[docs]</a><span class="k">class</span> <span class="nc">Seq</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    arrayfire equivalent of slice</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    begin: number</span>
+<span class="sd">           Start of the sequence.</span>
+
+<span class="sd">    end  : number</span>
+<span class="sd">           End of sequence.</span>
+
+<span class="sd">    step : number</span>
+<span class="sd">           Step size.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    S: slice or number.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;begin&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;end&quot;</span>  <span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;step&quot;</span> <span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">)]</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">begin</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end</span>   <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">step</span>  <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">_is_number</span><span class="p">(</span><span class="n">S</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">begin</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">end</span>   <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="nb">slice</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">step</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">step</span>  <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">step</span><span class="p">)</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">step</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">begin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">begin</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">begin</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">stop</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">stop</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">copysign</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">step</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Invalid type while indexing arrayfire.array&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ParallelRange"><a class="viewcode-back" href="../../arrayfire.index.html#arrayfire.index.ParallelRange">[docs]</a><span class="k">class</span> <span class="nc">ParallelRange</span><span class="p">(</span><span class="n">Seq</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class used to parallelize for loop.</span>
+
+<span class="sd">    Inherits from Seq.</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    S: slice</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    start: number</span>
+<span class="sd">           Beginning of parallel range.</span>
+
+<span class="sd">    stop : number</span>
+<span class="sd">           End of parallel range.</span>
+
+<span class="sd">    step : number</span>
+<span class="sd">           Step size for parallel range.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(3, 3)</span>
+<span class="sd">    &gt;&gt;&gt; b = af.randu(3, 1)</span>
+<span class="sd">    &gt;&gt;&gt; c = af.constant(0, 3, 3)</span>
+<span class="sd">    &gt;&gt;&gt; for ii in af.ParallelRange(3):</span>
+<span class="sd">    ...     c[:, ii] = a[:, ii] + b</span>
+<span class="sd">    ...</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        0.4107     0.1794     0.3775</span>
+<span class="sd">        0.8224     0.4198     0.3027</span>
+<span class="sd">        0.9518     0.0081     0.6456</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+<span class="sd">    [3 1 1 1]</span>
+<span class="sd">        0.7269</span>
+<span class="sd">        0.7104</span>
+<span class="sd">        0.5201</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(c)</span>
+<span class="sd">    [3 3 1 1]</span>
+<span class="sd">        1.1377     0.9063     1.1045</span>
+<span class="sd">        1.5328     1.1302     1.0131</span>
+<span class="sd">        1.4719     0.5282     1.1657</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">stop</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="n">stop</span> <span class="o">=</span> <span class="n">start</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">S</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">stop</span><span class="p">,</span> <span class="n">step</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ParallelRange</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">S</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span>
+
+<div class="viewcode-block" id="ParallelRange.next"><a class="viewcode-back" href="../../arrayfire.index.html#arrayfire.index.ParallelRange.next">[docs]</a>    <span class="k">def</span> <span class="nf">next</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function called by the iterator in Python 2</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="ow">is</span> <span class="bp">True</span><span class="p">:</span>
+            <span class="n">_bcast_var</span><span class="o">.</span><span class="n">toggle</span><span class="p">()</span>
+            <span class="k">raise</span> <span class="ne">StopIteration</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">_bcast_var</span><span class="o">.</span><span class="n">toggle</span><span class="p">()</span>
+            <span class="k">return</span> <span class="bp">self</span></div>
+
+    <span class="k">def</span> <span class="nf">__next__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Function called by the iterator in Python 3</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">next</span><span class="p">()</span></div>
+
+<span class="k">class</span> <span class="nc">_uidx</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">Union</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;arr&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;seq&quot;</span><span class="p">,</span> <span class="n">Seq</span><span class="p">)]</span>
+
+<div class="viewcode-block" id="Index"><a class="viewcode-back" href="../../arrayfire.index.html#arrayfire.index.Index">[docs]</a><span class="k">class</span> <span class="nc">Index</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;idx&quot;</span><span class="p">,</span> <span class="n">_uidx</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;isSeq&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;isBatch&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">)]</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Container for the index class in arrayfire C library</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    idx.arr: ctypes.c_void_p</span>
+<span class="sd">             - Default 0</span>
+
+<span class="sd">    idx.seq: af.Seq</span>
+<span class="sd">             - Default af.Seq(0, -1, 1)</span>
+
+<span class="sd">    isSeq   : bool</span>
+<span class="sd">            - Default True</span>
+
+<span class="sd">    isBatch : bool</span>
+<span class="sd">            - Default False</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    idx: key</span>
+<span class="sd">         - If of type af.Array, self.idx.arr = idx, self.isSeq = False</span>
+<span class="sd">         - If of type af.ParallelRange, self.idx.seq = idx, self.isBatch = True</span>
+<span class="sd">         - Default:, self.idx.seq = af.Seq(idx)</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+
+<span class="sd">    Implemented for internal use only. Use with extreme caution.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span> <span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">idx</span>     <span class="o">=</span> <span class="n">_uidx</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isBatch</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">isSeq</span>   <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">BaseArray</span><span class="p">):</span>
+
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">type</span><span class="p">()</span> <span class="o">==</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span><span class="o">.</span><span class="n">value</span><span class="p">):</span>
+                <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_where</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_retain_array</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">arr</span><span class="p">),</span> <span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="o">.</span><span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">isSeq</span>   <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">ParallelRange</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="o">.</span><span class="n">seq</span> <span class="o">=</span> <span class="n">idx</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">isBatch</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="o">.</span><span class="n">seq</span> <span class="o">=</span> <span class="n">Seq</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">isSeq</span><span class="p">:</span>
+            <span class="c1"># ctypes field variables are automatically</span>
+            <span class="c1"># converted to basic C types so we have to</span>
+            <span class="c1"># build the void_p from the value again.</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">)</span>
+            <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_release_array</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span></div>
+
+<span class="k">class</span> <span class="nc">_Index4</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx0</span><span class="p">,</span> <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">idx3</span><span class="p">):</span>
+        <span class="n">index_vec</span> <span class="o">=</span> <span class="n">Index</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">index_vec</span><span class="p">(</span><span class="n">idx0</span><span class="p">,</span> <span class="n">idx1</span><span class="p">,</span> <span class="n">idx2</span><span class="p">,</span> <span class="n">idx3</span><span class="p">)</span>
+        <span class="c1"># Do not lose those idx as self.array keeps</span>
+        <span class="c1"># no reference to them. Otherwise the destructor</span>
+        <span class="c1"># is prematurely called</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idxs</span> <span class="o">=</span> <span class="p">[</span><span class="n">idx0</span><span class="p">,</span><span class="n">idx1</span><span class="p">,</span><span class="n">idx2</span><span class="p">,</span><span class="n">idx3</span><span class="p">]</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">pointer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">idxs</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

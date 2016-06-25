@@ -1,0 +1,420 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.device &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.device</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions to handle the available devices in the backend.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="p">(</span><span class="n">safe_call</span><span class="p">,</span> <span class="n">to_str</span><span class="p">,</span> <span class="n">get_version</span><span class="p">)</span>
+
+<div class="viewcode-block" id="init"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.init">[docs]</a><span class="k">def</span> <span class="nf">init</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function may need to be called when interoperating with other libraries</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_init</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="info"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.info">[docs]</a><span class="k">def</span> <span class="nf">info</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Displays the information about the following:</span>
+<span class="sd">        - ArrayFire build and version number.</span>
+<span class="sd">        - The number of devices available.</span>
+<span class="sd">        - The names of the devices.</span>
+<span class="sd">        - The current device being used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_info</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="device_info"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.device_info">[docs]</a><span class="k">def</span> <span class="nf">device_info</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a map with the following fields:</span>
+<span class="sd">        - &#39;device&#39;: Name of the current device.</span>
+<span class="sd">        - &#39;backend&#39;: The current backend being used.</span>
+<span class="sd">        - &#39;toolkit&#39;: The toolkit version for the backend.</span>
+<span class="sd">        - &#39;compute&#39;: The compute version of the device.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c_char_256</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_char</span> <span class="o">*</span> <span class="mi">256</span>
+    <span class="n">device_name</span> <span class="o">=</span> <span class="n">c_char_256</span><span class="p">()</span>
+    <span class="n">backend_name</span> <span class="o">=</span> <span class="n">c_char_256</span><span class="p">()</span>
+    <span class="n">toolkit</span> <span class="o">=</span> <span class="n">c_char_256</span><span class="p">()</span>
+    <span class="n">compute</span> <span class="o">=</span> <span class="n">c_char_256</span><span class="p">()</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_device_info</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">device_name</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">backend_name</span><span class="p">),</span>
+                                           <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">toolkit</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">compute</span><span class="p">)))</span>
+    <span class="n">dev_info</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">dev_info</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_str</span><span class="p">(</span><span class="n">device_name</span><span class="p">)</span>
+    <span class="n">dev_info</span><span class="p">[</span><span class="s1">&#39;backend&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_str</span><span class="p">(</span><span class="n">backend_name</span><span class="p">)</span>
+    <span class="n">dev_info</span><span class="p">[</span><span class="s1">&#39;toolkit&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_str</span><span class="p">(</span><span class="n">toolkit</span><span class="p">)</span>
+    <span class="n">dev_info</span><span class="p">[</span><span class="s1">&#39;compute&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">to_str</span><span class="p">(</span><span class="n">compute</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">dev_info</span></div>
+
+<div class="viewcode-block" id="get_device_count"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.get_device_count">[docs]</a><span class="k">def</span> <span class="nf">get_device_count</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the number of devices available.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c_num</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_device_count</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">c_num</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">c_num</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="get_device"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.get_device">[docs]</a><span class="k">def</span> <span class="nf">get_device</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the id of the current device.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">c_dev</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_device</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">c_dev</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">c_dev</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="set_device"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.set_device">[docs]</a><span class="k">def</span> <span class="nf">set_device</span><span class="p">(</span><span class="n">num</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Change the active device to the specified id.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    num: int.</span>
+<span class="sd">         id of the desired device.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_device</span><span class="p">(</span><span class="n">num</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="info_str"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.info_str">[docs]</a><span class="k">def</span> <span class="nf">info_str</span><span class="p">(</span><span class="n">verbose</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns information about the following as a string:</span>
+<span class="sd">        - ArrayFire version number.</span>
+<span class="sd">        - The number of devices available.</span>
+<span class="sd">        - The names of the devices.</span>
+<span class="sd">        - The current device being used.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">platform</span>
+    <span class="n">res_str</span> <span class="o">=</span> <span class="s1">&#39;ArrayFire&#39;</span>
+
+    <span class="n">major</span><span class="p">,</span> <span class="n">minor</span><span class="p">,</span> <span class="n">patch</span> <span class="o">=</span> <span class="n">get_version</span><span class="p">()</span>
+    <span class="n">dev_info</span> <span class="o">=</span> <span class="n">device_info</span><span class="p">()</span>
+    <span class="n">backend_str</span> <span class="o">=</span> <span class="n">dev_info</span><span class="p">[</span><span class="s1">&#39;backend&#39;</span><span class="p">]</span>
+
+    <span class="n">res_str</span> <span class="o">+=</span> <span class="s1">&#39; v&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">major</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">minor</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
+    <span class="n">res_str</span> <span class="o">+=</span> <span class="s1">&#39; (&#39;</span> <span class="o">+</span> <span class="n">backend_str</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">platform</span><span class="o">.</span><span class="n">architecture</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;)</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+    <span class="n">num_devices</span> <span class="o">=</span> <span class="n">get_device_count</span><span class="p">()</span>
+    <span class="n">curr_device_id</span> <span class="o">=</span> <span class="n">get_device</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_devices</span><span class="p">):</span>
+        <span class="c1"># To suppress warnings on CPU</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">!=</span> <span class="n">curr_device_id</span><span class="p">):</span>
+            <span class="n">set_device</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">==</span> <span class="n">curr_device_id</span><span class="p">):</span>
+            <span class="n">res_str</span> <span class="o">+=</span> <span class="s1">&#39;[</span><span class="si">%d</span><span class="s1">] &#39;</span> <span class="o">%</span> <span class="n">n</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">res_str</span> <span class="o">+=</span> <span class="s1">&#39;-</span><span class="si">%d</span><span class="s1">- &#39;</span> <span class="o">%</span> <span class="n">n</span>
+
+        <span class="n">dev_info</span> <span class="o">=</span> <span class="n">device_info</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">backend_str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s1">&#39;opencl&#39;</span><span class="p">):</span>
+            <span class="n">res_str</span> <span class="o">+=</span> <span class="n">dev_info</span><span class="p">[</span><span class="s1">&#39;toolkit&#39;</span><span class="p">]</span>
+
+        <span class="n">res_str</span> <span class="o">+=</span> <span class="s1">&#39;: &#39;</span> <span class="o">+</span> <span class="n">dev_info</span><span class="p">[</span><span class="s1">&#39;device&#39;</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">backend_str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;cpu&#39;</span><span class="p">):</span>
+            <span class="n">res_str</span> <span class="o">+=</span> <span class="s1">&#39; (Compute &#39;</span> <span class="o">+</span> <span class="n">dev_info</span><span class="p">[</span><span class="s1">&#39;compute&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+
+        <span class="n">res_str</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+
+    <span class="c1"># To suppress warnings on CPU</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">curr_device_id</span> <span class="o">!=</span> <span class="n">get_device</span><span class="p">()):</span>
+        <span class="n">set_device</span><span class="p">(</span><span class="n">curr_device_id</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">res_str</span></div>
+
+<div class="viewcode-block" id="is_dbl_supported"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.is_dbl_supported">[docs]</a><span class="k">def</span> <span class="nf">is_dbl_supported</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Check if double precision is supported on specified device.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    device: optional: int. default: None.</span>
+<span class="sd">         id of the desired device.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">        - True if double precision supported.</span>
+<span class="sd">        - False if double precision not supported.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dev</span> <span class="o">=</span> <span class="n">device</span> <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">get_device</span><span class="p">()</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_dbl_support</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="n">dev</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="sync"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.sync">[docs]</a><span class="k">def</span> <span class="nf">sync</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Block until all the functions on the device have completed execution.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    device: optional: int. default: None.</span>
+<span class="sd">         id of the desired device.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dev</span> <span class="o">=</span> <span class="n">device</span> <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">get_device</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sync</span><span class="p">(</span><span class="n">dev</span><span class="p">))</span></div>
+
+<span class="k">def</span> <span class="nf">__eval</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">A</span> <span class="ow">in</span> <span class="n">args</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">__eval</span><span class="p">(</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">__eval</span><span class="p">(</span><span class="o">*</span><span class="n">A</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">Array</span><span class="p">):</span>
+            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_eval</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+
+<div class="viewcode-block" id="eval"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.eval">[docs]</a><span class="k">def</span> <span class="nf">eval</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Evaluate the input</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+<span class="sd">    args : arguments to be evaluated</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">__eval</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="device_mem_info"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.device_mem_info">[docs]</a><span class="k">def</span> <span class="nf">device_mem_info</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a map with the following fields:</span>
+<span class="sd">        - &#39;alloc&#39;: Contains the map of the following</span>
+<span class="sd">            - &#39;buffers&#39; : Total number of buffers allocated by memory manager.</span>
+<span class="sd">            - &#39;bytes&#39;   : Total number of bytes allocated by memory manager.</span>
+<span class="sd">        - &#39;lock&#39;: Contains the map of the following</span>
+<span class="sd">            - &#39;buffers&#39; : Total number of buffers currently in scope.</span>
+<span class="sd">            - &#39;bytes&#39;   : Total number of bytes currently in scope.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+<span class="sd">    ArrayFire does not free memory when array goes out of scope. The memory is marked for reuse.</span>
+<span class="sd">    - The difference between alloc buffers and lock buffers equals the number of free buffers.</span>
+<span class="sd">    - The difference between alloc bytes and lock bytes equals the number of free bytes.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">alloc_bytes</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_size_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">alloc_buffers</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_size_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">lock_bytes</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_size_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">lock_buffers</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_size_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_device_mem_info</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">alloc_bytes</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">alloc_buffers</span><span class="p">),</span>
+                                               <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">lock_bytes</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">lock_buffers</span><span class="p">)))</span>
+    <span class="n">mem_info</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">mem_info</span><span class="p">[</span><span class="s1">&#39;alloc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;buffers&#39;</span> <span class="p">:</span> <span class="n">alloc_buffers</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;bytes&#39;</span> <span class="p">:</span> <span class="n">alloc_bytes</span><span class="o">.</span><span class="n">value</span><span class="p">}</span>
+    <span class="n">mem_info</span><span class="p">[</span><span class="s1">&#39;lock&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;buffers&#39;</span> <span class="p">:</span> <span class="n">lock_buffers</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;bytes&#39;</span> <span class="p">:</span> <span class="n">lock_bytes</span><span class="o">.</span><span class="n">value</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">mem_info</span></div>
+
+<div class="viewcode-block" id="device_gc"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.device_gc">[docs]</a><span class="k">def</span> <span class="nf">device_gc</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ask the garbage collector to free all unlocked memory</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_device_gc</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="get_device_ptr"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.get_device_ptr">[docs]</a><span class="k">def</span> <span class="nf">get_device_ptr</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the raw device pointer of an array</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a: af.Array</span>
+<span class="sd">       - A multi dimensional arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">        - internal device pointer held by a</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+<span class="sd">        - The device pointer of `a` is not freed by memory manager until `unlock_device_ptr()` is called.</span>
+<span class="sd">        - This function enables the user to interoperate arrayfire with other CUDA/OpenCL/C libraries.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ptr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_device_ptr</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">ptr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ptr</span></div>
+
+<div class="viewcode-block" id="lock_device_ptr"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.lock_device_ptr">[docs]</a><span class="k">def</span> <span class="nf">lock_device_ptr</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This functions is deprecated. Please use lock_array instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">warnings</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;This function is deprecated. Use lock_array instead.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+    <span class="n">lock_array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="lock_array"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.lock_array">[docs]</a><span class="k">def</span> <span class="nf">lock_array</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Ask arrayfire to not perform garbage collection on raw data held by an array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a: af.Array</span>
+<span class="sd">       - A multi dimensional arrayfire array.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+<span class="sd">        - The device pointer of `a` is not freed by memory manager until `unlock_device_ptr()` is called.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lock_array</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="unlock_device_ptr"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.unlock_device_ptr">[docs]</a><span class="k">def</span> <span class="nf">unlock_device_ptr</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This functions is deprecated. Please use unlock_array instead.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">warnings</span>
+    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;This function is deprecated. Use unlock_array instead.&quot;</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">)</span>
+    <span class="n">unlock_array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="unlock_array"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.unlock_array">[docs]</a><span class="k">def</span> <span class="nf">unlock_array</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tell arrayfire to resume garbage collection on raw data held by an array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a: af.Array</span>
+<span class="sd">       - A multi dimensional arrayfire array.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_unlock_array</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="alloc_device"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.alloc_device">[docs]</a><span class="k">def</span> <span class="nf">alloc_device</span><span class="p">(</span><span class="n">num_bytes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Allocate a buffer on the device with specified number of bytes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ptr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">c_num_bytes</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">num_bytes</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_alloc_device</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">ptr</span><span class="p">),</span> <span class="n">c_num_bytes</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ptr</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="alloc_host"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.alloc_host">[docs]</a><span class="k">def</span> <span class="nf">alloc_host</span><span class="p">(</span><span class="n">num_bytes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Allocate a buffer on the host with specified number of bytes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ptr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">c_num_bytes</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">num_bytes</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_alloc_host</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">ptr</span><span class="p">),</span> <span class="n">c_num_bytes</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ptr</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="alloc_pinned"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.alloc_pinned">[docs]</a><span class="k">def</span> <span class="nf">alloc_pinned</span><span class="p">(</span><span class="n">num_bytes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Allocate a buffer on the host using pinned memory with specified number of bytes.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ptr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">c_num_bytes</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">num_bytes</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_alloc_pinned</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">ptr</span><span class="p">),</span> <span class="n">c_num_bytes</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">ptr</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="free_device"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.free_device">[docs]</a><span class="k">def</span> <span class="nf">free_device</span><span class="p">(</span><span class="n">ptr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Free the device memory allocated by alloc_device</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cptr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_free_device</span><span class="p">(</span><span class="n">cptr</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="free_host"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.free_host">[docs]</a><span class="k">def</span> <span class="nf">free_host</span><span class="p">(</span><span class="n">ptr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Free the host memory allocated by alloc_host</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cptr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_free_host</span><span class="p">(</span><span class="n">cptr</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="free_pinned"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.free_pinned">[docs]</a><span class="k">def</span> <span class="nf">free_pinned</span><span class="p">(</span><span class="n">ptr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Free the pinned memory allocated by alloc_pinned</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cptr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">ptr</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_free_pinned</span><span class="p">(</span><span class="n">cptr</span><span class="p">))</span></div>
+
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="n">Array</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

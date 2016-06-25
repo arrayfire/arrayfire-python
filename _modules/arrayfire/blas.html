@@ -1,0 +1,279 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.blas &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.blas</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">BLAS functions (matmul, dot, etc)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="matmul"><a class="viewcode-back" href="../../arrayfire.blas.html#arrayfire.blas.matmul">[docs]</a><span class="k">def</span> <span class="nf">matmul</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">lhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Generalized matrix multiplication for two matrices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    lhs : af.Array</span>
+<span class="sd">          A 2 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    rhs : af.Array</span>
+<span class="sd">          A 2 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    lhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.</span>
+<span class="sd">              Can be one of</span>
+<span class="sd">               - af.MATPROP.NONE   - If no op should be done on `lhs`.</span>
+<span class="sd">               - af.MATPROP.TRANS  - If `lhs` has to be transposed before multiplying.</span>
+<span class="sd">               - af.MATPROP.CTRANS - If `lhs` has to be hermitian transposed before multiplying.</span>
+
+<span class="sd">    rhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.</span>
+<span class="sd">              Can be one of</span>
+<span class="sd">               - af.MATPROP.NONE   - If no op should be done on `rhs`.</span>
+<span class="sd">               - af.MATPROP.TRANS  - If `rhs` has to be transposed before multiplying.</span>
+<span class="sd">               - af.MATPROP.CTRANS - If `rhs` has to be hermitian transposed before multiplying.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Output of the matrix multiplication on `lhs` and `rhs`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - The data types of `lhs` and `rhs` should be the same.</span>
+<span class="sd">    - Batches are not supported.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_matmul</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                      <span class="n">lhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="matmulTN"><a class="viewcode-back" href="../../arrayfire.blas.html#arrayfire.blas.matmulTN">[docs]</a><span class="k">def</span> <span class="nf">matmulTN</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Matrix multiplication after transposing the first matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    lhs : af.Array</span>
+<span class="sd">          A 2 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    rhs : af.Array</span>
+<span class="sd">          A 2 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Output of the matrix multiplication on `transpose(lhs)` and `rhs`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - The data types of `lhs` and `rhs` should be the same.</span>
+<span class="sd">    - Batches are not supported.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_matmul</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                      <span class="n">MATPROP</span><span class="o">.</span><span class="n">TRANS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="matmulNT"><a class="viewcode-back" href="../../arrayfire.blas.html#arrayfire.blas.matmulNT">[docs]</a><span class="k">def</span> <span class="nf">matmulNT</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Matrix multiplication after transposing the second matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    lhs : af.Array</span>
+<span class="sd">          A 2 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    rhs : af.Array</span>
+<span class="sd">          A 2 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Output of the matrix multiplication on `lhs` and `transpose(rhs)`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - The data types of `lhs` and `rhs` should be the same.</span>
+<span class="sd">    - Batches are not supported.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_matmul</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                      <span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">MATPROP</span><span class="o">.</span><span class="n">TRANS</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="matmulTT"><a class="viewcode-back" href="../../arrayfire.blas.html#arrayfire.blas.matmulTT">[docs]</a><span class="k">def</span> <span class="nf">matmulTT</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Matrix multiplication after transposing both inputs.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    lhs : af.Array</span>
+<span class="sd">          A 2 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    rhs : af.Array</span>
+<span class="sd">          A 2 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Output of the matrix multiplication on `transpose(lhs)` and `transpose(rhs)`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - The data types of `lhs` and `rhs` should be the same.</span>
+<span class="sd">    - Batches are not supported.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_matmul</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                      <span class="n">MATPROP</span><span class="o">.</span><span class="n">TRANS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">MATPROP</span><span class="o">.</span><span class="n">TRANS</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="dot"><a class="viewcode-back" href="../../arrayfire.blas.html#arrayfire.blas.dot">[docs]</a><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">lhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Dot product of two input vectors.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    lhs : af.Array</span>
+<span class="sd">          A 1 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    rhs : af.Array</span>
+<span class="sd">          A 1 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    lhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.</span>
+<span class="sd">              Can be one of</span>
+<span class="sd">               - af.MATPROP.NONE   - If no op should be done on `lhs`.</span>
+<span class="sd">               - No other options are currently supported.</span>
+
+<span class="sd">    rhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.</span>
+<span class="sd">              Can be one of</span>
+<span class="sd">               - af.MATPROP.NONE   - If no op should be done on `rhs`.</span>
+<span class="sd">               - No other options are currently supported.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Output of dot product of `lhs` and `rhs`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - The data types of `lhs` and `rhs` should be the same.</span>
+<span class="sd">    - Batches are not supported.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dot</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                   <span class="n">lhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,1294 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.image &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.image</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Image processing functions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.data</span> <span class="kn">import</span> <span class="n">constant</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<div class="viewcode-block" id="gradient"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.gradient">[docs]</a><span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the horizontal and vertical gradients.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    (dx, dy) : Tuple of af.Array.</span>
+<span class="sd">             - `dx` containing the horizontal gradients of `image`.</span>
+<span class="sd">             - `dy` containing the vertical gradients of `image`.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_gradient</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dy</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span></div>
+
+<div class="viewcode-block" id="load_image"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.load_image">[docs]</a><span class="k">def</span> <span class="nf">load_image</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">is_color</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load an image on the disk as an array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_name: str</span>
+<span class="sd">          - Full path of the file name on disk.</span>
+
+<span class="sd">    is_color : optional: bool. default: False.</span>
+<span class="sd">          - Specifies if the image is loaded as 1 channel (if False) or 3 channel image (if True).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    image - af.Array</span>
+<span class="sd">            A 2 dimensional (1 channel) or 3 dimensional (3 channel) array containing the image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_load_image</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                          <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)),</span> <span class="n">is_color</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">image</span></div>
+
+<div class="viewcode-block" id="save_image"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.save_image">[docs]</a><span class="k">def</span> <span class="nf">save_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save an array as an image on the disk.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image.</span>
+
+<span class="sd">    file_name: str</span>
+<span class="sd">          - Full path of the file name on the disk.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_save_image</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">image</span></div>
+
+
+<div class="viewcode-block" id="load_image_native"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.load_image_native">[docs]</a><span class="k">def</span> <span class="nf">load_image_native</span><span class="p">(</span><span class="n">file_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Load an image on the disk as an array in native format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    file_name: str</span>
+<span class="sd">          - Full path of the file name on disk.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    image - af.Array</span>
+<span class="sd">            A 2 dimensional (1 channel) or 3 dimensional (3 or 4 channel) array containing the image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span>
+    <span class="n">image</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_load_image_native</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                                 <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))))</span>
+    <span class="k">return</span> <span class="n">image</span></div>
+
+<div class="viewcode-block" id="save_image_native"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.save_image_native">[docs]</a><span class="k">def</span> <span class="nf">save_image_native</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Save an array as an image on the disk in native format.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 or 3 dimensional arrayfire array representing an image.</span>
+
+<span class="sd">    file_name: str</span>
+<span class="sd">          - Full path of the file name on the disk.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_save_image_native</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">image</span></div>
+
+<div class="viewcode-block" id="resize"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.resize">[docs]</a><span class="k">def</span> <span class="nf">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">odim0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">odim1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Resize an image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    scale : optional: scalar. default: None.</span>
+<span class="sd">          - Scale factor for the image resizing.</span>
+
+<span class="sd">    odim0 : optional: int. default: None.</span>
+<span class="sd">          - Size of the first dimension of the output.</span>
+
+<span class="sd">    odim1 : optional: int. default: None.</span>
+<span class="sd">          - Size of the second dimension of the output.</span>
+
+<span class="sd">    method : optional: af.INTERP. default: af.INTERP.NEAREST.</span>
+<span class="sd">          - Interpolation method used for resizing.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    out  : af.Array</span>
+<span class="sd">          - Output image after resizing.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - If `scale` is None, `odim0` and `odim1` need to be specified.</span>
+<span class="sd">    - If `scale` is not None, `odim0` and `odim1` are ignored.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">odim0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">odim1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">idims</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
+        <span class="n">odim0</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">scale</span> <span class="o">*</span> <span class="n">idims</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">odim1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">scale</span> <span class="o">*</span> <span class="n">idims</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_resize</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                      <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim0</span><span class="p">),</span>
+                                      <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim1</span><span class="p">),</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">trans_mat</span><span class="p">,</span> <span class="n">odim0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">odim1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">,</span> <span class="n">is_inverse</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Transform an image using a transformation matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    trans_mat : af.Array</span>
+<span class="sd">          - A 2 D floating point arrayfire array of size [3, 2].</span>
+
+<span class="sd">    odim0 : optional: int. default: 0.</span>
+<span class="sd">          - Size of the first dimension of the output.</span>
+
+<span class="sd">    odim1 : optional: int. default: 0.</span>
+<span class="sd">          - Size of the second dimension of the output.</span>
+
+<span class="sd">    method : optional: af.INTERP. default: af.INTERP.NEAREST.</span>
+<span class="sd">          - Interpolation method used for transformation.</span>
+
+<span class="sd">    is_inverse : optional: bool. default: True.</span>
+<span class="sd">          - Specifies if the inverse transform is applied.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    out  : af.Array</span>
+<span class="sd">          - Output image after transformation.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - If `odim0` and `odim` are 0, the output dimensions are automatically calculated by the function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_transform</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                         <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">trans_mat</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                         <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim1</span><span class="p">),</span>
+                                         <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">is_inverse</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="rotate"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.rotate">[docs]</a><span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">is_crop</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Rotate an image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    theta : scalar</span>
+<span class="sd">          - The angle to rotate in radians.</span>
+
+<span class="sd">    is_crop : optional: bool. default: True.</span>
+<span class="sd">          - Specifies if the output should be cropped to the input size.</span>
+
+<span class="sd">    method : optional: af.INTERP. default: af.INTERP.NEAREST.</span>
+<span class="sd">          - Interpolation method used for rotating.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    out  : af.Array</span>
+<span class="sd">          - Output image after rotating.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rotate</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                      <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">is_crop</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="translate"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.translate">[docs]</a><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">trans0</span><span class="p">,</span> <span class="n">trans1</span><span class="p">,</span> <span class="n">odim0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">odim1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Translate an image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    trans0: int.</span>
+<span class="sd">          - Translation along first dimension in pixels.</span>
+
+<span class="sd">    trans1: int.</span>
+<span class="sd">          - Translation along second dimension in pixels.</span>
+
+<span class="sd">    odim0 : optional: int. default: 0.</span>
+<span class="sd">          - Size of the first dimension of the output.</span>
+
+<span class="sd">    odim1 : optional: int. default: 0.</span>
+<span class="sd">          - Size of the second dimension of the output.</span>
+
+<span class="sd">    method : optional: af.INTERP. default: af.INTERP.NEAREST.</span>
+<span class="sd">          - Interpolation method used for translation.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    out  : af.Array</span>
+<span class="sd">          - Output image after translation.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - If `odim0` and `odim` are 0, the output dimensions are automatically calculated by the function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_translate</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                         <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">trans0</span><span class="p">,</span> <span class="n">trans1</span><span class="p">,</span>
+                                         <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim1</span><span class="p">),</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="scale"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.scale">[docs]</a><span class="k">def</span> <span class="nf">scale</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scale0</span><span class="p">,</span> <span class="n">scale1</span><span class="p">,</span> <span class="n">odim0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">odim1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Scale an image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    scale0 : scalar.</span>
+<span class="sd">          - Scale factor for the first dimension.</span>
+
+<span class="sd">    scale1 : scalar.</span>
+<span class="sd">          - Scale factor for the second dimension.</span>
+
+<span class="sd">    odim0 : optional: int. default: None.</span>
+<span class="sd">          - Size of the first dimension of the output.</span>
+
+<span class="sd">    odim1 : optional: int. default: None.</span>
+<span class="sd">          - Size of the second dimension of the output.</span>
+
+<span class="sd">    method : optional: af.INTERP. default: af.INTERP.NEAREST.</span>
+<span class="sd">          - Interpolation method used for resizing.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    out  : af.Array</span>
+<span class="sd">          - Output image after scaling.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - If `odim0` and `odim` are 0, the output dimensions are automatically calculated by the function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_scale</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                     <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">scale0</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">scale1</span><span class="p">),</span>
+                                     <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim1</span><span class="p">),</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="skew"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.skew">[docs]</a><span class="k">def</span> <span class="nf">skew</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">skew0</span><span class="p">,</span> <span class="n">skew1</span><span class="p">,</span> <span class="n">odim0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">odim1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">,</span> <span class="n">is_inverse</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Skew an image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    skew0 : scalar.</span>
+<span class="sd">          - Skew factor for the first dimension.</span>
+
+<span class="sd">    skew1 : scalar.</span>
+<span class="sd">          - Skew factor for the second dimension.</span>
+
+<span class="sd">    odim0 : optional: int. default: None.</span>
+<span class="sd">          - Size of the first dimension of the output.</span>
+
+<span class="sd">    odim1 : optional: int. default: None.</span>
+<span class="sd">          - Size of the second dimension of the output.</span>
+
+<span class="sd">    method : optional: af.INTERP. default: af.INTERP.NEAREST.</span>
+<span class="sd">          - Interpolation method used for resizing.</span>
+
+<span class="sd">    is_inverse : optional: bool. default: True.</span>
+<span class="sd">          - Specifies if the inverse skew  is applied.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    out  : af.Array</span>
+<span class="sd">          - Output image after skewing.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - If `odim0` and `odim` are 0, the output dimensions are automatically calculated by the function.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_skew</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                    <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">skew0</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">skew1</span><span class="p">),</span>
+                                    <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim1</span><span class="p">),</span>
+                                    <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">is_inverse</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="histogram"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.histogram">[docs]</a><span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">min_val</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">max_val</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the histogram of an image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    nbins : int.</span>
+<span class="sd">          - Number of bins in the histogram.</span>
+
+<span class="sd">    min_val : optional: scalar. default: None.</span>
+<span class="sd">          - The lower bound for the bin values.</span>
+<span class="sd">          - If None, `af.min(image)` is used.</span>
+
+<span class="sd">    max_val : optional: scalar. default: None.</span>
+<span class="sd">          - The upper bound for the bin values.</span>
+<span class="sd">          - If None, `af.max(image)` is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    hist : af.Array</span>
+<span class="sd">          - Containing the histogram of the image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.algorithm</span> <span class="kn">import</span> <span class="nb">min</span> <span class="k">as</span> <span class="n">af_min</span>
+    <span class="kn">from</span> <span class="nn">.algorithm</span> <span class="kn">import</span> <span class="nb">max</span> <span class="k">as</span> <span class="n">af_max</span>
+
+    <span class="k">if</span> <span class="n">min_val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">min_val</span> <span class="o">=</span> <span class="n">af_min</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">max_val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">max_val</span> <span class="o">=</span> <span class="n">af_max</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_histogram</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                         <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">nbins</span><span class="p">),</span>
+                                         <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">min_val</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">max_val</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="hist_equal"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.hist_equal">[docs]</a><span class="k">def</span> <span class="nf">hist_equal</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">hist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Equalize an image based on a histogram.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    hist : af.Array</span>
+<span class="sd">          - Containing the histogram of an image.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The equalized image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_hist_equal</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">hist</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="dilate"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.dilate">[docs]</a><span class="k">def</span> <span class="nf">dilate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run image dilate on the image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    mask  : optional: af.Array. default: None.</span>
+<span class="sd">          - Specifies the neighborhood of a pixel.</span>
+<span class="sd">          - When None, a [3, 3] array of all ones is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The dilated image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dilate</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="dilate3"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.dilate3">[docs]</a><span class="k">def</span> <span class="nf">dilate3</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run volume dilate on a volume.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    volume : af.Array</span>
+<span class="sd">          - A 3 D arrayfire array representing a volume, or</span>
+<span class="sd">          - A multi dimensional array representing batch of volumes.</span>
+
+<span class="sd">    mask  : optional: af.Array. default: None.</span>
+<span class="sd">          - Specifies the neighborhood of a pixel.</span>
+<span class="sd">          - When None, a [3, 3, 3] array of all ones is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The dilated volume.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dilate3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">volume</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="erode"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.erode">[docs]</a><span class="k">def</span> <span class="nf">erode</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run image erode on the image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    mask  : optional: af.Array. default: None.</span>
+<span class="sd">          - Specifies the neighborhood of a pixel.</span>
+<span class="sd">          - When None, a [3, 3] array of all ones is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The eroded image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_erode</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="erode3"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.erode3">[docs]</a><span class="k">def</span> <span class="nf">erode3</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Run volume erode on the volume.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    volume : af.Array</span>
+<span class="sd">          - A 3 D arrayfire array representing an volume, or</span>
+<span class="sd">          - A multi dimensional array representing batch of volumes.</span>
+
+<span class="sd">    mask  : optional: af.Array. default: None.</span>
+<span class="sd">          - Specifies the neighborhood of a pixel.</span>
+<span class="sd">          - When None, a [3, 3, 3] array of all ones is used.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The eroded volume.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">mask</span> <span class="o">=</span> <span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">)</span>
+
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_erode3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">volume</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="bilateral"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.bilateral">[docs]</a><span class="k">def</span> <span class="nf">bilateral</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">s_sigma</span><span class="p">,</span> <span class="n">c_sigma</span><span class="p">,</span> <span class="n">is_color</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply bilateral filter to the image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    s_sigma : scalar.</span>
+<span class="sd">          - Sigma value for the co-ordinate space.</span>
+
+<span class="sd">    c_sigma : scalar.</span>
+<span class="sd">          - Sigma value for the color space.</span>
+
+<span class="sd">    is_color : optional: bool. default: False.</span>
+<span class="sd">          - Specifies if the third dimension is 3rd channel (if True) or a batch (if False).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The image after the application of the bilateral filter.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_bilateral</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                         <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">s_sigma</span><span class="p">),</span>
+                                         <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">c_sigma</span><span class="p">),</span> <span class="n">is_color</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="mean_shift"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.mean_shift">[docs]</a><span class="k">def</span> <span class="nf">mean_shift</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">s_sigma</span><span class="p">,</span> <span class="n">c_sigma</span><span class="p">,</span> <span class="n">n_iter</span><span class="p">,</span> <span class="n">is_color</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply mean shift to the image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    s_sigma : scalar.</span>
+<span class="sd">          - Sigma value for the co-ordinate space.</span>
+
+<span class="sd">    c_sigma : scalar.</span>
+<span class="sd">          - Sigma value for the color space.</span>
+
+<span class="sd">    n_iter  : int.</span>
+<span class="sd">          - Number of mean shift iterations.</span>
+
+<span class="sd">    is_color : optional: bool. default: False.</span>
+<span class="sd">          - Specifies if the third dimension is 3rd channel (if True) or a batch (if False).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The image after the application of the meanshift.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_mean_shift</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                          <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">s_sigma</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">c_sigma</span><span class="p">),</span>
+                                          <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">n_iter</span><span class="p">),</span> <span class="n">is_color</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="medfilt"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.medfilt">[docs]</a><span class="k">def</span> <span class="nf">medfilt</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w0</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w1</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">edge_pad</span> <span class="o">=</span> <span class="n">PAD</span><span class="o">.</span><span class="n">ZERO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply median filter for the image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    w0 : optional: int. default: 3.</span>
+<span class="sd">          - The length of the filter along the first dimension.</span>
+
+<span class="sd">    w1 : optional: int. default: 3.</span>
+<span class="sd">          - The length of the filter along the second dimension.</span>
+
+<span class="sd">    edge_pad : optional: af.PAD. default: af.PAD.ZERO</span>
+<span class="sd">          - Flag specifying how the median at the edge should be treated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The image after median filter is applied.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_medfilt</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                       <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w0</span><span class="p">),</span>
+                                       <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w1</span><span class="p">),</span> <span class="n">edge_pad</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="minfilt"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.minfilt">[docs]</a><span class="k">def</span> <span class="nf">minfilt</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w_len</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w_wid</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">edge_pad</span> <span class="o">=</span> <span class="n">PAD</span><span class="o">.</span><span class="n">ZERO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply min filter for the image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    w0 : optional: int. default: 3.</span>
+<span class="sd">          - The length of the filter along the first dimension.</span>
+
+<span class="sd">    w1 : optional: int. default: 3.</span>
+<span class="sd">          - The length of the filter along the second dimension.</span>
+
+<span class="sd">    edge_pad : optional: af.PAD. default: af.PAD.ZERO</span>
+<span class="sd">          - Flag specifying how the min at the edge should be treated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The image after min filter is applied.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_minfilt</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                       <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w_len</span><span class="p">),</span>
+                                       <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w_wid</span><span class="p">),</span> <span class="n">edge_pad</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="maxfilt"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.maxfilt">[docs]</a><span class="k">def</span> <span class="nf">maxfilt</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w_len</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w_wid</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">edge_pad</span> <span class="o">=</span> <span class="n">PAD</span><span class="o">.</span><span class="n">ZERO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply max filter for the image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    w0 : optional: int. default: 3.</span>
+<span class="sd">          - The length of the filter along the first dimension.</span>
+
+<span class="sd">    w1 : optional: int. default: 3.</span>
+<span class="sd">          - The length of the filter along the second dimension.</span>
+
+<span class="sd">    edge_pad : optional: af.PAD. default: af.PAD.ZERO</span>
+<span class="sd">          - Flag specifying how the max at the edge should be treated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The image after max filter is applied.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_maxfilt</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                       <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w_len</span><span class="p">),</span>
+                                       <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w_wid</span><span class="p">),</span> <span class="n">edge_pad</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="regions"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.regions">[docs]</a><span class="k">def</span> <span class="nf">regions</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">CONNECTIVITY</span><span class="o">.</span><span class="n">FOUR</span><span class="p">,</span> <span class="n">out_type</span> <span class="o">=</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the connected components in the image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image.</span>
+
+<span class="sd">    conn : optional: af.CONNECTIVITY. default: af.CONNECTIVITY.FOUR.</span>
+<span class="sd">          - Specifies the connectivity of the pixels.</span>
+
+<span class="sd">    out_type : optional: af.Dtype. default: af.Dtype.f32.</span>
+<span class="sd">          - Specifies the type for the output.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - An array where each pixel is labeled with its component number.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_regions</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                       <span class="n">conn</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">out_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="sobel_derivatives"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.sobel_derivatives">[docs]</a><span class="k">def</span> <span class="nf">sobel_derivatives</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w_len</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the sobel derivatives of the image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    w_len : optional: int. default: 3.</span>
+<span class="sd">          - The size of the sobel operator.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    (dx, dy) : tuple of af.Arrays.</span>
+<span class="sd">           - `dx` is the sobel derivative along the horizontal direction.</span>
+<span class="sd">           - `dy` is the sobel derivative along the vertical direction.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dx</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">dy</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sobel_operator</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dy</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                              <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">w_len</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">dx</span><span class="p">,</span><span class="n">dy</span></div>
+
+<div class="viewcode-block" id="gaussian_kernel"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.gaussian_kernel">[docs]</a><span class="k">def</span> <span class="nf">gaussian_kernel</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">sigma_r</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">sigma_c</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a gaussian kernel with the given parameters.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    rows : int</span>
+<span class="sd">         - The number of rows in the gaussian kernel.</span>
+
+<span class="sd">    cols : int</span>
+<span class="sd">         - The number of columns in the gaussian kernel.</span>
+
+<span class="sd">    sigma_r : optional: number. default: None.</span>
+<span class="sd">         - The sigma value along rows</span>
+<span class="sd">         - If None, calculated as (0.25 * rows + 0.75)</span>
+
+<span class="sd">    sigma_c : optional: number. default: None.</span>
+<span class="sd">         - The sigma value along columns</span>
+<span class="sd">         - If None, calculated as (0.25 * cols + 0.75)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out   : af.Array</span>
+<span class="sd">          - A gaussian kernel of size (rows, cols)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">sigma_r</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="n">sigma_r</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">rows</span> <span class="o">+</span> <span class="mf">0.75</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">sigma_c</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="n">sigma_c</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">cols</span> <span class="o">+</span> <span class="mf">0.75</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_gaussian_kernel</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                               <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">rows</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">cols</span><span class="p">),</span>
+                                               <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">sigma_r</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">sigma_c</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="sobel_filter"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.sobel_filter">[docs]</a><span class="k">def</span> <span class="nf">sobel_filter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w_len</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">is_fast</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply sobel filter to the image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    w_len : optional: int. default: 3.</span>
+<span class="sd">          - The size of the sobel operator.</span>
+
+<span class="sd">    is_fast : optional: bool. default: False.</span>
+<span class="sd">          - Specifies if the magnitude is generated using SAD (if True) or SSD (if False).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - Image containing the magnitude of the sobel derivatives.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">.arith</span> <span class="kn">import</span> <span class="nb">abs</span> <span class="k">as</span> <span class="n">af_abs</span>
+    <span class="kn">from</span> <span class="nn">.arith</span> <span class="kn">import</span> <span class="n">hypot</span> <span class="k">as</span> <span class="n">af_hypot</span>
+
+    <span class="n">dx</span><span class="p">,</span><span class="n">dy</span> <span class="o">=</span> <span class="n">sobel_derivatives</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w_len</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">is_fast</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">af_abs</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span> <span class="o">+</span> <span class="n">af_abs</span><span class="p">(</span><span class="n">dy</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">af_hypot</span><span class="p">(</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="rgb2gray"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.rgb2gray">[docs]</a><span class="k">def</span> <span class="nf">rgb2gray</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">r_factor</span> <span class="o">=</span> <span class="mf">0.2126</span><span class="p">,</span> <span class="n">g_factor</span> <span class="o">=</span> <span class="mf">0.7152</span><span class="p">,</span> <span class="n">b_factor</span> <span class="o">=</span> <span class="mf">0.0722</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert RGB image to Grayscale.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 3 D arrayfire array representing an 3 channel image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    r_factor : optional: scalar. default: 0.2126.</span>
+<span class="sd">          - Weight for the red channel.</span>
+
+<span class="sd">    g_factor : optional: scalar. default: 0.7152.</span>
+<span class="sd">          - Weight for the green channel.</span>
+
+<span class="sd">    b_factor : optional: scalar. default: 0.0722.</span>
+<span class="sd">          - Weight for the blue channel.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">          - A grayscale image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span><span class="o">=</span><span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rgb2gray</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                        <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">r_factor</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">g_factor</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">b_factor</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="gray2rgb"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.gray2rgb">[docs]</a><span class="k">def</span> <span class="nf">gray2rgb</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">r_factor</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">g_factor</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">b_factor</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert Grayscale image to an RGB image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    r_factor : optional: scalar. default: 1.0.</span>
+<span class="sd">          - Scale factor for the red channel.</span>
+
+<span class="sd">    g_factor : optional: scalar. default: 1.0.</span>
+<span class="sd">          - Scale factor for the green channel.</span>
+
+<span class="sd">    b_factor : optional: scalar. default: 1.0</span>
+<span class="sd">          - Scale factor for the blue channel.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">          - An RGB image.</span>
+<span class="sd">          - The channels are not coalesced, i.e. they appear along the third dimension.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span><span class="o">=</span><span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_gray2rgb</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                        <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">r_factor</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">g_factor</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">b_factor</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="hsv2rgb"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.hsv2rgb">[docs]</a><span class="k">def</span> <span class="nf">hsv2rgb</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert HSV image to RGB.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 3 D arrayfire array representing an 3 channel image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">          - A HSV image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_hsv2rgb</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="rgb2hsv"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.rgb2hsv">[docs]</a><span class="k">def</span> <span class="nf">rgb2hsv</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert RGB image to HSV.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 3 D arrayfire array representing an 3 channel image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">          - A RGB image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rgb2hsv</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="color_space"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.color_space">[docs]</a><span class="k">def</span> <span class="nf">color_space</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">to_type</span><span class="p">,</span> <span class="n">from_type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert an image from one color space to another.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A multi dimensional array representing batch of images in `from_type` color space.</span>
+
+<span class="sd">    to_type : af.CSPACE</span>
+<span class="sd">          - An enum for the destination color space.</span>
+
+<span class="sd">    from_type : af.CSPACE</span>
+<span class="sd">          - An enum for the source color space.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">          - An image in the `to_type` color space.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_color_space</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                           <span class="n">to_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">from_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="unwrap"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.unwrap">[docs]</a><span class="k">def</span> <span class="nf">unwrap</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">wy</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">py</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_column</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Unrwap an image into an array.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    image  : af.Array</span>
+<span class="sd">           A multi dimensional array specifying an image or batch of images.</span>
+
+<span class="sd">    wx     : Integer.</span>
+<span class="sd">           Block window size along the first dimension.</span>
+
+<span class="sd">    wy     : Integer.</span>
+<span class="sd">           Block window size along the second dimension.</span>
+
+<span class="sd">    sx     : Integer.</span>
+<span class="sd">           Stride along the first dimension.</span>
+
+<span class="sd">    sy     : Integer.</span>
+<span class="sd">           Stride along the second dimension.</span>
+
+<span class="sd">    px     : Integer. Optional. Default: 0</span>
+<span class="sd">           Padding along the first dimension.</span>
+
+<span class="sd">    py     : Integer. Optional. Default: 0</span>
+<span class="sd">           Padding along the second dimension.</span>
+
+<span class="sd">    is_column : Boolean. Optional. Default: True.</span>
+<span class="sd">           Specifies if the patch should be laid along row or columns.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out   : af.Array</span>
+<span class="sd">          A multi dimensional array contianing the image patches along specified dimension.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(6, 6)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+
+<span class="sd">    [6 6 1 1]</span>
+<span class="sd">        0.4107     0.3775     0.0901     0.8060     0.0012     0.9250</span>
+<span class="sd">        0.8224     0.3027     0.5933     0.5938     0.8703     0.3063</span>
+<span class="sd">        0.9518     0.6456     0.1098     0.8395     0.5259     0.9313</span>
+<span class="sd">        0.1794     0.5591     0.1046     0.1933     0.1443     0.8684</span>
+<span class="sd">        0.4198     0.6600     0.8827     0.7270     0.3253     0.6592</span>
+<span class="sd">        0.0081     0.0764     0.1647     0.0322     0.5081     0.4387</span>
+
+<span class="sd">    &gt;&gt;&gt; b = af.unwrap(a, 2, 2, 2, 2)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+
+<span class="sd">    [4 9 1 1]</span>
+<span class="sd">        0.4107     0.9518     0.4198     0.0901     0.1098     0.8827     0.0012     0.5259     0.3253</span>
+<span class="sd">        0.8224     0.1794     0.0081     0.5933     0.1046     0.1647     0.8703     0.1443     0.5081</span>
+<span class="sd">        0.3775     0.6456     0.6600     0.8060     0.8395     0.7270     0.9250     0.9313     0.6592</span>
+<span class="sd">        0.3027     0.5591     0.0764     0.5938     0.1933     0.0322     0.3063     0.8684     0.4387</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_unwrap</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                      <span class="n">c_dim_t</span><span class="p">(</span><span class="n">wx</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">wy</span><span class="p">),</span>
+                                      <span class="n">c_dim_t</span><span class="p">(</span><span class="n">sx</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">sy</span><span class="p">),</span>
+                                      <span class="n">c_dim_t</span><span class="p">(</span><span class="n">px</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">py</span><span class="p">),</span>
+                                      <span class="n">is_column</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="wrap"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.wrap">[docs]</a><span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">wy</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">py</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_column</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrap an array into an image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    a      : af.Array</span>
+<span class="sd">           A multi dimensional array containing patches of images.</span>
+
+<span class="sd">    wx     : Integer.</span>
+<span class="sd">           Block window size along the first dimension.</span>
+
+<span class="sd">    wy     : Integer.</span>
+<span class="sd">           Block window size along the second dimension.</span>
+
+<span class="sd">    sx     : Integer.</span>
+<span class="sd">           Stride along the first dimension.</span>
+
+<span class="sd">    sy     : Integer.</span>
+<span class="sd">           Stride along the second dimension.</span>
+
+<span class="sd">    px     : Integer. Optional. Default: 0</span>
+<span class="sd">           Padding along the first dimension.</span>
+
+<span class="sd">    py     : Integer. Optional. Default: 0</span>
+<span class="sd">           Padding along the second dimension.</span>
+
+<span class="sd">    is_column : Boolean. Optional. Default: True.</span>
+<span class="sd">           Specifies if the patch should be laid along row or columns.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out   : af.Array</span>
+<span class="sd">          A multi dimensional array contianing the images.</span>
+
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; import arrayfire as af</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(6, 6)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(a)</span>
+
+<span class="sd">    [6 6 1 1]</span>
+<span class="sd">        0.4107     0.3775     0.0901     0.8060     0.0012     0.9250</span>
+<span class="sd">        0.8224     0.3027     0.5933     0.5938     0.8703     0.3063</span>
+<span class="sd">        0.9518     0.6456     0.1098     0.8395     0.5259     0.9313</span>
+<span class="sd">        0.1794     0.5591     0.1046     0.1933     0.1443     0.8684</span>
+<span class="sd">        0.4198     0.6600     0.8827     0.7270     0.3253     0.6592</span>
+<span class="sd">        0.0081     0.0764     0.1647     0.0322     0.5081     0.4387</span>
+
+<span class="sd">    &gt;&gt;&gt; b = af.unwrap(a, 2, 2, 2, 2)</span>
+<span class="sd">    &gt;&gt;&gt; af.display(b)</span>
+
+<span class="sd">    [4 9 1 1]</span>
+<span class="sd">        0.4107     0.9518     0.4198     0.0901     0.1098     0.8827     0.0012     0.5259     0.3253</span>
+<span class="sd">        0.8224     0.1794     0.0081     0.5933     0.1046     0.1647     0.8703     0.1443     0.5081</span>
+<span class="sd">        0.3775     0.6456     0.6600     0.8060     0.8395     0.7270     0.9250     0.9313     0.6592</span>
+<span class="sd">        0.3027     0.5591     0.0764     0.5938     0.1933     0.0322     0.3063     0.8684     0.4387</span>
+
+<span class="sd">    &gt;&gt;&gt; af.display(c)</span>
+
+<span class="sd">    [6 6 1 1]</span>
+<span class="sd">        0.4107     0.3775     0.0901     0.8060     0.0012     0.9250</span>
+<span class="sd">        0.8224     0.3027     0.5933     0.5938     0.8703     0.3063</span>
+<span class="sd">        0.9518     0.6456     0.1098     0.8395     0.5259     0.9313</span>
+<span class="sd">        0.1794     0.5591     0.1046     0.1933     0.1443     0.8684</span>
+<span class="sd">        0.4198     0.6600     0.8827     0.7270     0.3253     0.6592</span>
+<span class="sd">        0.0081     0.0764     0.1647     0.0322     0.5081     0.4387</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_wrap</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                    <span class="n">c_dim_t</span><span class="p">(</span><span class="n">ox</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">oy</span><span class="p">),</span>
+                                    <span class="n">c_dim_t</span><span class="p">(</span><span class="n">wx</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">wy</span><span class="p">),</span>
+                                    <span class="n">c_dim_t</span><span class="p">(</span><span class="n">sx</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">sy</span><span class="p">),</span>
+                                    <span class="n">c_dim_t</span><span class="p">(</span><span class="n">px</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">py</span><span class="p">),</span>
+                                    <span class="n">is_column</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="sat"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.sat">[docs]</a><span class="k">def</span> <span class="nf">sat</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Summed Area Tables</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          A multi dimensional array specifying image or batch of images</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out  : af.Array</span>
+<span class="sd">         A multi dimensional array containing the summed area table of input image</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sat</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="ycbcr2rgb"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.ycbcr2rgb">[docs]</a><span class="k">def</span> <span class="nf">ycbcr2rgb</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">standard</span><span class="o">=</span><span class="n">YCC_STD</span><span class="o">.</span><span class="n">BT_601</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    YCbCr to RGB colorspace conversion.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    image   : af.Array</span>
+<span class="sd">              A multi dimensional array containing an image or batch of images in YCbCr format.</span>
+
+<span class="sd">    standard: YCC_STD. optional. default: YCC_STD.BT_601</span>
+<span class="sd">            - Specifies the YCbCr format.</span>
+<span class="sd">            - Can be one of YCC_STD.BT_601, YCC_STD.BT_709, and YCC_STD.BT_2020.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    out     : af.Array</span>
+<span class="sd">            A multi dimensional array containing an image or batch of images in RGB format</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ycbcr2rgb</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">standard</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="rgb2ycbcr"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.rgb2ycbcr">[docs]</a><span class="k">def</span> <span class="nf">rgb2ycbcr</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">standard</span><span class="o">=</span><span class="n">YCC_STD</span><span class="o">.</span><span class="n">BT_601</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    RGB to YCbCr colorspace conversion.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    image   : af.Array</span>
+<span class="sd">              A multi dimensional array containing an image or batch of images in RGB format.</span>
+
+<span class="sd">    standard: YCC_STD. optional. default: YCC_STD.BT_601</span>
+<span class="sd">            - Specifies the YCbCr format.</span>
+<span class="sd">            - Can be one of YCC_STD.BT_601, YCC_STD.BT_709, and YCC_STD.BT_2020.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    out     : af.Array</span>
+<span class="sd">            A multi dimensional array containing an image or batch of images in YCbCr format</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rgb2ycbcr</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">standard</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="is_image_io_available"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.is_image_io_available">[docs]</a><span class="k">def</span> <span class="nf">is_image_io_available</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to check if the arrayfire library was built with Image IO support.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_image_io_available</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

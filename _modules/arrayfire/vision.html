@@ -1,0 +1,527 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.vision &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.vision</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Computer vision functions (FAST, ORB, etc)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.features</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="fast"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.fast">[docs]</a><span class="k">def</span> <span class="nf">fast</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">arc_length</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">non_max</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">feature_ratio</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    FAST feature detector.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    image         : af.Array</span>
+<span class="sd">                  A 2D array representing an image.</span>
+
+<span class="sd">    threshold     : scalar. optional. default: 20.0.</span>
+<span class="sd">                  FAST threshold for which a pixel of the circle around a central pixel is consdered.</span>
+
+<span class="sd">    arc_length    : scalar. optional. default: 9</span>
+<span class="sd">                  The minimum length of arc length to be considered. Max length should be 16.</span>
+
+<span class="sd">    non_max       : Boolean. optional. default: True</span>
+<span class="sd">                  A boolean flag specifying if non max suppression has to be performed.</span>
+
+<span class="sd">    feature_ratio : scalar. optional. default: 0.05 (5%)</span>
+<span class="sd">                  Specifies the maximum ratio of features to pixels in the image.</span>
+
+<span class="sd">    edge          : scalar. optional. default: 3.</span>
+<span class="sd">                  Specifies the number of edge rows and columns to be ignored.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    features     : af.Features()</span>
+<span class="sd">                 Contains the location and score. Orientation and size are not computed.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fast</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span>
+                                    <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">threshold</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">arc_length</span><span class="p">),</span> <span class="n">non_max</span><span class="p">,</span>
+                                    <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">feature_ratio</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">edge</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="harris"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.harris">[docs]</a><span class="k">def</span> <span class="nf">harris</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">max_corners</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">min_response</span><span class="o">=</span><span class="mf">1E5</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k_thr</span><span class="o">=</span><span class="mf">0.04</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Harris corner detector.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image         : af.Array</span>
+<span class="sd">                  A 2D array specifying an image.</span>
+
+<span class="sd">    max_corners   : scalar. optional. default: 500.</span>
+<span class="sd">                  Specifies the maximum number of corners to be calculated.</span>
+
+<span class="sd">    min_response  : scalar. optional. default: 1E5</span>
+<span class="sd">                  Specifies the cutoff score for a corner to be considered</span>
+
+<span class="sd">    sigma         : scalar. optional. default: 1.0</span>
+<span class="sd">                  - Specifies the standard deviation of a circular window.</span>
+<span class="sd">                  - Only used when block_size == 0. Must be &gt;= 0.5 and &lt;= 5.0.</span>
+
+<span class="sd">    block_size    : scalar. optional. default: 0</span>
+<span class="sd">                  Specifies the window size.</span>
+
+<span class="sd">    k_thr         : scalar. optional. default: 0.04</span>
+<span class="sd">                  Harris constant. must be &gt;= 0.01</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    features     : af.Features()</span>
+<span class="sd">                 Contains the location and score. Orientation and size are not computed.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ------</span>
+
+<span class="sd">    The covariation matrix will be square when `block_size` is used and circular when `sigma` is used.</span>
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_harris</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span>
+                                      <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">max_corners</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">min_response</span><span class="p">),</span>
+                                      <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">sigma</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">block_size</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">k_thr</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="orb"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.orb">[docs]</a><span class="k">def</span> <span class="nf">orb</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">num_levels</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">blur_image</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ORB Feature descriptor.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    image         : af.Array</span>
+<span class="sd">                  A 2D array representing an image.</span>
+
+<span class="sd">    threshold     : scalar. optional. default: 20.0.</span>
+<span class="sd">                  FAST threshold for which a pixel of the circle around a central pixel is consdered.</span>
+
+<span class="sd">    max_features  : scalar. optional. default: 400.</span>
+<span class="sd">                  Specifies the maximum number of features to be considered.</span>
+
+<span class="sd">    scale         : scalar. optional. default: 1.5.</span>
+<span class="sd">                  Specifies the factor by which images are down scaled at each level.</span>
+
+<span class="sd">    num_levles    : scalar. optional. default: 4.</span>
+<span class="sd">                  Specifies the number of levels used in the image pyramid.</span>
+
+<span class="sd">    blur_image    : Boolean. optional. default: False.</span>
+<span class="sd">                  Flag specifying if the input has to be blurred before computing descriptors.</span>
+<span class="sd">                  A gaussian filter with sigma = 2 is applied if True.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    (features, descriptor)     : tuple of (af.Features(), af.Array)</span>
+<span class="sd">                               - descriptor is an af.Array of size N x 8</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">feat</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_orb</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">desc</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                   <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">threshold</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">max_features</span><span class="p">),</span>
+                                   <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">num_levels</span><span class="p">),</span> <span class="n">blur_image</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">feat</span><span class="p">,</span> <span class="n">desc</span></div>
+
+<div class="viewcode-block" id="hamming_matcher"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.hamming_matcher">[docs]</a><span class="k">def</span> <span class="nf">hamming_matcher</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">database</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">num_nearest</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Hamming distance matcher.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    query    : af.Array</span>
+<span class="sd">             A query feature descriptor</span>
+
+<span class="sd">    database : af.Array</span>
+<span class="sd">             A multi dimensional array containing the feature descriptor database.</span>
+
+<span class="sd">    dim      : scalar. optional. default: 0.</span>
+<span class="sd">             Specifies the dimension along which feature descriptor lies.</span>
+
+<span class="sd">    num_nearest: scalar. optional. default: 1.</span>
+<span class="sd">             Specifies the number of nearest neighbors to find.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    (location, distance): tuple of af.Array</span>
+<span class="sd">                          location and distances of closest matches.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_hamming_matcher</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                               <span class="n">query</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">database</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                               <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">num_nearest</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">index</span><span class="p">,</span> <span class="n">dist</span></div>
+
+<div class="viewcode-block" id="nearest_neighbour"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.nearest_neighbour">[docs]</a><span class="k">def</span> <span class="nf">nearest_neighbour</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">database</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">num_nearest</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">match_type</span><span class="o">=</span><span class="n">MATCH</span><span class="o">.</span><span class="n">SSD</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Nearest Neighbour matcher.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    query    : af.Array</span>
+<span class="sd">             A query feature descriptor</span>
+
+<span class="sd">    database : af.Array</span>
+<span class="sd">             A multi dimensional array containing the feature descriptor database.</span>
+
+<span class="sd">    dim      : scalar. optional. default: 0.</span>
+<span class="sd">             Specifies the dimension along which feature descriptor lies.</span>
+
+<span class="sd">    num_nearest: scalar. optional. default: 1.</span>
+<span class="sd">             Specifies the number of nearest neighbors to find.</span>
+
+<span class="sd">    match_type: optional: af.MATCH. default: af.MATCH.SSD</span>
+<span class="sd">             Specifies the match function metric.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    (location, distance): tuple of af.Array</span>
+<span class="sd">                          location and distances of closest matches.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_nearest_neighbour</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                                 <span class="n">query</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">database</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                 <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">num_nearest</span><span class="p">),</span>
+                                                 <span class="n">match_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">index</span><span class="p">,</span> <span class="n">dist</span></div>
+
+<div class="viewcode-block" id="match_template"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.match_template">[docs]</a><span class="k">def</span> <span class="nf">match_template</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">template</span><span class="p">,</span> <span class="n">match_type</span> <span class="o">=</span> <span class="n">MATCH</span><span class="o">.</span><span class="n">SAD</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Find the closest match of a template in an image.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    image    : af.Array</span>
+<span class="sd">             A multi dimensional array specifying an image or batch of images.</span>
+
+<span class="sd">    template : af.Array</span>
+<span class="sd">             A multi dimensional array specifying a template or batch of templates.</span>
+
+<span class="sd">    match_type: optional: af.MATCH. default: af.MATCH.SAD</span>
+<span class="sd">             Specifies the match function metric.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    out     : af.Array</span>
+<span class="sd">            An array containing the score of the match at each pixel.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_match_template</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                              <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">template</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                              <span class="n">match_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="susan"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.susan">[docs]</a><span class="k">def</span> <span class="nf">susan</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">diff_thr</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="n">geom_thr</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">feature_ratio</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SUSAN corner detector.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image         : af.Array</span>
+<span class="sd">                  A 2D array specifying an image.</span>
+
+<span class="sd">    radius        : scalar. optional. default: 500.</span>
+<span class="sd">                  Specifies the radius of each pixel neighborhood.</span>
+
+<span class="sd">    diff_thr      : scalar. optional. default: 1E5</span>
+<span class="sd">                  Specifies the intensity difference threshold.</span>
+
+<span class="sd">    geom_thr      : scalar. optional. default: 1.0</span>
+<span class="sd">                  Specifies the geometric threshold.</span>
+
+<span class="sd">    feature_ratio : scalar. optional. default: 0.05 (5%)</span>
+<span class="sd">                  Specifies the ratio of corners found to number of pixels.</span>
+
+<span class="sd">    edge         : scalar. optional. default: 3</span>
+<span class="sd">                  Specifies the number of edge rows and columns that are ignored.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    features     : af.Features()</span>
+<span class="sd">                 Contains the location and score. Orientation and size are not computed.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_susan</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span>
+                                     <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">radius</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">diff_thr</span><span class="p">),</span>
+                                     <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">geom_thr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">feature_ratio</span><span class="p">),</span>
+                                     <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">edge</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="dog"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.dog">[docs]</a><span class="k">def</span> <span class="nf">dog</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">radius1</span><span class="p">,</span> <span class="n">radius2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Difference of gaussians.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image    : af.Array</span>
+<span class="sd">             A 2D array specifying an image.</span>
+
+<span class="sd">    radius1  : scalar.</span>
+<span class="sd">             The radius of first gaussian kernel.</span>
+
+<span class="sd">    radius2  : scalar.</span>
+<span class="sd">             The radius of second gaussian kernel.</span>
+
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    out      : af.Array</span>
+<span class="sd">             A multi dimensional array containing the difference of gaussians.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ------</span>
+
+<span class="sd">    The sigma values are calculated to be 0.25 * radius.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dog</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                   <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">radius1</span><span class="p">,</span> <span class="n">radius2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="sift"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.sift">[docs]</a><span class="k">def</span> <span class="nf">sift</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">contrast_threshold</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">edge_threshold</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">initial_sigma</span> <span class="o">=</span> <span class="mf">1.6</span><span class="p">,</span>
+         <span class="n">double_input</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">intensity_scale</span> <span class="o">=</span> <span class="mf">0.00390625</span><span class="p">,</span> <span class="n">feature_ratio</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    SIFT feature detector and descriptor.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image              : af.Array</span>
+<span class="sd">                       A 2D array representing an image</span>
+
+<span class="sd">    num_layers         : optional: integer. Default: 3</span>
+<span class="sd">                       Number of layers per octave. The number of octaves is calculated internally.</span>
+
+<span class="sd">    contrast_threshold : optional: float. Default: 0.04</span>
+<span class="sd">                       Threshold used to filter out features that have low contrast.</span>
+
+<span class="sd">    edge_threshold     : optional: float. Default: 10.0</span>
+<span class="sd">                       Threshold used to filter out features that are too edge-like.</span>
+
+<span class="sd">    initial_sigma      : optional: float. Default: 1.6</span>
+<span class="sd">                       The sigma value used to filter the input image at the first octave.</span>
+
+<span class="sd">    double_input       : optional: bool. Default: True</span>
+<span class="sd">                       If True, the input image will be scaled to double the size for the first octave.</span>
+
+<span class="sd">    intensity_scale    : optional: float. Default: 1.0/255</span>
+<span class="sd">                       The inverse of the difference between maximum and minimum intensity values.</span>
+
+<span class="sd">    feature_ratio      : optional: float. Default: 0.05</span>
+<span class="sd">                       Specifies the maximum number of features to detect as a ratio of image pixels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    (features, descriptor)     : tuple of (af.Features(), af.Array)</span>
+<span class="sd">                               - descriptor is an af.Array of size N x 128</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">feat</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">af_sift</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">feat</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">desc</span><span class="p">),</span>
+                      <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">contrast_threshold</span><span class="p">,</span> <span class="n">edge_threshold</span><span class="p">,</span>
+                      <span class="n">initial_sigma</span><span class="p">,</span> <span class="n">double_input</span><span class="p">,</span> <span class="n">intensity_scale</span><span class="p">,</span> <span class="n">feature_ratio</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">feat</span><span class="p">,</span> <span class="n">desc</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="gloh"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.gloh">[docs]</a><span class="k">def</span> <span class="nf">gloh</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">contrast_threshold</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">edge_threshold</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">initial_sigma</span> <span class="o">=</span> <span class="mf">1.6</span><span class="p">,</span>
+         <span class="n">double_input</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">intensity_scale</span> <span class="o">=</span> <span class="mf">0.00390625</span><span class="p">,</span> <span class="n">feature_ratio</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    GLOH feature detector and descriptor.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image              : af.Array</span>
+<span class="sd">                       A 2D array representing an image</span>
+
+<span class="sd">    num_layers         : optional: integer. Default: 3</span>
+<span class="sd">                       Number of layers per octave. The number of octaves is calculated internally.</span>
+
+<span class="sd">    contrast_threshold : optional: float. Default: 0.04</span>
+<span class="sd">                       Threshold used to filter out features that have low contrast.</span>
+
+<span class="sd">    edge_threshold     : optional: float. Default: 10.0</span>
+<span class="sd">                       Threshold used to filter out features that are too edge-like.</span>
+
+<span class="sd">    initial_sigma      : optional: float. Default: 1.6</span>
+<span class="sd">                       The sigma value used to filter the input image at the first octave.</span>
+
+<span class="sd">    double_input       : optional: bool. Default: True</span>
+<span class="sd">                       If True, the input image will be scaled to double the size for the first octave.</span>
+
+<span class="sd">    intensity_scale    : optional: float. Default: 1.0/255</span>
+<span class="sd">                       The inverse of the difference between maximum and minimum intensity values.</span>
+
+<span class="sd">    feature_ratio      : optional: float. Default: 0.05</span>
+<span class="sd">                       Specifies the maximum number of features to detect as a ratio of image pixels.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    (features, descriptor)     : tuple of (af.Features(), af.Array)</span>
+<span class="sd">                               - descriptor is an af.Array of size N x 272</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">feat</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
+    <span class="n">desc</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">af_gloh</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">feat</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">desc</span><span class="p">),</span>
+                      <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">contrast_threshold</span><span class="p">,</span> <span class="n">edge_threshold</span><span class="p">,</span>
+                      <span class="n">initial_sigma</span><span class="p">,</span> <span class="n">double_input</span><span class="p">,</span> <span class="n">intensity_scale</span><span class="p">,</span> <span class="n">feature_ratio</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="n">feat</span><span class="p">,</span> <span class="n">desc</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="homography"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.homography">[docs]</a><span class="k">def</span> <span class="nf">homography</span><span class="p">(</span><span class="n">x_src</span><span class="p">,</span> <span class="n">y_src</span><span class="p">,</span> <span class="n">x_dst</span><span class="p">,</span> <span class="n">y_dst</span><span class="p">,</span> <span class="n">htype</span> <span class="o">=</span> <span class="n">HOMOGRAPHY</span><span class="o">.</span><span class="n">RANSAC</span><span class="p">,</span>
+               <span class="n">ransac_threshold</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">,</span> <span class="n">iters</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">,</span> <span class="n">out_type</span> <span class="o">=</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Homography estimation</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    x_src            :  af.Array</span>
+<span class="sd">                     A list of x co-ordinates of the source points.</span>
+
+<span class="sd">    y_src            :  af.Array</span>
+<span class="sd">                     A list of y co-ordinates of the source points.</span>
+
+<span class="sd">    x_dst            :  af.Array</span>
+<span class="sd">                     A list of x co-ordinates of the destination points.</span>
+
+<span class="sd">    y_dst            :  af.Array</span>
+<span class="sd">                     A list of y co-ordinates of the destination points.</span>
+
+<span class="sd">    htype            : optional: af.HOMOGRAPHY. Default: HOMOGRAPHY.RANSAC</span>
+<span class="sd">                     htype can be one of</span>
+<span class="sd">                         - HOMOGRAPHY.RANSAC: RANdom SAmple Consensus will be used to evaluate quality.</span>
+<span class="sd">                         - HOMOGRAPHY.LMEDS : Least MEDian of Squares is used to evaluate quality.</span>
+
+<span class="sd">    ransac_threshold : optional: scalar. Default: 3.0</span>
+<span class="sd">                     If `htype` is HOMOGRAPHY.RANSAC, it specifies the L2-distance threshold for inliers.</span>
+
+<span class="sd">    out_type         : optional. af.Dtype. Default: Dtype.f32.</span>
+<span class="sd">                     Specifies the output data type.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    (H, inliers)     : A tuple of (af.Array, integer)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">H</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">inliers</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_homography</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">H</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">inliers</span><span class="p">),</span>
+                                          <span class="n">x_src</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">y_src</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">x_dst</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">y_dst</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                          <span class="n">htype</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ransac_threshold</span><span class="p">,</span> <span class="n">iters</span><span class="p">,</span> <span class="n">out_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">inliers</span><span class="p">)</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

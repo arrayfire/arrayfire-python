@@ -1,0 +1,949 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.library module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.library">
+<span id="arrayfire-library-module"></span><h1>arrayfire.library module<a class="headerlink" href="#module-arrayfire.library" title="Permalink to this headline">¶</a></h1>
+<p>Module containing enums and other constants.</p>
+<dl class="class">
+<dt id="arrayfire.library.BACKEND">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">BACKEND</code><a class="reference internal" href="_modules/arrayfire/library.html#BACKEND"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.BACKEND" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Backend libraries</p>
+<dl class="attribute">
+<dt id="arrayfire.library.BACKEND.CPU">
+<code class="descname">CPU</code><em class="property"> = &lt;BACKEND.CPU: 1&gt;</em><a class="headerlink" href="#arrayfire.library.BACKEND.CPU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.BACKEND.CUDA">
+<code class="descname">CUDA</code><em class="property"> = &lt;BACKEND.CUDA: 2&gt;</em><a class="headerlink" href="#arrayfire.library.BACKEND.CUDA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.BACKEND.DEFAULT">
+<code class="descname">DEFAULT</code><em class="property"> = &lt;BACKEND.DEFAULT: 0&gt;</em><a class="headerlink" href="#arrayfire.library.BACKEND.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.BACKEND.OPENCL">
+<code class="descname">OPENCL</code><em class="property"> = &lt;BACKEND.OPENCL: 4&gt;</em><a class="headerlink" href="#arrayfire.library.BACKEND.OPENCL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.COLORMAP">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">COLORMAP</code><a class="reference internal" href="_modules/arrayfire/library.html#COLORMAP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.COLORMAP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Colormaps</p>
+<dl class="attribute">
+<dt id="arrayfire.library.COLORMAP.BLUE">
+<code class="descname">BLUE</code><em class="property"> = &lt;COLORMAP.BLUE: 6&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.BLUE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.COLORMAP.COLORS">
+<code class="descname">COLORS</code><em class="property"> = &lt;COLORMAP.COLORS: 2&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.COLORS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.COLORMAP.DEFAULT">
+<code class="descname">DEFAULT</code><em class="property"> = &lt;COLORMAP.DEFAULT: 0&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.COLORMAP.HEAT">
+<code class="descname">HEAT</code><em class="property"> = &lt;COLORMAP.HEAT: 5&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.HEAT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.COLORMAP.MOOD">
+<code class="descname">MOOD</code><em class="property"> = &lt;COLORMAP.MOOD: 4&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.MOOD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.COLORMAP.RED">
+<code class="descname">RED</code><em class="property"> = &lt;COLORMAP.RED: 3&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.RED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.COLORMAP.SPECTRUM">
+<code class="descname">SPECTRUM</code><em class="property"> = &lt;COLORMAP.SPECTRUM: 1&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.SPECTRUM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.CONNECTIVITY">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CONNECTIVITY</code><a class="reference internal" href="_modules/arrayfire/library.html#CONNECTIVITY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CONNECTIVITY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Neighborhood connectivity</p>
+<dl class="attribute">
+<dt id="arrayfire.library.CONNECTIVITY.EIGHT">
+<code class="descname">EIGHT</code><em class="property"> = &lt;CONNECTIVITY.EIGHT: 8&gt;</em><a class="headerlink" href="#arrayfire.library.CONNECTIVITY.EIGHT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.CONNECTIVITY.FOUR">
+<code class="descname">FOUR</code><em class="property"> = &lt;CONNECTIVITY.FOUR: 4&gt;</em><a class="headerlink" href="#arrayfire.library.CONNECTIVITY.FOUR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.CONV_DOMAIN">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CONV_DOMAIN</code><a class="reference internal" href="_modules/arrayfire/library.html#CONV_DOMAIN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Convolution domain</p>
+<dl class="attribute">
+<dt id="arrayfire.library.CONV_DOMAIN.AUTO">
+<code class="descname">AUTO</code><em class="property"> = &lt;CONV_DOMAIN.AUTO: 0&gt;</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.AUTO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.CONV_DOMAIN.FREQ">
+<code class="descname">FREQ</code><em class="property"> = &lt;CONV_DOMAIN.FREQ: 2&gt;</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.FREQ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.CONV_DOMAIN.SPATIAL">
+<code class="descname">SPATIAL</code><em class="property"> = &lt;CONV_DOMAIN.SPATIAL: 1&gt;</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.SPATIAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.CONV_MODE">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CONV_MODE</code><a class="reference internal" href="_modules/arrayfire/library.html#CONV_MODE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CONV_MODE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Convolution mode</p>
+<dl class="attribute">
+<dt id="arrayfire.library.CONV_MODE.DEFAULT">
+<code class="descname">DEFAULT</code><em class="property"> = &lt;CONV_MODE.DEFAULT: 0&gt;</em><a class="headerlink" href="#arrayfire.library.CONV_MODE.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.CONV_MODE.EXPAND">
+<code class="descname">EXPAND</code><em class="property"> = &lt;CONV_MODE.EXPAND: 1&gt;</em><a class="headerlink" href="#arrayfire.library.CONV_MODE.EXPAND" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.CSPACE">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CSPACE</code><a class="reference internal" href="_modules/arrayfire/library.html#CSPACE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CSPACE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Colorspace formats</p>
+<dl class="attribute">
+<dt id="arrayfire.library.CSPACE.GRAY">
+<code class="descname">GRAY</code><em class="property"> = &lt;CSPACE.GRAY: 0&gt;</em><a class="headerlink" href="#arrayfire.library.CSPACE.GRAY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.CSPACE.HSV">
+<code class="descname">HSV</code><em class="property"> = &lt;CSPACE.HSV: 2&gt;</em><a class="headerlink" href="#arrayfire.library.CSPACE.HSV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.CSPACE.RGB">
+<code class="descname">RGB</code><em class="property"> = &lt;CSPACE.RGB: 1&gt;</em><a class="headerlink" href="#arrayfire.library.CSPACE.RGB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.CSPACE.YCbCr">
+<code class="descname">YCbCr</code><em class="property"> = &lt;CSPACE.YCbCr: 3&gt;</em><a class="headerlink" href="#arrayfire.library.CSPACE.YCbCr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.Dtype">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">Dtype</code><a class="reference internal" href="_modules/arrayfire/library.html#Dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.Dtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Error values. For internal use only.</p>
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.b8">
+<code class="descname">b8</code><em class="property"> = &lt;Dtype.b8: 4&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.b8" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.c32">
+<code class="descname">c32</code><em class="property"> = &lt;Dtype.c32: 1&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.c32" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.c64">
+<code class="descname">c64</code><em class="property"> = &lt;Dtype.c64: 3&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.c64" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.f32">
+<code class="descname">f32</code><em class="property"> = &lt;Dtype.f32: 0&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.f32" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.f64">
+<code class="descname">f64</code><em class="property"> = &lt;Dtype.f64: 2&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.f64" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.s16">
+<code class="descname">s16</code><em class="property"> = &lt;Dtype.s16: 10&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.s16" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.s32">
+<code class="descname">s32</code><em class="property"> = &lt;Dtype.s32: 5&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.s32" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.s64">
+<code class="descname">s64</code><em class="property"> = &lt;Dtype.s64: 8&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.s64" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.u16">
+<code class="descname">u16</code><em class="property"> = &lt;Dtype.u16: 11&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.u16" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.u32">
+<code class="descname">u32</code><em class="property"> = &lt;Dtype.u32: 6&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.u32" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.u64">
+<code class="descname">u64</code><em class="property"> = &lt;Dtype.u64: 9&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.u64" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Dtype.u8">
+<code class="descname">u8</code><em class="property"> = &lt;Dtype.u8: 7&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.u8" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.ERR">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">ERR</code><a class="reference internal" href="_modules/arrayfire/library.html#ERR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.ERR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Error values. For internal use only.</p>
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.ARG">
+<code class="descname">ARG</code><em class="property"> = &lt;ERR.ARG: 202&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.ARG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.ARR_BKND_MISMATCH">
+<code class="descname">ARR_BKND_MISMATCH</code><em class="property"> = &lt;ERR.ARR_BKND_MISMATCH: 503&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.ARR_BKND_MISMATCH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.BATCH">
+<code class="descname">BATCH</code><em class="property"> = &lt;ERR.BATCH: 207&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.BATCH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.DEVICE">
+<code class="descname">DEVICE</code><em class="property"> = &lt;ERR.DEVICE: 208&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.DEVICE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.DIFF_TYPE">
+<code class="descname">DIFF_TYPE</code><em class="property"> = &lt;ERR.DIFF_TYPE: 205&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.DIFF_TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.DRIVER">
+<code class="descname">DRIVER</code><em class="property"> = &lt;ERR.DRIVER: 102&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.DRIVER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.INTERNAL">
+<code class="descname">INTERNAL</code><em class="property"> = &lt;ERR.INTERNAL: 998&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.INTERNAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.INVALID_ARRAY">
+<code class="descname">INVALID_ARRAY</code><em class="property"> = &lt;ERR.INVALID_ARRAY: 201&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.INVALID_ARRAY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.LOAD_LIB">
+<code class="descname">LOAD_LIB</code><em class="property"> = &lt;ERR.LOAD_LIB: 501&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.LOAD_LIB" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.LOAD_SYM">
+<code class="descname">LOAD_SYM</code><em class="property"> = &lt;ERR.LOAD_SYM: 502&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.LOAD_SYM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.NONE">
+<code class="descname">NONE</code><em class="property"> = &lt;ERR.NONE: 0&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NONE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.NONFREE">
+<code class="descname">NONFREE</code><em class="property"> = &lt;ERR.NONFREE: 303&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NONFREE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.NOT_CONFIGURED">
+<code class="descname">NOT_CONFIGURED</code><em class="property"> = &lt;ERR.NOT_CONFIGURED: 302&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NOT_CONFIGURED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.NOT_SUPPORTED">
+<code class="descname">NOT_SUPPORTED</code><em class="property"> = &lt;ERR.NOT_SUPPORTED: 301&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NOT_SUPPORTED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.NO_DBL">
+<code class="descname">NO_DBL</code><em class="property"> = &lt;ERR.NO_DBL: 401&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NO_DBL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.NO_GFX">
+<code class="descname">NO_GFX</code><em class="property"> = &lt;ERR.NO_GFX: 402&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NO_GFX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.NO_MEM">
+<code class="descname">NO_MEM</code><em class="property"> = &lt;ERR.NO_MEM: 101&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NO_MEM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.RUNTIME">
+<code class="descname">RUNTIME</code><em class="property"> = &lt;ERR.RUNTIME: 103&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.RUNTIME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.SIZE">
+<code class="descname">SIZE</code><em class="property"> = &lt;ERR.SIZE: 203&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.SIZE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.TYPE">
+<code class="descname">TYPE</code><em class="property"> = &lt;ERR.TYPE: 204&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.TYPE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.ERR.UNKNOWN">
+<code class="descname">UNKNOWN</code><em class="property"> = &lt;ERR.UNKNOWN: 999&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.HOMOGRAPHY">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">HOMOGRAPHY</code><a class="reference internal" href="_modules/arrayfire/library.html#HOMOGRAPHY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Homography Types</p>
+<dl class="attribute">
+<dt id="arrayfire.library.HOMOGRAPHY.LMEDS">
+<code class="descname">LMEDS</code><em class="property"> = &lt;HOMOGRAPHY.LMEDS: 1&gt;</em><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY.LMEDS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.HOMOGRAPHY.RANSAC">
+<code class="descname">RANSAC</code><em class="property"> = &lt;HOMOGRAPHY.RANSAC: 0&gt;</em><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY.RANSAC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.IMAGE_FORMAT">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">IMAGE_FORMAT</code><a class="reference internal" href="_modules/arrayfire/library.html#IMAGE_FORMAT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Image Formats</p>
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.BMP">
+<code class="descname">BMP</code><em class="property"> = &lt;IMAGE_FORMAT.BMP: 0&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.BMP" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.EXR">
+<code class="descname">EXR</code><em class="property"> = &lt;IMAGE_FORMAT.EXR: 29&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.EXR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.HDR">
+<code class="descname">HDR</code><em class="property"> = &lt;IMAGE_FORMAT.HDR: 26&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.HDR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.ICO">
+<code class="descname">ICO</code><em class="property"> = &lt;IMAGE_FORMAT.ICO: 1&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.ICO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.JNG">
+<code class="descname">JNG</code><em class="property"> = &lt;IMAGE_FORMAT.JNG: 3&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JNG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.JP2">
+<code class="descname">JP2</code><em class="property"> = &lt;IMAGE_FORMAT.JP2: 31&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JP2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.JPEG">
+<code class="descname">JPEG</code><em class="property"> = &lt;IMAGE_FORMAT.JPEG: 2&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JPEG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.PNG">
+<code class="descname">PNG</code><em class="property"> = &lt;IMAGE_FORMAT.PNG: 13&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PNG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.PPM">
+<code class="descname">PPM</code><em class="property"> = &lt;IMAGE_FORMAT.PPM: 14&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PPM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.PPMRAW">
+<code class="descname">PPMRAW</code><em class="property"> = &lt;IMAGE_FORMAT.PPMRAW: 15&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PPMRAW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.PSD">
+<code class="descname">PSD</code><em class="property"> = &lt;IMAGE_FORMAT.PSD: 20&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PSD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.RAW">
+<code class="descname">RAW</code><em class="property"> = &lt;IMAGE_FORMAT.RAW: 34&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.RAW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.IMAGE_FORMAT.TIFF">
+<code class="descname">TIFF</code><em class="property"> = &lt;IMAGE_FORMAT.TIFF: 18&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.TIFF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.INTERP">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">INTERP</code><a class="reference internal" href="_modules/arrayfire/library.html#INTERP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.INTERP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Interpolation method</p>
+<dl class="attribute">
+<dt id="arrayfire.library.INTERP.BILINEAR">
+<code class="descname">BILINEAR</code><em class="property"> = &lt;INTERP.BILINEAR: 2&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.BILINEAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.INTERP.CUBIC">
+<code class="descname">CUBIC</code><em class="property"> = &lt;INTERP.CUBIC: 3&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.CUBIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.INTERP.LINEAR">
+<code class="descname">LINEAR</code><em class="property"> = &lt;INTERP.LINEAR: 1&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.LINEAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.INTERP.LOWER">
+<code class="descname">LOWER</code><em class="property"> = &lt;INTERP.LOWER: 4&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.LOWER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.INTERP.NEAREST">
+<code class="descname">NEAREST</code><em class="property"> = &lt;INTERP.NEAREST: 0&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.NEAREST" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.MARKER">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MARKER</code><a class="reference internal" href="_modules/arrayfire/library.html#MARKER"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MARKER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Markers used for different points in graphics plots</p>
+<dl class="attribute">
+<dt id="arrayfire.library.MARKER.CIRCLE">
+<code class="descname">CIRCLE</code><em class="property"> = &lt;MARKER.CIRCLE: 2&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.CIRCLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MARKER.CROSS">
+<code class="descname">CROSS</code><em class="property"> = &lt;MARKER.CROSS: 5&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.CROSS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MARKER.NONE">
+<code class="descname">NONE</code><em class="property"> = &lt;MARKER.NONE: 0&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.NONE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MARKER.PLUS">
+<code class="descname">PLUS</code><em class="property"> = &lt;MARKER.PLUS: 6&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.PLUS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MARKER.POINT">
+<code class="descname">POINT</code><em class="property"> = &lt;MARKER.POINT: 1&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.POINT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MARKER.SQUARE">
+<code class="descname">SQUARE</code><em class="property"> = &lt;MARKER.SQUARE: 3&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.SQUARE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MARKER.STAR">
+<code class="descname">STAR</code><em class="property"> = &lt;MARKER.STAR: 7&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.STAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MARKER.TRIANGE">
+<code class="descname">TRIANGE</code><em class="property"> = &lt;MARKER.TRIANGE: 4&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.TRIANGE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.MATCH">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MATCH</code><a class="reference internal" href="_modules/arrayfire/library.html#MATCH"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MATCH" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Match type</p>
+<dl class="attribute">
+<dt id="arrayfire.library.MATCH.LSAD">
+<code class="descname">LSAD</code><em class="property"> = &lt;MATCH.LSAD: 2&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.LSAD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sum of squared differences</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATCH.LSSD">
+<code class="descname">LSSD</code><em class="property"> = &lt;MATCH.LSSD: 5&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.LSSD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalized cross correlation</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATCH.NCC">
+<code class="descname">NCC</code><em class="property"> = &lt;MATCH.NCC: 6&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.NCC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Zero mean NCC</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATCH.SAD">
+<code class="descname">SAD</code><em class="property"> = &lt;MATCH.SAD: 0&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.SAD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Zero mean SAD</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATCH.SHD">
+<code class="descname">SHD</code><em class="property"> = &lt;MATCH.SHD: 8&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.SHD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATCH.SSD">
+<code class="descname">SSD</code><em class="property"> = &lt;MATCH.SSD: 3&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.SSD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Zero mean SSD</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATCH.ZNCC">
+<code class="descname">ZNCC</code><em class="property"> = &lt;MATCH.ZNCC: 7&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.ZNCC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sum of hamming distances</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATCH.ZSAD">
+<code class="descname">ZSAD</code><em class="property"> = &lt;MATCH.ZSAD: 1&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.ZSAD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locally scaled SAD</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATCH.ZSSD">
+<code class="descname">ZSSD</code><em class="property"> = &lt;MATCH.ZSSD: 4&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.ZSSD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locally scaled SSD</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.MATPROP">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MATPROP</code><a class="reference internal" href="_modules/arrayfire/library.html#MATPROP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MATPROP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Matrix properties</p>
+<dl class="attribute">
+<dt id="arrayfire.library.MATPROP.BLOCK_DIAG">
+<code class="descname">BLOCK_DIAG</code><em class="property"> = &lt;MATPROP.BLOCK_DIAG: 8192&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.BLOCK_DIAG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATPROP.CTRANS">
+<code class="descname">CTRANS</code><em class="property"> = &lt;MATPROP.CTRANS: 2&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.CTRANS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upper triangular matrix.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATPROP.DIAG_UNIT">
+<code class="descname">DIAG_UNIT</code><em class="property"> = &lt;MATPROP.DIAG_UNIT: 128&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.DIAG_UNIT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Symmetric matrix.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATPROP.LOWER">
+<code class="descname">LOWER</code><em class="property"> = &lt;MATPROP.LOWER: 64&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.LOWER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Treat diagonal as units.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATPROP.NONE">
+<code class="descname">NONE</code><em class="property"> = &lt;MATPROP.NONE: 0&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.NONE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transposed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATPROP.ORTHOG">
+<code class="descname">ORTHOG</code><em class="property"> = &lt;MATPROP.ORTHOG: 2048&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.ORTHOG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tri diagonal matrix.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATPROP.POSDEF">
+<code class="descname">POSDEF</code><em class="property"> = &lt;MATPROP.POSDEF: 1024&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.POSDEF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Orthogonal matrix.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATPROP.SYM">
+<code class="descname">SYM</code><em class="property"> = &lt;MATPROP.SYM: 512&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.SYM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Positive definite matrix.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATPROP.TRANS">
+<code class="descname">TRANS</code><em class="property"> = &lt;MATPROP.TRANS: 1&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.TRANS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conjugate transposed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATPROP.TRI_DIAG">
+<code class="descname">TRI_DIAG</code><em class="property"> = &lt;MATPROP.TRI_DIAG: 4096&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.TRI_DIAG" title="Permalink to this definition">¶</a></dt>
+<dd><p>Block diagonal matrix.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MATPROP.UPPER">
+<code class="descname">UPPER</code><em class="property"> = &lt;MATPROP.UPPER: 32&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.UPPER" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lower triangular matrix.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.NORM">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">NORM</code><a class="reference internal" href="_modules/arrayfire/library.html#NORM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.NORM" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Norm types</p>
+<dl class="attribute">
+<dt id="arrayfire.library.NORM.EUCLID">
+<code class="descname">EUCLID</code><em class="property"> = &lt;NORM.VECTOR_2: 2&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.EUCLID" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.NORM.MATRIX_1">
+<code class="descname">MATRIX_1</code><em class="property"> = &lt;NORM.MATRIX_1: 4&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.NORM.MATRIX_2">
+<code class="descname">MATRIX_2</code><em class="property"> = &lt;NORM.MATRIX_2: 6&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.NORM.MATRIX_INF">
+<code class="descname">MATRIX_INF</code><em class="property"> = &lt;NORM.MATRIX_INF: 5&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_INF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.NORM.MATRIX_L_PQ">
+<code class="descname">MATRIX_L_PQ</code><em class="property"> = &lt;NORM.MATRIX_L_PQ: 7&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_L_PQ" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.NORM.VECTOR_1">
+<code class="descname">VECTOR_1</code><em class="property"> = &lt;NORM.VECTOR_1: 0&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_1" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.NORM.VECTOR_2">
+<code class="descname">VECTOR_2</code><em class="property"> = &lt;NORM.VECTOR_2: 2&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.NORM.VECTOR_INF">
+<code class="descname">VECTOR_INF</code><em class="property"> = &lt;NORM.VECTOR_INF: 1&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_INF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.NORM.VECTOR_P">
+<code class="descname">VECTOR_P</code><em class="property"> = &lt;NORM.VECTOR_P: 3&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_P" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.PAD">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">PAD</code><a class="reference internal" href="_modules/arrayfire/library.html#PAD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.PAD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Edge padding types</p>
+<dl class="attribute">
+<dt id="arrayfire.library.PAD.SYM">
+<code class="descname">SYM</code><em class="property"> = &lt;PAD.SYM: 1&gt;</em><a class="headerlink" href="#arrayfire.library.PAD.SYM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.PAD.ZERO">
+<code class="descname">ZERO</code><em class="property"> = &lt;PAD.ZERO: 0&gt;</em><a class="headerlink" href="#arrayfire.library.PAD.ZERO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.Source">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">Source</code><a class="reference internal" href="_modules/arrayfire/library.html#Source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.Source" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Source of the pointer</p>
+<dl class="attribute">
+<dt id="arrayfire.library.Source.device">
+<code class="descname">device</code><em class="property"> = &lt;Source.device: 0&gt;</em><a class="headerlink" href="#arrayfire.library.Source.device" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.Source.host">
+<code class="descname">host</code><em class="property"> = &lt;Source.host: 1&gt;</em><a class="headerlink" href="#arrayfire.library.Source.host" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.YCC_STD">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">YCC_STD</code><a class="reference internal" href="_modules/arrayfire/library.html#YCC_STD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.YCC_STD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>YCC Standard formats</p>
+<dl class="attribute">
+<dt id="arrayfire.library.YCC_STD.BT_2020">
+<code class="descname">BT_2020</code><em class="property"> = &lt;YCC_STD.BT_2020: 2020&gt;</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_2020" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.YCC_STD.BT_601">
+<code class="descname">BT_601</code><em class="property"> = &lt;YCC_STD.BT_601: 601&gt;</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_601" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.YCC_STD.BT_709">
+<code class="descname">BT_709</code><em class="property"> = &lt;YCC_STD.BT_709: 709&gt;</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_709" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.library.get_active_backend">
+<code class="descclassname">arrayfire.library.</code><code class="descname">get_active_backend</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_active_backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_active_backend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the current active backend</p>
+<dl class="docutils">
+<dt>name</dt>
+ <span class="classifier-delimiter">:</span> <span class="classifier">str.</span><dd>Backend name</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.library.get_available_backends">
+<code class="descclassname">arrayfire.library.</code><code class="descname">get_available_backends</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_available_backends"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_available_backends" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get names of available backends</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>names</strong> : tuple of strings</p>
+<blockquote class="last">
+<div><p>Names of available backends</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.library.get_backend">
+<code class="descclassname">arrayfire.library.</code><code class="descname">get_backend</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_backend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the name of the backend</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.library.get_backend_count">
+<code class="descclassname">arrayfire.library.</code><code class="descname">get_backend_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_backend_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_backend_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get number of available backends</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>count</strong> : int</p>
+<blockquote class="last">
+<div><p>Number of available backends</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.library.get_backend_id">
+<code class="descclassname">arrayfire.library.</code><code class="descname">get_backend_id</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_backend_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_backend_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get backend name of an array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A</strong> : af.Array</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>name</strong> : str.</p>
+<blockquote class="last">
+<div><p>Backend name</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.library.get_device_id">
+<code class="descclassname">arrayfire.library.</code><code class="descname">get_device_id</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_device_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_device_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the device id of the array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A</strong> : af.Array</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>dev</strong> : Integer</p>
+<blockquote class="last">
+<div><p>id of the device array was created on</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.library.set_backend">
+<code class="descclassname">arrayfire.library.</code><code class="descname">set_backend</code><span class="sig-paren">(</span><em>name</em>, <em>unsafe=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#set_backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.set_backend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set a specific backend by name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>name</strong> : str.</p>
+<p><strong>unsafe</strong> : optional: bool. Default: False.</p>
+<blockquote class="last">
+<div><p>If False, does not switch backend if current backend is not unified backend.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.library.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.library.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

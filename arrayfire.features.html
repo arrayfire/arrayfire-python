@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.features module &mdash; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.features">
+<span id="arrayfire-features-module"></span><h1>arrayfire.features module<a class="headerlink" href="#module-arrayfire.features" title="Permalink to this headline">¶</a></h1>
+<p>Features class used for Computer Vision algorithms.</p>
+<dl class="class">
+<dt id="arrayfire.features.Features">
+<em class="property">class </em><code class="descclassname">arrayfire.features.</code><code class="descname">Features</code><span class="sig-paren">(</span><em>num=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/features.html#Features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.features.Features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>A container class used for various feature detectors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>num: optional: int. default: 0.</strong></p>
+<blockquote class="last">
+<div><p>Specifies the number of features.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.features.Features.get_orientation" title="arrayfire.features.Features.get_orientation"><code class="xref py py-obj docutils literal"><span class="pre">get_orientation</span></code></a>()</td>
+<td>Returns the orientations of the features detected.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.features.Features.get_score" title="arrayfire.features.Features.get_score"><code class="xref py py-obj docutils literal"><span class="pre">get_score</span></code></a>()</td>
+<td>Returns the scores of the features detected.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.features.Features.get_size" title="arrayfire.features.Features.get_size"><code class="xref py py-obj docutils literal"><span class="pre">get_size</span></code></a>()</td>
+<td>Returns the sizes of the features detected.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.features.Features.get_xpos" title="arrayfire.features.Features.get_xpos"><code class="xref py py-obj docutils literal"><span class="pre">get_xpos</span></code></a>()</td>
+<td>Returns the x-positions of the features detected.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.features.Features.get_ypos" title="arrayfire.features.Features.get_ypos"><code class="xref py py-obj docutils literal"><span class="pre">get_ypos</span></code></a>()</td>
+<td>Returns the y-positions of the features detected.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.features.Features.num_features" title="arrayfire.features.Features.num_features"><code class="xref py py-obj docutils literal"><span class="pre">num_features</span></code></a>()</td>
+<td>Returns the number of features detected.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="arrayfire.features.Features.get_orientation">
+<code class="descname">get_orientation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/features.html#Features.get_orientation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.features.Features.get_orientation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the orientations of the features detected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.features.Features.get_score">
+<code class="descname">get_score</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/features.html#Features.get_score"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.features.Features.get_score" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the scores of the features detected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.features.Features.get_size">
+<code class="descname">get_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/features.html#Features.get_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.features.Features.get_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the sizes of the features detected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.features.Features.get_xpos">
+<code class="descname">get_xpos</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/features.html#Features.get_xpos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.features.Features.get_xpos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the x-positions of the features detected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.features.Features.get_ypos">
+<code class="descname">get_ypos</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/features.html#Features.get_ypos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.features.Features.get_ypos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the y-positions of the features detected.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.features.Features.num_features">
+<code class="descname">num_features</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/features.html#Features.num_features"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.features.Features.num_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of features detected.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.features.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      
+      |
+      <a href="_sources/arrayfire.features.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
