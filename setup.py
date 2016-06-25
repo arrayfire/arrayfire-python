@@ -12,9 +12,9 @@
 from setuptools import setup, find_packages
 from __af_version__ import full_version
 
-TODO:
-1) Look for af libraries during setup
-2) Include test suite
+#TODO:
+#1) Look for af libraries during setup
+#2) Include test suite
 
 setup(
     author="Pavan Yalamanchili",
