@@ -1198,6 +1198,28 @@ def rgb2ycbcr(image, standard=YCC_STD.BT_601):
     safe_call(backend.get().af_rgb2ycbcr(ct.pointer(out.arr), image.arr, standard.value))
     return out
 
+def moments(image, moment = MOMENT.MOMENT_FIRST_ORDER):
+    """
+    Calculate image moments.
+
+    Parameters
+    ----------
+    image : af.Array
+          - A 2 D arrayfire array representing an image, or
+          - A multi dimensional array representing batch of images.
+
+    moment : optional: af.MOMENT. default: af.MOMENT.MOMENT_FIRST_ORDER.
+          - Moment(s) to calculate
+
+    Returns
+    ---------
+    out  : af.Array
+          - array containing requested moment(s) of each image
+    """
+    output = Array()
+    safe_call(backend.get().af_moments(ct.pointer(output.arr), image.arr, moment.value))
+    return output
+
 def is_image_io_available():
     """
     Function to check if the arrayfire library was built with Image IO support.

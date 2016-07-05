@@ -349,6 +349,25 @@ class MARKER(_Enum):
     PLUS       = _Enum_Type(6)
     STAR       = _Enum_Type(7)
 
+class MOMENT(_Enum):
+    """
+    Image Moments
+    """
+    MOMENT_M00         = _Enum_Type(1)
+    MOMENT_M01         = _Enum_Type(2)
+    MOMENT_M10         = _Enum_Type(4)
+    MOMENT_M11         = _Enum_Type(8)
+    MOMENT_FIRST_ORDER = _Enum_Type(15)
+
+class BINARYOP(_Enum):
+    """
+    Binary Operators
+    """
+    BINARY_ADD  = _Enum_Type(0)
+    BINARY_MUL  = _Enum_Type(1)
+    BINARY_MIN  = _Enum_Type(2)
+    BINARY_MAX  = _Enum_Type(3)
+
 def _setup():
     import platform
     import os
