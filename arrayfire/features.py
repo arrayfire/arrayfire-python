@@ -30,7 +30,7 @@ class Features(object):
             assert(isinstance(num, numbers.Number))
             safe_call(backend.get().af_create_features(ct.pointer(self.feat), c_dim_t(num)))
 
-    def num_features():
+    def num_features(self):
         """
         Returns the number of features detected.
         """
@@ -38,7 +38,7 @@ class Features(object):
         safe_call(backend.get().af_get_features_num(ct.pointer(num), self.feat))
         return num
 
-    def get_xpos():
+    def get_xpos(self):
         """
         Returns the x-positions of the features detected.
         """
@@ -46,7 +46,7 @@ class Features(object):
         safe_call(backend.get().af_get_features_xpos(ct.pointer(out.arr), self.feat))
         return out
 
-    def get_ypos():
+    def get_ypos(self):
         """
         Returns the y-positions of the features detected.
         """
@@ -54,7 +54,7 @@ class Features(object):
         safe_call(backend.get().af_get_features_ypos(ct.pointer(out.arr), self.feat))
         return out
 
-    def get_score():
+    def get_score(self):
         """
         Returns the scores of the features detected.
         """
@@ -62,7 +62,7 @@ class Features(object):
         safe_call(backend.get().af_get_features_score(ct.pointer(out.arr), self.feat))
         return out
 
-    def get_orientation():
+    def get_orientation(self):
         """
         Returns the orientations of the features detected.
         """
@@ -70,7 +70,7 @@ class Features(object):
         safe_call(backend.get().af_get_features_orientation(ct.pointer(out.arr), self.feat))
         return out
 
-    def get_size():
+    def get_size(self):
         """
         Returns the sizes of the features detected.
         """
