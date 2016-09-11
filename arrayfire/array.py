@@ -589,7 +589,7 @@ class Array(BaseArray):
         """
         Return the hermitian transpose of the array
         """
-        return transpose(self, False)
+        return transpose(self, True)
 
     def dims(self):
         """
