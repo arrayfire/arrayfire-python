@@ -26,6 +26,18 @@ try:
 
     AF_NUMPY_FOUND=True
 
+    _nptype_to_aftype = {'f4' : Dtype.f32,
+                         'f8' : Dtype.f64,
+                         'b1' : Dtype.b8,
+                         'u1' : Dtype.u8,
+                         'i4' : Dtype.s32,
+                         's4' : Dtype.u32,
+                         'i8' : Dtype.s64,
+                         's8' : Dtype.u64,
+                         'c8' : Dtype.c32,
+                         'c16' : Dtype.c64}
+
+
     def np_to_af_array(np_arr):
         """
         Convert numpy.ndarray to arrayfire.Array.
@@ -41,7 +53,7 @@ try:
 
         in_shape = np_arr.shape
         in_ptr = np_arr.ctypes.data_as(ct.c_void_p)
-        in_dtype = np_arr.dtype.char
+        in_dtype = _nptype_to_aftype[np_arr.dtype.str[1:]]
 
         if (np_arr.flags['F_CONTIGUOUS']):
             return Array(in_ptr, in_shape, in_dtype)
