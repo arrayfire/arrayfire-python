@@ -98,7 +98,7 @@ def qr(A):
     Q = Array()
     R = Array()
     T = Array()
-    safe_call(backend.get().af_lu(ct.pointer(Q.arr), ct.pointer(R.arr), ct.pointer(T.arr), A.arr))
+    safe_call(backend.get().af_qr(ct.pointer(Q.arr), ct.pointer(R.arr), ct.pointer(T.arr), A.arr))
     return Q,R,T
 
 def qr_inplace(A):
