@@ -31,7 +31,7 @@ def calc_pi_device(samples):
 ```
 
 
-Choosing a particular backend can be done using `af.backend.set( backend_name )`  where backend_name can be one of: "_cuda_", "_opencl_", or "_cpu_". The default device is chosen in the same order of preference.
+Choosing a particular backend can be done using `af.set_backend(name)`  where name is either "_cuda_", "_opencl_", or "_cpu_". The default device is chosen in the same order of preference.
 
 ## Requirements
 
