@@ -7,8 +7,10 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
+from __future__ import absolute_import
+
 import sys
-from simple_tests import *
+from .simple_tests import *
 
 tests = {}
 tests['simple'] = simple.tests
