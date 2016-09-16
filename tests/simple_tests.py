@@ -9,7 +9,9 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
-import simple
+from __future__ import absolute_import
+
+from . import simple
 import sys
 
 if __name__ == "__main__":
