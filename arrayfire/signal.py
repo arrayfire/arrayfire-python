@@ -1264,3 +1264,15 @@ def iir(B, A, X):
     Y = Array()
     safe_call(backend.get().af_iir(ct.pointer(Y.arr), B.arr, A.arr, X.arr))
     return Y
+
+def set_fft_plan_cache_size(cache_size):
+    """
+    Sets plan cache size.
+
+    Parameters
+    ----------
+
+    cache_size : scalar
+        the number of plans that shall be cached
+    """
+    safe_call(backend.get().af_set_fft_plan_cache_size(ct.c_size_t(cache_size)))
