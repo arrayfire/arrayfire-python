@@ -490,9 +490,23 @@ class _clibrary(object):
                 except:
                     pass
 
+        c_dim4 = c_dim_t*4
+
+        out = c_dim_t(0)
+        dims = c_dim4(10, 10, 10, 10)
+
+        for key, value in self.__clibs:
+            err = value.af_randu(ct.pointer(out), 4, ct.pointer(dims), 0)
+            if (err == ERR.NONE.value):
+                if (self.__name != key):
+                    self.__name = key
+                break
+            else:
+                self.__name = None
+                pass
+
         if (self.__name is None):
-            raise RuntimeError("Could not load any ArrayFire libraries.\n" +
-                               more_info_str)
+            raise RuntimeError("Could not load any ArrayFire libraries.\n" + more_info_str)
 
     def get_id(self, name):
         return self.__backend_name_map[name]
