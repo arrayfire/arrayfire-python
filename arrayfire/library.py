@@ -373,6 +373,25 @@ class BINARYOP(_Enum):
     MIN  = _Enum_Type(2)
     MAX  = _Enum_Type(3)
 
+class RANDOM_ENGINE(_Enum):
+    """
+    Random engine types
+    """
+    PHILOX_4X32_10   = _Enum_Type(100)
+    THREEFRY_2X32_16 = _Enum_Type(200)
+    MERSENNE_GP11213 = _Enum_Type(300)
+    PHILOX           = PHILOX_4X32_10
+    THREEFRY         = THREEFRY_2X32_16
+    DEFAULT          = PHILOX
+
+class STORAGE(_Enum):
+    """
+    Matrix Storage types
+    """
+    DENSE = _Enum_Type(0)
+    CSR   = _Enum_Type(1)
+    CSC   = _Enum_Type(2)
+    COO   = _Enum_Type(3)
 
 def _setup():
     import platform
