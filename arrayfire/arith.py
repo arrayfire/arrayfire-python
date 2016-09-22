@@ -126,6 +126,44 @@ def maxof(lhs, rhs):
     """
     return _arith_binary_func(lhs, rhs, backend.get().af_maxof)
 
+def clamp(val, low, high):
+    """
+    Clamp the input value between low and high
+
+
+    Parameters
+    ----------
+    val  : af.Array
+          Multi dimensional arrayfire array to be clamped.
+
+    low  : af.Array or scalar
+          Multi dimensional arrayfire array or a scalar number denoting the lower value(s).
+
+    high : af.Array or scalar
+          Multi dimensional arrayfire array or a scalar number denoting the higher value(s).
+    """
+    out = Array()
+
+    is_low_array = isinstance(low, Array)
+    is_high_array = isinstance(high, Array)
+
+    vdims = dim4_to_tuple(val.dims())
+    vty = val.type()
+
+    if not is_low_array:
+        low_arr = constant_array(low, vdims[0], vdims[1], vdims[2], vdims[3], vty)
+    else:
+        low_arr = low.arr
+
+    if not is_high_array:
+        high_arr = constant_array(high, vdims[0], vdims[1], vdims[2], vdims[3], vty)
+    else:
+        high_arr = high.arr
+
+    safe_call(backend.get().af_clamp(ct.pointer(out.arr), val.arr, low_arr, high_arr, _bcast_var.get()))
+
+    return out
+
 def rem(lhs, rhs):
     """
     Find the remainder.
