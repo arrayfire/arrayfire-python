@@ -667,6 +667,14 @@ class Array(BaseArray):
         safe_call(backend.get().af_is_vector(ct.pointer(res), self.arr))
         return res.value
 
+    def is_sparse(self):
+        """
+        Check if the array is a sparse matrix.
+        """
+        res = ct.c_bool(False)
+        safe_call(backend.get().af_is_sparse(ct.pointer(res), self.arr))
+        return res.value
+
     def is_complex(self):
         """
         Check if the array is of complex type.

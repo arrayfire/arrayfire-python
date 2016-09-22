@@ -60,4 +60,6 @@ def simple_array(verbose=False):
     print_func(arr)
     print_func(lst)
 
+    print_func(a.is_sparse())
+
 _util.tests['array'] = simple_array

@@ -163,24 +163,87 @@ def sync(device=None):
     safe_call(backend.get().af_sync(dev))
 
 def __eval(*args):
-    for A in args:
-        if isinstance(A, tuple):
-            __eval(*A)
-        if isinstance(A, list):
-            __eval(*A)
-        if isinstance(A, Array):
-            safe_call(backend.get().af_eval(A.arr))
+    nargs = len(args)
+    if (nargs == 1):
+        safe_call(backend.get().af_eval(args[0].arr))
+    else:
+        c_void_p_n = ct.c_void_p * nargs
+        arrs = c_void_p_n()
+        for n in range(nargs):
+            arrs[n] = args[n].arr
+        safe_call(backend.get().af_eval_multiple(ct.c_int(nargs), ct.pointer(arrs)))
+    return
 
 def eval(*args):
     """
-    Evaluate the input
+    Evaluate one or more inputs together
 
     Parameters
     -----------
     args : arguments to be evaluated
-    """
 
-    __eval(args)
+    Note
+    -----
+
+    All the input arrays to this function should be of the same size.
+
+    Examples
+    --------
+
+    >>> a = af.constant(1, 3, 3)
+    >>> b = af.constant(2, 3, 3)
+    >>> c = a + b
+    >>> d = a - b
+    >>> af.eval(c, d) # A single kernel is launched here
+    >>> c
+    arrayfire.Array()
+    Type: float
+    [3 3 1 1]
+    3.0000     3.0000     3.0000
+    3.0000     3.0000     3.0000
+    3.0000     3.0000     3.0000
+
+    >>> d
+    arrayfire.Array()
+    Type: float
+    [3 3 1 1]
+    -1.0000    -1.0000    -1.0000
+    -1.0000    -1.0000    -1.0000
+    -1.0000    -1.0000    -1.0000
+    """
+    for arg in args:
+        if not isinstance(arg, Array):
+            raise RuntimeError("All inputs to eval must be of type arrayfire.Array")
+
+    __eval(*args)
+
+def set_manual_eval_flag(flag):
+    """
+    Tells the backend JIT engine to disable heuristics for determining when to evaluate a JIT tree.
+
+    Parameters
+    ----------
+
+    flag : optional: bool.
+         - Specifies if the heuristic evaluation of the JIT tree needs to be disabled.
+
+    Note
+    ----
+    This does not affect the evaluation that occurs when a non JIT function forces the evaluation.
+    """
+    safe_call(backend.get().af_set_manual_eval_flag(flag))
+
+def get_manual_eval_flag():
+    """
+    Query the backend JIT engine to see if the user disabled heuristic evaluation of the JIT tree.
+
+    Note
+    ----
+    This does not affect the evaluation that occurs when a non JIT function forces the evaluation.
+    """
+    res = ct.c_bool(False)
+    safe_call(backend.get().af_get_manual_eval_flag(ct.pointer(res)))
+    return res.value
 
 def device_mem_info():
     """
@@ -258,9 +321,26 @@ def lock_array(a):
 
     Note
     -----
-        - The device pointer of `a` is not freed by memory manager until `unlock_device_ptr()` is called.
+        - The device pointer of `a` is not freed by memory manager until `unlock_array()` is called.
     """
     safe_call(backend.get().af_lock_array(a.arr))
+
+def is_locked_array(a):
+    """
+    Check if the input array is locked by the user.
+
+    Parameters
+    ----------
+    a: af.Array
+       - A multi dimensional arrayfire array.
+
+    Returns
+    -----------
+    A bool specifying if the input array is locked.
+    """
+    res = ct.c_bool(False)
+    safe_call(backend.get().af_is_locked_array(ct.pointer(res), a.arr))
+    return res.value
 
 def unlock_device_ptr(a):
     """
