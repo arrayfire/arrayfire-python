@@ -1198,7 +1198,7 @@ def rgb2ycbcr(image, standard=YCC_STD.BT_601):
     safe_call(backend.get().af_rgb2ycbcr(ct.pointer(out.arr), image.arr, standard.value))
     return out
 
-def moments(image, moment = MOMENT.MOMENT_FIRST_ORDER):
+def moments(image, moment = MOMENT.FIRST_ORDER):
     """
     Calculate image moments.
 
@@ -1208,8 +1208,13 @@ def moments(image, moment = MOMENT.MOMENT_FIRST_ORDER):
           - A 2 D arrayfire array representing an image, or
           - A multi dimensional array representing batch of images.
 
-    moment : optional: af.MOMENT. default: af.MOMENT.MOMENT_FIRST_ORDER.
-          - Moment(s) to calculate
+    moment : optional: af.MOMENT. default: af.MOMENT.FIRST_ORDER.
+          Moment(s) to calculate. Can be one of:
+          - af.MOMENT.M00
+          - af.MOMENT.M01
+          - af.MOMENT.M10
+          - af.MOMENT.M11
+          - af.MOMENT.FIRST_ORDER
 
     Returns
     ---------

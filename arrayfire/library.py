@@ -113,11 +113,16 @@ class INTERP(_Enum):
     """
     Interpolation method
     """
-    NEAREST   = _Enum_Type(0)
-    LINEAR    = _Enum_Type(1)
-    BILINEAR  = _Enum_Type(2)
-    CUBIC     = _Enum_Type(3)
-    LOWER     = _Enum_Type(4)
+    NEAREST         = _Enum_Type(0)
+    LINEAR          = _Enum_Type(1)
+    BILINEAR        = _Enum_Type(2)
+    CUBIC           = _Enum_Type(3)
+    LOWER           = _Enum_Type(4)
+    LINEAR_COSINE   = _Enum_Type(5)
+    BILINEAR_COSINE = _Enum_Type(6)
+    BICUBIC         = _Enum_Type(7)
+    CUBIC_SPLINE    = _Enum_Type(8)
+    BICUBIC_SPLINE  = _Enum_Type(9)
 
 class PAD(_Enum):
     """
@@ -351,22 +356,23 @@ class MARKER(_Enum):
 
 class MOMENT(_Enum):
     """
-    Image Moments
+    Image Moments types
     """
-    MOMENT_M00         = _Enum_Type(1)
-    MOMENT_M01         = _Enum_Type(2)
-    MOMENT_M10         = _Enum_Type(4)
-    MOMENT_M11         = _Enum_Type(8)
-    MOMENT_FIRST_ORDER = _Enum_Type(15)
+    M00         = _Enum_Type(1)
+    M01         = _Enum_Type(2)
+    M10         = _Enum_Type(4)
+    M11         = _Enum_Type(8)
+    FIRST_ORDER = _Enum_Type(15)
 
 class BINARYOP(_Enum):
     """
     Binary Operators
     """
-    BINARY_ADD  = _Enum_Type(0)
-    BINARY_MUL  = _Enum_Type(1)
-    BINARY_MIN  = _Enum_Type(2)
-    BINARY_MAX  = _Enum_Type(3)
+    ADD  = _Enum_Type(0)
+    MUL  = _Enum_Type(1)
+    MIN  = _Enum_Type(2)
+    MAX  = _Enum_Type(3)
+
 
 def _setup():
     import platform
