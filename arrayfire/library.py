@@ -671,4 +671,12 @@ def get_device_id(A):
     safe_call(backend.get().af_get_device_id(ct.pointer(device_id), A.arr))
     return device_id
 
+def get_size_of(dtype):
+    """
+    Get the size of the type represented by arrayfire.Dtype
+    """
+    size = ct.c_size_t(0)
+    safe_call(backend.get().af_get_size_of(ct.pointer(size), dtype.value))
+    return size.value
+
 from .util import safe_call
