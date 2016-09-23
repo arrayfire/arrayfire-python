@@ -24,16 +24,6 @@ def simple_data(verbose=False):
     display_func(af.range(3, 3))
     display_func(af.iota(3, 3, tile_dims=(2,2)))
 
-    display_func(af.randu(3, 3, 1, 2))
-    display_func(af.randu(3, 3, 1, 2, af.Dtype.b8))
-    display_func(af.randu(3, 3, dtype=af.Dtype.c32))
-
-    display_func(af.randn(3, 3, 1, 2))
-    display_func(af.randn(3, 3, dtype=af.Dtype.c32))
-
-    af.set_seed(1024)
-    assert(af.get_seed() == 1024)
-
     display_func(af.identity(3, 3, 1, 2, af.Dtype.b8))
     display_func(af.identity(3, 3, dtype=af.Dtype.c32))
 

@@ -6,9 +6,11 @@
 # The complete license agreement can be obtained at:
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
+
 """
 Features class used for Computer Vision algorithms.
 """
+
 from .library import *
 from .array import *
 import numbers
