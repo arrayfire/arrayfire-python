@@ -25,7 +25,7 @@ def simple_random(verbose=False):
     af.set_seed(1024)
     assert(af.get_seed() == 1024)
 
-    engine = Random_Engine(RANDOM_ENGINE.MERSENNE_GP11213, 100)
+    engine = af.Random_Engine(af.RANDOM_ENGINE.MERSENNE_GP11213, 100)
 
     display_func(af.randu(3, 3, 1, 2, engine=engine))
     display_func(af.randu(3, 3, 1, 2, af.Dtype.s32, engine=engine))

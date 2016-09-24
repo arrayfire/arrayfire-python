@@ -81,7 +81,7 @@ class Random_Engine(object):
         safe_call(backend.get().af_random_engine_get_seed(ct.pointer(seed), self.engine))
         return seed.value
 
-def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, random_engine=None):
+def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
     """
     Create a multi dimensional array containing values from a uniform distribution.
 
@@ -102,8 +102,8 @@ def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, random_engine=None):
     dtype : optional: af.Dtype. default: af.Dtype.f32.
            Data type of the array.
 
-    random_engine : optional: Random_Engine. default: None.
-             If random_engine is None, uses a default engine created by arrayfire.
+    engine : optional: Random_Engine. default: None.
+             If engine is None, uses a default engine created by arrayfire.
 
     Returns
     -------
@@ -118,14 +118,14 @@ def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, random_engine=None):
     out = Array()
     dims = dim4(d0, d1, d2, d3)
 
-    if random_engine is None:
+    if engine is None:
         safe_call(backend.get().af_randu(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value))
     else:
-        safe_call(backend.get().af_random_uniform(ct.pointer(out.arr), 4, ct.pointer(dims), random_engine.engine))
+        safe_call(backend.get().af_random_uniform(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value, engine.engine))
 
     return out
 
-def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, random_engine=None):
+def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
     """
     Create a multi dimensional array containing values from a normal distribution.
 
@@ -146,8 +146,8 @@ def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, random_engine=None):
     dtype : optional: af.Dtype. default: af.Dtype.f32.
            Data type of the array.
 
-    random_engine : optional: Random_Engine. default: None.
-             If random_engine is None, uses a default engine created by arrayfire.
+    engine : optional: Random_Engine. default: None.
+             If engine is None, uses a default engine created by arrayfire.
 
     Returns
     -------
@@ -163,10 +163,10 @@ def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, random_engine=None):
     out = Array()
     dims = dim4(d0, d1, d2, d3)
 
-    if random_engine is None:
+    if engine is None:
         safe_call(backend.get().af_randn(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value))
     else:
-        safe_call(backend.get().af_random_normal(ct.pointer(out.arr), 4, ct.pointer(dims), random_engine.engine))
+        safe_call(backend.get().af_random_normal(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value, engine.engine))
 
     return out
 

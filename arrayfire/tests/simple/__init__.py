@@ -18,4 +18,5 @@ from .index import *
 from .lapack import *
 from .signal import *
 from .statistics import *
+from .random import *
 from ._util import tests

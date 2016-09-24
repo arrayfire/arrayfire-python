@@ -72,6 +72,7 @@ from .bcast      import *
 from .index      import *
 from .interop    import *
 from .timer      import *
+from .random     import *
 
 # do not export default modules as part of arrayfire
 del ct
