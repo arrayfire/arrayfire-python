@@ -35,8 +35,8 @@ def get_stream(idx):
     if (backend.name() != "cuda"):
         raise RuntimeError("Invalid backend loaded")
 
-    stream = ct.c_void_p(0)
-    safe_call(backend.get().afcu_get_stream(ct.pointer(stream), idx))
+    stream = c_void_ptr_t(0)
+    safe_call(backend.get().afcu_get_stream(c_pointer(stream), idx))
     return stream.value
 
 def get_native_id(idx):
@@ -61,8 +61,8 @@ def get_native_id(idx):
     if (backend.name() != "cuda"):
         raise RuntimeError("Invalid backend loaded")
 
-    native = ct.c_int(0)
-    safe_call(backend.get().afcu_get_native_id(ct.pointer(native), idx))
+    native = c_int_t(0)
+    safe_call(backend.get().afcu_get_native_id(c_pointer(native), idx))
     return native.value
 
 def set_native_id(idx):

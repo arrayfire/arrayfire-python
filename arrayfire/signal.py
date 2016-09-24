@@ -48,8 +48,8 @@ def approx1(signal, pos0, method=INTERP.LINEAR, off_grid=0.0):
 
     """
     output = Array()
-    safe_call(backend.get().af_approx1(ct.pointer(output.arr), signal.arr, pos0.arr,
-                                       method.value, ct.c_double(off_grid)))
+    safe_call(backend.get().af_approx1(c_pointer(output.arr), signal.arr, pos0.arr,
+                                       method.value, c_double_t(off_grid)))
     return output
 
 def approx2(signal, pos0, pos1, method=INTERP.LINEAR, off_grid=0.0):
@@ -90,8 +90,8 @@ def approx2(signal, pos0, pos1, method=INTERP.LINEAR, off_grid=0.0):
 
     """
     output = Array()
-    safe_call(backend.get().af_approx2(ct.pointer(output.arr), signal.arr,
-                                       pos0.arr, pos1.arr, method.value, ct.c_double(off_grid)))
+    safe_call(backend.get().af_approx2(c_pointer(output.arr), signal.arr,
+                                       pos0.arr, pos1.arr, method.value, c_double_t(off_grid)))
     return output
 
 def fft(signal, dim0 = None , scale = None):
@@ -127,7 +127,7 @@ def fft(signal, dim0 = None , scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(backend.get().af_fft(ct.pointer(output.arr), signal.arr, ct.c_double(scale), c_dim_t(dim0)))
+    safe_call(backend.get().af_fft(c_pointer(output.arr), signal.arr, c_double_t(scale), c_dim_t(dim0)))
     return output
 
 def fft2(signal, dim0 = None, dim1 = None , scale = None):
@@ -169,7 +169,7 @@ def fft2(signal, dim0 = None, dim1 = None , scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(backend.get().af_fft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+    safe_call(backend.get().af_fft2(c_pointer(output.arr), signal.arr, c_double_t(scale),
                                     c_dim_t(dim0), c_dim_t(dim1)))
     return output
 
@@ -219,7 +219,7 @@ def fft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(backend.get().af_fft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+    safe_call(backend.get().af_fft3(c_pointer(output.arr), signal.arr, c_double_t(scale),
                                     c_dim_t(dim0), c_dim_t(dim1), c_dim_t(dim2)))
     return output
 
@@ -261,7 +261,7 @@ def ifft(signal, dim0 = None , scale = None):
         scale = 1.0/float(dim0)
 
     output = Array()
-    safe_call(backend.get().af_ifft(ct.pointer(output.arr), signal.arr, ct.c_double(scale), c_dim_t(dim0)))
+    safe_call(backend.get().af_ifft(c_pointer(output.arr), signal.arr, c_double_t(scale), c_dim_t(dim0)))
     return output
 
 def ifft2(signal, dim0 = None, dim1 = None , scale = None):
@@ -311,7 +311,7 @@ def ifft2(signal, dim0 = None, dim1 = None , scale = None):
         scale = 1.0/float(dim0 * dim1)
 
     output = Array()
-    safe_call(backend.get().af_ifft2(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+    safe_call(backend.get().af_ifft2(c_pointer(output.arr), signal.arr, c_double_t(scale),
                                      c_dim_t(dim0), c_dim_t(dim1)))
     return output
 
@@ -369,7 +369,7 @@ def ifft3(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
         scale = 1.0 / float(dim0 * dim1 * dim2)
 
     output = Array()
-    safe_call(backend.get().af_ifft3(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+    safe_call(backend.get().af_ifft3(c_pointer(output.arr), signal.arr, c_double_t(scale),
                                      c_dim_t(dim0), c_dim_t(dim1), c_dim_t(dim2)))
     return output
 
@@ -392,7 +392,7 @@ def fft_inplace(signal, scale = None):
     if scale is None:
         scale = 1.0
 
-    safe_call(backend.get().af_fft_inplace(signal.arr, ct.c_double(scale)))
+    safe_call(backend.get().af_fft_inplace(signal.arr, c_double_t(scale)))
 
 def fft2_inplace(signal, scale = None):
     """
@@ -413,7 +413,7 @@ def fft2_inplace(signal, scale = None):
     if scale is None:
         scale = 1.0
 
-    safe_call(backend.get().af_fft2_inplace(signal.arr, ct.c_double(scale)))
+    safe_call(backend.get().af_fft2_inplace(signal.arr, c_double_t(scale)))
 
 def fft3_inplace(signal, scale = None):
     """
@@ -434,7 +434,7 @@ def fft3_inplace(signal, scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(backend.get().af_fft3_inplace(signal.arr, ct.c_double(scale)))
+    safe_call(backend.get().af_fft3_inplace(signal.arr, c_double_t(scale)))
 
 def ifft_inplace(signal, scale = None):
     """
@@ -455,7 +455,7 @@ def ifft_inplace(signal, scale = None):
         dim0 = signal.dims()[0]
         scale = 1.0/float(dim0)
 
-    safe_call(backend.get().af_ifft_inplace(signal.arr, ct.c_double(scale)))
+    safe_call(backend.get().af_ifft_inplace(signal.arr, c_double_t(scale)))
 
 def ifft2_inplace(signal, scale = None):
     """
@@ -479,7 +479,7 @@ def ifft2_inplace(signal, scale = None):
         dim1 = dims[1]
         scale = 1.0/float(dim0 * dim1)
 
-    safe_call(backend.get().af_ifft2_inplace(signal.arr, ct.c_double(scale)))
+    safe_call(backend.get().af_ifft2_inplace(signal.arr, c_double_t(scale)))
 
 def ifft3_inplace(signal, scale = None):
     """
@@ -504,7 +504,7 @@ def ifft3_inplace(signal, scale = None):
         dim2 = dims[2]
         scale = 1.0 / float(dim0 * dim1 * dim2)
 
-    safe_call(backend.get().af_ifft3_inplace(signal.arr, ct.c_double(scale)))
+    safe_call(backend.get().af_ifft3_inplace(signal.arr, c_double_t(scale)))
 
 def fft_r2c(signal, dim0 = None , scale = None):
     """
@@ -539,7 +539,7 @@ def fft_r2c(signal, dim0 = None , scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(backend.get().af_fft_r2c(ct.pointer(output.arr), signal.arr, ct.c_double(scale), c_dim_t(dim0)))
+    safe_call(backend.get().af_fft_r2c(c_pointer(output.arr), signal.arr, c_double_t(scale), c_dim_t(dim0)))
     return output
 
 def fft2_r2c(signal, dim0 = None, dim1 = None , scale = None):
@@ -581,7 +581,7 @@ def fft2_r2c(signal, dim0 = None, dim1 = None , scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(backend.get().af_fft2_r2c(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+    safe_call(backend.get().af_fft2_r2c(c_pointer(output.arr), signal.arr, c_double_t(scale),
                                         c_dim_t(dim0), c_dim_t(dim1)))
     return output
 
@@ -631,7 +631,7 @@ def fft3_r2c(signal, dim0 = None, dim1 = None , dim2 = None, scale = None):
         scale = 1.0
 
     output = Array()
-    safe_call(backend.get().af_fft3_r2c(ct.pointer(output.arr), signal.arr, ct.c_double(scale),
+    safe_call(backend.get().af_fft3_r2c(c_pointer(output.arr), signal.arr, c_double_t(scale),
                                         c_dim_t(dim0), c_dim_t(dim1), c_dim_t(dim2)))
     return output
 
@@ -669,7 +669,7 @@ def fft_c2r(signal, is_odd = False, scale = None):
         scale = 1.0/float(dim0)
 
     output = Array()
-    safe_call(backend.get().af_fft_c2r(ct.pointer(output.arr), signal.arr, ct.c_double(scale), is_odd))
+    safe_call(backend.get().af_fft_c2r(c_pointer(output.arr), signal.arr, c_double_t(scale), is_odd))
     return output
 
 def fft2_c2r(signal, is_odd = False, scale = None):
@@ -704,7 +704,7 @@ def fft2_c2r(signal, is_odd = False, scale = None):
         scale = 1.0/float(dim0 * dim1)
 
     output = Array()
-    safe_call(backend.get().af_fft2_c2r(ct.pointer(output.arr), signal.arr, ct.c_double(scale), is_odd))
+    safe_call(backend.get().af_fft2_c2r(c_pointer(output.arr), signal.arr, c_double_t(scale), is_odd))
     return output
 
 def fft3_c2r(signal, is_odd = False, scale = None):
@@ -740,7 +740,7 @@ def fft3_c2r(signal, is_odd = False, scale = None):
         scale = 1.0/float(dim0 * dim1 * dim2)
 
     output = Array()
-    safe_call(backend.get().af_fft3_c2r(ct.pointer(output.arr), signal.arr, ct.c_double(scale), is_odd))
+    safe_call(backend.get().af_fft3_c2r(c_pointer(output.arr), signal.arr, c_double_t(scale), is_odd))
     return output
 
 
@@ -871,7 +871,7 @@ def convolve1(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_
 
     """
     output = Array()
-    safe_call(backend.get().af_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr,
+    safe_call(backend.get().af_convolve1(c_pointer(output.arr), signal.arr, kernel.arr,
                                          conv_mode.value, conv_domain.value))
     return output
 
@@ -919,7 +919,7 @@ def convolve2(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_
 
     """
     output = Array()
-    safe_call(backend.get().af_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr,
+    safe_call(backend.get().af_convolve2(c_pointer(output.arr), signal.arr, kernel.arr,
                                          conv_mode.value, conv_domain.value))
     return output
 
@@ -949,7 +949,7 @@ def convolve2_separable(col_kernel, row_kernel, signal, conv_mode = CONV_MODE.DE
           - Output of 2D sepearable convolution.
     """
     output = Array()
-    safe_call(backend.get().af_convolve2_sep(ct.pointer(output.arr),
+    safe_call(backend.get().af_convolve2_sep(c_pointer(output.arr),
                                              col_kernel.arr, row_kernel.arr,signal.arr,
                                              conv_mode.value))
     return output
@@ -996,7 +996,7 @@ def convolve3(signal, kernel, conv_mode = CONV_MODE.DEFAULT, conv_domain = CONV_
 
     """
     output = Array()
-    safe_call(backend.get().af_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr,
+    safe_call(backend.get().af_convolve3(c_pointer(output.arr), signal.arr, kernel.arr,
                                          conv_mode.value, conv_domain.value))
     return output
 
@@ -1083,7 +1083,7 @@ def fft_convolve1(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
 
     """
     output = Array()
-    safe_call(backend.get().af_fft_convolve1(ct.pointer(output.arr), signal.arr, kernel.arr,
+    safe_call(backend.get().af_fft_convolve1(c_pointer(output.arr), signal.arr, kernel.arr,
                                              conv_mode.value))
     return output
 
@@ -1127,7 +1127,7 @@ def fft_convolve2(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
 
     """
     output = Array()
-    safe_call(backend.get().af_fft_convolve2(ct.pointer(output.arr), signal.arr, kernel.arr,
+    safe_call(backend.get().af_fft_convolve2(c_pointer(output.arr), signal.arr, kernel.arr,
                                              conv_mode.value))
     return output
 
@@ -1169,7 +1169,7 @@ def fft_convolve3(signal, kernel, conv_mode = CONV_MODE.DEFAULT):
 
     """
     output = Array()
-    safe_call(backend.get().af_fft_convolve3(ct.pointer(output.arr), signal.arr, kernel.arr,
+    safe_call(backend.get().af_fft_convolve3(c_pointer(output.arr), signal.arr, kernel.arr,
                                              conv_mode.value))
     return output
 
@@ -1235,7 +1235,7 @@ def fir(B, X):
 
     """
     Y = Array()
-    safe_call(backend.get().af_fir(ct.pointer(Y.arr), B.arr, X.arr))
+    safe_call(backend.get().af_fir(c_pointer(Y.arr), B.arr, X.arr))
     return Y
 
 def iir(B, A, X):
@@ -1262,7 +1262,7 @@ def iir(B, A, X):
 
     """
     Y = Array()
-    safe_call(backend.get().af_iir(ct.pointer(Y.arr), B.arr, A.arr, X.arr))
+    safe_call(backend.get().af_iir(c_pointer(Y.arr), B.arr, A.arr, X.arr))
     return Y
 
 def medfilt(signal, w0 = 3, w1 = 3, edge_pad = PAD.ZERO):
@@ -1292,7 +1292,7 @@ def medfilt(signal, w0 = 3, w1 = 3, edge_pad = PAD.ZERO):
 
     """
     output = Array()
-    safe_call(backend.get().af_medfilt(ct.pointer(output.arr),
+    safe_call(backend.get().af_medfilt(c_pointer(output.arr),
                                        signal.arr, c_dim_t(w0),
                                        c_dim_t(w1), edge_pad.value))
     return output
@@ -1321,7 +1321,7 @@ def medfilt1(signal, length = 3, edge_pad = PAD.ZERO):
 
     """
     output = Array()
-    safe_call(backend.get().af_medfilt1(ct.pointer(output.arr), signal.arr, c_dim_t(length), edge_pad.value))
+    safe_call(backend.get().af_medfilt1(c_pointer(output.arr), signal.arr, c_dim_t(length), edge_pad.value))
     return output
 
 def medfilt2(signal, w0 = 3, w1 = 3, edge_pad = PAD.ZERO):
@@ -1351,7 +1351,7 @@ def medfilt2(signal, w0 = 3, w1 = 3, edge_pad = PAD.ZERO):
 
     """
     output = Array()
-    safe_call(backend.get().af_medfilt2(ct.pointer(output.arr),
+    safe_call(backend.get().af_medfilt2(c_pointer(output.arr),
                                         signal.arr, c_dim_t(w0),
                                         c_dim_t(w1), edge_pad.value))
     return output
@@ -1366,4 +1366,4 @@ def set_fft_plan_cache_size(cache_size):
     cache_size : scalar
         the number of plans that shall be cached
     """
-    safe_call(backend.get().af_set_fft_plan_cache_size(ct.c_size_t(cache_size)))
+    safe_call(backend.get().af_set_fft_plan_cache_size(c_size_t(cache_size)))

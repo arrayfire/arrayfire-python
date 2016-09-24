@@ -59,8 +59,8 @@ def get_context(retain=False):
     if (backend.name() != "opencl"):
         raise RuntimeError("Invalid backend loaded")
 
-    context = ct.c_void_p(0)
-    safe_call(backend.get().afcl_get_context(ct.pointer(context), retain))
+    context = c_void_ptr_t(0)
+    safe_call(backend.get().afcl_get_context(c_pointer(context), retain))
     return context.value
 
 def get_queue(retain):
@@ -85,8 +85,8 @@ def get_queue(retain):
     if (backend.name() != "opencl"):
         raise RuntimeError("Invalid backend loaded")
 
-    queue = ct.c_int(0)
-    safe_call(backend.get().afcl_get_queue(ct.pointer(queue), retain))
+    queue = c_int_t(0)
+    safe_call(backend.get().afcl_get_queue(c_pointer(queue), retain))
     return queue.value
 
 def get_device_id():
@@ -107,8 +107,8 @@ def get_device_id():
     if (backend.name() != "opencl"):
         raise RuntimeError("Invalid backend loaded")
 
-    idx = ct.c_int(0)
-    safe_call(backend.get().afcl_get_device_id(ct.pointer(idx)))
+    idx = c_int_t(0)
+    safe_call(backend.get().afcl_get_device_id(c_pointer(idx)))
     return idx.value
 
 def set_device_id(idx):
@@ -204,14 +204,14 @@ def get_device_type():
     """
     Get opencl device type
     """
-    res = ct.c_int(DEVICE_TYPE.UNKNOWN.value)
-    safe_call(backend.get().afcl_get_device_type(ct.pointer(res)))
+    res = c_int_t(DEVICE_TYPE.UNKNOWN.value)
+    safe_call(backend.get().afcl_get_device_type(c_pointer(res)))
     return _to_device_type[res.value]
 
 def get_platform():
     """
     Get opencl platform
     """
-    res = ct.c_int(PLATFORM.UNKNOWN.value)
-    safe_call(backend.get().afcl_get_platform(ct.pointer(res)))
+    res = c_int_t(PLATFORM.UNKNOWN.value)
+    safe_call(backend.get().afcl_get_platform(c_pointer(res)))
     return _to_platform[res.value]

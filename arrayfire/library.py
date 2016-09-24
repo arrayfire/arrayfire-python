@@ -14,18 +14,34 @@ Module containing enums and other constants.
 import platform
 import ctypes as ct
 
+c_float_t     = ct.c_float
+c_double_t    = ct.c_double
+c_int_t       = ct.c_int
+c_uint_t      = ct.c_uint
+c_longlong_t  = ct.c_longlong
+c_ulonglong_t = ct.c_ulonglong
+c_char_t      = ct.c_char
+c_bool_t      = ct.c_bool
+c_uchar_t     = ct.c_ubyte
+c_short_t     = ct.c_short
+c_ushort_t    = ct.c_ushort
+c_pointer     = ct.pointer
+c_void_ptr_t  = ct.c_void_p
+c_char_ptr_t  = ct.c_char_p
+c_size_t      = ct.c_size_t
+
 # Work around for unexpected architectures
 if 'c_dim_t_forced' in globals():
     global c_dim_t_forced
     c_dim_t = c_dim_t_forced
 else:
     # dim_t is long long by default
-    c_dim_t = ct.c_longlong
+    c_dim_t = c_longlong_t
     # Change to int for 32 bit x86 and amr architectures
     if (platform.architecture()[0][0:2] == '32' and
         (platform.machine()[-2:] == '86' or
          platform.machine()[0:3] == 'arm')):
-        c_dim_t = ct.c_int
+        c_dim_t = c_int_t
 
 try:
     from enum import Enum as _Enum
@@ -522,7 +538,7 @@ class _clibrary(object):
                 pass
 
         c_dim4 = c_dim_t*4
-        out = ct.c_void_p(0)
+        out = c_void_ptr_t(0)
         dims = c_dim4(10, 10, 1, 1)
 
         # Iterate in reverse order of preference
@@ -534,7 +550,7 @@ class _clibrary(object):
                     __name = 'unified' if name == '' else name
                     clib = ct.CDLL(libname)
                     self.__clibs[__name] = clib
-                    err = clib.af_randu(ct.pointer(out), 4, ct.pointer(dims), Dtype.f32.value)
+                    err = clib.af_randu(c_pointer(out), 4, c_pointer(dims), Dtype.f32.value)
                     if (err == ERR.NONE.value):
                         self.__name = __name
                         clib.af_release_array(out)
@@ -610,8 +626,8 @@ def get_backend_id(A):
     name : str.
          Backend name
     """
-    backend_id = ct.c_int(BACKEND.CPU.value)
-    safe_call(backend.get().af_get_backend_id(ct.pointer(backend_id), A.arr))
+    backend_id = c_int_t(BACKEND.CPU.value)
+    safe_call(backend.get().af_get_backend_id(c_pointer(backend_id), A.arr))
     return backend.get_name(backend_id.value)
 
 def get_backend_count():
@@ -624,8 +640,8 @@ def get_backend_count():
     count : int
           Number of available backends
     """
-    count = ct.c_int(0)
-    safe_call(backend.get().af_get_backend_count(ct.pointer(count)))
+    count = c_int_t(0)
+    safe_call(backend.get().af_get_backend_count(c_pointer(count)))
     return count.value
 
 def get_available_backends():
@@ -638,8 +654,8 @@ def get_available_backends():
     names : tuple of strings
           Names of available backends
     """
-    available = ct.c_int(0)
-    safe_call(backend.get().af_get_available_backends(ct.pointer(available)))
+    available = c_int_t(0)
+    safe_call(backend.get().af_get_available_backends(c_pointer(available)))
     return backend.parse(int(available.value))
 
 def get_active_backend():
@@ -649,8 +665,8 @@ def get_active_backend():
     name : str.
          Backend name
     """
-    backend_id = ct.c_int(BACKEND.CPU.value)
-    safe_call(backend.get().af_get_active_backend(ct.pointer(backend_id)))
+    backend_id = c_int_t(BACKEND.CPU.value)
+    safe_call(backend.get().af_get_active_backend(c_pointer(backend_id)))
     return backend.get_name(backend_id.value)
 
 def get_device_id(A):
@@ -667,16 +683,16 @@ def get_device_id(A):
     dev : Integer
          id of the device array was created on
     """
-    device_id = ct.c_int(0)
-    safe_call(backend.get().af_get_device_id(ct.pointer(device_id), A.arr))
+    device_id = c_int_t(0)
+    safe_call(backend.get().af_get_device_id(c_pointer(device_id), A.arr))
     return device_id
 
 def get_size_of(dtype):
     """
     Get the size of the type represented by arrayfire.Dtype
     """
-    size = ct.c_size_t(0)
-    safe_call(backend.get().af_get_size_of(ct.pointer(size), dtype.value))
+    size = c_size_t(0)
+    safe_call(backend.get().af_get_size_of(c_pointer(size), dtype.value))
     return size.value
 
 from .util import safe_call

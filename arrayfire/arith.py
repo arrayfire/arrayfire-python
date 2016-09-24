@@ -26,27 +26,27 @@ def _arith_binary_func(lhs, rhs, c_func):
         raise TypeError("Atleast one input needs to be of type arrayfire.array")
 
     elif (is_left_array and is_right_array):
-        safe_call(c_func(ct.pointer(out.arr), lhs.arr, rhs.arr, _bcast_var.get()))
+        safe_call(c_func(c_pointer(out.arr), lhs.arr, rhs.arr, _bcast_var.get()))
 
     elif (_is_number(rhs)):
         ldims = dim4_to_tuple(lhs.dims())
         rty = implicit_dtype(rhs, lhs.type())
         other = Array()
         other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty)
-        safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, _bcast_var.get()))
+        safe_call(c_func(c_pointer(out.arr), lhs.arr, other.arr, _bcast_var.get()))
 
     else:
         rdims = dim4_to_tuple(rhs.dims())
         lty = implicit_dtype(lhs, rhs.type())
         other = Array()
         other.arr = constant_array(lhs, rdims[0], rdims[1], rdims[2], rdims[3], lty)
-        safe_call(c_func(ct.pointer(out.arr), other.arr, rhs.arr, _bcast_var.get()))
+        safe_call(c_func(c_pointer(out.arr), other.arr, rhs.arr, _bcast_var.get()))
 
     return out
 
 def _arith_unary_func(a, c_func):
     out = Array()
-    safe_call(c_func(ct.pointer(out.arr), a.arr))
+    safe_call(c_func(c_pointer(out.arr), a.arr))
     return out
 
 def cast(a, dtype):
@@ -75,7 +75,7 @@ def cast(a, dtype):
            array containing the values from `a` after converting to `dtype`.
     """
     out=Array()
-    safe_call(backend.get().af_cast(ct.pointer(out.arr), a.arr, dtype.value))
+    safe_call(backend.get().af_cast(c_pointer(out.arr), a.arr, dtype.value))
     return out
 
 def minof(lhs, rhs):
@@ -160,7 +160,7 @@ def clamp(val, low, high):
     else:
         high_arr = high.arr
 
-    safe_call(backend.get().af_clamp(ct.pointer(out.arr), val.arr, low_arr, high_arr, _bcast_var.get()))
+    safe_call(backend.get().af_clamp(c_pointer(out.arr), val.arr, low_arr, high_arr, _bcast_var.get()))
 
     return out
 

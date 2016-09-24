@@ -53,7 +53,7 @@ try:
         """
 
         in_shape = np_arr.shape
-        in_ptr = np_arr.ctypes.data_as(ct.c_void_p)
+        in_ptr = np_arr.ctypes.data_as(c_void_ptr_t)
         in_dtype = _nptype_to_aftype[np_arr.dtype.str[1:]]
 
         if (np_arr.flags['F_CONTIGUOUS']):

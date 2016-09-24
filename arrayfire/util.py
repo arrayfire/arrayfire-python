@@ -73,19 +73,19 @@ def to_str(c_str):
 
 def safe_call(af_error):
     if (af_error != ERR.NONE.value):
-        err_str = ct.c_char_p(0)
+        err_str = c_char_ptr_t(0)
         err_len = c_dim_t(0)
-        backend.get().af_get_last_error(ct.pointer(err_str), ct.pointer(err_len))
+        backend.get().af_get_last_error(c_pointer(err_str), c_pointer(err_len))
         raise RuntimeError(to_str(err_str))
 
 def get_version():
     """
     Function to get the version of arrayfire.
     """
-    major=ct.c_int(0)
-    minor=ct.c_int(0)
-    patch=ct.c_int(0)
-    safe_call(backend.get().af_get_version(ct.pointer(major), ct.pointer(minor), ct.pointer(patch)))
+    major=c_int_t(0)
+    minor=c_int_t(0)
+    patch=c_int_t(0)
+    safe_call(backend.get().af_get_version(c_pointer(major), c_pointer(minor), c_pointer(patch)))
     return major.value,minor.value,patch.value
 
 def get_reversion():
@@ -120,18 +120,18 @@ to_typecode = {Dtype.f32.value : 'f',
                Dtype.c32.value : 'F',
                Dtype.c64.value : 'D'}
 
-to_c_type = {Dtype.f32.value : ct.c_float,
-             Dtype.f64.value : ct.c_double,
-             Dtype.b8.value : ct.c_char,
-             Dtype.u8.value : ct.c_ubyte,
-             Dtype.s16.value : ct.c_short,
-             Dtype.u16.value : ct.c_ushort,
-             Dtype.s32.value : ct.c_int,
-             Dtype.u32.value : ct.c_uint,
-             Dtype.s64.value : ct.c_longlong,
-             Dtype.u64.value : ct.c_ulonglong,
-             Dtype.c32.value : ct.c_float * 2,
-             Dtype.c64.value : ct.c_double * 2}
+to_c_type = {Dtype.f32.value : c_float_t,
+             Dtype.f64.value : c_double_t,
+             Dtype.b8.value : c_char_t,
+             Dtype.u8.value : c_uchar_t,
+             Dtype.s16.value : c_short_t,
+             Dtype.u16.value : c_ushort_t,
+             Dtype.s32.value : c_int_t,
+             Dtype.u32.value : c_uint_t,
+             Dtype.s64.value : c_longlong_t,
+             Dtype.u64.value : c_ulonglong_t,
+             Dtype.c32.value : c_float_t * 2,
+             Dtype.c64.value : c_double_t * 2}
 
 to_typename = {Dtype.f32.value : 'float',
                Dtype.f64.value : 'double',

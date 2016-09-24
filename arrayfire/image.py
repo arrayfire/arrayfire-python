@@ -36,7 +36,7 @@ def gradient(image):
     """
     dx = Array()
     dy = Array()
-    safe_call(backend.get().af_gradient(ct.pointer(dx.arr), ct.pointer(dy.arr), image.arr))
+    safe_call(backend.get().af_gradient(c_pointer(dx.arr), c_pointer(dy.arr), image.arr))
     return dx, dy
 
 def load_image(file_name, is_color=False):
@@ -59,8 +59,8 @@ def load_image(file_name, is_color=False):
     """
     assert(os.path.isfile(file_name))
     image = Array()
-    safe_call(backend.get().af_load_image(ct.pointer(image.arr),
-                                          ct.c_char_p(file_name.encode('ascii')), is_color))
+    safe_call(backend.get().af_load_image(c_pointer(image.arr),
+                                          c_char_ptr_t(file_name.encode('ascii')), is_color))
     return image
 
 def save_image(image, file_name):
@@ -76,7 +76,7 @@ def save_image(image, file_name):
           - Full path of the file name on the disk.
     """
     assert(isinstance(file_name, str))
-    safe_call(backend.get().af_save_image(ct.c_char_p(file_name.encode('ascii')), image.arr))
+    safe_call(backend.get().af_save_image(c_char_ptr_t(file_name.encode('ascii')), image.arr))
     return image
 
 
@@ -97,8 +97,8 @@ def load_image_native(file_name):
     """
     assert(os.path.isfile(file_name))
     image = Array()
-    safe_call(backend.get().af_load_image_native(ct.pointer(image.arr),
-                                                 ct.c_char_p(file_name.encode('ascii'))))
+    safe_call(backend.get().af_load_image_native(c_pointer(image.arr),
+                                                 c_char_ptr_t(file_name.encode('ascii'))))
     return image
 
 def save_image_native(image, file_name):
@@ -114,7 +114,7 @@ def save_image_native(image, file_name):
           - Full path of the file name on the disk.
     """
     assert(isinstance(file_name, str))
-    safe_call(backend.get().af_save_image_native(ct.c_char_p(file_name.encode('ascii')), image.arr))
+    safe_call(backend.get().af_save_image_native(c_char_ptr_t(file_name.encode('ascii')), image.arr))
     return image
 
 def resize(image, scale=None, odim0=None, odim1=None, method=INTERP.NEAREST):
@@ -160,7 +160,7 @@ def resize(image, scale=None, odim0=None, odim1=None, method=INTERP.NEAREST):
         odim1 = int(scale * idims[1])
 
     output = Array()
-    safe_call(backend.get().af_resize(ct.pointer(output.arr),
+    safe_call(backend.get().af_resize(c_pointer(output.arr),
                                       image.arr, c_dim_t(odim0),
                                       c_dim_t(odim1), method.value))
 
@@ -203,7 +203,7 @@ def transform(image, trans_mat, odim0 = 0, odim1 = 0, method=INTERP.NEAREST, is_
 
     """
     output = Array()
-    safe_call(backend.get().af_transform(ct.pointer(output.arr),
+    safe_call(backend.get().af_transform(c_pointer(output.arr),
                                          image.arr, trans_mat.arr,
                                          c_dim_t(odim0), c_dim_t(odim1),
                                          method.value, is_inverse))
@@ -235,8 +235,8 @@ def rotate(image, theta, is_crop = True, method = INTERP.NEAREST):
           - Output image after rotating.
     """
     output = Array()
-    safe_call(backend.get().af_rotate(ct.pointer(output.arr), image.arr,
-                                      ct.c_float(theta), is_crop, method.value))
+    safe_call(backend.get().af_rotate(c_pointer(output.arr), image.arr,
+                                      c_float_t(theta), is_crop, method.value))
     return output
 
 def translate(image, trans0, trans1, odim0 = 0, odim1 = 0, method = INTERP.NEAREST):
@@ -276,7 +276,7 @@ def translate(image, trans0, trans1, odim0 = 0, odim1 = 0, method = INTERP.NEARE
 
     """
     output = Array()
-    safe_call(backend.get().af_translate(ct.pointer(output.arr),
+    safe_call(backend.get().af_translate(c_pointer(output.arr),
                                          image.arr, trans0, trans1,
                                          c_dim_t(odim0), c_dim_t(odim1), method.value))
     return output
@@ -318,8 +318,8 @@ def scale(image, scale0, scale1, odim0 = 0, odim1 = 0, method = INTERP.NEAREST):
 
     """
     output = Array()
-    safe_call(backend.get().af_scale(ct.pointer(output.arr),
-                                     image.arr, ct.c_float(scale0), ct.c_float(scale1),
+    safe_call(backend.get().af_scale(c_pointer(output.arr),
+                                     image.arr, c_float_t(scale0), c_float_t(scale1),
                                      c_dim_t(odim0), c_dim_t(odim1), method.value))
     return output
 
@@ -363,8 +363,8 @@ def skew(image, skew0, skew1, odim0 = 0, odim1 = 0, method = INTERP.NEAREST, is_
 
     """
     output = Array()
-    safe_call(backend.get().af_skew(ct.pointer(output.arr),
-                                    image.arr, ct.c_float(skew0), ct.c_float(skew1),
+    safe_call(backend.get().af_skew(c_pointer(output.arr),
+                                    image.arr, c_float_t(skew0), c_float_t(skew1),
                                     c_dim_t(odim0), c_dim_t(odim1),
                                     method.value, is_inverse))
 
@@ -407,9 +407,9 @@ def histogram(image, nbins, min_val = None, max_val = None):
         max_val = af_max(image)
 
     output = Array()
-    safe_call(backend.get().af_histogram(ct.pointer(output.arr),
-                                         image.arr, ct.c_uint(nbins),
-                                         ct.c_double(min_val), ct.c_double(max_val)))
+    safe_call(backend.get().af_histogram(c_pointer(output.arr),
+                                         image.arr, c_uint_t(nbins),
+                                         c_double_t(min_val), c_double_t(max_val)))
     return output
 
 def hist_equal(image, hist):
@@ -433,7 +433,7 @@ def hist_equal(image, hist):
 
     """
     output = Array()
-    safe_call(backend.get().af_hist_equal(ct.pointer(output.arr), image.arr, hist.arr))
+    safe_call(backend.get().af_hist_equal(c_pointer(output.arr), image.arr, hist.arr))
     return output
 
 def dilate(image, mask = None):
@@ -461,7 +461,7 @@ def dilate(image, mask = None):
         mask = constant(1, 3, 3, dtype=Dtype.f32)
 
     output = Array()
-    safe_call(backend.get().af_dilate(ct.pointer(output.arr), image.arr, mask.arr))
+    safe_call(backend.get().af_dilate(c_pointer(output.arr), image.arr, mask.arr))
 
     return output
 
@@ -490,7 +490,7 @@ def dilate3(volume, mask = None):
         mask = constant(1, 3, 3, 3, dtype=Dtype.f32)
 
     output = Array()
-    safe_call(backend.get().af_dilate3(ct.pointer(output.arr), volume.arr, mask.arr))
+    safe_call(backend.get().af_dilate3(c_pointer(output.arr), volume.arr, mask.arr))
 
     return output
 
@@ -519,7 +519,7 @@ def erode(image, mask = None):
         mask = constant(1, 3, 3, dtype=Dtype.f32)
 
     output = Array()
-    safe_call(backend.get().af_erode(ct.pointer(output.arr), image.arr, mask.arr))
+    safe_call(backend.get().af_erode(c_pointer(output.arr), image.arr, mask.arr))
 
     return output
 
@@ -549,7 +549,7 @@ def erode3(volume, mask = None):
         mask = constant(1, 3, 3, 3, dtype=Dtype.f32)
 
     output = Array()
-    safe_call(backend.get().af_erode3(ct.pointer(output.arr), volume.arr, mask.arr))
+    safe_call(backend.get().af_erode3(c_pointer(output.arr), volume.arr, mask.arr))
 
     return output
 
@@ -580,9 +580,9 @@ def bilateral(image, s_sigma, c_sigma, is_color = False):
 
     """
     output = Array()
-    safe_call(backend.get().af_bilateral(ct.pointer(output.arr),
-                                         image.arr, ct.c_float(s_sigma),
-                                         ct.c_float(c_sigma), is_color))
+    safe_call(backend.get().af_bilateral(c_pointer(output.arr),
+                                         image.arr, c_float_t(s_sigma),
+                                         c_float_t(c_sigma), is_color))
     return output
 
 def mean_shift(image, s_sigma, c_sigma, n_iter, is_color = False):
@@ -615,9 +615,9 @@ def mean_shift(image, s_sigma, c_sigma, n_iter, is_color = False):
 
     """
     output = Array()
-    safe_call(backend.get().af_mean_shift(ct.pointer(output.arr),
-                                          image.arr, ct.c_float(s_sigma), ct.c_float(c_sigma),
-                                          ct.c_uint(n_iter), is_color))
+    safe_call(backend.get().af_mean_shift(c_pointer(output.arr),
+                                          image.arr, c_float_t(s_sigma), c_float_t(c_sigma),
+                                          c_uint_t(n_iter), is_color))
     return output
 
 def minfilt(image, w_len = 3, w_wid = 3, edge_pad = PAD.ZERO):
@@ -647,7 +647,7 @@ def minfilt(image, w_len = 3, w_wid = 3, edge_pad = PAD.ZERO):
 
     """
     output = Array()
-    safe_call(backend.get().af_minfilt(ct.pointer(output.arr),
+    safe_call(backend.get().af_minfilt(c_pointer(output.arr),
                                        image.arr, c_dim_t(w_len),
                                        c_dim_t(w_wid), edge_pad.value))
     return output
@@ -679,7 +679,7 @@ def maxfilt(image, w_len = 3, w_wid = 3, edge_pad = PAD.ZERO):
 
     """
     output = Array()
-    safe_call(backend.get().af_maxfilt(ct.pointer(output.arr),
+    safe_call(backend.get().af_maxfilt(c_pointer(output.arr),
                                        image.arr, c_dim_t(w_len),
                                        c_dim_t(w_wid), edge_pad.value))
     return output
@@ -707,7 +707,7 @@ def regions(image, conn = CONNECTIVITY.FOUR, out_type = Dtype.f32):
 
     """
     output = Array()
-    safe_call(backend.get().af_regions(ct.pointer(output.arr), image.arr,
+    safe_call(backend.get().af_regions(c_pointer(output.arr), image.arr,
                                        conn.value, out_type.value))
     return output
 
@@ -734,8 +734,8 @@ def sobel_derivatives(image, w_len=3):
     """
     dx = Array()
     dy = Array()
-    safe_call(backend.get().af_sobel_operator(ct.pointer(dx.arr), ct.pointer(dy.arr),
-                                              image.arr, ct.c_uint(w_len)))
+    safe_call(backend.get().af_sobel_operator(c_pointer(dx.arr), c_pointer(dy.arr),
+                                              image.arr, c_uint_t(w_len)))
     return dx,dy
 
 def gaussian_kernel(rows, cols, sigma_r = None, sigma_c = None):
@@ -775,9 +775,9 @@ def gaussian_kernel(rows, cols, sigma_r = None, sigma_c = None):
     if (sigma_c is None):
         sigma_c = 0.25 * cols + 0.75
 
-    safe_call(backend.get().af_gaussian_kernel(ct.pointer(out.arr),
-                                               ct.c_int(rows), ct.c_int(cols),
-                                               ct.c_double(sigma_r), ct.c_double(sigma_c)))
+    safe_call(backend.get().af_gaussian_kernel(c_pointer(out.arr),
+                                               c_int_t(rows), c_int_t(cols),
+                                               c_double_t(sigma_r), c_double_t(sigma_c)))
     return out
 
 def sobel_filter(image, w_len = 3, is_fast = False):
@@ -839,8 +839,8 @@ def rgb2gray(image, r_factor = 0.2126, g_factor = 0.7152, b_factor = 0.0722):
 
     """
     output=Array()
-    safe_call(backend.get().af_rgb2gray(ct.pointer(output.arr),
-                                        image.arr, ct.c_float(r_factor), ct.c_float(g_factor), ct.c_float(b_factor)))
+    safe_call(backend.get().af_rgb2gray(c_pointer(output.arr),
+                                        image.arr, c_float_t(r_factor), c_float_t(g_factor), c_float_t(b_factor)))
     return output
 
 def gray2rgb(image, r_factor = 1.0, g_factor = 1.0, b_factor = 1.0):
@@ -871,8 +871,8 @@ def gray2rgb(image, r_factor = 1.0, g_factor = 1.0, b_factor = 1.0):
 
     """
     output=Array()
-    safe_call(backend.get().af_gray2rgb(ct.pointer(output.arr),
-                                        image.arr, ct.c_float(r_factor), ct.c_float(g_factor), ct.c_float(b_factor)))
+    safe_call(backend.get().af_gray2rgb(c_pointer(output.arr),
+                                        image.arr, c_float_t(r_factor), c_float_t(g_factor), c_float_t(b_factor)))
     return output
 
 def hsv2rgb(image):
@@ -893,7 +893,7 @@ def hsv2rgb(image):
 
     """
     output = Array()
-    safe_call(backend.get().af_hsv2rgb(ct.pointer(output.arr), image.arr))
+    safe_call(backend.get().af_hsv2rgb(c_pointer(output.arr), image.arr))
     return output
 
 def rgb2hsv(image):
@@ -914,7 +914,7 @@ def rgb2hsv(image):
 
     """
     output = Array()
-    safe_call(backend.get().af_rgb2hsv(ct.pointer(output.arr), image.arr))
+    safe_call(backend.get().af_rgb2hsv(c_pointer(output.arr), image.arr))
     return output
 
 def color_space(image, to_type, from_type):
@@ -940,7 +940,7 @@ def color_space(image, to_type, from_type):
 
     """
     output = Array()
-    safe_call(backend.get().af_color_space(ct.pointer(output.arr), image.arr,
+    safe_call(backend.get().af_color_space(c_pointer(output.arr), image.arr,
                                            to_type.value, from_type.value))
     return output
 
@@ -1006,7 +1006,7 @@ def unwrap(image, wx, wy, sx, sy, px=0, py=0, is_column=True):
     """
 
     out = Array()
-    safe_call(backend.get().af_unwrap(ct.pointer(out.arr), image.arr,
+    safe_call(backend.get().af_unwrap(c_pointer(out.arr), image.arr,
                                       c_dim_t(wx), c_dim_t(wy),
                                       c_dim_t(sx), c_dim_t(sy),
                                       c_dim_t(px), c_dim_t(py),
@@ -1088,7 +1088,7 @@ def wrap(a, ox, oy, wx, wy, sx, sy, px=0, py=0, is_column=True):
     """
 
     out = Array()
-    safe_call(backend.get().af_wrap(ct.pointer(out.arr), a.arr,
+    safe_call(backend.get().af_wrap(c_pointer(out.arr), a.arr,
                                     c_dim_t(ox), c_dim_t(oy),
                                     c_dim_t(wx), c_dim_t(wy),
                                     c_dim_t(sx), c_dim_t(sy),
@@ -1112,7 +1112,7 @@ def sat(image):
     """
 
     out = Array()
-    safe_call(backend.get().af_sat(ct.pointer(out.arr), image.arr))
+    safe_call(backend.get().af_sat(c_pointer(out.arr), image.arr))
     return out
 
 def ycbcr2rgb(image, standard=YCC_STD.BT_601):
@@ -1138,7 +1138,7 @@ def ycbcr2rgb(image, standard=YCC_STD.BT_601):
     """
 
     out = Array()
-    safe_call(backend.get().af_ycbcr2rgb(ct.pointer(out.arr), image.arr, standard.value))
+    safe_call(backend.get().af_ycbcr2rgb(c_pointer(out.arr), image.arr, standard.value))
     return out
 
 def rgb2ycbcr(image, standard=YCC_STD.BT_601):
@@ -1164,7 +1164,7 @@ def rgb2ycbcr(image, standard=YCC_STD.BT_601):
     """
 
     out = Array()
-    safe_call(backend.get().af_rgb2ycbcr(ct.pointer(out.arr), image.arr, standard.value))
+    safe_call(backend.get().af_rgb2ycbcr(c_pointer(out.arr), image.arr, standard.value))
     return out
 
 def moments(image, moment = MOMENT.FIRST_ORDER):
@@ -1191,13 +1191,13 @@ def moments(image, moment = MOMENT.FIRST_ORDER):
           - array containing requested moment(s) of each image
     """
     output = Array()
-    safe_call(backend.get().af_moments(ct.pointer(output.arr), image.arr, moment.value))
+    safe_call(backend.get().af_moments(c_pointer(output.arr), image.arr, moment.value))
     return output
 
 def is_image_io_available():
     """
     Function to check if the arrayfire library was built with Image IO support.
     """
-    res = ct.c_bool(False)
-    safe_call(backend.get().af_is_image_io_available(ct.pointer(res)))
+    res = c_bool_t(False)
+    safe_call(backend.get().af_is_image_io_available(c_pointer(res)))
     return res.value

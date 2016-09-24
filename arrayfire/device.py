@@ -39,14 +39,14 @@ def device_info():
         - 'toolkit': The toolkit version for the backend.
         - 'compute': The compute version of the device.
     """
-    c_char_256 = ct.c_char * 256
+    c_char_256 = c_char_t * 256
     device_name = c_char_256()
     backend_name = c_char_256()
     toolkit = c_char_256()
     compute = c_char_256()
 
-    safe_call(backend.get().af_device_info(ct.pointer(device_name), ct.pointer(backend_name),
-                                           ct.pointer(toolkit), ct.pointer(compute)))
+    safe_call(backend.get().af_device_info(c_pointer(device_name), c_pointer(backend_name),
+                                           c_pointer(toolkit), c_pointer(compute)))
     dev_info = {}
     dev_info['device'] = to_str(device_name)
     dev_info['backend'] = to_str(backend_name)
@@ -59,16 +59,16 @@ def get_device_count():
     """
     Returns the number of devices available.
     """
-    c_num = ct.c_int(0)
-    safe_call(backend.get().af_get_device_count(ct.pointer(c_num)))
+    c_num = c_int_t(0)
+    safe_call(backend.get().af_get_device_count(c_pointer(c_num)))
     return c_num.value
 
 def get_device():
     """
     Returns the id of the current device.
     """
-    c_dev = ct.c_int(0)
-    safe_call(backend.get().af_get_device(ct.pointer(c_dev)))
+    c_dev = c_int_t(0)
+    safe_call(backend.get().af_get_device(c_pointer(c_dev)))
     return c_dev.value
 
 def set_device(num):
@@ -146,8 +146,8 @@ def is_dbl_supported(device=None):
         - False if double precision not supported.
     """
     dev = device if device is not None else get_device()
-    res = ct.c_bool(False)
-    safe_call(backend.get().af_get_dbl_support(ct.pointer(res), dev))
+    res = c_bool_t(False)
+    safe_call(backend.get().af_get_dbl_support(c_pointer(res), dev))
     return res.value
 
 def sync(device=None):
@@ -167,11 +167,11 @@ def __eval(*args):
     if (nargs == 1):
         safe_call(backend.get().af_eval(args[0].arr))
     else:
-        c_void_p_n = ct.c_void_p * nargs
+        c_void_p_n = c_void_ptr_t * nargs
         arrs = c_void_p_n()
         for n in range(nargs):
             arrs[n] = args[n].arr
-        safe_call(backend.get().af_eval_multiple(ct.c_int(nargs), ct.pointer(arrs)))
+        safe_call(backend.get().af_eval_multiple(c_int_t(nargs), c_pointer(arrs)))
     return
 
 def eval(*args):
@@ -241,8 +241,8 @@ def get_manual_eval_flag():
     ----
     This does not affect the evaluation that occurs when a non JIT function forces the evaluation.
     """
-    res = ct.c_bool(False)
-    safe_call(backend.get().af_get_manual_eval_flag(ct.pointer(res)))
+    res = c_bool_t(False)
+    safe_call(backend.get().af_get_manual_eval_flag(c_pointer(res)))
     return res.value
 
 def device_mem_info():
@@ -262,12 +262,12 @@ def device_mem_info():
     - The difference between alloc bytes and lock bytes equals the number of free bytes.
 
     """
-    alloc_bytes = ct.c_size_t(0)
-    alloc_buffers = ct.c_size_t(0)
-    lock_bytes = ct.c_size_t(0)
-    lock_buffers = ct.c_size_t(0)
-    safe_call(backend.get().af_device_mem_info(ct.pointer(alloc_bytes), ct.pointer(alloc_buffers),
-                                               ct.pointer(lock_bytes), ct.pointer(lock_buffers)))
+    alloc_bytes = c_size_t(0)
+    alloc_buffers = c_size_t(0)
+    lock_bytes = c_size_t(0)
+    lock_buffers = c_size_t(0)
+    safe_call(backend.get().af_device_mem_info(c_pointer(alloc_bytes), c_pointer(alloc_buffers),
+                                               c_pointer(lock_bytes), c_pointer(lock_buffers)))
     mem_info = {}
     mem_info['alloc'] = {'buffers' : alloc_buffers.value, 'bytes' : alloc_bytes.value}
     mem_info['lock'] = {'buffers' : lock_buffers.value, 'bytes' : lock_bytes.value}
@@ -298,8 +298,8 @@ def get_device_ptr(a):
         - This function enables the user to interoperate arrayfire with other CUDA/OpenCL/C libraries.
 
     """
-    ptr = ct.c_void_p(0)
-    safe_call(backend.get().af_get_device_ptr(ct.pointer(ptr), a.arr))
+    ptr = c_void_ptr_t(0)
+    safe_call(backend.get().af_get_device_ptr(c_pointer(ptr), a.arr))
     return ptr
 
 def lock_device_ptr(a):
@@ -338,8 +338,8 @@ def is_locked_array(a):
     -----------
     A bool specifying if the input array is locked.
     """
-    res = ct.c_bool(False)
-    safe_call(backend.get().af_is_locked_array(ct.pointer(res), a.arr))
+    res = c_bool_t(False)
+    safe_call(backend.get().af_is_locked_array(c_pointer(res), a.arr))
     return res.value
 
 def unlock_device_ptr(a):
@@ -366,48 +366,48 @@ def alloc_device(num_bytes):
     """
     Allocate a buffer on the device with specified number of bytes.
     """
-    ptr = ct.c_void_p(0)
+    ptr = c_void_ptr_t(0)
     c_num_bytes = c_dim_t(num_bytes)
-    safe_call(backend.get().af_alloc_device(ct.pointer(ptr), c_num_bytes))
+    safe_call(backend.get().af_alloc_device(c_pointer(ptr), c_num_bytes))
     return ptr.value
 
 def alloc_host(num_bytes):
     """
     Allocate a buffer on the host with specified number of bytes.
     """
-    ptr = ct.c_void_p(0)
+    ptr = c_void_ptr_t(0)
     c_num_bytes = c_dim_t(num_bytes)
-    safe_call(backend.get().af_alloc_host(ct.pointer(ptr), c_num_bytes))
+    safe_call(backend.get().af_alloc_host(c_pointer(ptr), c_num_bytes))
     return ptr.value
 
 def alloc_pinned(num_bytes):
     """
     Allocate a buffer on the host using pinned memory with specified number of bytes.
     """
-    ptr = ct.c_void_p(0)
+    ptr = c_void_ptr_t(0)
     c_num_bytes = c_dim_t(num_bytes)
-    safe_call(backend.get().af_alloc_pinned(ct.pointer(ptr), c_num_bytes))
+    safe_call(backend.get().af_alloc_pinned(c_pointer(ptr), c_num_bytes))
     return ptr.value
 
 def free_device(ptr):
     """
     Free the device memory allocated by alloc_device
     """
-    cptr = ct.c_void_p(ptr)
+    cptr = c_void_ptr_t(ptr)
     safe_call(backend.get().af_free_device(cptr))
 
 def free_host(ptr):
     """
     Free the host memory allocated by alloc_host
     """
-    cptr = ct.c_void_p(ptr)
+    cptr = c_void_ptr_t(ptr)
     safe_call(backend.get().af_free_host(cptr))
 
 def free_pinned(ptr):
     """
     Free the pinned memory allocated by alloc_pinned
     """
-    cptr = ct.c_void_p(ptr)
+    cptr = c_void_ptr_t(ptr)
     safe_call(backend.get().af_free_pinned(cptr))
 
 from .array import Array

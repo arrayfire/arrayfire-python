@@ -16,15 +16,15 @@ from .array import *
 from .util import _is_number
 
 class _Cell(ct.Structure):
-    _fields_ = [("row", ct.c_int),
-                ("col", ct.c_int),
-                ("title", ct.c_char_p),
-                ("cmap", ct.c_int)]
+    _fields_ = [("row", c_int_t),
+                ("col", c_int_t),
+                ("title", c_char_ptr_t),
+                ("cmap", c_int_t)]
 
     def __init__(self, r, c, title, cmap):
         self.row = r
         self.col = c
-        self.title = title if title is not None else ct.c_char_p()
+        self.title = title if title is not None else c_char_ptr_t()
         self.cmap = cmap.value
 
 class Window(object):
@@ -48,7 +48,7 @@ class Window(object):
     def __init__(self, width=1280, height=720, title="ArrayFire"):
         self._r = -1
         self._c = -1
-        self._wnd = ct.c_void_p(0)
+        self._wnd = c_void_ptr_t(0)
         self._cmap = COLORMAP.DEFAULT
 
         _width  = 1280 if  width is None else  width
@@ -57,9 +57,9 @@ class Window(object):
 
         _title = _title.encode("ascii")
 
-        safe_call(backend.get().af_create_window(ct.pointer(self._wnd),
-                                                 ct.c_int(_width), ct.c_int(_height),
-                                                 ct.c_char_p(_title)))
+        safe_call(backend.get().af_create_window(c_pointer(self._wnd),
+                                                 c_int_t(_width), c_int_t(_height),
+                                                 c_char_ptr_t(_title)))
 
     def __del__(self):
         """
@@ -81,7 +81,7 @@ class Window(object):
             Pixel offset from top
 
         """
-        safe_call(backend.get().af_set_position(self._wnd, ct.c_int(x), ct.c_int(y)))
+        safe_call(backend.get().af_set_position(self._wnd, c_int_t(x), c_int_t(y)))
 
     def set_title(self, title):
         """
@@ -138,7 +138,7 @@ class Window(object):
              Title used for the image.
         """
         _cell = _Cell(self._r, self._c, title, self._cmap)
-        safe_call(backend.get().af_draw_image(self._wnd, img.arr, ct.pointer(_cell)))
+        safe_call(backend.get().af_draw_image(self._wnd, img.arr, c_pointer(_cell)))
 
     def scatter(self, X, Y, Z=None, points=None, marker=MARKER.POINT, title=None):
         """
@@ -172,12 +172,12 @@ class Window(object):
         if points is None:
             if Z is None:
                 safe_call(backend.get().af_draw_scatter_2d(self._wnd, X.arr, Y.arr,
-                                                           marker.value, ct.pointer(_cell)))
+                                                           marker.value, c_pointer(_cell)))
             else:
                 safe_call(backend.get().af_draw_scatter_3d(self._wnd, X.arr, Y.arr, Z.arr,
-                                                           marker.value, ct.pointer(_cell)))
+                                                           marker.value, c_pointer(_cell)))
         else:
-            safe_call(backend.get().af_draw_scatter_nd(self._wnd, points.arr, marker.value, ct.pointer(_cell)))
+            safe_call(backend.get().af_draw_scatter_nd(self._wnd, points.arr, marker.value, c_pointer(_cell)))
 
     def scatter2(self, points, marker=MARKER.POINT, title=None):
         """
@@ -198,7 +198,7 @@ class Window(object):
         assert(points.numdims() == 2)
         _cell = _Cell(self._r, self._c, title, self._cmap)
         safe_call(backend.get().af_draw_scatter2(self._wnd, points.arr,
-                                                 marker.value, ct.pointer(_cell)))
+                                                 marker.value, c_pointer(_cell)))
 
     def scatter3(self, points, marker=MARKER.POINT, title=None):
         """
@@ -219,7 +219,7 @@ class Window(object):
         assert(points.numdims() == 3)
         _cell = _Cell(self._r, self._c, title, self._cmap)
         safe_call(backend.get().af_draw_scatter3(self._wnd, points.arr,
-                                                 marker.value, ct.pointer(_cell)))
+                                                 marker.value, c_pointer(_cell)))
     def plot(self, X, Y, Z=None, line = None, title=None):
         """
         Display a 2D or 3D Plot.
@@ -254,11 +254,11 @@ class Window(object):
         _cell = _Cell(self._r, self._c, title, self._cmap)
         if line is None:
             if Z is None:
-                safe_call(backend.get().af_draw_plot_2d(self._wnd, X.arr, Y.arr, ct.pointer(_cell)))
+                safe_call(backend.get().af_draw_plot_2d(self._wnd, X.arr, Y.arr, c_pointer(_cell)))
             else:
-                safe_call(backend.get().af_draw_plot_3d(self._wnd, X.arr, Y.arr, Z.arr, ct.pointer(_cell)))
+                safe_call(backend.get().af_draw_plot_3d(self._wnd, X.arr, Y.arr, Z.arr, c_pointer(_cell)))
         else:
-            safe_call(backend.get().af_draw_plot_nd(self._wnd, line.arr, ct.pointer(_cell)))
+            safe_call(backend.get().af_draw_plot_nd(self._wnd, line.arr, c_pointer(_cell)))
 
     def plot2(self, line, title=None):
         """
@@ -277,7 +277,7 @@ class Window(object):
 
         assert(line.numdims() == 2)
         _cell = _Cell(self._r, self._c, title, self._cmap)
-        safe_call(backend.get().af_draw_plot_nd(self._wnd, line.arr, ct.pointer(_cell)))
+        safe_call(backend.get().af_draw_plot_nd(self._wnd, line.arr, c_pointer(_cell)))
 
     def plot3(self, X=None, Y=None, Z=None, line=None, title=None):
         """
@@ -295,7 +295,7 @@ class Window(object):
 
         assert(line.numdims() == 3)
         _cell = _Cell(self._r, self._c, title, self._cmap)
-        safe_call(backend.get().af_draw_plot_nd(self._wnd, line.arr, ct.pointer(_cell)))
+        safe_call(backend.get().af_draw_plot_nd(self._wnd, line.arr, c_pointer(_cell)))
 
     def vector_field(self, xpoints, xdirs, ypoints, ydirs, zpoints=None, zdirs=None,
                      points = None, dirs = None, title=None):
@@ -351,14 +351,14 @@ class Window(object):
                 safe_call(backend.get().af_draw_vector_field_2d(self._wnd,
                                                                 xpoints.arr, ypoints.arr,
                                                                 xdirs.arr, ydirs.arr,
-                                                                ct.pointer(_cell)))
+                                                                c_pointer(_cell)))
             else:
                 safe_call(backend.get().af_draw_vector_field_2d(self._wnd,
                                                                 xpoints.arr, ypoints.arr, zpoints.arr,
                                                                 xdirs.arr, ydirs.arr, zdirs.arr,
-                                                                ct.pointer(_cell)))
+                                                                c_pointer(_cell)))
         else:
-            safe_call(backend.get().af_draw_plot_nd(self._wnd, points.arr, dirs.arr, ct.pointer(_cell)))
+            safe_call(backend.get().af_draw_plot_nd(self._wnd, points.arr, dirs.arr, c_pointer(_cell)))
 
     def surface(self, x_vals, y_vals, z_vals, title=None):
         """
@@ -382,7 +382,7 @@ class Window(object):
         _cell = _Cell(self._r, self._c, title, self._cmap)
         safe_call(backend.get().af_draw_surface(self._wnd,
                                                 x_vals.arr, y_vals.arr, z_vals.arr,
-                                                ct.pointer(_cell)))
+                                                c_pointer(_cell)))
 
     def hist(self, X, min_val, max_val, title=None):
         """
@@ -405,8 +405,8 @@ class Window(object):
         """
         _cell = _Cell(self._r, self._c, title, self._cmap)
         safe_call(backend.get().af_draw_hist(self._wnd, X.arr,
-                                             ct.c_double(max_val), ct.c_double(min_val),
-                                             ct.pointer(_cell)))
+                                             c_double_t(max_val), c_double_t(min_val),
+                                             c_pointer(_cell)))
 
     def grid(self, rows, cols):
         """
@@ -422,7 +422,7 @@ class Window(object):
               Number of columns in the grid.
 
         """
-        safe_call(backend.get().af_grid(self._wnd, ct.c_int(rows), ct.c_int(cols)))
+        safe_call(backend.get().af_grid(self._wnd, c_int_t(rows), c_int_t(cols)))
 
     def show(self):
         """
@@ -436,8 +436,8 @@ class Window(object):
         """
         Close the window.
         """
-        tmp = ct.c_bool(True)
-        safe_call(backend.get().af_is_window_closed(ct.pointer(tmp), self._wnd))
+        tmp = c_bool_t(True)
+        safe_call(backend.get().af_is_window_closed(c_pointer(tmp), self._wnd))
         return tmp
 
     def set_visibility(is_visible):
@@ -486,15 +486,15 @@ class Window(object):
         _cell = _Cell(self._r, self._c, "", self._cmap)
         if (zmin is None or zmax is None):
             safe_call(backend.get().af_set_axes_limits_2d(self._wnd,
-                                                          ct.c_float(xmin), ct.c_float(xmax),
-                                                          ct.c_float(ymin), ct.c_float(ymax),
-                                                          exact, ct.pointer(_cell)))
+                                                          c_float_t(xmin), c_float_t(xmax),
+                                                          c_float_t(ymin), c_float_t(ymax),
+                                                          exact, c_pointer(_cell)))
         else:
             safe_call(backend.get().af_set_axes_limits_2d(self._wnd,
-                                                          ct.c_float(xmin), ct.c_float(xmax),
-                                                          ct.c_float(ymin), ct.c_float(ymax),
-                                                          ct.c_float(zmin), ct.c_float(zmax),
-                                                          exact, ct.pointer(_cell)))
+                                                          c_float_t(xmin), c_float_t(xmax),
+                                                          c_float_t(ymin), c_float_t(ymax),
+                                                          c_float_t(zmin), c_float_t(zmax),
+                                                          exact, c_pointer(_cell)))
 
     def __getitem__(self, keys):
         """

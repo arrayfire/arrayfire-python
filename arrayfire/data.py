@@ -118,7 +118,7 @@ def range(d0, d1=None, d2=None, d3=None, dim=0, dtype=Dtype.f32):
     out = Array()
     dims = dim4(d0, d1, d2, d3)
 
-    safe_call(backend.get().af_range(ct.pointer(out.arr), 4, ct.pointer(dims), dim, dtype.value))
+    safe_call(backend.get().af_range(c_pointer(out.arr), 4, c_pointer(dims), dim, dtype.value))
     return out
 
 
@@ -183,8 +183,8 @@ def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=Dtype.f32)
 
     tdims = dim4(td[0], td[1], td[2], td[3])
 
-    safe_call(backend.get().af_iota(ct.pointer(out.arr), 4, ct.pointer(dims),
-                                    4, ct.pointer(tdims), dtype.value))
+    safe_call(backend.get().af_iota(c_pointer(out.arr), 4, c_pointer(dims),
+                                    4, c_pointer(tdims), dtype.value))
     return out
 
 def identity(d0, d1, d2=None, d3=None, dtype=Dtype.f32):
@@ -221,7 +221,7 @@ def identity(d0, d1, d2=None, d3=None, dtype=Dtype.f32):
     out = Array()
     dims = dim4(d0, d1, d2, d3)
 
-    safe_call(backend.get().af_identity(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value))
+    safe_call(backend.get().af_identity(c_pointer(out.arr), 4, c_pointer(dims), dtype.value))
     return out
 
 def diag(a, num=0, extract=True):
@@ -252,9 +252,9 @@ def diag(a, num=0, extract=True):
     """
     out = Array()
     if extract:
-        safe_call(backend.get().af_diag_extract(ct.pointer(out.arr), a.arr, ct.c_int(num)))
+        safe_call(backend.get().af_diag_extract(c_pointer(out.arr), a.arr, c_int_t(num)))
     else:
-        safe_call(backend.get().af_diag_create(ct.pointer(out.arr), a.arr, ct.c_int(num)))
+        safe_call(backend.get().af_diag_create(c_pointer(out.arr), a.arr, c_int_t(num)))
     return out
 
 def join(dim, first, second, third=None, fourth=None):
@@ -317,9 +317,9 @@ def join(dim, first, second, third=None, fourth=None):
     """
     out = Array()
     if (third is None and fourth is None):
-        safe_call(backend.get().af_join(ct.pointer(out.arr), dim, first.arr, second.arr))
+        safe_call(backend.get().af_join(c_pointer(out.arr), dim, first.arr, second.arr))
     else:
-        c_void_p_4 = ct.c_void_p * 4
+        c_void_p_4 = c_void_ptr_t * 4
         c_array_vec = c_void_p_4(first.arr, second.arr, 0, 0)
         num = 2
         if third is not None:
@@ -329,7 +329,7 @@ def join(dim, first, second, third=None, fourth=None):
             c_array_vec[num] = fourth.arr
             num+=1
 
-        safe_call(backend.get().af_join_many(ct.pointer(out.arr), dim, num, ct.pointer(c_array_vec)))
+        safe_call(backend.get().af_join_many(c_pointer(out.arr), dim, num, c_pointer(c_array_vec)))
     return out
 
 
@@ -394,7 +394,7 @@ def tile(a, d0, d1=1, d2=1, d3=1):
         0.8224     0.1794     0.0081     0.8224     0.1794     0.0081
     """
     out = Array()
-    safe_call(backend.get().af_tile(ct.pointer(out.arr), a.arr, d0, d1, d2, d3))
+    safe_call(backend.get().af_tile(c_pointer(out.arr), a.arr, d0, d1, d2, d3))
     return out
 
 
@@ -479,7 +479,7 @@ def reorder(a, d0=1, d1=0, d2=2, d3=3):
         0.9276     0.8662     0.3578     0.6263     0.9747
     """
     out = Array()
-    safe_call(backend.get().af_reorder(ct.pointer(out.arr), a.arr, d0, d1, d2, d3))
+    safe_call(backend.get().af_reorder(c_pointer(out.arr), a.arr, d0, d1, d2, d3))
     return out
 
 def shift(a, d0, d1=0, d2=0, d3=0):
@@ -535,7 +535,7 @@ def shift(a, d0, d1=0, d2=0, d3=0):
         0.1437     0.0899     0.7104
     """
     out = Array()
-    safe_call(backend.get().af_shift(ct.pointer(out.arr), a.arr, d0, d1, d2, d3))
+    safe_call(backend.get().af_shift(c_pointer(out.arr), a.arr, d0, d1, d2, d3))
     return out
 
 def moddims(a, d0, d1=1, d2=1, d3=1):
@@ -569,7 +569,7 @@ def moddims(a, d0, d1=1, d2=1, d3=1):
     """
     out = Array()
     dims = dim4(d0, d1, d2, d3)
-    safe_call(backend.get().af_moddims(ct.pointer(out.arr), a.arr, 4, ct.pointer(dims)))
+    safe_call(backend.get().af_moddims(c_pointer(out.arr), a.arr, 4, c_pointer(dims)))
     return out
 
 def flat(a):
@@ -589,7 +589,7 @@ def flat(a):
           - 1 dimensional array containing all the elements from `a`.
     """
     out = Array()
-    safe_call(backend.get().af_flat(ct.pointer(out.arr), a.arr))
+    safe_call(backend.get().af_flat(c_pointer(out.arr), a.arr))
     return out
 
 def flip(a, dim=0):
@@ -636,7 +636,7 @@ def flip(a, dim=0):
 
     """
     out = Array()
-    safe_call(backend.get().af_flip(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
+    safe_call(backend.get().af_flip(c_pointer(out.arr), a.arr, c_int_t(dim)))
     return out
 
 def lower(a, is_unit_diag=False):
@@ -659,7 +659,7 @@ def lower(a, is_unit_diag=False):
           An array containing the lower triangular elements from `a`.
     """
     out = Array()
-    safe_call(backend.get().af_lower(ct.pointer(out.arr), a.arr, is_unit_diag))
+    safe_call(backend.get().af_lower(c_pointer(out.arr), a.arr, is_unit_diag))
     return out
 
 def upper(a, is_unit_diag=False):
@@ -682,7 +682,7 @@ def upper(a, is_unit_diag=False):
           An array containing the upper triangular elements from `a`.
     """
     out = Array()
-    safe_call(backend.get().af_upper(ct.pointer(out.arr), a.arr, is_unit_diag))
+    safe_call(backend.get().af_upper(c_pointer(out.arr), a.arr, is_unit_diag))
     return out
 
 def select(cond, lhs, rhs):
@@ -743,12 +743,12 @@ def select(cond, lhs, rhs):
         raise TypeError("Atleast one input needs to be of type arrayfire.array")
 
     elif (is_left_array and is_right_array):
-        safe_call(backend.get().af_select(ct.pointer(out.arr), cond.arr, lhs.arr, rhs.arr))
+        safe_call(backend.get().af_select(c_pointer(out.arr), cond.arr, lhs.arr, rhs.arr))
 
     elif (_is_number(rhs)):
-        safe_call(backend.get().af_select_scalar_r(ct.pointer(out.arr), cond.arr, lhs.arr, ct.c_double(rhs)))
+        safe_call(backend.get().af_select_scalar_r(c_pointer(out.arr), cond.arr, lhs.arr, c_double_t(rhs)))
     else:
-        safe_call(backend.get().af_select_scalar_l(ct.pointer(out.arr), cond.arr, ct.c_double(lhs), rhs.arr))
+        safe_call(backend.get().af_select_scalar_l(c_pointer(out.arr), cond.arr, c_double_t(lhs), rhs.arr))
 
     return out
 
@@ -798,4 +798,4 @@ def replace(lhs, cond, rhs):
     if (is_right_array):
         safe_call(backend.get().af_replace(lhs.arr, cond.arr, rhs.arr))
     else:
-        safe_call(backend.get().af_replace_scalar(lhs.arr, cond.arr, ct.c_double(rhs)))
+        safe_call(backend.get().af_replace_scalar(lhs.arr, cond.arr, c_double_t(rhs)))

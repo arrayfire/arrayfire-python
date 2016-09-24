@@ -16,14 +16,14 @@ from .array import *
 
 def _parallel_dim(a, dim, c_func):
     out = Array()
-    safe_call(c_func(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
+    safe_call(c_func(c_pointer(out.arr), a.arr, c_int_t(dim)))
     return out
 
 def _reduce_all(a, c_func):
-    real = ct.c_double(0)
-    imag = ct.c_double(0)
+    real = c_double_t(0)
+    imag = c_double_t(0)
 
-    safe_call(c_func(ct.pointer(real), ct.pointer(imag), a.arr))
+    safe_call(c_func(c_pointer(real), c_pointer(imag), a.arr))
 
     real = real.value
     imag = imag.value
@@ -31,14 +31,14 @@ def _reduce_all(a, c_func):
 
 def _nan_parallel_dim(a, dim, c_func, nan_val):
     out = Array()
-    safe_call(c_func(ct.pointer(out.arr), a.arr, ct.c_int(dim), ct.c_double(nan_val)))
+    safe_call(c_func(c_pointer(out.arr), a.arr, c_int_t(dim), c_double_t(nan_val)))
     return out
 
 def _nan_reduce_all(a, c_func, nan_val):
-    real = ct.c_double(0)
-    imag = ct.c_double(0)
+    real = c_double_t(0)
+    imag = c_double_t(0)
 
-    safe_call(c_func(ct.pointer(real), ct.pointer(imag), a.arr, ct.c_double(nan_val)))
+    safe_call(c_func(c_pointer(real), c_pointer(imag), a.arr, c_double_t(nan_val)))
 
     real = real.value
     imag = imag.value
@@ -235,13 +235,13 @@ def imin(a, dim=None):
     if dim is not None:
         out = Array()
         idx = Array()
-        safe_call(backend.get().af_imin(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr, ct.c_int(dim)))
+        safe_call(backend.get().af_imin(c_pointer(out.arr), c_pointer(idx.arr), a.arr, c_int_t(dim)))
         return out,idx
     else:
-        real = ct.c_double(0)
-        imag = ct.c_double(0)
-        idx  = ct.c_uint(0)
-        safe_call(backend.get().af_imin_all(ct.pointer(real), ct.pointer(imag), ct.pointer(idx), a.arr))
+        real = c_double_t(0)
+        imag = c_double_t(0)
+        idx  = c_uint_t(0)
+        safe_call(backend.get().af_imin_all(c_pointer(real), c_pointer(imag), c_pointer(idx), a.arr))
         real = real.value
         imag = imag.value
         val = real if imag == 0 else real + imag * 1j
@@ -268,13 +268,13 @@ def imax(a, dim=None):
     if dim is not None:
         out = Array()
         idx = Array()
-        safe_call(backend.get().af_imax(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr, ct.c_int(dim)))
+        safe_call(backend.get().af_imax(c_pointer(out.arr), c_pointer(idx.arr), a.arr, c_int_t(dim)))
         return out,idx
     else:
-        real = ct.c_double(0)
-        imag = ct.c_double(0)
-        idx  = ct.c_uint(0)
-        safe_call(backend.get().af_imax_all(ct.pointer(real), ct.pointer(imag), ct.pointer(idx), a.arr))
+        real = c_double_t(0)
+        imag = c_double_t(0)
+        idx  = c_uint_t(0)
+        safe_call(backend.get().af_imax_all(c_pointer(real), c_pointer(imag), c_pointer(idx), a.arr))
         real = real.value
         imag = imag.value
         val = real if imag == 0 else real + imag * 1j
@@ -327,7 +327,7 @@ def scan(a, dim=0, op=BINARYOP.ADD, inclusive_scan=True):
         - will contain scan of input.
     """
     out = Array()
-    safe_call(backend.get().af_scan(ct.pointer(out.arr), a.arr, dim, op.value, inclusive_scan))
+    safe_call(backend.get().af_scan(c_pointer(out.arr), a.arr, dim, op.value, inclusive_scan))
     return out
 
 def scan_by_key(key, a, dim=0, op=BINARYOP.ADD, inclusive_scan=True):
@@ -361,7 +361,7 @@ def scan_by_key(key, a, dim=0, op=BINARYOP.ADD, inclusive_scan=True):
         - will contain scan of input.
     """
     out = Array()
-    safe_call(backend.get().af_scan_by_key(ct.pointer(out.arr), key.arr, a.arr, dim, op.value, inclusive_scan))
+    safe_call(backend.get().af_scan_by_key(c_pointer(out.arr), key.arr, a.arr, dim, op.value, inclusive_scan))
     return out
 
 def where(a):
@@ -379,7 +379,7 @@ def where(a):
          Linear indices for non zero elements.
     """
     out = Array()
-    safe_call(backend.get().af_where(ct.pointer(out.arr), a.arr))
+    safe_call(backend.get().af_where(c_pointer(out.arr), a.arr))
     return out
 
 def diff1(a, dim=0):
@@ -441,7 +441,7 @@ def sort(a, dim=0, is_ascending=True):
     Currently `dim` is only supported for 0.
     """
     out = Array()
-    safe_call(backend.get().af_sort(ct.pointer(out.arr), a.arr, ct.c_uint(dim), ct.c_bool(is_ascending)))
+    safe_call(backend.get().af_sort(c_pointer(out.arr), a.arr, c_uint_t(dim), c_bool_t(is_ascending)))
     return out
 
 def sort_index(a, dim=0, is_ascending=True):
@@ -469,8 +469,8 @@ def sort_index(a, dim=0, is_ascending=True):
     """
     out = Array()
     idx = Array()
-    safe_call(backend.get().af_sort_index(ct.pointer(out.arr), ct.pointer(idx.arr), a.arr,
-                                          ct.c_uint(dim), ct.c_bool(is_ascending)))
+    safe_call(backend.get().af_sort_index(c_pointer(out.arr), c_pointer(idx.arr), a.arr,
+                                          c_uint_t(dim), c_bool_t(is_ascending)))
     return out,idx
 
 def sort_by_key(iv, ik, dim=0, is_ascending=True):
@@ -500,8 +500,8 @@ def sort_by_key(iv, ik, dim=0, is_ascending=True):
     """
     ov = Array()
     ok = Array()
-    safe_call(backend.get().af_sort_by_key(ct.pointer(ov.arr), ct.pointer(ok.arr),
-                                           iv.arr, ik.arr, ct.c_uint(dim), ct.c_bool(is_ascending)))
+    safe_call(backend.get().af_sort_by_key(c_pointer(ov.arr), c_pointer(ok.arr),
+                                           iv.arr, ik.arr, c_uint_t(dim), c_bool_t(is_ascending)))
     return ov,ok
 
 def set_unique(a, is_sorted=False):
@@ -521,7 +521,7 @@ def set_unique(a, is_sorted=False):
          an array containing the unique values from `a`
     """
     out = Array()
-    safe_call(backend.get().af_set_unique(ct.pointer(out.arr), a.arr, ct.c_bool(is_sorted)))
+    safe_call(backend.get().af_set_unique(c_pointer(out.arr), a.arr, c_bool_t(is_sorted)))
     return out
 
 def set_union(a, b, is_unique=False):
@@ -543,7 +543,7 @@ def set_union(a, b, is_unique=False):
          an array values after performing the union of `a` and `b`.
     """
     out = Array()
-    safe_call(backend.get().af_set_union(ct.pointer(out.arr), a.arr, b.arr, ct.c_bool(is_unique)))
+    safe_call(backend.get().af_set_union(c_pointer(out.arr), a.arr, b.arr, c_bool_t(is_unique)))
     return out
 
 def set_intersect(a, b, is_unique=False):
@@ -565,5 +565,5 @@ def set_intersect(a, b, is_unique=False):
          an array values after performing the intersect of `a` and `b`.
     """
     out = Array()
-    safe_call(backend.get().af_set_intersect(ct.pointer(out.arr), a.arr, b.arr, ct.c_bool(is_unique)))
+    safe_call(backend.get().af_set_intersect(c_pointer(out.arr), a.arr, b.arr, c_bool_t(is_unique)))
     return out

@@ -39,27 +39,27 @@ class Seq(ct.Structure):
     S: slice or number.
 
     """
-    _fields_ = [("begin", ct.c_double),
-                ("end"  , ct.c_double),
-                ("step" , ct.c_double)]
+    _fields_ = [("begin", c_double_t),
+                ("end"  , c_double_t),
+                ("step" , c_double_t)]
 
     def __init__ (self, S):
-        self.begin = ct.c_double( 0)
-        self.end   = ct.c_double(-1)
-        self.step  = ct.c_double( 1)
+        self.begin = c_double_t( 0)
+        self.end   = c_double_t(-1)
+        self.step  = c_double_t( 1)
 
         if _is_number(S):
-            self.begin = ct.c_double(S)
-            self.end   = ct.c_double(S)
+            self.begin = c_double_t(S)
+            self.end   = c_double_t(S)
         elif isinstance(S, slice):
             if (S.step is not None):
-                self.step  = ct.c_double(S.step)
+                self.step  = c_double_t(S.step)
                 if(S.step < 0):
                     self.begin, self.end = self.end, self.begin
             if (S.start is not None):
-                self.begin = ct.c_double(S.start)
+                self.begin = c_double_t(S.start)
             if (S.stop is not None):
-                self.end = ct.c_double(S.stop - math.copysign(1, self.step))
+                self.end = c_double_t(S.stop - math.copysign(1, self.step))
         else:
             raise IndexError("Invalid type while indexing arrayfire.array")
 
@@ -146,13 +146,13 @@ class ParallelRange(Seq):
         return self.next()
 
 class _uidx(ct.Union):
-    _fields_ = [("arr", ct.c_void_p),
+    _fields_ = [("arr", c_void_ptr_t),
                 ("seq", Seq)]
 
 class Index(ct.Structure):
     _fields_ = [("idx", _uidx),
-                ("isSeq", ct.c_bool),
-                ("isBatch", ct.c_bool)]
+                ("isSeq", c_bool_t),
+                ("isBatch", c_bool_t)]
 
     """
     Container for the index class in arrayfire C library
@@ -194,12 +194,12 @@ class Index(ct.Structure):
 
         if isinstance(idx, BaseArray):
 
-            arr = ct.c_void_p(0)
+            arr = c_void_ptr_t(0)
 
             if (idx.type() == Dtype.b8.value):
-                safe_call(backend.get().af_where(ct.pointer(arr), idx.arr))
+                safe_call(backend.get().af_where(c_pointer(arr), idx.arr))
             else:
-                safe_call(backend.get().af_retain_array(ct.pointer(arr), idx.arr))
+                safe_call(backend.get().af_retain_array(c_pointer(arr), idx.arr))
 
             self.idx.arr = arr
             self.isSeq   = False
@@ -214,7 +214,7 @@ class Index(ct.Structure):
             # ctypes field variables are automatically
             # converted to basic C types so we have to
             # build the void_p from the value again.
-            arr = ct.c_void_p(self.idx.arr)
+            arr = c_void_ptr_t(self.idx.arr)
             backend.get().af_release_array(arr)
 
 class _Index4(object):
@@ -227,7 +227,7 @@ class _Index4(object):
         self.idxs = [idx0,idx1,idx2,idx3]
     @property
     def pointer(self):
-        return ct.pointer(self.array)
+        return c_pointer(self.array)
 
     def __getitem__(self, idx):
         return self.array[idx]

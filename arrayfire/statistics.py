@@ -19,19 +19,19 @@ def mean(a, weights=None, dim=None):
         out = Array()
 
         if weights is None:
-            safe_call(backend.get().af_mean(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
+            safe_call(backend.get().af_mean(c_pointer(out.arr), a.arr, c_int_t(dim)))
         else:
-            safe_call(backend.get().af_mean_weighted(ct.pointer(out.arr), a.arr, weights.arr, ct.c_int(dim)))
+            safe_call(backend.get().af_mean_weighted(c_pointer(out.arr), a.arr, weights.arr, c_int_t(dim)))
 
         return out
     else:
-        real = ct.c_double(0)
-        imag = ct.c_double(0)
+        real = c_double_t(0)
+        imag = c_double_t(0)
 
         if weights is None:
-            safe_call(backend.get().af_mean_all(ct.pointer(real), ct.pointer(imag), a.arr))
+            safe_call(backend.get().af_mean_all(c_pointer(real), c_pointer(imag), a.arr))
         else:
-            safe_call(backend.get().af_mean_all_weighted(ct.pointer(real), ct.pointer(imag), a.arr, weights.arr))
+            safe_call(backend.get().af_mean_all_weighted(c_pointer(real), c_pointer(imag), a.arr, weights.arr))
 
         real = real.value
         imag = imag.value
@@ -43,19 +43,19 @@ def var(a, isbiased=False, weights=None, dim=None):
         out = Array()
 
         if weights is None:
-            safe_call(backend.get().af_var(ct.pointer(out.arr), a.arr, isbiased, ct.c_int(dim)))
+            safe_call(backend.get().af_var(c_pointer(out.arr), a.arr, isbiased, c_int_t(dim)))
         else:
-            safe_call(backend.get().af_var_weighted(ct.pointer(out.arr), a.arr, weights.arr, ct.c_int(dim)))
+            safe_call(backend.get().af_var_weighted(c_pointer(out.arr), a.arr, weights.arr, c_int_t(dim)))
 
         return out
     else:
-        real = ct.c_double(0)
-        imag = ct.c_double(0)
+        real = c_double_t(0)
+        imag = c_double_t(0)
 
         if weights is None:
-            safe_call(backend.get().af_var_all(ct.pointer(real), ct.pointer(imag), a.arr, isbiased))
+            safe_call(backend.get().af_var_all(c_pointer(real), c_pointer(imag), a.arr, isbiased))
         else:
-            safe_call(backend.get().af_var_all_weighted(ct.pointer(real), ct.pointer(imag), a.arr, weights.arr))
+            safe_call(backend.get().af_var_all_weighted(c_pointer(real), c_pointer(imag), a.arr, weights.arr))
 
         real = real.value
         imag = imag.value
@@ -65,12 +65,12 @@ def var(a, isbiased=False, weights=None, dim=None):
 def stdev(a, dim=None):
     if dim is not None:
         out = Array()
-        safe_call(backend.get().af_stdev(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
+        safe_call(backend.get().af_stdev(c_pointer(out.arr), a.arr, c_int_t(dim)))
         return out
     else:
-        real = ct.c_double(0)
-        imag = ct.c_double(0)
-        safe_call(backend.get().af_stdev_all(ct.pointer(real), ct.pointer(imag), a.arr))
+        real = c_double_t(0)
+        imag = c_double_t(0)
+        safe_call(backend.get().af_stdev_all(c_pointer(real), c_pointer(imag), a.arr))
         real = real.value
         imag = imag.value
         return real if imag == 0 else real + imag * 1j
@@ -78,12 +78,12 @@ def stdev(a, dim=None):
 def cov(a, isbiased=False, dim=None):
     if dim is not None:
         out = Array()
-        safe_call(backend.get().af_cov(ct.pointer(out.arr), a.arr, isbiased, ct.c_int(dim)))
+        safe_call(backend.get().af_cov(c_pointer(out.arr), a.arr, isbiased, c_int_t(dim)))
         return out
     else:
-        real = ct.c_double(0)
-        imag = ct.c_double(0)
-        safe_call(backend.get().af_cov_all(ct.pointer(real), ct.pointer(imag), a.arr, isbiased))
+        real = c_double_t(0)
+        imag = c_double_t(0)
+        safe_call(backend.get().af_cov_all(c_pointer(real), c_pointer(imag), a.arr, isbiased))
         real = real.value
         imag = imag.value
         return real if imag == 0 else real + imag * 1j
@@ -91,20 +91,20 @@ def cov(a, isbiased=False, dim=None):
 def median(a, dim=None):
     if dim is not None:
         out = Array()
-        safe_call(backend.get().af_median(ct.pointer(out.arr), a.arr, ct.c_int(dim)))
+        safe_call(backend.get().af_median(c_pointer(out.arr), a.arr, c_int_t(dim)))
         return out
     else:
-        real = ct.c_double(0)
-        imag = ct.c_double(0)
-        safe_call(backend.get().af_median_all(ct.pointer(real), ct.pointer(imag), a.arr))
+        real = c_double_t(0)
+        imag = c_double_t(0)
+        safe_call(backend.get().af_median_all(c_pointer(real), c_pointer(imag), a.arr))
         real = real.value
         imag = imag.value
         return real if imag == 0 else real + imag * 1j
 
 def corrcoef(x, y):
-    real = ct.c_double(0)
-    imag = ct.c_double(0)
-    safe_call(backend.get().af_corrcoef(ct.pointer(real), ct.pointer(imag), x.arr, y.arr))
+    real = c_double_t(0)
+    imag = c_double_t(0)
+    safe_call(backend.get().af_corrcoef(c_pointer(real), c_pointer(imag), x.arr, y.arr))
     real = real.value
     imag = imag.value
     return real if imag == 0 else real + imag * 1j

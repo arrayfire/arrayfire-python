@@ -42,8 +42,8 @@ class Random_Engine(object):
 
     def __init__(self, engine_type = RANDOM_ENGINE.PHILOX, seed = 0, engine = None):
         if (engine is None):
-            self.engine  = ct.c_void_p(0)
-            safe_call(backend.get().af_create_random_engine(ct.pointer(self.engine), engine_type.value, ct.c_longlong(seed)))
+            self.engine  = c_void_ptr_t(0)
+            safe_call(backend.get().af_create_random_engine(c_pointer(self.engine), engine_type.value, c_longlong_t(seed)))
         else:
             self.engine = engine
 
@@ -54,7 +54,7 @@ class Random_Engine(object):
         """
         Set the type of the random engine.
         """
-        safe_call(backend.get().af_random_engine_set_type(ct.pointer(self.engine), engine_type.value))
+        safe_call(backend.get().af_random_engine_set_type(c_pointer(self.engine), engine_type.value))
 
     def get_type(self):
         """
@@ -63,22 +63,22 @@ class Random_Engine(object):
         __to_random_engine_type = [RANDOM_ENGINE.PHILOX_4X32_10,
                                    RANDOM_ENGINE.THREEFRY_2X32_16,
                                    RANDOM_ENGINE.MERSENNE_GP11213]
-        rty = ct.c_int(RANDOM_ENGINE.PHILOX.value)
-        safe_call(backend.get().af_random_engine_get_type(ct.pointer(rty), self.engine))
+        rty = c_int_t(RANDOM_ENGINE.PHILOX.value)
+        safe_call(backend.get().af_random_engine_get_type(c_pointer(rty), self.engine))
         return __to_random_engine_type[rty]
 
     def set_seed(self, seed):
         """
         Set the seed for the random engine.
         """
-        safe_call(backend.get().af_random_engine_set_seed(ct.pointer(self.engine), ct.c_longlong(seed)))
+        safe_call(backend.get().af_random_engine_set_seed(c_pointer(self.engine), c_longlong_t(seed)))
 
     def get_seed(self):
         """
         Get the seed for the random engine.
         """
-        seed = ct.c_longlong(0)
-        safe_call(backend.get().af_random_engine_get_seed(ct.pointer(seed), self.engine))
+        seed = c_longlong_t(0)
+        safe_call(backend.get().af_random_engine_get_seed(c_pointer(seed), self.engine))
         return seed.value
 
 def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
@@ -119,9 +119,9 @@ def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
     dims = dim4(d0, d1, d2, d3)
 
     if engine is None:
-        safe_call(backend.get().af_randu(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value))
+        safe_call(backend.get().af_randu(c_pointer(out.arr), 4, c_pointer(dims), dtype.value))
     else:
-        safe_call(backend.get().af_random_uniform(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value, engine.engine))
+        safe_call(backend.get().af_random_uniform(c_pointer(out.arr), 4, c_pointer(dims), dtype.value, engine.engine))
 
     return out
 
@@ -164,9 +164,9 @@ def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
     dims = dim4(d0, d1, d2, d3)
 
     if engine is None:
-        safe_call(backend.get().af_randn(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value))
+        safe_call(backend.get().af_randn(c_pointer(out.arr), 4, c_pointer(dims), dtype.value))
     else:
-        safe_call(backend.get().af_random_normal(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value, engine.engine))
+        safe_call(backend.get().af_random_normal(c_pointer(out.arr), 4, c_pointer(dims), dtype.value, engine.engine))
 
     return out
 
@@ -179,7 +179,7 @@ def set_seed(seed=0):
     seed: int.
           Seed for the random number generator
     """
-    safe_call(backend.get().af_set_seed(ct.c_ulonglong(seed)))
+    safe_call(backend.get().af_set_seed(c_ulonglong_t(seed)))
 
 def get_seed():
     """
@@ -190,8 +190,8 @@ def get_seed():
     seed: int.
           Seed for the random number generator
     """
-    seed = ct.c_ulonglong(0)
-    safe_call(backend.get().af_get_seed(ct.pointer(seed)))
+    seed = c_ulonglong_t(0)
+    safe_call(backend.get().af_get_seed(c_pointer(seed)))
     return seed.value
 
 def set_default_random_engine_type(engine_type):
@@ -214,7 +214,7 @@ def set_default_random_engine_type(engine_type):
 
     This only affects randu and randn when a random engine is not specified.
     """
-    safe_call(backend.get().af_set_default_random_engine_type(ct.pointer(self.engine), engine_type.value))
+    safe_call(backend.get().af_set_default_random_engine_type(c_pointer(self.engine), engine_type.value))
 
 def get_default_random_engine():
     """
@@ -225,8 +225,8 @@ def get_default_random_engine():
 
     The default random engine used by randu and randn
     """
-    engine = ct.c_void_p(0)
-    default_engine = ct.c_void_p(0)
-    safe_call(backend.get().af_get_default_random_engine(ct.pointer(default_engine)))
-    safe_call(backend.get().af_retain_random_engine(ct.pointer(engine), default_engine))
+    engine = c_void_ptr_t(0)
+    default_engine = c_void_ptr_t(0)
+    safe_call(backend.get().af_get_default_random_engine(c_pointer(default_engine)))
+    safe_call(backend.get().af_retain_random_engine(c_pointer(engine), default_engine))
     return Random_Engine(engine=engine)

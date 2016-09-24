@@ -21,18 +21,18 @@ from .index import *
 from .index import _Index4
 
 def _create_array(buf, numdims, idims, dtype, is_device):
-    out_arr = ct.c_void_p(0)
+    out_arr = c_void_ptr_t(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
     if (not is_device):
-        safe_call(backend.get().af_create_array(ct.pointer(out_arr), ct.c_void_p(buf),
-                                                numdims, ct.pointer(c_dims), dtype.value))
+        safe_call(backend.get().af_create_array(c_pointer(out_arr), c_void_ptr_t(buf),
+                                                numdims, c_pointer(c_dims), dtype.value))
     else:
-        safe_call(backend.get().af_device_array(ct.pointer(out_arr), ct.c_void_p(buf),
-                                                numdims, ct.pointer(c_dims), dtype.value))
+        safe_call(backend.get().af_device_array(c_pointer(out_arr), c_void_ptr_t(buf),
+                                                numdims, c_pointer(c_dims), dtype.value))
     return out_arr
 
 def _create_strided_array(buf, numdims, idims, dtype, is_device, offset, strides):
-    out_arr = ct.c_void_p(0)
+    out_arr = c_void_ptr_t(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
     if offset is None:
         offset = 0
@@ -46,17 +46,17 @@ def _create_strided_array(buf, numdims, idims, dtype, is_device, offset, strides
         location = Source.device
     else:
         location = Source.host
-    safe_call(backend.get().af_create_strided_array(ct.pointer(out_arr), ct.c_void_p(buf),
-                                                    offset, numdims, ct.pointer(c_dims),
-                                                    ct.pointer(strides), dtype.value,
+    safe_call(backend.get().af_create_strided_array(c_pointer(out_arr), c_void_ptr_t(buf),
+                                                    offset, numdims, c_pointer(c_dims),
+                                                    c_pointer(strides), dtype.value,
                                                     location.value))
     return out_arr
 
 def _create_empty_array(numdims, idims, dtype):
-    out_arr = ct.c_void_p(0)
+    out_arr = c_void_ptr_t(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
-    safe_call(backend.get().af_create_handle(ct.pointer(out_arr),
-                                             numdims, ct.pointer(c_dims), dtype.value))
+    safe_call(backend.get().af_create_handle(c_pointer(out_arr),
+                                             numdims, c_pointer(c_dims), dtype.value))
     return out_arr
 
 def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
@@ -64,35 +64,35 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
     Internal function to create a C array. Should not be used externall.
     """
 
-    if not isinstance(dtype, ct.c_int):
+    if not isinstance(dtype, c_int_t):
         if isinstance(dtype, int):
-            dtype = ct.c_int(dtype)
+            dtype = c_int_t(dtype)
         elif isinstance(dtype, Dtype):
-            dtype = ct.c_int(dtype.value)
+            dtype = c_int_t(dtype.value)
         else:
             raise TypeError("Invalid dtype")
 
-    out = ct.c_void_p(0)
+    out = c_void_ptr_t(0)
     dims = dim4(d0, d1, d2, d3)
 
     if isinstance(val, complex):
-        c_real = ct.c_double(val.real)
-        c_imag = ct.c_double(val.imag)
+        c_real = c_double_t(val.real)
+        c_imag = c_double_t(val.imag)
 
         if (dtype.value != Dtype.c32.value and dtype.value != Dtype.c64.value):
             dtype = Dtype.c32.value
 
-        safe_call(backend.get().af_constant_complex(ct.pointer(out), c_real, c_imag,
-                                                    4, ct.pointer(dims), dtype))
+        safe_call(backend.get().af_constant_complex(c_pointer(out), c_real, c_imag,
+                                                    4, c_pointer(dims), dtype))
     elif dtype.value == Dtype.s64.value:
-        c_val = ct.c_longlong(val.real)
-        safe_call(backend.get().af_constant_long(ct.pointer(out), c_val, 4, ct.pointer(dims)))
+        c_val = c_longlong_t(val.real)
+        safe_call(backend.get().af_constant_long(c_pointer(out), c_val, 4, c_pointer(dims)))
     elif dtype.value == Dtype.u64.value:
-        c_val = ct.c_ulonglong(val.real)
-        safe_call(backend.get().af_constant_ulong(ct.pointer(out), c_val, 4, ct.pointer(dims)))
+        c_val = c_ulonglong_t(val.real)
+        safe_call(backend.get().af_constant_ulong(c_pointer(out), c_val, 4, c_pointer(dims)))
     else:
-        c_val = ct.c_double(val)
-        safe_call(backend.get().af_constant(ct.pointer(out), c_val, 4, ct.pointer(dims), dtype))
+        c_val = c_double_t(val)
+        safe_call(backend.get().af_constant(c_pointer(out), c_val, 4, c_pointer(dims), dtype))
 
     return out
 
@@ -109,7 +109,7 @@ def _binary_func(lhs, rhs, c_func):
     elif not isinstance(rhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
-    safe_call(c_func(ct.pointer(out.arr), lhs.arr, other.arr, _bcast_var.get()))
+    safe_call(c_func(c_pointer(out.arr), lhs.arr, other.arr, _bcast_var.get()))
 
     return out
 
@@ -125,7 +125,7 @@ def _binary_funcr(lhs, rhs, c_func):
     elif not isinstance(lhs, Array):
         raise TypeError("Invalid parameter to binary function")
 
-    c_func(ct.pointer(out.arr), other.arr, rhs.arr, _bcast_var.get())
+    c_func(c_pointer(out.arr), other.arr, rhs.arr, _bcast_var.get())
 
     return out
 
@@ -257,7 +257,7 @@ def transpose(a, conj=False):
 
     """
     out = Array()
-    safe_call(backend.get().af_transpose(ct.pointer(out.arr), a.arr, conj))
+    safe_call(backend.get().af_transpose(c_pointer(out.arr), a.arr, conj))
     return out
 
 def transpose_inplace(a, conj=False):
@@ -403,7 +403,7 @@ class Array(BaseArray):
         if src is not None:
 
             if (isinstance(src, Array)):
-                safe_call(backend.get().af_retain_array(ct.pointer(self.arr), src.arr))
+                safe_call(backend.get().af_retain_array(c_pointer(self.arr), src.arr))
                 return
 
             host = __import__("array")
@@ -417,8 +417,8 @@ class Array(BaseArray):
                 buf,buf_len = tmp.buffer_info()
                 _type_char = tmp.typecode
                 numdims, idims = _get_info(dims, buf_len)
-            elif isinstance(src, int) or isinstance(src, ct.c_void_p):
-                buf = src if not isinstance(src, ct.c_void_p) else src.value
+            elif isinstance(src, int) or isinstance(src, c_void_ptr_t):
+                buf = src if not isinstance(src, c_void_ptr_t) else src.value
 
                 numdims, idims = _get_info(dims, buf_len)
 
@@ -476,7 +476,7 @@ class Array(BaseArray):
              An identical copy of self.
         """
         out = Array()
-        safe_call(backend.get().af_copy_array(ct.pointer(out.arr), self.arr))
+        safe_call(backend.get().af_copy_array(c_pointer(out.arr), self.arr))
         return out
 
     def __del__(self):
@@ -503,8 +503,8 @@ class Array(BaseArray):
         - A copy of the memory is done if multiple arrays share the same memory or the array is not the owner of the memory.
         - In case of a copy the return value points to the newly allocated memory which is now exclusively owned by the array.
         """
-        ptr = ct.c_void_p(0)
-        backend.get().af_get_device_ptr(ct.pointer(ptr), self.arr)
+        ptr = c_void_ptr_t(0)
+        backend.get().af_get_device_ptr(c_pointer(ptr), self.arr)
         return ptr.value
 
     def raw_ptr(self):
@@ -524,8 +524,8 @@ class Array(BaseArray):
         - In particular the JIT compiler will not be aware of the shared arrays.
         - This results in JITed operations not being immediately visible through the other array.
         """
-        ptr = ct.c_void_p(0)
-        backend.get().af_get_raw_ptr(ct.pointer(ptr), self.arr)
+        ptr = c_void_ptr_t(0)
+        backend.get().af_get_raw_ptr(c_pointer(ptr), self.arr)
         return ptr.value
 
     def offset(self):
@@ -538,7 +538,7 @@ class Array(BaseArray):
                  The offset in number of elements
         """
         offset = c_dim_t(0)
-        safe_call(backend.get().af_get_offset(ct.pointer(offset), self.arr))
+        safe_call(backend.get().af_get_offset(c_pointer(offset), self.arr))
         return offset.value
 
     def strides(self):
@@ -554,8 +554,8 @@ class Array(BaseArray):
         s1 = c_dim_t(0)
         s2 = c_dim_t(0)
         s3 = c_dim_t(0)
-        safe_call(backend.get().af_get_strides(ct.pointer(s0), ct.pointer(s1),
-                                   ct.pointer(s2), ct.pointer(s3), self.arr))
+        safe_call(backend.get().af_get_strides(c_pointer(s0), c_pointer(s1),
+                                   c_pointer(s2), c_pointer(s3), self.arr))
         strides = (s0.value,s1.value,s2.value,s3.value)
         return strides[:self.numdims()]
 
@@ -564,15 +564,15 @@ class Array(BaseArray):
         Return the number of elements in the array.
         """
         num = c_dim_t(0)
-        safe_call(backend.get().af_get_elements(ct.pointer(num), self.arr))
+        safe_call(backend.get().af_get_elements(c_pointer(num), self.arr))
         return num.value
 
     def dtype(self):
         """
         Return the data type as a arrayfire.Dtype enum value.
         """
-        dty = ct.c_int(Dtype.f32.value)
-        safe_call(backend.get().af_get_type(ct.pointer(dty), self.arr))
+        dty = c_int_t(Dtype.f32.value)
+        safe_call(backend.get().af_get_type(c_pointer(dty), self.arr))
         return to_dtype[to_typecode[dty.value]]
 
     def type(self):
@@ -603,8 +603,8 @@ class Array(BaseArray):
         d1 = c_dim_t(0)
         d2 = c_dim_t(0)
         d3 = c_dim_t(0)
-        safe_call(backend.get().af_get_dims(ct.pointer(d0), ct.pointer(d1),
-                                   ct.pointer(d2), ct.pointer(d3), self.arr))
+        safe_call(backend.get().af_get_dims(c_pointer(d0), c_pointer(d1),
+                                   c_pointer(d2), c_pointer(d3), self.arr))
         dims = (d0.value,d1.value,d2.value,d3.value)
         return dims[:self.numdims()]
 
@@ -619,40 +619,40 @@ class Array(BaseArray):
         """
         Return the number of dimensions of the array.
         """
-        nd = ct.c_uint(0)
-        safe_call(backend.get().af_get_numdims(ct.pointer(nd), self.arr))
+        nd = c_uint_t(0)
+        safe_call(backend.get().af_get_numdims(c_pointer(nd), self.arr))
         return nd.value
 
     def is_empty(self):
         """
         Check if the array is empty i.e. it has no elements.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_empty(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_empty(c_pointer(res), self.arr))
         return res.value
 
     def is_scalar(self):
         """
         Check if the array is scalar i.e. it has only one element.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_scalar(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_scalar(c_pointer(res), self.arr))
         return res.value
 
     def is_row(self):
         """
         Check if the array is a row i.e. it has a shape of (1, cols).
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_row(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_row(c_pointer(res), self.arr))
         return res.value
 
     def is_column(self):
         """
         Check if the array is a column i.e. it has a shape of (rows, 1).
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_column(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_column(c_pointer(res), self.arr))
         return res.value
 
     def is_vector(self):
@@ -663,96 +663,96 @@ class Array(BaseArray):
         - (1, 1, vols)
         - (1, 1, 1, batch)
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_vector(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_vector(c_pointer(res), self.arr))
         return res.value
 
     def is_sparse(self):
         """
         Check if the array is a sparse matrix.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_sparse(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_sparse(c_pointer(res), self.arr))
         return res.value
 
     def is_complex(self):
         """
         Check if the array is of complex type.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_complex(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_complex(c_pointer(res), self.arr))
         return res.value
 
     def is_real(self):
         """
         Check if the array is not of complex type.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_real(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_real(c_pointer(res), self.arr))
         return res.value
 
     def is_double(self):
         """
         Check if the array is of double precision floating point type.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_double(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_double(c_pointer(res), self.arr))
         return res.value
 
     def is_single(self):
         """
         Check if the array is of single precision floating point type.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_single(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_single(c_pointer(res), self.arr))
         return res.value
 
     def is_real_floating(self):
         """
         Check if the array is real and of floating point type.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_realfloating(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_realfloating(c_pointer(res), self.arr))
         return res.value
 
     def is_floating(self):
         """
         Check if the array is of floating point type.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_floating(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_floating(c_pointer(res), self.arr))
         return res.value
 
     def is_integer(self):
         """
         Check if the array is of integer type.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_integer(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_integer(c_pointer(res), self.arr))
         return res.value
 
     def is_bool(self):
         """
         Check if the array is of type b8.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_bool(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_bool(c_pointer(res), self.arr))
         return res.value
 
     def is_linear(self):
         """
         Check if all elements of the array are contiguous.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_linear(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_linear(c_pointer(res), self.arr))
         return res.value
 
     def is_owner(self):
         """
         Check if the array owns the raw pointer or is a derived array.
         """
-        res = ct.c_bool(False)
-        safe_call(backend.get().af_is_owner(ct.pointer(res), self.arr))
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_owner(c_pointer(res), self.arr))
         return res.value
 
     def __add__(self, other):
@@ -1033,7 +1033,7 @@ class Array(BaseArray):
 
             inds = _get_indices(key)
 
-            safe_call(backend.get().af_index_gen(ct.pointer(out.arr),
+            safe_call(backend.get().af_index_gen(c_pointer(out.arr),
                                     self.arr, c_dim_t(n_dims), inds.pointer))
             return out
         except RuntimeError as e:
@@ -1071,10 +1071,10 @@ class Array(BaseArray):
                 other_arr = val.arr
                 del_other = False
 
-            out_arr = ct.c_void_p(0)
+            out_arr = c_void_ptr_t(0)
             inds  = _get_indices(key)
 
-            safe_call(backend.get().af_assign_gen(ct.pointer(out_arr),
+            safe_call(backend.get().af_assign_gen(c_pointer(out_arr),
                                                   self.arr, c_dim_t(n_dims), inds.pointer,
                                                   other_arr))
             safe_call(backend.get().af_release_array(self.arr))
@@ -1113,7 +1113,7 @@ class Array(BaseArray):
         tmp = transpose(self) if row_major else self
         ctype_type = to_c_type[self.type()] * self.elements()
         res = ctype_type()
-        safe_call(backend.get().af_get_data_ptr(ct.pointer(res), self.arr))
+        safe_call(backend.get().af_get_data_ptr(c_pointer(res), self.arr))
         if (return_shape):
             return res, self.dims()
         else:
@@ -1188,8 +1188,8 @@ class Array(BaseArray):
         You can also use af.display(a, pres) to display the contents of the array with better precision.
         """
 
-        arr_str = ct.c_char_p(0)
-        safe_call(backend.get().af_array_to_string(ct.pointer(arr_str), "", self.arr, 4, True))
+        arr_str = c_char_ptr_t(0)
+        safe_call(backend.get().af_array_to_string(c_pointer(arr_str), "", self.arr, 4, True))
 
         return 'arrayfire.Array()\nType: %s' % \
             (to_typename[self.type()]) + to_str(arr_str)
@@ -1200,7 +1200,7 @@ class Array(BaseArray):
         """
         import numpy as np
         res = np.empty(self.dims(), dtype=np.dtype(to_typecode[self.type()]), order='F')
-        safe_call(backend.get().af_get_data_ptr(ct.c_void_p(res.ctypes.data), self.arr))
+        safe_call(backend.get().af_get_data_ptr(c_void_ptr_t(res.ctypes.data), self.arr))
         return res
 
 def display(a, precision=4):
@@ -1226,7 +1226,7 @@ def display(a, precision=4):
         pass
 
     safe_call(backend.get().af_print_array_gen(name.encode('utf-8'),
-                                               a.arr, ct.c_int(precision)))
+                                               a.arr, c_int_t(precision)))
 
 def save_array(key, a, filename, append=False):
     """
@@ -1251,8 +1251,8 @@ def save_array(key, a, filename, append=False):
     index   : int
             The index of the array stored in the file.
     """
-    index = ct.c_int(-1)
-    safe_call(backend.get().af_save_array(ct.pointer(index),
+    index = c_int_t(-1)
+    safe_call(backend.get().af_save_array(c_pointer(index),
                                           key.encode('utf-8'),
                                           a.arr,
                                           filename.encode('utf-8'),
@@ -1283,11 +1283,11 @@ def read_array(filename, index=None, key=None):
     assert((index is not None) or (key is not None))
     out = Array()
     if (index is not None):
-        safe_call(backend.get().af_read_array_index(ct.pointer(out.arr),
+        safe_call(backend.get().af_read_array_index(c_pointer(out.arr),
                                                     filename.encode('utf-8'),
                                                     index))
     elif (key is not None):
-        safe_call(backend.get().af_read_array_key(ct.pointer(out.arr),
+        safe_call(backend.get().af_read_array_key(c_pointer(out.arr),
                                                   filename.encode('utf-8'),
                                                   key.encode('utf-8')))
 

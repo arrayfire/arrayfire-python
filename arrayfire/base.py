@@ -19,4 +19,4 @@ class BaseArray(object):
     Base array class for arrayfire. For internal use only.
     """
     def __init__(self):
-        self.arr = ct.c_void_p(0)
+        self.arr = c_void_ptr_t(0)
