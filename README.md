@@ -8,7 +8,7 @@
 | Linux   | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/python-linux)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/python-linux/)      |
 | Windows | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/python-windows)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/python-windows/)  |
 | OSX     | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/python-osx)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/python-osx/)          |
-| Linux on ARM | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/python-tegrak1)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/python-tegrak1/)|
+| Linux on ARM | [![Build Status](http://ci.arrayfire.org/buildStatus/icon?job=arrayfire-wrappers/python-tegrax1)](http://ci.arrayfire.org/view/All/job/arrayfire-wrappers/job/python-tegrak1/)|
 
 ## Documentation
 
