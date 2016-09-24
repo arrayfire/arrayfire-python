@@ -19,4 +19,5 @@ from .lapack import *
 from .signal import *
 from .statistics import *
 from .random import *
+from .sparse import *
 from ._util import tests
