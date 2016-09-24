@@ -113,11 +113,16 @@ class INTERP(_Enum):
     """
     Interpolation method
     """
-    NEAREST   = _Enum_Type(0)
-    LINEAR    = _Enum_Type(1)
-    BILINEAR  = _Enum_Type(2)
-    CUBIC     = _Enum_Type(3)
-    LOWER     = _Enum_Type(4)
+    NEAREST         = _Enum_Type(0)
+    LINEAR          = _Enum_Type(1)
+    BILINEAR        = _Enum_Type(2)
+    CUBIC           = _Enum_Type(3)
+    LOWER           = _Enum_Type(4)
+    LINEAR_COSINE   = _Enum_Type(5)
+    BILINEAR_COSINE = _Enum_Type(6)
+    BICUBIC         = _Enum_Type(7)
+    CUBIC_SPLINE    = _Enum_Type(8)
+    BICUBIC_SPLINE  = _Enum_Type(9)
 
 class PAD(_Enum):
     """
@@ -349,6 +354,45 @@ class MARKER(_Enum):
     PLUS       = _Enum_Type(6)
     STAR       = _Enum_Type(7)
 
+class MOMENT(_Enum):
+    """
+    Image Moments types
+    """
+    M00         = _Enum_Type(1)
+    M01         = _Enum_Type(2)
+    M10         = _Enum_Type(4)
+    M11         = _Enum_Type(8)
+    FIRST_ORDER = _Enum_Type(15)
+
+class BINARYOP(_Enum):
+    """
+    Binary Operators
+    """
+    ADD  = _Enum_Type(0)
+    MUL  = _Enum_Type(1)
+    MIN  = _Enum_Type(2)
+    MAX  = _Enum_Type(3)
+
+class RANDOM_ENGINE(_Enum):
+    """
+    Random engine types
+    """
+    PHILOX_4X32_10   = _Enum_Type(100)
+    THREEFRY_2X32_16 = _Enum_Type(200)
+    MERSENNE_GP11213 = _Enum_Type(300)
+    PHILOX           = PHILOX_4X32_10
+    THREEFRY         = THREEFRY_2X32_16
+    DEFAULT          = PHILOX
+
+class STORAGE(_Enum):
+    """
+    Matrix Storage types
+    """
+    DENSE = _Enum_Type(0)
+    CSR   = _Enum_Type(1)
+    CSC   = _Enum_Type(2)
+    COO   = _Enum_Type(3)
+
 def _setup():
     import platform
     import os
@@ -477,6 +521,10 @@ class _clibrary(object):
             except:
                 pass
 
+        c_dim4 = c_dim_t*4
+        out = ct.c_void_p(0)
+        dims = c_dim4(10, 10, 1, 1)
+
         # Iterate in reverse order of preference
         for name in ('cpu', 'opencl', 'cuda', ''):
             libnames = self.__libname(name)
@@ -484,15 +532,18 @@ class _clibrary(object):
                 try:
                     ct.cdll.LoadLibrary(libname)
                     __name = 'unified' if name == '' else name
-                    self.__clibs[__name] = ct.CDLL(libname)
-                    self.__name = __name
+                    clib = ct.CDLL(libname)
+                    self.__clibs[__name] = clib
+                    err = clib.af_randu(ct.pointer(out), 4, ct.pointer(dims), Dtype.f32.value)
+                    if (err == ERR.NONE.value):
+                        self.__name = __name
+                        clib.af_release_array(out)
                     break;
                 except:
                     pass
 
         if (self.__name is None):
-            raise RuntimeError("Could not load any ArrayFire libraries.\n" +
-                               more_info_str)
+            raise RuntimeError("Could not load any ArrayFire libraries.\n" + more_info_str)
 
     def get_id(self, name):
         return self.__backend_name_map[name]
@@ -619,5 +670,13 @@ def get_device_id(A):
     device_id = ct.c_int(0)
     safe_call(backend.get().af_get_device_id(ct.pointer(device_id), A.arr))
     return device_id
+
+def get_size_of(dtype):
+    """
+    Get the size of the type represented by arrayfire.Dtype
+    """
+    size = ct.c_size_t(0)
+    safe_call(backend.get().af_get_size_of(ct.pointer(size), dtype.value))
+    return size.value
 
 from .util import safe_call

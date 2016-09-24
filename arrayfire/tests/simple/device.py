@@ -51,4 +51,23 @@ def simple_device(verbose=False):
     af.lock_array(c)
     af.unlock_array(c)
 
+    a = af.constant(1, 3, 3)
+    b = af.constant(2, 3, 3)
+    af.eval(a)
+    af.eval(b)
+    print_func(a)
+    print_func(b)
+    c = a + b
+    d = a - b
+    af.eval(c, d)
+    print_func(c)
+    print_func(d)
+
+    print_func(af.set_manual_eval_flag(True))
+    assert(af.get_manual_eval_flag() == True)
+    print_func(af.set_manual_eval_flag(False))
+    assert(af.get_manual_eval_flag() == False)
+
+    display_func(af.is_locked_array(a))
+
 _util.tests['device'] = simple_device

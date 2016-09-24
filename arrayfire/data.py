@@ -16,6 +16,7 @@ from .library import *
 from .array import *
 from .util import *
 from .util import _is_number
+from .random import randu, randn, set_seed, get_seed
 
 def constant(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
     """
@@ -185,105 +186,6 @@ def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=Dtype.f32)
     safe_call(backend.get().af_iota(ct.pointer(out.arr), 4, ct.pointer(dims),
                                     4, ct.pointer(tdims), dtype.value))
     return out
-
-def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
-    """
-    Create a multi dimensional array containing values from a uniform distribution.
-
-    Parameters
-    ----------
-    d0 : int.
-         Length of first dimension.
-
-    d1 : optional: int. default: None.
-         Length of second dimension.
-
-    d2 : optional: int. default: None.
-         Length of third dimension.
-
-    d3 : optional: int. default: None.
-         Length of fourth dimension.
-
-    dtype : optional: af.Dtype. default: af.Dtype.f32.
-           Data type of the array.
-
-    Returns
-    -------
-
-    out : af.Array
-          Multi dimensional array whose elements are sampled uniformly between [0, 1].
-          - If d1 is None, `out` is 1D of size (d0,).
-          - If d1 is not None and d2 is None, `out` is 2D of size (d0, d1).
-          - If d1 and d2 are not None and d3 is None, `out` is 3D of size (d0, d1, d2).
-          - If d1, d2, d3 are all not None, `out` is 4D of size (d0, d1, d2, d3).
-    """
-    out = Array()
-    dims = dim4(d0, d1, d2, d3)
-
-    safe_call(backend.get().af_randu(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value))
-    return out
-
-def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
-    """
-    Create a multi dimensional array containing values from a normal distribution.
-
-    Parameters
-    ----------
-    d0 : int.
-         Length of first dimension.
-
-    d1 : optional: int. default: None.
-         Length of second dimension.
-
-    d2 : optional: int. default: None.
-         Length of third dimension.
-
-    d3 : optional: int. default: None.
-         Length of fourth dimension.
-
-    dtype : optional: af.Dtype. default: af.Dtype.f32.
-           Data type of the array.
-
-    Returns
-    -------
-
-    out : af.Array
-          Multi dimensional array whose elements are sampled from a normal distribution with mean 0 and sigma of 1.
-          - If d1 is None, `out` is 1D of size (d0,).
-          - If d1 is not None and d2 is None, `out` is 2D of size (d0, d1).
-          - If d1 and d2 are not None and d3 is None, `out` is 3D of size (d0, d1, d2).
-          - If d1, d2, d3 are all not None, `out` is 4D of size (d0, d1, d2, d3).
-    """
-
-    out = Array()
-    dims = dim4(d0, d1, d2, d3)
-
-    safe_call(backend.get().af_randn(ct.pointer(out.arr), 4, ct.pointer(dims), dtype.value))
-    return out
-
-def set_seed(seed=0):
-    """
-    Set the seed for the random number generator.
-
-    Parameters
-    ----------
-    seed: int.
-          Seed for the random number generator
-    """
-    safe_call(backend.get().af_set_seed(ct.c_ulonglong(seed)))
-
-def get_seed():
-    """
-    Get the seed for the random number generator.
-
-    Returns
-    ----------
-    seed: int.
-          Seed for the random number generator
-    """
-    seed = ct.c_ulonglong(0)
-    safe_call(backend.get().af_get_seed(ct.pointer(seed)))
-    return seed.value
 
 def identity(d0, d1, d2=None, d3=None, dtype=Dtype.f32):
     """

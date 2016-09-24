@@ -140,9 +140,9 @@ class Window(object):
         _cell = _Cell(self._r, self._c, title, self._cmap)
         safe_call(backend.get().af_draw_image(self._wnd, img.arr, ct.pointer(_cell)))
 
-    def scatter(self, X, Y, marker=MARKER.POINT, title=None):
+    def scatter(self, X, Y, Z=None, points=None, marker=MARKER.POINT, title=None):
         """
-        Renders input arrays as 2D scatter plot.
+        Renders input arrays as 2D or 3D scatter plot.
 
         Paramters
         ---------
@@ -152,6 +152,14 @@ class Window(object):
 
         Y: af.Array.
              A 1 dimensional array containing Y co-ordinates.
+
+        Z: optional: af.Array. default: None.
+             - A 1 dimensional array containing Z co-ordinates.
+             - Not used if line is not None
+
+        points: optional: af.Array. default: None.
+             - A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for 2D scatter plot.
+             - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for 3D scatter plot.
 
         marker: af.MARKER
              Specifies how the points look
@@ -160,60 +168,197 @@ class Window(object):
              Title used for the plot.
         """
         _cell = _Cell(self._r, self._c, title, self._cmap)
-        safe_call(backend.get().af_draw_scatter(self._wnd, X.arr, Y.arr,
-                                                marker.value, ct.pointer(_cell)))
 
-    def scatter3(self, P, marker=MARKER.POINT, title=None):
+        if points is None:
+            if Z is None:
+                safe_call(backend.get().af_draw_scatter_2d(self._wnd, X.arr, Y.arr,
+                                                           marker.value, ct.pointer(_cell)))
+            else:
+                safe_call(backend.get().af_draw_scatter_3d(self._wnd, X.arr, Y.arr, Z.arr,
+                                                           marker.value, ct.pointer(_cell)))
+        else:
+            safe_call(backend.get().af_draw_scatter_nd(self._wnd, points.arr, marker.value, ct.pointer(_cell)))
+
+    def scatter2(self, points, marker=MARKER.POINT, title=None):
+        """
+        Renders the input array as a 2D Scatter plot.
+
+        Paramters
+        ---------
+
+        points: af.Array.
+             A 2 dimensional array containing (X,Y) co-ordinates.
+
+        marker: af.MARKER
+             Specifies how the points look
+
+        title: str.
+             Title used for the plot.
+        """
+        assert(points.numdims() == 2)
+        _cell = _Cell(self._r, self._c, title, self._cmap)
+        safe_call(backend.get().af_draw_scatter2(self._wnd, points.arr,
+                                                 marker.value, ct.pointer(_cell)))
+
+    def scatter3(self, points, marker=MARKER.POINT, title=None):
         """
         Renders the input array as a 3D Scatter plot.
 
         Paramters
         ---------
 
-        P: af.Array.
+        points: af.Array.
              A 2 dimensional array containing (X,Y,Z) co-ordinates.
+
+        marker: af.MARKER
+             Specifies how the points look
 
         title: str.
              Title used for the plot.
         """
+        assert(points.numdims() == 3)
         _cell = _Cell(self._r, self._c, title, self._cmap)
-        safe_call(backend.get().af_draw_scatter3(self._wnd, P.arr,
+        safe_call(backend.get().af_draw_scatter3(self._wnd, points.arr,
                                                  marker.value, ct.pointer(_cell)))
+    def plot(self, X, Y, Z=None, line = None, title=None):
+        """
+        Display a 2D or 3D Plot.
 
-    def plot(self, X, Y, title=None):
+        Paramters
+        ---------
+
+        X: af.Array.
+             - A 1 dimensional array containing X co-ordinates.
+             - Not used if line is not None
+
+        Y: af.Array.
+             - A 1 dimensional array containing Y co-ordinates.
+             - Not used if line is not None
+
+        Z: optional: af.Array. default: None.
+             - A 1 dimensional array containing Z co-ordinates.
+             - Not used if line is not None
+
+        line: optional: af.Array. default: None.
+             - A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for plotting 2D lines.
+             - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.
+
+        title: str.
+             Title used for the plot.
+
+        Note
+        ----
+
+        The line parameter takes precedence.
+        """
+        _cell = _Cell(self._r, self._c, title, self._cmap)
+        if line is None:
+            if Z is None:
+                safe_call(backend.get().af_draw_plot_2d(self._wnd, X.arr, Y.arr, ct.pointer(_cell)))
+            else:
+                safe_call(backend.get().af_draw_plot_3d(self._wnd, X.arr, Y.arr, Z.arr, ct.pointer(_cell)))
+        else:
+            safe_call(backend.get().af_draw_plot_nd(self._wnd, line.arr, ct.pointer(_cell)))
+
+    def plot2(self, line, title=None):
         """
         Display a 2D Plot.
 
         Paramters
         ---------
 
-        X: af.Array.
-             A 1 dimensional array containing X co-ordinates.
-
-        Y: af.Array.
-             A 1 dimensional array containing Y co-ordinates.
+        line: af.Array.
+             - A 2 dimensional array of size [n 2]. Each column denotes X, and Y co-ordinates for plotting 2D lines.
 
         title: str.
              Title used for the plot.
-        """
-        _cell = _Cell(self._r, self._c, title, self._cmap)
-        safe_call(backend.get().af_draw_plot(self._wnd, X.arr, Y.arr, ct.pointer(_cell)))
 
-    def plot3(self, line, title=None):
         """
-        Renders the input array as a 3D line plot.
+
+        assert(line.numdims() == 2)
+        _cell = _Cell(self._r, self._c, title, self._cmap)
+        safe_call(backend.get().af_draw_plot_nd(self._wnd, line.arr, ct.pointer(_cell)))
+
+    def plot3(self, X=None, Y=None, Z=None, line=None, title=None):
+        """
+        Display a 3D Plot.
 
         Paramters
         ---------
 
         line: af.Array.
-             A 2 dimensional array containing (X,Y,Z) co-ordinates.
+             - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.
 
         title: str.
              Title used for the plot.
         """
+
+        assert(line.numdims() == 3)
         _cell = _Cell(self._r, self._c, title, self._cmap)
-        safe_call(backend.get().af_draw_plot3(self._wnd, line.arr, ct.pointer(_cell)))
+        safe_call(backend.get().af_draw_plot_nd(self._wnd, line.arr, ct.pointer(_cell)))
+
+    def vector_field(self, xpoints, xdirs, ypoints, ydirs, zpoints=None, zdirs=None,
+                     points = None, dirs = None, title=None):
+        """
+        Display a 2D or 3D Vector_Field.
+
+        Paramters
+        ---------
+
+        xpoints : af.Array.
+                 - A 1 dimensional array containing X co-ordinates.
+                 - Not used if points is not None
+
+        xdirs   : af.Array.
+                 - A 1 dimensional array specifying direction at current location.
+                 - Not used if dirs is not None
+
+        ypoints : af.Array.
+                 - A 1 dimensional array containing Y co-ordinates.
+                 - Not used if points is not None
+
+        ydirs   : af.Array.
+                 - A 1 dimensional array specifying direction at current location.
+                 - Not used if dirs is not None
+
+        zpoints : optional: af.Array. default: None.
+                 - A 1 dimensional array containing Z co-ordinates.
+                 - Not used if points is not None
+
+        zdirs   : optional: af.Array. default: none.
+                 - A 1 dimensional array specifying direction at current location.
+                 - Not used if dirs is not None
+
+        points  : optional: af.Array. default: None.
+             - A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for plotting 2D lines.
+             - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.
+
+        dirs    : optional: af.Array. default: None.
+             - A 2 dimensional array of size [n 2]. Each column denotes X and Y directions for plotting 2D lines.
+             - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z directions for plotting 3D lines.
+
+        title   : str.
+             Title used for the plot.
+
+        Note
+        ----
+
+        The line parameter takes precedence.
+        """
+        _cell = _Cell(self._r, self._c, title, self._cmap)
+        if line is None:
+            if Z is None:
+                safe_call(backend.get().af_draw_vector_field_2d(self._wnd,
+                                                                xpoints.arr, ypoints.arr,
+                                                                xdirs.arr, ydirs.arr,
+                                                                ct.pointer(_cell)))
+            else:
+                safe_call(backend.get().af_draw_vector_field_2d(self._wnd,
+                                                                xpoints.arr, ypoints.arr, zpoints.arr,
+                                                                xdirs.arr, ydirs.arr, zdirs.arr,
+                                                                ct.pointer(_cell)))
+        else:
+            safe_call(backend.get().af_draw_plot_nd(self._wnd, points.arr, dirs.arr, ct.pointer(_cell)))
 
     def surface(self, x_vals, y_vals, z_vals, title=None):
         """
@@ -304,6 +449,52 @@ class Window(object):
         is_visible: Flag specifying the visibility of the flag.
         """
         safe_call(backend.get().af_set_visibility(self._wnd, is_visible))
+
+    def set_axes_limits(self, xmin, xmax, ymin, ymax, zmin=None, zmax=None, exact=False):
+        """
+        Set axis limits.
+
+        Paramters
+        ---------
+
+        xmin : af.Array.
+              - lower limit of the x axis.
+
+        xmax : af.Array.
+              - upper limit of the x axis.
+
+        ymin : af.Array.
+              - lower limit of the y axis.
+
+        ymax : af.Array.
+              - upper limit of the y axis.
+
+        zmin : optional: af.Array. default: None.
+              - lower limit of the z axis.
+
+        zmax : optional: af.Array. default: None.
+              - upper limit of the z axis.
+
+        title   : str.
+             Title used for the plot.
+
+        Note
+        ----
+
+        The line parameter takes precedence.
+        """
+        _cell = _Cell(self._r, self._c, "", self._cmap)
+        if (zmin is None or zmax is None):
+            safe_call(backend.get().af_set_axes_limits_2d(self._wnd,
+                                                          ct.c_float(xmin), ct.c_float(xmax),
+                                                          ct.c_float(ymin), ct.c_float(ymax),
+                                                          exact, ct.pointer(_cell)))
+        else:
+            safe_call(backend.get().af_set_axes_limits_2d(self._wnd,
+                                                          ct.c_float(xmin), ct.c_float(xmax),
+                                                          ct.c_float(ymin), ct.c_float(ymax),
+                                                          ct.c_float(zmin), ct.c_float(zmax),
+                                                          exact, ct.pointer(_cell)))
 
     def __getitem__(self, keys):
         """

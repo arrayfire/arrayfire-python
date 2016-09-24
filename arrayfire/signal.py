@@ -1264,3 +1264,106 @@ def iir(B, A, X):
     Y = Array()
     safe_call(backend.get().af_iir(ct.pointer(Y.arr), B.arr, A.arr, X.arr))
     return Y
+
+def medfilt(signal, w0 = 3, w1 = 3, edge_pad = PAD.ZERO):
+    """
+    Apply median filter for the signal.
+
+    Parameters
+    ----------
+    signal : af.Array
+          - A 2 D arrayfire array representing a signal, or
+          - A multi dimensional array representing batch of signals.
+
+    w0 : optional: int. default: 3.
+          - The length of the filter along the first dimension.
+
+    w1 : optional: int. default: 3.
+          - The length of the filter along the second dimension.
+
+    edge_pad : optional: af.PAD. default: af.PAD.ZERO
+          - Flag specifying how the median at the edge should be treated.
+
+    Returns
+    ---------
+
+    output : af.Array
+           - The signal after median filter is applied.
+
+    """
+    output = Array()
+    safe_call(backend.get().af_medfilt(ct.pointer(output.arr),
+                                       signal.arr, c_dim_t(w0),
+                                       c_dim_t(w1), edge_pad.value))
+    return output
+
+def medfilt1(signal, length = 3, edge_pad = PAD.ZERO):
+    """
+    Apply median filter for the signal.
+
+    Parameters
+    ----------
+    signal : af.Array
+          - A 1 D arrayfire array representing a signal, or
+          - A multi dimensional array representing batch of signals.
+
+    length : optional: int. default: 3.
+          - The length of the filter.
+
+    edge_pad : optional: af.PAD. default: af.PAD.ZERO
+          - Flag specifying how the median at the edge should be treated.
+
+    Returns
+    ---------
+
+    output : af.Array
+           - The signal after median filter is applied.
+
+    """
+    output = Array()
+    safe_call(backend.get().af_medfilt1(ct.pointer(output.arr), signal.arr, c_dim_t(length), edge_pad.value))
+    return output
+
+def medfilt2(signal, w0 = 3, w1 = 3, edge_pad = PAD.ZERO):
+    """
+    Apply median filter for the signal.
+
+    Parameters
+    ----------
+    signal : af.Array
+          - A 2 D arrayfire array representing a signal, or
+          - A multi dimensional array representing batch of signals.
+
+    w0 : optional: int. default: 3.
+          - The length of the filter along the first dimension.
+
+    w1 : optional: int. default: 3.
+          - The length of the filter along the second dimension.
+
+    edge_pad : optional: af.PAD. default: af.PAD.ZERO
+          - Flag specifying how the median at the edge should be treated.
+
+    Returns
+    ---------
+
+    output : af.Array
+           - The signal after median filter is applied.
+
+    """
+    output = Array()
+    safe_call(backend.get().af_medfilt2(ct.pointer(output.arr),
+                                        signal.arr, c_dim_t(w0),
+                                        c_dim_t(w1), edge_pad.value))
+    return output
+
+def set_fft_plan_cache_size(cache_size):
+    """
+    Sets plan cache size.
+
+    Parameters
+    ----------
+
+    cache_size : scalar
+        the number of plans that shall be cached
+    """
+    safe_call(backend.get().af_set_fft_plan_cache_size(ct.c_size_t(cache_size)))

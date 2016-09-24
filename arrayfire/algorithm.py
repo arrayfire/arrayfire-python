@@ -299,6 +299,71 @@ def accum(a, dim=0):
     """
     return _parallel_dim(a, dim, backend.get().af_accum)
 
+def scan(a, dim=0, op=BINARYOP.ADD, inclusive_scan=True):
+    """
+    Generalized scan of an array.
+
+    Parameters
+    ----------
+    a   : af.Array
+        Multi dimensional arrayfire array.
+
+    dim : optional: int. default: 0
+        Dimension along which the scan is performed.
+
+    op  : optional: af.BINARYOP. default: af.BINARYOP.ADD.
+        Binary option the scan algorithm uses. Can be one of:
+        - af.BINARYOP.ADD
+        - af.BINARYOP.MUL
+        - af.BINARYOP.MIN
+        - af.BINARYOP.MAX
+
+    inclusive_scan: optional: bool. default: True
+        Specifies if the scan is inclusive
+
+    Returns
+    ---------
+    out : af.Array
+        - will contain scan of input.
+    """
+    out = Array()
+    safe_call(backend.get().af_scan(ct.pointer(out.arr), a.arr, dim, op.value, inclusive_scan))
+    return out
+
+def scan_by_key(key, a, dim=0, op=BINARYOP.ADD, inclusive_scan=True):
+    """
+    Generalized scan by key of an array.
+
+    Parameters
+    ----------
+    key : af.Array
+        key array.
+
+    a   : af.Array
+        Multi dimensional arrayfire array.
+
+    dim : optional: int. default: 0
+        Dimension along which the scan is performed.
+
+    op  : optional: af.BINARYOP. default: af.BINARYOP.ADD.
+        Binary option the scan algorithm uses. Can be one of:
+        - af.BINARYOP.ADD
+        - af.BINARYOP.MUL
+        - af.BINARYOP.MIN
+        - af.BINARYOP.MAX
+
+    inclusive_scan: optional: bool. default: True
+        Specifies if the scan is inclusive
+
+    Returns
+    ---------
+    out : af.Array
+        - will contain scan of input.
+    """
+    out = Array()
+    safe_call(backend.get().af_scan_by_key(ct.pointer(out.arr), key.arr, a.arr, dim, op.value, inclusive_scan))
+    return out
+
 def where(a):
     """
     Find the indices of non zero elements

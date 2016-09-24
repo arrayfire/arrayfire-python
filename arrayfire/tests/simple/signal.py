@@ -110,4 +110,8 @@ def simple_signal(verbose=False):
     display_func(af.fir(b, x))
     display_func(af.iir(b, a, x))
 
+    display_func(af.medfilt1(a))
+    display_func(af.medfilt2(a))
+    display_func(af.medfilt(a))
+
 _util.tests['signal'] = simple_signal

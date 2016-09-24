@@ -14,6 +14,7 @@ Image processing functions.
 from .library import *
 from .array import *
 from .data import constant
+from .signal import medfilt
 import os
 
 def gradient(image):
@@ -619,38 +620,6 @@ def mean_shift(image, s_sigma, c_sigma, n_iter, is_color = False):
                                           ct.c_uint(n_iter), is_color))
     return output
 
-def medfilt(image, w0 = 3, w1 = 3, edge_pad = PAD.ZERO):
-    """
-    Apply median filter for the image.
-
-    Parameters
-    ----------
-    image : af.Array
-          - A 2 D arrayfire array representing an image, or
-          - A multi dimensional array representing batch of images.
-
-    w0 : optional: int. default: 3.
-          - The length of the filter along the first dimension.
-
-    w1 : optional: int. default: 3.
-          - The length of the filter along the second dimension.
-
-    edge_pad : optional: af.PAD. default: af.PAD.ZERO
-          - Flag specifying how the median at the edge should be treated.
-
-    Returns
-    ---------
-
-    output : af.Array
-           - The image after median filter is applied.
-
-    """
-    output = Array()
-    safe_call(backend.get().af_medfilt(ct.pointer(output.arr),
-                                       image.arr, c_dim_t(w0),
-                                       c_dim_t(w1), edge_pad.value))
-    return output
-
 def minfilt(image, w_len = 3, w_wid = 3, edge_pad = PAD.ZERO):
     """
     Apply min filter for the image.
@@ -1197,6 +1166,33 @@ def rgb2ycbcr(image, standard=YCC_STD.BT_601):
     out = Array()
     safe_call(backend.get().af_rgb2ycbcr(ct.pointer(out.arr), image.arr, standard.value))
     return out
+
+def moments(image, moment = MOMENT.FIRST_ORDER):
+    """
+    Calculate image moments.
+
+    Parameters
+    ----------
+    image : af.Array
+          - A 2 D arrayfire array representing an image, or
+          - A multi dimensional array representing batch of images.
+
+    moment : optional: af.MOMENT. default: af.MOMENT.FIRST_ORDER.
+          Moment(s) to calculate. Can be one of:
+          - af.MOMENT.M00
+          - af.MOMENT.M01
+          - af.MOMENT.M10
+          - af.MOMENT.M11
+          - af.MOMENT.FIRST_ORDER
+
+    Returns
+    ---------
+    out  : af.Array
+          - array containing requested moment(s) of each image
+    """
+    output = Array()
+    safe_call(backend.get().af_moments(ct.pointer(output.arr), image.arr, moment.value))
+    return output
 
 def is_image_io_available():
     """

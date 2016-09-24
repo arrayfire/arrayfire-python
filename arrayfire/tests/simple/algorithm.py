@@ -16,6 +16,7 @@ def simple_algorithm(verbose = False):
     print_func   = _util.print_func(verbose)
 
     a = af.randu(3, 3)
+    k = af.constant(1, 3, 3, dtype=af.Dtype.u32)
 
     print_func(af.sum(a), af.product(a), af.min(a), af.max(a),
                af.count(a), af.any_true(a), af.all_true(a))
@@ -43,6 +44,12 @@ def simple_algorithm(verbose = False):
 
     display_func(af.accum(a, 0))
     display_func(af.accum(a, 1))
+
+    display_func(af.scan(a, 0, af.BINARYOP.ADD))
+    display_func(af.scan(a, 1, af.BINARYOP.MAX))
+
+    display_func(af.scan_by_key(k, a, 0, af.BINARYOP.ADD))
+    display_func(af.scan_by_key(k, a, 1, af.BINARYOP.MAX))
 
     display_func(af.sort(a, is_ascending=True))
     display_func(af.sort(a, is_ascending=False))
