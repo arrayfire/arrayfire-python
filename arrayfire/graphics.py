@@ -127,8 +127,8 @@ class Window(object):
         """
         Display an arrayfire array as an image.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
 
         img: af.Array.
              A 2 dimensional array for single channel image.
@@ -144,8 +144,8 @@ class Window(object):
         """
         Renders input arrays as 2D or 3D scatter plot.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
 
         X: af.Array.
              A 1 dimensional array containing X co-ordinates.
@@ -183,8 +183,8 @@ class Window(object):
         """
         Renders the input array as a 2D Scatter plot.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
 
         points: af.Array.
              A 2 dimensional array containing (X,Y) co-ordinates.
@@ -204,8 +204,8 @@ class Window(object):
         """
         Renders the input array as a 3D Scatter plot.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
 
         points: af.Array.
              A 2 dimensional array containing (X,Y,Z) co-ordinates.
@@ -224,8 +224,8 @@ class Window(object):
         """
         Display a 2D or 3D Plot.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
 
         X: af.Array.
              - A 1 dimensional array containing X co-ordinates.
@@ -264,8 +264,8 @@ class Window(object):
         """
         Display a 2D Plot.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
 
         line: af.Array.
              - A 2 dimensional array of size [n 2]. Each column denotes X, and Y co-ordinates for plotting 2D lines.
@@ -283,8 +283,8 @@ class Window(object):
         """
         Display a 3D Plot.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
 
         line: af.Array.
              - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.
@@ -302,8 +302,8 @@ class Window(object):
         """
         Display a 2D or 3D Vector_Field.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
 
         xpoints : af.Array.
                  - A 1 dimensional array containing X co-ordinates.
@@ -364,8 +364,8 @@ class Window(object):
         """
         Renders the input array as a 3D surface plot.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
 
         x_vals: af.Array.
              A 1 dimensional array containing X co-ordinates.
@@ -388,8 +388,8 @@ class Window(object):
         """
         Display a histogram Plot.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
 
         X: af.Array.
              A 1 dimensional array containing the histogram.
@@ -454,8 +454,8 @@ class Window(object):
         """
         Set axis limits.
 
-        Paramters
-        ---------
+        Parameters
+        ----------
 
         xmin : af.Array.
               - lower limit of the x axis.
