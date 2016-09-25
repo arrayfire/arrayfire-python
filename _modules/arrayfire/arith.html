@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.arith &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.arith &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,11 +28,14 @@
     <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -53,10 +56,10 @@
 <span class="sd">Math functions (sin, sqrt, exp, etc).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.bcast</span> <span class="kn">import</span> <span class="n">_bcast_var</span>
-<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">_is_number</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.bcast</span> <span class="k">import</span> <span class="n">_bcast_var</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">_is_number</span>
 
 <span class="k">def</span> <span class="nf">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">c_func</span><span class="p">):</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
@@ -68,27 +71,27 @@
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Atleast one input needs to be of type arrayfire.array&quot;</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="p">(</span><span class="n">is_left_array</span> <span class="ow">and</span> <span class="n">is_right_array</span><span class="p">):</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
 
     <span class="k">elif</span> <span class="p">(</span><span class="n">_is_number</span><span class="p">(</span><span class="n">rhs</span><span class="p">)):</span>
         <span class="n">ldims</span> <span class="o">=</span> <span class="n">dim4_to_tuple</span><span class="p">(</span><span class="n">lhs</span><span class="o">.</span><span class="n">dims</span><span class="p">())</span>
         <span class="n">rty</span> <span class="o">=</span> <span class="n">implicit_dtype</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">lhs</span><span class="o">.</span><span class="n">type</span><span class="p">())</span>
         <span class="n">other</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
         <span class="n">other</span><span class="o">.</span><span class="n">arr</span> <span class="o">=</span> <span class="n">constant_array</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">ldims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">ldims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ldims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">ldims</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">rty</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">rdims</span> <span class="o">=</span> <span class="n">dim4_to_tuple</span><span class="p">(</span><span class="n">rhs</span><span class="o">.</span><span class="n">dims</span><span class="p">())</span>
         <span class="n">lty</span> <span class="o">=</span> <span class="n">implicit_dtype</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">type</span><span class="p">())</span>
         <span class="n">other</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
         <span class="n">other</span><span class="o">.</span><span class="n">arr</span> <span class="o">=</span> <span class="n">constant_array</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rdims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">rdims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">rdims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">rdims</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">lty</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">other</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">other</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
 
     <span class="k">return</span> <span class="n">out</span>
 
 <span class="k">def</span> <span class="nf">_arith_unary_func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">c_func</span><span class="p">):</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span>
 
 <div class="viewcode-block" id="cast"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.cast">[docs]</a><span class="k">def</span> <span class="nf">cast</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
@@ -117,7 +120,7 @@
 <span class="sd">           array containing the values from `a` after converting to `dtype`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span><span class="o">=</span><span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cast</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="minof"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.minof">[docs]</a><span class="k">def</span> <span class="nf">minof</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
@@ -167,6 +170,44 @@
 <span class="sd">    - If `lhs` and `rhs` are both af.Array, they must be of same size.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_maxof</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="clamp"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.clamp">[docs]</a><span class="k">def</span> <span class="nf">clamp</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">low</span><span class="p">,</span> <span class="n">high</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Clamp the input value between low and high</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    val  : af.Array</span>
+<span class="sd">          Multi dimensional arrayfire array to be clamped.</span>
+
+<span class="sd">    low  : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number denoting the lower value(s).</span>
+
+<span class="sd">    high : af.Array or scalar</span>
+<span class="sd">          Multi dimensional arrayfire array or a scalar number denoting the higher value(s).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+
+    <span class="n">is_low_array</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">Array</span><span class="p">)</span>
+    <span class="n">is_high_array</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">high</span><span class="p">,</span> <span class="n">Array</span><span class="p">)</span>
+
+    <span class="n">vdims</span> <span class="o">=</span> <span class="n">dim4_to_tuple</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">dims</span><span class="p">())</span>
+    <span class="n">vty</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">type</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_low_array</span><span class="p">:</span>
+        <span class="n">low_arr</span> <span class="o">=</span> <span class="n">constant_array</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="n">vdims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vdims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vdims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">vdims</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">vty</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">low_arr</span> <span class="o">=</span> <span class="n">low</span><span class="o">.</span><span class="n">arr</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">is_high_array</span><span class="p">:</span>
+        <span class="n">high_arr</span> <span class="o">=</span> <span class="n">constant_array</span><span class="p">(</span><span class="n">high</span><span class="p">,</span> <span class="n">vdims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vdims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">vdims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">vdims</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">vty</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">high_arr</span> <span class="o">=</span> <span class="n">high</span><span class="o">.</span><span class="n">arr</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_clamp</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">val</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">low_arr</span><span class="p">,</span> <span class="n">high_arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="rem"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.rem">[docs]</a><span class="k">def</span> <span class="nf">rem</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -474,7 +515,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_atan2</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="cplx"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.cplx">[docs]</a><span class="k">def</span> <span class="nf">cplx</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="cplx"><a class="viewcode-back" href="../../arrayfire.arith.html#arrayfire.arith.cplx">[docs]</a><span class="k">def</span> <span class="nf">cplx</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a complex array from real inputs.</span>
 
@@ -498,7 +539,7 @@
 <span class="sd">    - Atleast one of `lhs` and `rhs` needs to be af.Array.</span>
 <span class="sd">    - If `lhs` and `rhs` are both af.Array, they must be of same size.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">rhs</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">rhs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_arith_unary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cplx</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_arith_binary_func</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cplx2</span><span class="p">)</span></div>
@@ -1117,8 +1158,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

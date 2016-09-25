@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.lapack &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.lapack &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,11 +28,14 @@
     <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -53,8 +56,8 @@
 <span class="sd">Dense Linear Algebra functions (solve, inverse, etc).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="lu"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.lu">[docs]</a><span class="k">def</span> <span class="nf">lu</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -83,7 +86,7 @@
     <span class="n">L</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">U</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">P</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lu</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lu</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">L</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">L</span><span class="p">,</span><span class="n">U</span><span class="p">,</span><span class="n">P</span></div>
 
 <div class="viewcode-block" id="lu_inplace"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.lu_inplace">[docs]</a><span class="k">def</span> <span class="nf">lu_inplace</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">pivot</span><span class="o">=</span><span class="s2">&quot;lapack&quot;</span><span class="p">):</span>
@@ -109,8 +112,8 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">P</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">is_pivot_lapack</span> <span class="o">=</span> <span class="bp">False</span> <span class="k">if</span> <span class="p">(</span><span class="n">pivot</span> <span class="o">==</span> <span class="s2">&quot;full&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="bp">True</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lu_inplace</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_pivot_lapack</span><span class="p">))</span>
+    <span class="n">is_pivot_lapack</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="p">(</span><span class="n">pivot</span> <span class="o">==</span> <span class="s2">&quot;full&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">True</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lu_inplace</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">P</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_pivot_lapack</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">P</span></div>
 
 <div class="viewcode-block" id="qr"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.qr">[docs]</a><span class="k">def</span> <span class="nf">qr</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
@@ -140,7 +143,7 @@
     <span class="n">Q</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">T</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lu</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_qr</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">Q</span><span class="p">,</span><span class="n">R</span><span class="p">,</span><span class="n">T</span></div>
 
 <div class="viewcode-block" id="qr_inplace"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.qr_inplace">[docs]</a><span class="k">def</span> <span class="nf">qr_inplace</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
@@ -164,10 +167,10 @@
 <span class="sd">    This function is used to save space only when `R` is required.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">T</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_qr_inplace</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_qr_inplace</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">T</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">T</span></div>
 
-<div class="viewcode-block" id="cholesky"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.cholesky">[docs]</a><span class="k">def</span> <span class="nf">cholesky</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">is_upper</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="cholesky"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.cholesky">[docs]</a><span class="k">def</span> <span class="nf">cholesky</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">is_upper</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Cholesky decomposition</span>
 
@@ -184,6 +187,7 @@
 <span class="sd">    (R,info): tuple of af.Array, int.</span>
 <span class="sd">           - R - triangular matrix.</span>
 <span class="sd">           - info - 0 if decomposition sucessful.</span>
+
 <span class="sd">    Note</span>
 <span class="sd">    ----</span>
 
@@ -193,11 +197,11 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">R</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">info</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cholesky</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">info</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_upper</span><span class="p">))</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">c_int_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cholesky</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">R</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">info</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_upper</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">R</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">value</span></div>
 
-<div class="viewcode-block" id="cholesky_inplace"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.cholesky_inplace">[docs]</a><span class="k">def</span> <span class="nf">cholesky_inplace</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">is_upper</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="cholesky_inplace"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.cholesky_inplace">[docs]</a><span class="k">def</span> <span class="nf">cholesky_inplace</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">is_upper</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    In place Cholesky decomposition.</span>
 
@@ -216,8 +220,8 @@
 <span class="sd">           0 if decomposition sucessful.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">info</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cholesky_inplace</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">info</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_upper</span><span class="p">))</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="n">c_int_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_cholesky_inplace</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">info</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_upper</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">info</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="solve"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.solve">[docs]</a><span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
@@ -244,7 +248,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_solve</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_solve</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">X</span></div>
 
 <div class="viewcode-block" id="solve_lu"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.solve_lu">[docs]</a><span class="k">def</span> <span class="nf">solve_lu</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">B</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
@@ -272,7 +276,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">X</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_solve_lu</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">P</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_solve_lu</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">P</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">X</span></div>
 
 <div class="viewcode-block" id="inverse"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.inverse">[docs]</a><span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
@@ -302,10 +306,10 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">AI</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_inverse</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">AI</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_inverse</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">AI</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">options</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">AI</span></div>
 
-<div class="viewcode-block" id="rank"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.rank">[docs]</a><span class="k">def</span> <span class="nf">rank</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1E-5</span><span class="p">):</span>
+<div class="viewcode-block" id="rank"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.rank">[docs]</a><span class="k">def</span> <span class="nf">rank</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mi">1</span><span class="n">E</span><span class="o">-</span><span class="mi">5</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Rank of a matrix.</span>
 
@@ -324,8 +328,8 @@
 <span class="sd">    r: int</span>
 <span class="sd">       - Rank of `A` within the given tolerance</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">r</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rank</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">r</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">tol</span><span class="p">)))</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rank</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">r</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">tol</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">r</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="det"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.det">[docs]</a><span class="k">def</span> <span class="nf">det</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
@@ -344,12 +348,12 @@
 <span class="sd">    res: scalar</span>
 <span class="sd">       - Determinant of the matrix.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">re</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">im</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_det</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">re</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">im</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">re</span> <span class="o">=</span> <span class="n">c_double_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">im</span> <span class="o">=</span> <span class="n">c_double_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_det</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">re</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">im</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="n">re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">value</span>
     <span class="n">im</span> <span class="o">=</span> <span class="n">im</span><span class="o">.</span><span class="n">value</span>
-    <span class="k">return</span> <span class="n">re</span> <span class="k">if</span> <span class="p">(</span><span class="n">im</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="n">re</span> <span class="o">+</span> <span class="n">im</span> <span class="o">*</span> <span class="mi">1j</span></div>
+    <span class="k">return</span> <span class="n">re</span> <span class="k">if</span> <span class="p">(</span><span class="n">im</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">else</span> <span class="n">re</span> <span class="o">+</span> <span class="n">im</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span></div>
 
 <div class="viewcode-block" id="norm"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.norm">[docs]</a><span class="k">def</span> <span class="nf">norm</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">norm_type</span><span class="o">=</span><span class="n">NORM</span><span class="o">.</span><span class="n">EUCLID</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -377,9 +381,9 @@
 <span class="sd">       - norm of the input</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_norm</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">norm_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                                    <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">q</span><span class="p">)))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">c_double_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_norm</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">norm_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                    <span class="n">c_double_t</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">q</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="svd"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.svd">[docs]</a><span class="k">def</span> <span class="nf">svd</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
@@ -413,7 +417,7 @@
     <span class="n">U</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">S</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">Vt</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_svd</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">Vt</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_svd</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">Vt</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vt</span></div>
 
 <div class="viewcode-block" id="svd_inplace"><a class="viewcode-back" href="../../arrayfire.lapack.html#arrayfire.lapack.svd_inplace">[docs]</a><span class="k">def</span> <span class="nf">svd_inplace</span><span class="p">(</span><span class="n">A</span><span class="p">):</span>
@@ -447,7 +451,7 @@
     <span class="n">U</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">S</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">Vt</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_svd_inplace</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">Vt</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_svd_inplace</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">U</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">Vt</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                            <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">U</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">Vt</span></div>
 
@@ -455,8 +459,8 @@
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function to check if the arrayfire library was built with lapack support.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_lapack_available</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_lapack_available</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 </pre></div>
 
@@ -494,8 +498,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

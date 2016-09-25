@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.signal module &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.signal module &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,11 +27,14 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="ArrayFire Python documentation" href="index.html" />
    
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -1340,6 +1343,159 @@ maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
 </table>
 </dd></dl>
 
+<dl class="function">
+<dt id="arrayfire.signal.medfilt">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">medfilt</code><span class="sig-paren">(</span><em>signal</em>, <em>w0=3</em>, <em>w1=3</em>, <em>edge_pad=&lt;PAD.ZERO: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#medfilt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.medfilt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply median filter for the signal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing a signal, or</li>
+<li>A multi dimensional array representing batch of signals.</li>
+</ul>
+</div></blockquote>
+<p><strong>w0</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The length of the filter along the first dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>w1</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The length of the filter along the second dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>edge_pad</strong> : optional: af.PAD. default: af.PAD.ZERO</p>
+<blockquote>
+<div><ul class="simple">
+<li>Flag specifying how the median at the edge should be treated.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The signal after median filter is applied.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.medfilt1">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">medfilt1</code><span class="sig-paren">(</span><em>signal</em>, <em>length=3</em>, <em>edge_pad=&lt;PAD.ZERO: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#medfilt1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.medfilt1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply median filter for the signal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 D arrayfire array representing a signal, or</li>
+<li>A multi dimensional array representing batch of signals.</li>
+</ul>
+</div></blockquote>
+<p><strong>length</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The length of the filter.</li>
+</ul>
+</div></blockquote>
+<p><strong>edge_pad</strong> : optional: af.PAD. default: af.PAD.ZERO</p>
+<blockquote>
+<div><ul class="simple">
+<li>Flag specifying how the median at the edge should be treated.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The signal after median filter is applied.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.medfilt2">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">medfilt2</code><span class="sig-paren">(</span><em>signal</em>, <em>w0=3</em>, <em>w1=3</em>, <em>edge_pad=&lt;PAD.ZERO: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#medfilt2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.medfilt2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply median filter for the signal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal</strong> : af.Array</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 D arrayfire array representing a signal, or</li>
+<li>A multi dimensional array representing batch of signals.</li>
+</ul>
+</div></blockquote>
+<p><strong>w0</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The length of the filter along the first dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>w1</strong> : optional: int. default: 3.</p>
+<blockquote>
+<div><ul class="simple">
+<li>The length of the filter along the second dimension.</li>
+</ul>
+</div></blockquote>
+<p><strong>edge_pad</strong> : optional: af.PAD. default: af.PAD.ZERO</p>
+<blockquote>
+<div><ul class="simple">
+<li>Flag specifying how the median at the edge should be treated.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>output</strong> : af.Array</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>The signal after median filter is applied.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.signal.set_fft_plan_cache_size">
+<code class="descclassname">arrayfire.signal.</code><code class="descname">set_fft_plan_cache_size</code><span class="sig-paren">(</span><em>cache_size</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#set_fft_plan_cache_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.set_fft_plan_cache_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets plan cache size.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cache_size</strong> : scalar</p>
+<blockquote class="last">
+<div><p>the number of plans that shall be cached</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 </div>
 
 
@@ -1382,8 +1538,8 @@ maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
       <a href="_sources/arrayfire.signal.txt"

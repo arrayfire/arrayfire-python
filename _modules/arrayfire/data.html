@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.data &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.data &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,11 +28,14 @@
     <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -53,13 +56,14 @@
 <span class="sd">Functions to create and manipulate arrays.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">sys</span> <span class="kn">import</span> <span class="n">version_info</span>
-<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">_is_number</span>
+<span class="kn">from</span> <span class="nn">sys</span> <span class="k">import</span> <span class="n">version_info</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">_is_number</span>
+<span class="kn">from</span> <span class="nn">.random</span> <span class="k">import</span> <span class="n">randu</span><span class="p">,</span> <span class="n">randn</span><span class="p">,</span> <span class="n">set_seed</span><span class="p">,</span> <span class="n">get_seed</span>
 
-<div class="viewcode-block" id="constant"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.constant">[docs]</a><span class="k">def</span> <span class="nf">constant</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+<div class="viewcode-block" id="constant"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.constant">[docs]</a><span class="k">def</span> <span class="nf">constant</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a multi dimensional array whose elements contain the same value.</span>
 
@@ -101,7 +105,7 @@
 <span class="c1"># Store builtin range function to be used later</span>
 <span class="n">_brange</span> <span class="o">=</span> <span class="nb">range</span>
 
-<div class="viewcode-block" id="range"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.range">[docs]</a><span class="k">def</span> <span class="nf">range</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+<div class="viewcode-block" id="range"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.range">[docs]</a><span class="k">def</span> <span class="nf">range</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a multi dimensional array using length of a dimension as range.</span>
 
@@ -159,11 +163,11 @@
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
 
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_range</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dim</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_range</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dim</span><span class="p">,</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 
-<div class="viewcode-block" id="iota"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.iota">[docs]</a><span class="k">def</span> <span class="nf">iota</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tile_dims</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+<div class="viewcode-block" id="iota"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.iota">[docs]</a><span class="k">def</span> <span class="nf">iota</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">tile_dims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a multi dimensional array using the number of elements in the array as the range.</span>
 
@@ -218,116 +222,17 @@
     <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
     <span class="n">td</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">4</span>
 
-    <span class="k">if</span> <span class="n">tile_dims</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">tile_dims</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">_brange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tile_dims</span><span class="p">)):</span>
             <span class="n">td</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile_dims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
     <span class="n">tdims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">td</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">td</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">td</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">td</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
 
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_iota</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span>
-                                    <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">tdims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_iota</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span>
+                                    <span class="mi">4</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">tdims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="randu"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.randu">[docs]</a><span class="k">def</span> <span class="nf">randu</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create a multi dimensional array containing values from a uniform distribution.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    d0 : int.</span>
-<span class="sd">         Length of first dimension.</span>
-
-<span class="sd">    d1 : optional: int. default: None.</span>
-<span class="sd">         Length of second dimension.</span>
-
-<span class="sd">    d2 : optional: int. default: None.</span>
-<span class="sd">         Length of third dimension.</span>
-
-<span class="sd">    d3 : optional: int. default: None.</span>
-<span class="sd">         Length of fourth dimension.</span>
-
-<span class="sd">    dtype : optional: af.Dtype. default: af.Dtype.f32.</span>
-<span class="sd">           Data type of the array.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-
-<span class="sd">    out : af.Array</span>
-<span class="sd">          Multi dimensional array whose elements are sampled uniformly between [0, 1].</span>
-<span class="sd">          - If d1 is None, `out` is 1D of size (d0,).</span>
-<span class="sd">          - If d1 is not None and d2 is None, `out` is 2D of size (d0, d1).</span>
-<span class="sd">          - If d1 and d2 are not None and d3 is None, `out` is 3D of size (d0, d1, d2).</span>
-<span class="sd">          - If d1, d2, d3 are all not None, `out` is 4D of size (d0, d1, d2, d3).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
-
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_randu</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">out</span></div>
-
-<div class="viewcode-block" id="randn"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.randn">[docs]</a><span class="k">def</span> <span class="nf">randn</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Create a multi dimensional array containing values from a normal distribution.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    d0 : int.</span>
-<span class="sd">         Length of first dimension.</span>
-
-<span class="sd">    d1 : optional: int. default: None.</span>
-<span class="sd">         Length of second dimension.</span>
-
-<span class="sd">    d2 : optional: int. default: None.</span>
-<span class="sd">         Length of third dimension.</span>
-
-<span class="sd">    d3 : optional: int. default: None.</span>
-<span class="sd">         Length of fourth dimension.</span>
-
-<span class="sd">    dtype : optional: af.Dtype. default: af.Dtype.f32.</span>
-<span class="sd">           Data type of the array.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-
-<span class="sd">    out : af.Array</span>
-<span class="sd">          Multi dimensional array whose elements are sampled from a normal distribution with mean 0 and sigma of 1.</span>
-<span class="sd">          - If d1 is None, `out` is 1D of size (d0,).</span>
-<span class="sd">          - If d1 is not None and d2 is None, `out` is 2D of size (d0, d1).</span>
-<span class="sd">          - If d1 and d2 are not None and d3 is None, `out` is 3D of size (d0, d1, d2).</span>
-<span class="sd">          - If d1, d2, d3 are all not None, `out` is 4D of size (d0, d1, d2, d3).</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-
-    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
-
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_randn</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">out</span></div>
-
-<div class="viewcode-block" id="set_seed"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.set_seed">[docs]</a><span class="k">def</span> <span class="nf">set_seed</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Set the seed for the random number generator.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    seed: int.</span>
-<span class="sd">          Seed for the random number generator</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_seed</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_ulonglong</span><span class="p">(</span><span class="n">seed</span><span class="p">)))</span></div>
-
-<div class="viewcode-block" id="get_seed"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.get_seed">[docs]</a><span class="k">def</span> <span class="nf">get_seed</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Get the seed for the random number generator.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    ----------</span>
-<span class="sd">    seed: int.</span>
-<span class="sd">          Seed for the random number generator</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">seed</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_ulonglong</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_seed</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">seed</span><span class="p">)))</span>
-    <span class="k">return</span> <span class="n">seed</span><span class="o">.</span><span class="n">value</span></div>
-
-<div class="viewcode-block" id="identity"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.identity">[docs]</a><span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+<div class="viewcode-block" id="identity"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.identity">[docs]</a><span class="k">def</span> <span class="nf">identity</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create an identity matrix or batch of identity matrices.</span>
 
@@ -361,10 +266,10 @@
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
 
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_identity</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_identity</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="diag"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.diag">[docs]</a><span class="k">def</span> <span class="nf">diag</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="diag"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.diag">[docs]</a><span class="k">def</span> <span class="nf">diag</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a diagonal matrix or Extract the diagonal from a matrix.</span>
 
@@ -392,12 +297,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">extract</span><span class="p">:</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_diag_extract</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">num</span><span class="p">)))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_diag_extract</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">num</span><span class="p">)))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_diag_create</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">num</span><span class="p">)))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_diag_create</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">num</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="join"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.join">[docs]</a><span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">third</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">fourth</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="join"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.join">[docs]</a><span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">third</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fourth</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Join two or more arrayfire arrays along a specified dimension.</span>
 
@@ -456,20 +361,20 @@
 <span class="sd">        0.5367     0.8359     0.8719     0.6275     0.0495     0.6591</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">third</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">fourth</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_join</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">dim</span><span class="p">,</span> <span class="n">first</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">second</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">third</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">fourth</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_join</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">dim</span><span class="p">,</span> <span class="n">first</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">second</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">c_void_p_4</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span> <span class="o">*</span> <span class="mi">4</span>
+        <span class="n">c_void_p_4</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span> <span class="o">*</span> <span class="mi">4</span>
         <span class="n">c_array_vec</span> <span class="o">=</span> <span class="n">c_void_p_4</span><span class="p">(</span><span class="n">first</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">second</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="n">num</span> <span class="o">=</span> <span class="mi">2</span>
-        <span class="k">if</span> <span class="n">third</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">third</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">c_array_vec</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="n">third</span><span class="o">.</span><span class="n">arr</span>
             <span class="n">num</span><span class="o">+=</span><span class="mi">1</span>
-        <span class="k">if</span> <span class="n">fourth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fourth</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">c_array_vec</span><span class="p">[</span><span class="n">num</span><span class="p">]</span> <span class="o">=</span> <span class="n">fourth</span><span class="o">.</span><span class="n">arr</span>
             <span class="n">num</span><span class="o">+=</span><span class="mi">1</span>
 
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_join_many</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">dim</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">c_array_vec</span><span class="p">)))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_join_many</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">dim</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">c_array_vec</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 
@@ -534,7 +439,7 @@
 <span class="sd">        0.8224     0.1794     0.0081     0.8224     0.1794     0.0081</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_tile</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_tile</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 
@@ -619,7 +524,7 @@
 <span class="sd">        0.9276     0.8662     0.3578     0.6263     0.9747</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_reorder</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_reorder</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="shift"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.shift">[docs]</a><span class="k">def</span> <span class="nf">shift</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -675,7 +580,7 @@
 <span class="sd">        0.1437     0.0899     0.7104</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_shift</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_shift</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="moddims"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.moddims">[docs]</a><span class="k">def</span> <span class="nf">moddims</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -709,7 +614,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_moddims</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_moddims</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="flat"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.flat">[docs]</a><span class="k">def</span> <span class="nf">flat</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
@@ -729,7 +634,7 @@
 <span class="sd">          - 1 dimensional array containing all the elements from `a`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_flat</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_flat</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="flip"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.flip">[docs]</a><span class="k">def</span> <span class="nf">flip</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
@@ -776,10 +681,10 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_flip</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">dim</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_flip</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">dim</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="lower"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.lower">[docs]</a><span class="k">def</span> <span class="nf">lower</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="lower"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.lower">[docs]</a><span class="k">def</span> <span class="nf">lower</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Extract the lower triangular matrix from the input.</span>
 
@@ -799,10 +704,10 @@
 <span class="sd">          An array containing the lower triangular elements from `a`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lower</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_lower</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="upper"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.upper">[docs]</a><span class="k">def</span> <span class="nf">upper</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="upper"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.upper">[docs]</a><span class="k">def</span> <span class="nf">upper</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Extract the upper triangular matrix from the input.</span>
 
@@ -822,7 +727,7 @@
 <span class="sd">          An array containing the upper triangular elements from `a`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_upper</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_upper</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">is_unit_diag</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="select"><a class="viewcode-back" href="../../arrayfire.data.html#arrayfire.data.select">[docs]</a><span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="n">cond</span><span class="p">,</span> <span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">):</span>
@@ -883,12 +788,12 @@
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Atleast one input needs to be of type arrayfire.array&quot;</span><span class="p">)</span>
 
     <span class="k">elif</span> <span class="p">(</span><span class="n">is_left_array</span> <span class="ow">and</span> <span class="n">is_right_array</span><span class="p">):</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_select</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_select</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
 
     <span class="k">elif</span> <span class="p">(</span><span class="n">_is_number</span><span class="p">(</span><span class="n">rhs</span><span class="p">)):</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_select_scalar_r</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">rhs</span><span class="p">)))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_select_scalar_r</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">rhs</span><span class="p">)))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_select_scalar_l</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">lhs</span><span class="p">),</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_select_scalar_l</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">lhs</span><span class="p">),</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">out</span></div>
 
@@ -938,7 +843,7 @@
     <span class="k">if</span> <span class="p">(</span><span class="n">is_right_array</span><span class="p">):</span>
         <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_replace</span><span class="p">(</span><span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_replace_scalar</span><span class="p">(</span><span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">rhs</span><span class="p">)))</span></div>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_replace_scalar</span><span class="p">(</span><span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">cond</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">rhs</span><span class="p">)))</span></div>
 </pre></div>
 
           </div>
@@ -975,8 +880,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

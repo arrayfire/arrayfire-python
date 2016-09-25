@@ -1,0 +1,359 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.random module &#8212; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.20160925',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.random">
+<span id="arrayfire-random-module"></span><h1>arrayfire.random module<a class="headerlink" href="#module-arrayfire.random" title="Permalink to this headline">¶</a></h1>
+<p>Random engine class and functions to generate random numbers.</p>
+<dl class="class">
+<dt id="arrayfire.random.Random_Engine">
+<em class="property">class </em><code class="descclassname">arrayfire.random.</code><code class="descname">Random_Engine</code><span class="sig-paren">(</span><em>engine_type=&lt;RANDOM_ENGINE.PHILOX_4X32_10: 100&gt;</em>, <em>seed=0</em>, <em>engine=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/random.html#Random_Engine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.random.Random_Engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Class to handle random number generator engines.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>engine_type</strong> : optional: RANDOME_ENGINE. default: RANDOM_ENGINE.PHILOX</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the type of random engine to be created. Can be one of:</li>
+<li>RANDOM_ENGINE.PHILOX_4X32_10</li>
+<li>RANDOM_ENGINE.THREEFRY_2X32_16</li>
+<li>RANDOM_ENGINE.MERSENNE_GP11213</li>
+<li>RANDOM_ENGINE.PHILOX (same as RANDOM_ENGINE.PHILOX_4X32_10)</li>
+<li>RANDOM_ENGINE.THREEFRY (same as RANDOM_ENGINE.THREEFRY_2X32_16)</li>
+<li>RANDOM_ENGINE.DEFAULT</li>
+<li>Not used if engine is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>seed</strong> : optional int. default: 0</p>
+<blockquote>
+<div><ul class="simple">
+<li>Specifies the seed for the random engine</li>
+<li>Not used if engine is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>engine</strong> : optional ctypes.c_void_p. default: None.</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Used a handle created by the C api to create the Random_Engine.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.random.Random_Engine.get_seed" title="arrayfire.random.Random_Engine.get_seed"><code class="xref py py-obj docutils literal"><span class="pre">get_seed</span></code></a>()</td>
+<td>Get the seed for the random engine.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.random.Random_Engine.get_type" title="arrayfire.random.Random_Engine.get_type"><code class="xref py py-obj docutils literal"><span class="pre">get_type</span></code></a>()</td>
+<td>Get the type of the random engine.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.random.Random_Engine.set_seed" title="arrayfire.random.Random_Engine.set_seed"><code class="xref py py-obj docutils literal"><span class="pre">set_seed</span></code></a>(seed)</td>
+<td>Set the seed for the random engine.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.random.Random_Engine.set_type" title="arrayfire.random.Random_Engine.set_type"><code class="xref py py-obj docutils literal"><span class="pre">set_type</span></code></a>(engine_type)</td>
+<td>Set the type of the random engine.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="arrayfire.random.Random_Engine.get_seed">
+<code class="descname">get_seed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/random.html#Random_Engine.get_seed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.random.Random_Engine.get_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the seed for the random engine.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.random.Random_Engine.get_type">
+<code class="descname">get_type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/random.html#Random_Engine.get_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.random.Random_Engine.get_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the type of the random engine.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.random.Random_Engine.set_seed">
+<code class="descname">set_seed</code><span class="sig-paren">(</span><em>seed</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/random.html#Random_Engine.set_seed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.random.Random_Engine.set_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the seed for the random engine.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="arrayfire.random.Random_Engine.set_type">
+<code class="descname">set_type</code><span class="sig-paren">(</span><em>engine_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/random.html#Random_Engine.set_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.random.Random_Engine.set_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the type of the random engine.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.random.get_default_random_engine">
+<code class="descclassname">arrayfire.random.</code><code class="descname">get_default_random_engine</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/random.html#get_default_random_engine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.random.get_default_random_engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the default random engine</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The default random engine used by randu and randn</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.random.get_seed">
+<code class="descclassname">arrayfire.random.</code><code class="descname">get_seed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/random.html#get_seed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.random.get_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the seed for the random number generator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">seed: int.</p>
+<blockquote class="last">
+<div><p>Seed for the random number generator</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.random.randn">
+<code class="descclassname">arrayfire.random.</code><code class="descname">randn</code><span class="sig-paren">(</span><em>d0</em>, <em>d1=None</em>, <em>d2=None</em>, <em>d3=None</em>, <em>dtype=&lt;Dtype.f32: 0&gt;</em>, <em>engine=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/random.html#randn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.random.randn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a multi dimensional array containing values from a normal distribution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>d0</strong> : int.</p>
+<blockquote>
+<div><p>Length of first dimension.</p>
+</div></blockquote>
+<p><strong>d1</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of second dimension.</p>
+</div></blockquote>
+<p><strong>d2</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of third dimension.</p>
+</div></blockquote>
+<p><strong>d3</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of fourth dimension.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : optional: af.Dtype. default: af.Dtype.f32.</p>
+<blockquote>
+<div><p>Data type of the array.</p>
+</div></blockquote>
+<p><strong>engine</strong> : optional: Random_Engine. default: None.</p>
+<blockquote>
+<div><p>If engine is None, uses a default engine created by arrayfire.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Multi dimensional array whose elements are sampled from a normal distribution with mean 0 and sigma of 1.
+- If d1 is None, <cite>out</cite> is 1D of size (d0,).
+- If d1 is not None and d2 is None, <cite>out</cite> is 2D of size (d0, d1).
+- If d1 and d2 are not None and d3 is None, <cite>out</cite> is 3D of size (d0, d1, d2).
+- If d1, d2, d3 are all not None, <cite>out</cite> is 4D of size (d0, d1, d2, d3).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.random.randu">
+<code class="descclassname">arrayfire.random.</code><code class="descname">randu</code><span class="sig-paren">(</span><em>d0</em>, <em>d1=None</em>, <em>d2=None</em>, <em>d3=None</em>, <em>dtype=&lt;Dtype.f32: 0&gt;</em>, <em>engine=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/random.html#randu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.random.randu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a multi dimensional array containing values from a uniform distribution.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>d0</strong> : int.</p>
+<blockquote>
+<div><p>Length of first dimension.</p>
+</div></blockquote>
+<p><strong>d1</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of second dimension.</p>
+</div></blockquote>
+<p><strong>d2</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of third dimension.</p>
+</div></blockquote>
+<p><strong>d3</strong> : optional: int. default: None.</p>
+<blockquote>
+<div><p>Length of fourth dimension.</p>
+</div></blockquote>
+<p><strong>dtype</strong> : optional: af.Dtype. default: af.Dtype.f32.</p>
+<blockquote>
+<div><p>Data type of the array.</p>
+</div></blockquote>
+<p><strong>engine</strong> : optional: Random_Engine. default: None.</p>
+<blockquote>
+<div><p>If engine is None, uses a default engine created by arrayfire.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>Multi dimensional array whose elements are sampled uniformly between [0, 1].
+- If d1 is None, <cite>out</cite> is 1D of size (d0,).
+- If d1 is not None and d2 is None, <cite>out</cite> is 2D of size (d0, d1).
+- If d1 and d2 are not None and d3 is None, <cite>out</cite> is 3D of size (d0, d1, d2).
+- If d1, d2, d3 are all not None, <cite>out</cite> is 4D of size (d0, d1, d2, d3).</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.random.set_default_random_engine_type">
+<code class="descclassname">arrayfire.random.</code><code class="descname">set_default_random_engine_type</code><span class="sig-paren">(</span><em>engine_type</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/random.html#set_default_random_engine_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.random.set_default_random_engine_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set random engine type for default random engine.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>engine_type</strong> : RANDOME_ENGINE.</p>
+<blockquote class="last">
+<div><ul class="simple">
+<li>Specifies the type of random engine to be created. Can be one of:</li>
+<li>RANDOM_ENGINE.PHILOX_4X32_10</li>
+<li>RANDOM_ENGINE.THREEFRY_2X32_16</li>
+<li>RANDOM_ENGINE.MERSENNE_GP11213</li>
+<li>RANDOM_ENGINE.PHILOX (same as RANDOM_ENGINE.PHILOX_4X32_10)</li>
+<li>RANDOM_ENGINE.THREEFRY (same as RANDOM_ENGINE.THREEFRY_2X32_16)</li>
+<li>RANDOM_ENGINE.DEFAULT</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.random.set_seed">
+<code class="descclassname">arrayfire.random.</code><code class="descname">set_seed</code><span class="sig-paren">(</span><em>seed=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/random.html#set_seed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.random.set_seed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the seed for the random number generator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>seed: int.</strong></p>
+<blockquote class="last">
+<div><p>Seed for the random number generator</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.random.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/arrayfire.random.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

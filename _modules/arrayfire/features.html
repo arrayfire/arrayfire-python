@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.features &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.features &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,11 +28,14 @@
     <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -48,11 +51,13 @@
 <span class="c1"># The complete license agreement can be obtained at:</span>
 <span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
 <span class="c1">########################################################</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Features class used for Computer Vision algorithms.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">numbers</span>
 
 <div class="viewcode-block" id="Features"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features">[docs]</a><span class="k">class</span> <span class="nc">Features</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -67,57 +72,57 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">feat</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">num</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feat</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">num</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">num</span><span class="p">,</span> <span class="n">numbers</span><span class="o">.</span><span class="n">Number</span><span class="p">))</span>
-            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_features</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">num</span><span class="p">)))</span>
+            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_features</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">num</span><span class="p">)))</span>
 
-<div class="viewcode-block" id="Features.num_features"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.num_features">[docs]</a>    <span class="k">def</span> <span class="nf">num_features</span><span class="p">():</span>
+<div class="viewcode-block" id="Features.num_features"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.num_features">[docs]</a>    <span class="k">def</span> <span class="nf">num_features</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the number of features detected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">num</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_num</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_num</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">num</span></div>
 
-<div class="viewcode-block" id="Features.get_xpos"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.get_xpos">[docs]</a>    <span class="k">def</span> <span class="nf">get_xpos</span><span class="p">():</span>
+<div class="viewcode-block" id="Features.get_xpos"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.get_xpos">[docs]</a>    <span class="k">def</span> <span class="nf">get_xpos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the x-positions of the features detected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_xpos</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_xpos</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="Features.get_ypos"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.get_ypos">[docs]</a>    <span class="k">def</span> <span class="nf">get_ypos</span><span class="p">():</span>
+<div class="viewcode-block" id="Features.get_ypos"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.get_ypos">[docs]</a>    <span class="k">def</span> <span class="nf">get_ypos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the y-positions of the features detected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_ypos</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_ypos</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="Features.get_score"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.get_score">[docs]</a>    <span class="k">def</span> <span class="nf">get_score</span><span class="p">():</span>
+<div class="viewcode-block" id="Features.get_score"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.get_score">[docs]</a>    <span class="k">def</span> <span class="nf">get_score</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the scores of the features detected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_score</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_score</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="Features.get_orientation"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.get_orientation">[docs]</a>    <span class="k">def</span> <span class="nf">get_orientation</span><span class="p">():</span>
+<div class="viewcode-block" id="Features.get_orientation"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.get_orientation">[docs]</a>    <span class="k">def</span> <span class="nf">get_orientation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the orientations of the features detected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_orientation</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_orientation</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="Features.get_size"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.get_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_size</span><span class="p">():</span>
+<div class="viewcode-block" id="Features.get_size"><a class="viewcode-back" href="../../arrayfire.features.html#arrayfire.features.Features.get_size">[docs]</a>    <span class="k">def</span> <span class="nf">get_size</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Returns the sizes of the features detected.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_size</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_features_size</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">feat</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">out</span></div></div>
 </pre></div>
 
@@ -155,8 +160,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

@@ -6,7 +6,7 @@ Introduction
 
 .. automodule:: arrayfire
 
-       Submodules
+Submodules
 ----------
 
 .. autosummary::
@@ -27,6 +27,8 @@ Introduction
    arrayfire.lapack
    arrayfire.library
    arrayfire.opencl
+   arrayfire.random
+   arrayfire.sparse
    arrayfire.signal
    arrayfire.statistics
    arrayfire.timer

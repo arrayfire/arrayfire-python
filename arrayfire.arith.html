@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.arith module &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.arith module &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,11 +27,14 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="ArrayFire Python documentation" href="index.html" />
    
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -347,6 +350,32 @@
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
 <blockquote class="last">
 <div><p>array containing the ceiled values.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.arith.clamp">
+<code class="descclassname">arrayfire.arith.</code><code class="descname">clamp</code><span class="sig-paren">(</span><em>val</em>, <em>low</em>, <em>high</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/arith.html#clamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.arith.clamp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clamp the input value between low and high</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>val</strong> : af.Array</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array to be clamped.</p>
+</div></blockquote>
+<p><strong>low</strong> : af.Array or scalar</p>
+<blockquote>
+<div><p>Multi dimensional arrayfire array or a scalar number denoting the lower value(s).</p>
+</div></blockquote>
+<p><strong>high</strong> : af.Array or scalar</p>
+<blockquote class="last">
+<div><p>Multi dimensional arrayfire array or a scalar number denoting the higher value(s).</p>
 </div></blockquote>
 </td>
 </tr>
@@ -1314,8 +1343,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
       <a href="_sources/arrayfire.arith.txt"

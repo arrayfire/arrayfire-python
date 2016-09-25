@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.cuda &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.cuda &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,11 +28,14 @@
     <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -70,15 +73,15 @@
 <span class="sd">    stream : integer denoting the stream id.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="kn">import</span> <span class="nn">ctypes</span> <span class="kn">as</span> <span class="nn">ct</span>
-    <span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">safe_call</span> <span class="k">as</span> <span class="n">safe_call</span>
-    <span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">backend</span>
+    <span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">ct</span>
+    <span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">safe_call</span> <span class="k">as</span> <span class="n">safe_call</span>
+    <span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">backend</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;cuda&quot;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid backend loaded&quot;</span><span class="p">)</span>
 
-    <span class="n">stream</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcu_get_stream</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">stream</span><span class="p">),</span> <span class="n">idx</span><span class="p">))</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcu_get_stream</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">stream</span><span class="p">),</span> <span class="n">idx</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">stream</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="get_native_id"><a class="viewcode-back" href="../../arrayfire.cuda.html#arrayfire.cuda.get_native_id">[docs]</a><span class="k">def</span> <span class="nf">get_native_id</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
@@ -96,15 +99,15 @@
 <span class="sd">    native_idx : integer denoting the native cuda id.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="kn">import</span> <span class="nn">ctypes</span> <span class="kn">as</span> <span class="nn">ct</span>
-    <span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">safe_call</span> <span class="k">as</span> <span class="n">safe_call</span>
-    <span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">backend</span>
+    <span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">ct</span>
+    <span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">safe_call</span> <span class="k">as</span> <span class="n">safe_call</span>
+    <span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">backend</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;cuda&quot;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid backend loaded&quot;</span><span class="p">)</span>
 
-    <span class="n">native</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcu_get_native_id</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">native</span><span class="p">),</span> <span class="n">idx</span><span class="p">))</span>
+    <span class="n">native</span> <span class="o">=</span> <span class="n">c_int_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">afcu_get_native_id</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">native</span><span class="p">),</span> <span class="n">idx</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">native</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="set_native_id"><a class="viewcode-back" href="../../arrayfire.cuda.html#arrayfire.cuda.set_native_id">[docs]</a><span class="k">def</span> <span class="nf">set_native_id</span><span class="p">(</span><span class="n">idx</span><span class="p">):</span>
@@ -118,9 +121,9 @@
 <span class="sd">        Specifies the (unsorted) native index of the device.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="kn">import</span> <span class="nn">ctypes</span> <span class="kn">as</span> <span class="nn">ct</span>
-    <span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">safe_call</span> <span class="k">as</span> <span class="n">safe_call</span>
-    <span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">backend</span>
+    <span class="kn">import</span> <span class="nn">ctypes</span> <span class="k">as</span> <span class="nn">ct</span>
+    <span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">safe_call</span> <span class="k">as</span> <span class="n">safe_call</span>
+    <span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="n">backend</span> <span class="k">as</span> <span class="n">backend</span>
 
     <span class="k">if</span> <span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">name</span><span class="p">()</span> <span class="o">!=</span> <span class="s2">&quot;cuda&quot;</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid backend loaded&quot;</span><span class="p">)</span>
@@ -163,8 +166,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

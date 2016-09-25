@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.vision &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.vision &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,11 +28,14 @@
     <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -53,11 +56,11 @@
 <span class="sd">Computer vision functions (FAST, ORB, etc)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.features</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.features</span> <span class="k">import</span> <span class="o">*</span>
 
-<div class="viewcode-block" id="fast"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.fast">[docs]</a><span class="k">def</span> <span class="nf">fast</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">arc_length</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">non_max</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">feature_ratio</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<div class="viewcode-block" id="fast"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.fast">[docs]</a><span class="k">def</span> <span class="nf">fast</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">arc_length</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">non_max</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">feature_ratio</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">edge</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    FAST feature detector.</span>
 
@@ -89,12 +92,12 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fast</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span>
-                                    <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">threshold</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">arc_length</span><span class="p">),</span> <span class="n">non_max</span><span class="p">,</span>
-                                    <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">feature_ratio</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">edge</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span>
+                                    <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">threshold</span><span class="p">),</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">arc_length</span><span class="p">),</span> <span class="n">non_max</span><span class="p">,</span>
+                                    <span class="n">c_float_t</span><span class="p">(</span><span class="n">feature_ratio</span><span class="p">),</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">edge</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="harris"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.harris">[docs]</a><span class="k">def</span> <span class="nf">harris</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">max_corners</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">min_response</span><span class="o">=</span><span class="mf">1E5</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k_thr</span><span class="o">=</span><span class="mf">0.04</span><span class="p">):</span>
+<div class="viewcode-block" id="harris"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.harris">[docs]</a><span class="k">def</span> <span class="nf">harris</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">max_corners</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">min_response</span><span class="o">=</span><span class="mi">1</span><span class="n">E5</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">block_size</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">k_thr</span><span class="o">=</span><span class="mf">0.04</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Harris corner detector.</span>
 
@@ -133,12 +136,12 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_harris</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span>
-                                      <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">max_corners</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">min_response</span><span class="p">),</span>
-                                      <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">sigma</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">block_size</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">k_thr</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_harris</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span>
+                                      <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">max_corners</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">min_response</span><span class="p">),</span>
+                                      <span class="n">c_float_t</span><span class="p">(</span><span class="n">sigma</span><span class="p">),</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">block_size</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">k_thr</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="orb"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.orb">[docs]</a><span class="k">def</span> <span class="nf">orb</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">num_levels</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">blur_image</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="orb"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.orb">[docs]</a><span class="k">def</span> <span class="nf">orb</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span> <span class="n">max_features</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">num_levels</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">blur_image</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    ORB Feature descriptor.</span>
 
@@ -173,9 +176,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">feat</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
     <span class="n">desc</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_orb</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">desc</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                   <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">threshold</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">max_features</span><span class="p">),</span>
-                                   <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">num_levels</span><span class="p">),</span> <span class="n">blur_image</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_orb</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">feat</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">desc</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                   <span class="n">c_float_t</span><span class="p">(</span><span class="n">threshold</span><span class="p">),</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">max_features</span><span class="p">),</span>
+                                   <span class="n">c_float_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">num_levels</span><span class="p">),</span> <span class="n">blur_image</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">feat</span><span class="p">,</span> <span class="n">desc</span></div>
 
 <div class="viewcode-block" id="hamming_matcher"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.hamming_matcher">[docs]</a><span class="k">def</span> <span class="nf">hamming_matcher</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">database</span><span class="p">,</span> <span class="n">dim</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">num_nearest</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
@@ -206,7 +209,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">index</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">dist</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_hamming_matcher</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_hamming_matcher</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                                <span class="n">query</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">database</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                                <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">num_nearest</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">index</span><span class="p">,</span> <span class="n">dist</span></div>
@@ -242,7 +245,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">index</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">dist</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_nearest_neighbour</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_nearest_neighbour</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                                  <span class="n">query</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">database</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                                  <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">num_nearest</span><span class="p">),</span>
                                                  <span class="n">match_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
@@ -271,7 +274,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_match_template</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_match_template</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                               <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">template</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                               <span class="n">match_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
@@ -308,10 +311,10 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_susan</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span>
-                                     <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">radius</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">diff_thr</span><span class="p">),</span>
-                                     <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">geom_thr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">feature_ratio</span><span class="p">),</span>
-                                     <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">edge</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_susan</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">feat</span><span class="p">),</span>
+                                     <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">radius</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">diff_thr</span><span class="p">),</span>
+                                     <span class="n">c_float_t</span><span class="p">(</span><span class="n">geom_thr</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">feature_ratio</span><span class="p">),</span>
+                                     <span class="n">c_uint_t</span><span class="p">(</span><span class="n">edge</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="dog"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.dog">[docs]</a><span class="k">def</span> <span class="nf">dog</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">radius1</span><span class="p">,</span> <span class="n">radius2</span><span class="p">):</span>
@@ -343,12 +346,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dog</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dog</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                    <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">radius1</span><span class="p">,</span> <span class="n">radius2</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="sift"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.sift">[docs]</a><span class="k">def</span> <span class="nf">sift</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">contrast_threshold</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">edge_threshold</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">initial_sigma</span> <span class="o">=</span> <span class="mf">1.6</span><span class="p">,</span>
-         <span class="n">double_input</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">intensity_scale</span> <span class="o">=</span> <span class="mf">0.00390625</span><span class="p">,</span> <span class="n">feature_ratio</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
+         <span class="n">double_input</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">intensity_scale</span> <span class="o">=</span> <span class="mf">0.00390625</span><span class="p">,</span> <span class="n">feature_ratio</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    SIFT feature detector and descriptor.</span>
 
@@ -387,14 +390,14 @@
 
     <span class="n">feat</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
     <span class="n">desc</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">af_sift</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">feat</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">desc</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">af_sift</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">feat</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">desc</span><span class="p">),</span>
                       <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">contrast_threshold</span><span class="p">,</span> <span class="n">edge_threshold</span><span class="p">,</span>
                       <span class="n">initial_sigma</span><span class="p">,</span> <span class="n">double_input</span><span class="p">,</span> <span class="n">intensity_scale</span><span class="p">,</span> <span class="n">feature_ratio</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">feat</span><span class="p">,</span> <span class="n">desc</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="gloh"><a class="viewcode-back" href="../../arrayfire.vision.html#arrayfire.vision.gloh">[docs]</a><span class="k">def</span> <span class="nf">gloh</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">contrast_threshold</span><span class="o">=</span><span class="mf">0.04</span><span class="p">,</span> <span class="n">edge_threshold</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">initial_sigma</span> <span class="o">=</span> <span class="mf">1.6</span><span class="p">,</span>
-         <span class="n">double_input</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">intensity_scale</span> <span class="o">=</span> <span class="mf">0.00390625</span><span class="p">,</span> <span class="n">feature_ratio</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
+         <span class="n">double_input</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">intensity_scale</span> <span class="o">=</span> <span class="mf">0.00390625</span><span class="p">,</span> <span class="n">feature_ratio</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    GLOH feature detector and descriptor.</span>
 
@@ -433,7 +436,7 @@
 
     <span class="n">feat</span> <span class="o">=</span> <span class="n">Features</span><span class="p">()</span>
     <span class="n">desc</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">af_gloh</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">feat</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">desc</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">af_gloh</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">feat</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">desc</span><span class="p">),</span>
                       <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">num_layers</span><span class="p">,</span> <span class="n">contrast_threshold</span><span class="p">,</span> <span class="n">edge_threshold</span><span class="p">,</span>
                       <span class="n">initial_sigma</span><span class="p">,</span> <span class="n">double_input</span><span class="p">,</span> <span class="n">intensity_scale</span><span class="p">,</span> <span class="n">feature_ratio</span><span class="p">))</span>
 
@@ -475,8 +478,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">H</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">inliers</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_homography</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">H</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">inliers</span><span class="p">),</span>
+    <span class="n">inliers</span> <span class="o">=</span> <span class="n">c_int_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_homography</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">H</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">inliers</span><span class="p">),</span>
                                           <span class="n">x_src</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">y_src</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">x_dst</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">y_dst</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                           <span class="n">htype</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ransac_threshold</span><span class="p">,</span> <span class="n">iters</span><span class="p">,</span> <span class="n">out_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">inliers</span><span class="p">)</span></div>
@@ -516,8 +519,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

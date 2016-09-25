@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.image &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.image &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,11 +28,14 @@
     <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -53,9 +56,10 @@
 <span class="sd">Image processing functions.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.data</span> <span class="kn">import</span> <span class="n">constant</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.data</span> <span class="k">import</span> <span class="n">constant</span>
+<span class="kn">from</span> <span class="nn">.signal</span> <span class="k">import</span> <span class="n">medfilt</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 <div class="viewcode-block" id="gradient"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.gradient">[docs]</a><span class="k">def</span> <span class="nf">gradient</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
@@ -77,10 +81,10 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dx</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">dy</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_gradient</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dy</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_gradient</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">dx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dy</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span></div>
 
-<div class="viewcode-block" id="load_image"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.load_image">[docs]</a><span class="k">def</span> <span class="nf">load_image</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">is_color</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="load_image"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.load_image">[docs]</a><span class="k">def</span> <span class="nf">load_image</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="n">is_color</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Load an image on the disk as an array.</span>
 
@@ -100,8 +104,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span>
     <span class="n">image</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_load_image</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                          <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)),</span> <span class="n">is_color</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_load_image</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                          <span class="n">c_char_ptr_t</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)),</span> <span class="n">is_color</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">image</span></div>
 
 <div class="viewcode-block" id="save_image"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.save_image">[docs]</a><span class="k">def</span> <span class="nf">save_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
@@ -117,7 +121,7 @@
 <span class="sd">          - Full path of the file name on the disk.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_save_image</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_save_image</span><span class="p">(</span><span class="n">c_char_ptr_t</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">image</span></div>
 
 
@@ -138,8 +142,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">file_name</span><span class="p">))</span>
     <span class="n">image</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_load_image_native</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                                 <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_load_image_native</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                                 <span class="n">c_char_ptr_t</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">))))</span>
     <span class="k">return</span> <span class="n">image</span></div>
 
 <div class="viewcode-block" id="save_image_native"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.save_image_native">[docs]</a><span class="k">def</span> <span class="nf">save_image_native</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
@@ -155,10 +159,10 @@
 <span class="sd">          - Full path of the file name on the disk.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">file_name</span><span class="p">,</span> <span class="nb">str</span><span class="p">))</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_save_image_native</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_save_image_native</span><span class="p">(</span><span class="n">c_char_ptr_t</span><span class="p">(</span><span class="n">file_name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">image</span></div>
 
-<div class="viewcode-block" id="resize"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.resize">[docs]</a><span class="k">def</span> <span class="nf">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">odim0</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">odim1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">):</span>
+<div class="viewcode-block" id="resize"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.resize">[docs]</a><span class="k">def</span> <span class="nf">resize</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">odim0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">odim1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Resize an image.</span>
 
@@ -192,22 +196,22 @@
 <span class="sd">    - If `scale` is not None, `odim0` and `odim1` are ignored.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
-        <span class="k">assert</span><span class="p">(</span><span class="n">odim0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span>
-        <span class="k">assert</span><span class="p">(</span><span class="n">odim1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">odim0</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">odim1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">idims</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
         <span class="n">odim0</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">scale</span> <span class="o">*</span> <span class="n">idims</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="n">odim1</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">scale</span> <span class="o">*</span> <span class="n">idims</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_resize</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_resize</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                       <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim0</span><span class="p">),</span>
                                       <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim1</span><span class="p">),</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">trans_mat</span><span class="p">,</span> <span class="n">odim0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">odim1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">,</span> <span class="n">is_inverse</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="transform"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.transform">[docs]</a><span class="k">def</span> <span class="nf">transform</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">trans_mat</span><span class="p">,</span> <span class="n">odim0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">odim1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">,</span> <span class="n">is_inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Transform an image using a transformation matrix.</span>
 
@@ -244,14 +248,14 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_transform</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_transform</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                          <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">trans_mat</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                          <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim1</span><span class="p">),</span>
                                          <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">is_inverse</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 
-<div class="viewcode-block" id="rotate"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.rotate">[docs]</a><span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">is_crop</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">):</span>
+<div class="viewcode-block" id="rotate"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.rotate">[docs]</a><span class="k">def</span> <span class="nf">rotate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">is_crop</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Rotate an image.</span>
 
@@ -276,8 +280,8 @@
 <span class="sd">          - Output image after rotating.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rotate</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
-                                      <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">is_crop</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rotate</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                      <span class="n">c_float_t</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">is_crop</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="translate"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.translate">[docs]</a><span class="k">def</span> <span class="nf">translate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">trans0</span><span class="p">,</span> <span class="n">trans1</span><span class="p">,</span> <span class="n">odim0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">odim1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">):</span>
@@ -317,7 +321,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_translate</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_translate</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                          <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">trans0</span><span class="p">,</span> <span class="n">trans1</span><span class="p">,</span>
                                          <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim1</span><span class="p">),</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
@@ -359,12 +363,12 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_scale</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                     <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">scale0</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">scale1</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_scale</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                     <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">scale0</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">scale1</span><span class="p">),</span>
                                      <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim1</span><span class="p">),</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="skew"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.skew">[docs]</a><span class="k">def</span> <span class="nf">skew</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">skew0</span><span class="p">,</span> <span class="n">skew1</span><span class="p">,</span> <span class="n">odim0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">odim1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">,</span> <span class="n">is_inverse</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="skew"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.skew">[docs]</a><span class="k">def</span> <span class="nf">skew</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">skew0</span><span class="p">,</span> <span class="n">skew1</span><span class="p">,</span> <span class="n">odim0</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">odim1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">method</span> <span class="o">=</span> <span class="n">INTERP</span><span class="o">.</span><span class="n">NEAREST</span><span class="p">,</span> <span class="n">is_inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Skew an image.</span>
 
@@ -404,14 +408,14 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_skew</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                    <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">skew0</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">skew1</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_skew</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                    <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">skew0</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">skew1</span><span class="p">),</span>
                                     <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">odim1</span><span class="p">),</span>
                                     <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">is_inverse</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="histogram"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.histogram">[docs]</a><span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">min_val</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">max_val</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="histogram"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.histogram">[docs]</a><span class="k">def</span> <span class="nf">histogram</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">nbins</span><span class="p">,</span> <span class="n">min_val</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">max_val</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find the histogram of an image.</span>
 
@@ -438,19 +442,19 @@
 <span class="sd">          - Containing the histogram of the image.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">.algorithm</span> <span class="kn">import</span> <span class="nb">min</span> <span class="k">as</span> <span class="n">af_min</span>
-    <span class="kn">from</span> <span class="nn">.algorithm</span> <span class="kn">import</span> <span class="nb">max</span> <span class="k">as</span> <span class="n">af_max</span>
+    <span class="kn">from</span> <span class="nn">.algorithm</span> <span class="k">import</span> <span class="nb">min</span> <span class="k">as</span> <span class="n">af_min</span>
+    <span class="kn">from</span> <span class="nn">.algorithm</span> <span class="k">import</span> <span class="nb">max</span> <span class="k">as</span> <span class="n">af_max</span>
 
-    <span class="k">if</span> <span class="n">min_val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">min_val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">min_val</span> <span class="o">=</span> <span class="n">af_min</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">max_val</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">max_val</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">max_val</span> <span class="o">=</span> <span class="n">af_max</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_histogram</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                         <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">nbins</span><span class="p">),</span>
-                                         <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">min_val</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">max_val</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_histogram</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                         <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">nbins</span><span class="p">),</span>
+                                         <span class="n">c_double_t</span><span class="p">(</span><span class="n">min_val</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">max_val</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="hist_equal"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.hist_equal">[docs]</a><span class="k">def</span> <span class="nf">hist_equal</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">hist</span><span class="p">):</span>
@@ -474,10 +478,10 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_hist_equal</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">hist</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_hist_equal</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">hist</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="dilate"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.dilate">[docs]</a><span class="k">def</span> <span class="nf">dilate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="dilate"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.dilate">[docs]</a><span class="k">def</span> <span class="nf">dilate</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run image dilate on the image.</span>
 
@@ -498,15 +502,15 @@
 <span class="sd">           - The dilated image.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dilate</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dilate</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="dilate3"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.dilate3">[docs]</a><span class="k">def</span> <span class="nf">dilate3</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="dilate3"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.dilate3">[docs]</a><span class="k">def</span> <span class="nf">dilate3</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run volume dilate on a volume.</span>
 
@@ -527,15 +531,15 @@
 <span class="sd">           - The dilated volume.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dilate3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">volume</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dilate3</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">volume</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="erode"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.erode">[docs]</a><span class="k">def</span> <span class="nf">erode</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="erode"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.erode">[docs]</a><span class="k">def</span> <span class="nf">erode</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run image erode on the image.</span>
 
@@ -556,15 +560,15 @@
 <span class="sd">           - The eroded image.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_erode</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_erode</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="erode3"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.erode3">[docs]</a><span class="k">def</span> <span class="nf">erode3</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="erode3"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.erode3">[docs]</a><span class="k">def</span> <span class="nf">erode3</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Run volume erode on the volume.</span>
 
@@ -586,15 +590,15 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">mask</span> <span class="o">=</span> <span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_erode3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">volume</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_erode3</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">volume</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="bilateral"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.bilateral">[docs]</a><span class="k">def</span> <span class="nf">bilateral</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">s_sigma</span><span class="p">,</span> <span class="n">c_sigma</span><span class="p">,</span> <span class="n">is_color</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="bilateral"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.bilateral">[docs]</a><span class="k">def</span> <span class="nf">bilateral</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">s_sigma</span><span class="p">,</span> <span class="n">c_sigma</span><span class="p">,</span> <span class="n">is_color</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Apply bilateral filter to the image.</span>
 
@@ -621,12 +625,12 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_bilateral</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                         <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">s_sigma</span><span class="p">),</span>
-                                         <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">c_sigma</span><span class="p">),</span> <span class="n">is_color</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_bilateral</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                         <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">s_sigma</span><span class="p">),</span>
+                                         <span class="n">c_float_t</span><span class="p">(</span><span class="n">c_sigma</span><span class="p">),</span> <span class="n">is_color</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="mean_shift"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.mean_shift">[docs]</a><span class="k">def</span> <span class="nf">mean_shift</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">s_sigma</span><span class="p">,</span> <span class="n">c_sigma</span><span class="p">,</span> <span class="n">n_iter</span><span class="p">,</span> <span class="n">is_color</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="mean_shift"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.mean_shift">[docs]</a><span class="k">def</span> <span class="nf">mean_shift</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">s_sigma</span><span class="p">,</span> <span class="n">c_sigma</span><span class="p">,</span> <span class="n">n_iter</span><span class="p">,</span> <span class="n">is_color</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Apply mean shift to the image.</span>
 
@@ -656,41 +660,9 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_mean_shift</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                          <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">s_sigma</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">c_sigma</span><span class="p">),</span>
-                                          <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">n_iter</span><span class="p">),</span> <span class="n">is_color</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">output</span></div>
-
-<div class="viewcode-block" id="medfilt"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.medfilt">[docs]</a><span class="k">def</span> <span class="nf">medfilt</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w0</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w1</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">edge_pad</span> <span class="o">=</span> <span class="n">PAD</span><span class="o">.</span><span class="n">ZERO</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Apply median filter for the image.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    image : af.Array</span>
-<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
-<span class="sd">          - A multi dimensional array representing batch of images.</span>
-
-<span class="sd">    w0 : optional: int. default: 3.</span>
-<span class="sd">          - The length of the filter along the first dimension.</span>
-
-<span class="sd">    w1 : optional: int. default: 3.</span>
-<span class="sd">          - The length of the filter along the second dimension.</span>
-
-<span class="sd">    edge_pad : optional: af.PAD. default: af.PAD.ZERO</span>
-<span class="sd">          - Flag specifying how the median at the edge should be treated.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    ---------</span>
-
-<span class="sd">    output : af.Array</span>
-<span class="sd">           - The image after median filter is applied.</span>
-
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_medfilt</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                       <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w0</span><span class="p">),</span>
-                                       <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w1</span><span class="p">),</span> <span class="n">edge_pad</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_mean_shift</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                          <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">s_sigma</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">c_sigma</span><span class="p">),</span>
+                                          <span class="n">c_uint_t</span><span class="p">(</span><span class="n">n_iter</span><span class="p">),</span> <span class="n">is_color</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="minfilt"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.minfilt">[docs]</a><span class="k">def</span> <span class="nf">minfilt</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w_len</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w_wid</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">edge_pad</span> <span class="o">=</span> <span class="n">PAD</span><span class="o">.</span><span class="n">ZERO</span><span class="p">):</span>
@@ -720,7 +692,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_minfilt</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_minfilt</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                        <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w_len</span><span class="p">),</span>
                                        <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w_wid</span><span class="p">),</span> <span class="n">edge_pad</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
@@ -752,7 +724,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_maxfilt</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_maxfilt</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                        <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w_len</span><span class="p">),</span>
                                        <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w_wid</span><span class="p">),</span> <span class="n">edge_pad</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
@@ -780,7 +752,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_regions</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_regions</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                        <span class="n">conn</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">out_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
@@ -807,11 +779,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dx</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">dy</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sobel_operator</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dy</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                              <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="n">w_len</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sobel_operator</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">dx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dy</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                              <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">w_len</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">dx</span><span class="p">,</span><span class="n">dy</span></div>
 
-<div class="viewcode-block" id="gaussian_kernel"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.gaussian_kernel">[docs]</a><span class="k">def</span> <span class="nf">gaussian_kernel</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">sigma_r</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">sigma_c</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="gaussian_kernel"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.gaussian_kernel">[docs]</a><span class="k">def</span> <span class="nf">gaussian_kernel</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">sigma_r</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">sigma_c</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Create a gaussian kernel with the given parameters.</span>
 
@@ -842,18 +814,18 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">sigma_r</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sigma_r</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">sigma_r</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">rows</span> <span class="o">+</span> <span class="mf">0.75</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="n">sigma_c</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sigma_c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
         <span class="n">sigma_c</span> <span class="o">=</span> <span class="mf">0.25</span> <span class="o">*</span> <span class="n">cols</span> <span class="o">+</span> <span class="mf">0.75</span>
 
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_gaussian_kernel</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                               <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">rows</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">cols</span><span class="p">),</span>
-                                               <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">sigma_r</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">sigma_c</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_gaussian_kernel</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                               <span class="n">c_int_t</span><span class="p">(</span><span class="n">rows</span><span class="p">),</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">cols</span><span class="p">),</span>
+                                               <span class="n">c_double_t</span><span class="p">(</span><span class="n">sigma_r</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">sigma_c</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="sobel_filter"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.sobel_filter">[docs]</a><span class="k">def</span> <span class="nf">sobel_filter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w_len</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">is_fast</span> <span class="o">=</span> <span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="sobel_filter"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.sobel_filter">[docs]</a><span class="k">def</span> <span class="nf">sobel_filter</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w_len</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">is_fast</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Apply sobel filter to the image.</span>
 
@@ -876,8 +848,8 @@
 <span class="sd">           - Image containing the magnitude of the sobel derivatives.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">.arith</span> <span class="kn">import</span> <span class="nb">abs</span> <span class="k">as</span> <span class="n">af_abs</span>
-    <span class="kn">from</span> <span class="nn">.arith</span> <span class="kn">import</span> <span class="n">hypot</span> <span class="k">as</span> <span class="n">af_hypot</span>
+    <span class="kn">from</span> <span class="nn">.arith</span> <span class="k">import</span> <span class="nb">abs</span> <span class="k">as</span> <span class="n">af_abs</span>
+    <span class="kn">from</span> <span class="nn">.arith</span> <span class="k">import</span> <span class="n">hypot</span> <span class="k">as</span> <span class="n">af_hypot</span>
 
     <span class="n">dx</span><span class="p">,</span><span class="n">dy</span> <span class="o">=</span> <span class="n">sobel_derivatives</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">w_len</span><span class="p">)</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">is_fast</span><span class="p">):</span>
@@ -912,8 +884,8 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span><span class="o">=</span><span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rgb2gray</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                        <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">r_factor</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">g_factor</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">b_factor</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rgb2gray</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                        <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">r_factor</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">g_factor</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">b_factor</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="gray2rgb"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.gray2rgb">[docs]</a><span class="k">def</span> <span class="nf">gray2rgb</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">r_factor</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">g_factor</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">b_factor</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
@@ -944,8 +916,8 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span><span class="o">=</span><span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_gray2rgb</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                        <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">r_factor</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">g_factor</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_float</span><span class="p">(</span><span class="n">b_factor</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_gray2rgb</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                        <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">r_factor</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">g_factor</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">b_factor</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="hsv2rgb"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.hsv2rgb">[docs]</a><span class="k">def</span> <span class="nf">hsv2rgb</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
@@ -966,7 +938,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_hsv2rgb</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_hsv2rgb</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="rgb2hsv"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.rgb2hsv">[docs]</a><span class="k">def</span> <span class="nf">rgb2hsv</span><span class="p">(</span><span class="n">image</span><span class="p">):</span>
@@ -987,7 +959,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rgb2hsv</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rgb2hsv</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="color_space"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.color_space">[docs]</a><span class="k">def</span> <span class="nf">color_space</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">to_type</span><span class="p">,</span> <span class="n">from_type</span><span class="p">):</span>
@@ -1013,11 +985,11 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_color_space</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_color_space</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                            <span class="n">to_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">from_type</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="unwrap"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.unwrap">[docs]</a><span class="k">def</span> <span class="nf">unwrap</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">wy</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">py</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_column</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="unwrap"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.unwrap">[docs]</a><span class="k">def</span> <span class="nf">unwrap</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">wy</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">py</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_column</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Unrwap an image into an array.</span>
 
@@ -1079,14 +1051,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_unwrap</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_unwrap</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                       <span class="n">c_dim_t</span><span class="p">(</span><span class="n">wx</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">wy</span><span class="p">),</span>
                                       <span class="n">c_dim_t</span><span class="p">(</span><span class="n">sx</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">sy</span><span class="p">),</span>
                                       <span class="n">c_dim_t</span><span class="p">(</span><span class="n">px</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">py</span><span class="p">),</span>
                                       <span class="n">is_column</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="wrap"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.wrap">[docs]</a><span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">wy</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">py</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_column</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+<div class="viewcode-block" id="wrap"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.wrap">[docs]</a><span class="k">def</span> <span class="nf">wrap</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">ox</span><span class="p">,</span> <span class="n">oy</span><span class="p">,</span> <span class="n">wx</span><span class="p">,</span> <span class="n">wy</span><span class="p">,</span> <span class="n">sx</span><span class="p">,</span> <span class="n">sy</span><span class="p">,</span> <span class="n">px</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">py</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_column</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Wrap an array into an image.</span>
 
@@ -1161,7 +1133,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_wrap</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_wrap</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                     <span class="n">c_dim_t</span><span class="p">(</span><span class="n">ox</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">oy</span><span class="p">),</span>
                                     <span class="n">c_dim_t</span><span class="p">(</span><span class="n">wx</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">wy</span><span class="p">),</span>
                                     <span class="n">c_dim_t</span><span class="p">(</span><span class="n">sx</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">sy</span><span class="p">),</span>
@@ -1185,7 +1157,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sat</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sat</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="ycbcr2rgb"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.ycbcr2rgb">[docs]</a><span class="k">def</span> <span class="nf">ycbcr2rgb</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">standard</span><span class="o">=</span><span class="n">YCC_STD</span><span class="o">.</span><span class="n">BT_601</span><span class="p">):</span>
@@ -1211,7 +1183,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ycbcr2rgb</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">standard</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ycbcr2rgb</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">standard</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="rgb2ycbcr"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.rgb2ycbcr">[docs]</a><span class="k">def</span> <span class="nf">rgb2ycbcr</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">standard</span><span class="o">=</span><span class="n">YCC_STD</span><span class="o">.</span><span class="n">BT_601</span><span class="p">):</span>
@@ -1237,15 +1209,42 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rgb2ycbcr</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">standard</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_rgb2ycbcr</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">standard</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="moments"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.moments">[docs]</a><span class="k">def</span> <span class="nf">moments</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">moment</span> <span class="o">=</span> <span class="n">MOMENT</span><span class="o">.</span><span class="n">FIRST_ORDER</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate image moments.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image, or</span>
+<span class="sd">          - A multi dimensional array representing batch of images.</span>
+
+<span class="sd">    moment : optional: af.MOMENT. default: af.MOMENT.FIRST_ORDER.</span>
+<span class="sd">          Moment(s) to calculate. Can be one of:</span>
+<span class="sd">          - af.MOMENT.M00</span>
+<span class="sd">          - af.MOMENT.M01</span>
+<span class="sd">          - af.MOMENT.M10</span>
+<span class="sd">          - af.MOMENT.M11</span>
+<span class="sd">          - af.MOMENT.FIRST_ORDER</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+<span class="sd">    out  : af.Array</span>
+<span class="sd">          - array containing requested moment(s) of each image</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_moments</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">moment</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="is_image_io_available"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.is_image_io_available">[docs]</a><span class="k">def</span> <span class="nf">is_image_io_available</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function to check if the arrayfire library was built with Image IO support.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_image_io_available</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_image_io_available</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 </pre></div>
 
@@ -1283,8 +1282,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

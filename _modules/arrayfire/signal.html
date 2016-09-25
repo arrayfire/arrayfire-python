@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.signal &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.signal &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,11 +28,14 @@
     <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -53,8 +56,8 @@
 <span class="sd">Signal processing functions (fft, convolve, etc).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="approx1"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.approx1">[docs]</a><span class="k">def</span> <span class="nf">approx1</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">pos0</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">,</span> <span class="n">off_grid</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -90,8 +93,8 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx1</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
-                                       <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx1</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                       <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="approx2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.approx2">[docs]</a><span class="k">def</span> <span class="nf">approx2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">pos0</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">,</span> <span class="n">off_grid</span><span class="o">=</span><span class="mf">0.0</span><span class="p">):</span>
@@ -132,11 +135,11 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx2</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
-                                       <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos1</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                       <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos1</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="fft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft">[docs]</a><span class="k">def</span> <span class="nf">fft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft">[docs]</a><span class="k">def</span> <span class="nf">fft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fast Fourier Transform: 1D</span>
 
@@ -162,17 +165,17 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="fft2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2">[docs]</a><span class="k">def</span> <span class="nf">fft2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2">[docs]</a><span class="k">def</span> <span class="nf">fft2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fast Fourier Transform: 2D</span>
 
@@ -201,21 +204,21 @@
 <span class="sd">            A complex af.Array containing the full output of the fft.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim1</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
                                     <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="fft3"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3">[docs]</a><span class="k">def</span> <span class="nf">fft3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">dim2</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft3"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3">[docs]</a><span class="k">def</span> <span class="nf">fft3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">dim2</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Fast Fourier Transform: 3D</span>
 
@@ -248,24 +251,24 @@
 <span class="sd">            A complex af.Array containing the full output of the fft.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim1</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">dim2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim2</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
                                     <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim2</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="ifft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft">[docs]</a><span class="k">def</span> <span class="nf">ifft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ifft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft">[docs]</a><span class="k">def</span> <span class="nf">ifft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inverse Fast Fourier Transform: 1D</span>
 
@@ -296,17 +299,17 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span><span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="ifft2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft2">[docs]</a><span class="k">def</span> <span class="nf">ifft2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ifft2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft2">[docs]</a><span class="k">def</span> <span class="nf">ifft2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inverse Fast Fourier Transform: 2D</span>
 
@@ -343,21 +346,21 @@
 
     <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span><span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft2</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
                                      <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="ifft3"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft3">[docs]</a><span class="k">def</span> <span class="nf">ifft3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">dim2</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ifft3"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft3">[docs]</a><span class="k">def</span> <span class="nf">ifft3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">dim2</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inverse Fast Fourier Transform: 3D</span>
 
@@ -398,24 +401,24 @@
 
     <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">dim2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim2</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span> <span class="o">*</span> <span class="n">dim2</span><span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft3</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
                                      <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim2</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="fft_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_inplace">[docs]</a><span class="k">def</span> <span class="nf">fft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_inplace">[docs]</a><span class="k">def</span> <span class="nf">fft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    In-place Fast Fourier Transform: 1D</span>
 
@@ -431,12 +434,12 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
 
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="fft2_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2_inplace">[docs]</a><span class="k">def</span> <span class="nf">fft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft2_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2_inplace">[docs]</a><span class="k">def</span> <span class="nf">fft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    In-place Fast Fourier Transform: 2D</span>
 
@@ -452,12 +455,12 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
 
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="fft3_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3_inplace">[docs]</a><span class="k">def</span> <span class="nf">fft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft3_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3_inplace">[docs]</a><span class="k">def</span> <span class="nf">fft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    In-place Fast Fourier Transform: 3D</span>
 
@@ -472,13 +475,13 @@
 <span class="sd">          - If None, scale is set to 1.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="ifft_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft_inplace">[docs]</a><span class="k">def</span> <span class="nf">ifft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ifft_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft_inplace">[docs]</a><span class="k">def</span> <span class="nf">ifft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inverse In-place Fast Fourier Transform: 1D</span>
 
@@ -493,13 +496,13 @@
 <span class="sd">          - If None, scale is set to 1.0 / (signal.dims()[0])</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span><span class="p">)</span>
 
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="ifft2_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft2_inplace">[docs]</a><span class="k">def</span> <span class="nf">ifft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ifft2_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft2_inplace">[docs]</a><span class="k">def</span> <span class="nf">ifft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inverse In-place Fast Fourier Transform: 2D</span>
 
@@ -516,14 +519,14 @@
 
     <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span><span class="p">)</span>
 
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft2_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="ifft3_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft3_inplace">[docs]</a><span class="k">def</span> <span class="nf">ifft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="ifft3_inplace"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.ifft3_inplace">[docs]</a><span class="k">def</span> <span class="nf">ifft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Inverse In-place Fast Fourier Transform: 3D</span>
 
@@ -540,15 +543,15 @@
 
     <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">dim2</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span> <span class="o">*</span> <span class="n">dim2</span><span class="p">)</span>
 
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_ifft3_inplace</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="fft_r2c"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_r2c">[docs]</a><span class="k">def</span> <span class="nf">fft_r2c</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft_r2c"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_r2c">[docs]</a><span class="k">def</span> <span class="nf">fft_r2c</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Real to Complex Fast Fourier Transform: 1D</span>
 
@@ -574,17 +577,17 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_r2c</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_r2c</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="fft2_r2c"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2_r2c">[docs]</a><span class="k">def</span> <span class="nf">fft2_r2c</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft2_r2c"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2_r2c">[docs]</a><span class="k">def</span> <span class="nf">fft2_r2c</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Real to Complex Fast Fourier Transform: 2D</span>
 
@@ -613,21 +616,21 @@
 <span class="sd">            A complex af.Array containing the non-redundant parts of the full FFT.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim1</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2_r2c</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2_r2c</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
                                         <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="fft3_r2c"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3_r2c">[docs]</a><span class="k">def</span> <span class="nf">fft3_r2c</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="bp">None</span> <span class="p">,</span> <span class="n">dim2</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft3_r2c"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3_r2c">[docs]</a><span class="k">def</span> <span class="nf">fft3_r2c</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dim1</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">dim2</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Real to Complex Fast Fourier Transform: 3D</span>
 
@@ -660,27 +663,27 @@
 <span class="sd">            A complex af.Array containing the non-redundant parts of the full FFT.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim0</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim1</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim1</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">dim2</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">dim2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim2</span> <span class="o">=</span> <span class="mi">0</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3_r2c</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3_r2c</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span>
                                         <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim0</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim1</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">dim2</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 <span class="k">def</span> <span class="nf">_get_c2r_dim</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">is_odd</span><span class="p">):</span>
     <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span><span class="p">(</span><span class="n">dim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">is_odd</span><span class="p">)</span>
 
-<div class="viewcode-block" id="fft_c2r"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_c2r">[docs]</a><span class="k">def</span> <span class="nf">fft_c2r</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">is_odd</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft_c2r"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft_c2r">[docs]</a><span class="k">def</span> <span class="nf">fft_c2r</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">is_odd</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Real to Complex Fast Fourier Transform: 1D</span>
 
@@ -706,15 +709,15 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="n">_get_c2r_dim</span><span class="p">(</span><span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span> <span class="n">is_odd</span><span class="p">)</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span><span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_c2r</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">is_odd</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_c2r</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">is_odd</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="fft2_c2r"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2_c2r">[docs]</a><span class="k">def</span> <span class="nf">fft2_c2r</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">is_odd</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft2_c2r"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft2_c2r">[docs]</a><span class="k">def</span> <span class="nf">fft2_c2r</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">is_odd</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Real to Complex Fast Fourier Transform: 2D</span>
 
@@ -740,16 +743,16 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="n">_get_c2r_dim</span><span class="p">(</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">is_odd</span><span class="p">)</span>
         <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span><span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2_c2r</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">is_odd</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft2_c2r</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">is_odd</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
-<div class="viewcode-block" id="fft3_c2r"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3_c2r">[docs]</a><span class="k">def</span> <span class="nf">fft3_c2r</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">is_odd</span> <span class="o">=</span> <span class="bp">False</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="fft3_c2r"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft3_c2r">[docs]</a><span class="k">def</span> <span class="nf">fft3_c2r</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">is_odd</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Real to Complex Fast Fourier Transform: 3D</span>
 
@@ -775,18 +778,18 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
 
-    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">dim0</span> <span class="o">=</span> <span class="n">_get_c2r_dim</span><span class="p">(</span><span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">is_odd</span><span class="p">)</span>
         <span class="n">dim1</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">dim2</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
         <span class="n">scale</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">dim0</span> <span class="o">*</span> <span class="n">dim1</span> <span class="o">*</span> <span class="n">dim2</span><span class="p">)</span>
 
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3_c2r</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">is_odd</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft3_c2r</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">scale</span><span class="p">),</span> <span class="n">is_odd</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 
-<div class="viewcode-block" id="dft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.dft">[docs]</a><span class="k">def</span> <span class="nf">dft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">odims</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">),</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="dft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.dft">[docs]</a><span class="k">def</span> <span class="nf">dft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">odims</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Non batched Fourier transform.</span>
@@ -813,7 +816,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">odims4</span> <span class="o">=</span> <span class="n">dim4_to_tuple</span><span class="p">(</span><span class="n">odims</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    <span class="n">odims4</span> <span class="o">=</span> <span class="n">dim4_to_tuple</span><span class="p">(</span><span class="n">odims</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
     <span class="n">ndims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
@@ -825,7 +828,7 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">fft3</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">scale</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="idft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.idft">[docs]</a><span class="k">def</span> <span class="nf">idft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">odims</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">)):</span>
+<div class="viewcode-block" id="idft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.idft">[docs]</a><span class="k">def</span> <span class="nf">idft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">odims</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Non batched Inverse Fourier transform.</span>
 
@@ -856,7 +859,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">odims4</span> <span class="o">=</span> <span class="n">dim4_to_tuple</span><span class="p">(</span><span class="n">odims</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+    <span class="n">odims4</span> <span class="o">=</span> <span class="n">dim4_to_tuple</span><span class="p">(</span><span class="n">odims</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 
     <span class="n">dims</span> <span class="o">=</span> <span class="n">signal</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
     <span class="n">ndims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
@@ -913,7 +916,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve1</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve1</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                          <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">conv_domain</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
@@ -961,7 +964,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve2</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                          <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">conv_domain</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
@@ -991,7 +994,7 @@
 <span class="sd">          - Output of 2D sepearable convolution.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve2_sep</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve2_sep</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                              <span class="n">col_kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">row_kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span><span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                              <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
@@ -1038,7 +1041,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve3</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                          <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">conv_domain</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
@@ -1125,7 +1128,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_convolve1</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_convolve1</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                              <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
@@ -1169,7 +1172,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_convolve2</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_convolve2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                              <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
@@ -1211,7 +1214,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_convolve3</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fft_convolve3</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                              <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
@@ -1277,7 +1280,7 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fir</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_fir</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">Y</span></div>
 
 <div class="viewcode-block" id="iir"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.iir">[docs]</a><span class="k">def</span> <span class="nf">iir</span><span class="p">(</span><span class="n">B</span><span class="p">,</span> <span class="n">A</span><span class="p">,</span> <span class="n">X</span><span class="p">):</span>
@@ -1304,8 +1307,111 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">Y</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_iir</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_iir</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">B</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">Y</span></div>
+
+<div class="viewcode-block" id="medfilt"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.medfilt">[docs]</a><span class="k">def</span> <span class="nf">medfilt</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">w0</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w1</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">edge_pad</span> <span class="o">=</span> <span class="n">PAD</span><span class="o">.</span><span class="n">ZERO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply median filter for the signal.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    signal : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing a signal, or</span>
+<span class="sd">          - A multi dimensional array representing batch of signals.</span>
+
+<span class="sd">    w0 : optional: int. default: 3.</span>
+<span class="sd">          - The length of the filter along the first dimension.</span>
+
+<span class="sd">    w1 : optional: int. default: 3.</span>
+<span class="sd">          - The length of the filter along the second dimension.</span>
+
+<span class="sd">    edge_pad : optional: af.PAD. default: af.PAD.ZERO</span>
+<span class="sd">          - Flag specifying how the median at the edge should be treated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The signal after median filter is applied.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_medfilt</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                       <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w0</span><span class="p">),</span>
+                                       <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w1</span><span class="p">),</span> <span class="n">edge_pad</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="medfilt1"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.medfilt1">[docs]</a><span class="k">def</span> <span class="nf">medfilt1</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">length</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">edge_pad</span> <span class="o">=</span> <span class="n">PAD</span><span class="o">.</span><span class="n">ZERO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply median filter for the signal.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    signal : af.Array</span>
+<span class="sd">          - A 1 D arrayfire array representing a signal, or</span>
+<span class="sd">          - A multi dimensional array representing batch of signals.</span>
+
+<span class="sd">    length : optional: int. default: 3.</span>
+<span class="sd">          - The length of the filter.</span>
+
+<span class="sd">    edge_pad : optional: af.PAD. default: af.PAD.ZERO</span>
+<span class="sd">          - Flag specifying how the median at the edge should be treated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The signal after median filter is applied.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_medfilt1</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">length</span><span class="p">),</span> <span class="n">edge_pad</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="medfilt2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.medfilt2">[docs]</a><span class="k">def</span> <span class="nf">medfilt2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">w0</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">w1</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">edge_pad</span> <span class="o">=</span> <span class="n">PAD</span><span class="o">.</span><span class="n">ZERO</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply median filter for the signal.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    signal : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing a signal, or</span>
+<span class="sd">          - A multi dimensional array representing batch of signals.</span>
+
+<span class="sd">    w0 : optional: int. default: 3.</span>
+<span class="sd">          - The length of the filter along the first dimension.</span>
+
+<span class="sd">    w1 : optional: int. default: 3.</span>
+<span class="sd">          - The length of the filter along the second dimension.</span>
+
+<span class="sd">    edge_pad : optional: af.PAD. default: af.PAD.ZERO</span>
+<span class="sd">          - Flag specifying how the median at the edge should be treated.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    ---------</span>
+
+<span class="sd">    output : af.Array</span>
+<span class="sd">           - The signal after median filter is applied.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_medfilt2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                        <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w0</span><span class="p">),</span>
+                                        <span class="n">c_dim_t</span><span class="p">(</span><span class="n">w1</span><span class="p">),</span> <span class="n">edge_pad</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="set_fft_plan_cache_size"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.set_fft_plan_cache_size">[docs]</a><span class="k">def</span> <span class="nf">set_fft_plan_cache_size</span><span class="p">(</span><span class="n">cache_size</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sets plan cache size.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    cache_size : scalar</span>
+<span class="sd">        the number of plans that shall be cached</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_fft_plan_cache_size</span><span class="p">(</span><span class="n">c_size_t</span><span class="p">(</span><span class="n">cache_size</span><span class="p">)))</span></div>
 </pre></div>
 
           </div>
@@ -1342,8 +1448,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

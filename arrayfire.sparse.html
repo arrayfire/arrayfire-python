@@ -1,0 +1,417 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.sparse module &#8212; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '3.4.20160925',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-arrayfire.sparse">
+<span id="arrayfire-sparse-module"></span><h1>arrayfire.sparse module<a class="headerlink" href="#module-arrayfire.sparse" title="Permalink to this headline">¶</a></h1>
+<p>Functions to create and manipulate sparse matrices.</p>
+<dl class="function">
+<dt id="arrayfire.sparse.convert_sparse">
+<code class="descclassname">arrayfire.sparse.</code><code class="descname">convert_sparse</code><span class="sig-paren">(</span><em>sparse</em>, <em>storage</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/sparse.html#convert_sparse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.sparse.convert_sparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert sparse matrix from one format to another.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>storage</strong> : arrayfire.STORAGE.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Sparse matrix converted to the appropriate type.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.sparse.convert_sparse_to_dense">
+<code class="descclassname">arrayfire.sparse.</code><code class="descname">convert_sparse_to_dense</code><span class="sig-paren">(</span><em>sparse</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/sparse.html#convert_sparse_to_dense"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.sparse.convert_sparse_to_dense" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a dense matrix from a sparse matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sparse</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A sparse matrix.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A dense matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.sparse.create_sparse">
+<code class="descclassname">arrayfire.sparse.</code><code class="descname">create_sparse</code><span class="sig-paren">(</span><em>values</em>, <em>row_idx</em>, <em>col_idx</em>, <em>nrows</em>, <em>ncols</em>, <em>storage=&lt;STORAGE.CSR: 1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/sparse.html#create_sparse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.sparse.create_sparse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a sparse matrix from it&#8217;s constituent parts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Contains the non zero elements of the sparse array.</li>
+</ul>
+</div></blockquote>
+<p><strong>row_idx</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Contains row indices of the sparse array.</li>
+</ul>
+</div></blockquote>
+<p><strong>col_idx</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Contains column indices of the sparse array.</li>
+</ul>
+</div></blockquote>
+<p><strong>nrows</strong> : int.</p>
+<blockquote>
+<div><ul class="simple">
+<li>specifies the number of rows in sparse matrix.</li>
+</ul>
+</div></blockquote>
+<p><strong>ncols</strong> : int.</p>
+<blockquote>
+<div><ul class="simple">
+<li>specifies the number of columns in sparse matrix.</li>
+</ul>
+</div></blockquote>
+<p><strong>storage</strong> : optional: arrayfire.STORAGE. default: arrayfire.STORAGE.CSR.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Can be one of arrayfire.STORAGE.CSR, arrayfire.STORAGE.COO.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A sparse matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.sparse.create_sparse_from_dense">
+<code class="descclassname">arrayfire.sparse.</code><code class="descname">create_sparse_from_dense</code><span class="sig-paren">(</span><em>dense</em>, <em>storage=&lt;STORAGE.CSR: 1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/sparse.html#create_sparse_from_dense"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.sparse.create_sparse_from_dense" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a sparse matrix from a dense matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dense</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A dense matrix.</li>
+</ul>
+</div></blockquote>
+<p><strong>storage</strong> : optional: arrayfire.STORAGE. default: arrayfire.STORAGE.CSR.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Can be one of arrayfire.STORAGE.CSR, arrayfire.STORAGE.COO.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A sparse matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.sparse.create_sparse_from_host">
+<code class="descclassname">arrayfire.sparse.</code><code class="descname">create_sparse_from_host</code><span class="sig-paren">(</span><em>values</em>, <em>row_idx</em>, <em>col_idx</em>, <em>nrows</em>, <em>ncols</em>, <em>storage=&lt;STORAGE.CSR: 1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/sparse.html#create_sparse_from_host"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.sparse.create_sparse_from_host" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a sparse matrix from it&#8217;s constituent parts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values</strong> : Any datatype that can be converted to array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Contains the non zero elements of the sparse array.</li>
+</ul>
+</div></blockquote>
+<p><strong>row_idx</strong> : Any datatype that can be converted to array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Contains row indices of the sparse array.</li>
+</ul>
+</div></blockquote>
+<p><strong>col_idx</strong> : Any datatype that can be converted to array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Contains column indices of the sparse array.</li>
+</ul>
+</div></blockquote>
+<p><strong>nrows</strong> : int.</p>
+<blockquote>
+<div><ul class="simple">
+<li>specifies the number of rows in sparse matrix.</li>
+</ul>
+</div></blockquote>
+<p><strong>ncols</strong> : int.</p>
+<blockquote>
+<div><ul class="simple">
+<li>specifies the number of columns in sparse matrix.</li>
+</ul>
+</div></blockquote>
+<p><strong>storage</strong> : optional: arrayfire.STORAGE. default: arrayfire.STORAGE.CSR.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Can be one of arrayfire.STORAGE.CSR, arrayfire.STORAGE.COO.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A sparse matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.sparse.sparse_get_col_idx">
+<code class="descclassname">arrayfire.sparse.</code><code class="descname">sparse_get_col_idx</code><span class="sig-paren">(</span><em>sparse</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/sparse.html#sparse_get_col_idx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.sparse.sparse_get_col_idx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the column indices from sparse matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sparse</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A sparse matrix.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">arrayfire array containing the non zero elements.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.sparse.sparse_get_info">
+<code class="descclassname">arrayfire.sparse.</code><code class="descname">sparse_get_info</code><span class="sig-paren">(</span><em>sparse</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/sparse.html#sparse_get_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.sparse.sparse_get_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the constituent arrays and storage info from a sparse matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sparse</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A sparse matrix.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(values, row_idx, col_idx, storage) where</p>
+<p><strong>values</strong> : arrayfire.Array containing non zero elements from sparse matrix</p>
+<p><strong>row_idx</strong> : arrayfire.Array containing the row indices</p>
+<p><strong>col_idx</strong> : arrayfire.Array containing the column indices</p>
+<p class="last"><strong>storage</strong> : sparse storage</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.sparse.sparse_get_nnz">
+<code class="descclassname">arrayfire.sparse.</code><code class="descname">sparse_get_nnz</code><span class="sig-paren">(</span><em>sparse</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/sparse.html#sparse_get_nnz"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.sparse.sparse_get_nnz" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the column indices from sparse matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sparse</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A sparse matrix.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Number of non zero elements in the sparse matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.sparse.sparse_get_row_idx">
+<code class="descclassname">arrayfire.sparse.</code><code class="descname">sparse_get_row_idx</code><span class="sig-paren">(</span><em>sparse</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/sparse.html#sparse_get_row_idx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.sparse.sparse_get_row_idx" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the row indices from sparse matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sparse</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A sparse matrix.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">arrayfire array containing the non zero elements.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.sparse.sparse_get_storage">
+<code class="descclassname">arrayfire.sparse.</code><code class="descname">sparse_get_storage</code><span class="sig-paren">(</span><em>sparse</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/sparse.html#sparse_get_storage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.sparse.sparse_get_storage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the column indices from sparse matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sparse</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A sparse matrix.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Number of non zero elements in the sparse matrix.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.sparse.sparse_get_values">
+<code class="descclassname">arrayfire.sparse.</code><code class="descname">sparse_get_values</code><span class="sig-paren">(</span><em>sparse</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/sparse.html#sparse_get_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.sparse.sparse_get_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the non zero values from sparse matrix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>sparse</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A sparse matrix.</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">arrayfire array containing the non zero elements.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="index.html">
+              <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/arrayfire.sparse.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/arrayfire.sparse.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

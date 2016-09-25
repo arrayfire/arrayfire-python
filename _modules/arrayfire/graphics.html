@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.graphics &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.graphics &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,11 +28,14 @@
     <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -53,20 +56,20 @@
 <span class="sd">Graphics functions (plot, image, etc).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">_is_number</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">_is_number</span>
 
 <span class="k">class</span> <span class="nc">_Cell</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">Structure</span><span class="p">):</span>
-    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-                <span class="p">(</span><span class="s2">&quot;col&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">),</span>
-                <span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">),</span>
-                <span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">)]</span>
+    <span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;col&quot;</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="n">c_char_ptr_t</span><span class="p">),</span>
+                <span class="p">(</span><span class="s2">&quot;cmap&quot;</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">)]</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">cmap</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="n">r</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">c</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">c_char_ptr_t</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cmap</span> <span class="o">=</span> <span class="n">cmap</span><span class="o">.</span><span class="n">value</span>
 
 <div class="viewcode-block" id="Window"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window">[docs]</a><span class="k">class</span> <span class="nc">Window</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -90,18 +93,18 @@
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">1280</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="mi">720</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;ArrayFire&quot;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_r</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_c</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span> <span class="o">=</span> <span class="n">COLORMAP</span><span class="o">.</span><span class="n">DEFAULT</span>
 
-        <span class="n">_width</span>  <span class="o">=</span> <span class="mi">1280</span> <span class="k">if</span>  <span class="n">width</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span>  <span class="n">width</span>
-        <span class="n">_height</span> <span class="o">=</span>  <span class="mi">720</span> <span class="k">if</span> <span class="n">height</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">height</span>
-        <span class="n">_title</span>  <span class="o">=</span> <span class="s2">&quot;ArrayFire&quot;</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="bp">None</span> <span class="k">else</span> <span class="n">title</span>
+        <span class="n">_width</span>  <span class="o">=</span> <span class="mi">1280</span> <span class="k">if</span>  <span class="n">width</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span>  <span class="n">width</span>
+        <span class="n">_height</span> <span class="o">=</span>  <span class="mi">720</span> <span class="k">if</span> <span class="n">height</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">height</span>
+        <span class="n">_title</span>  <span class="o">=</span> <span class="s2">&quot;ArrayFire&quot;</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">title</span>
 
         <span class="n">_title</span> <span class="o">=</span> <span class="n">_title</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">)</span>
 
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_window</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">),</span>
-                                                 <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">_width</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">_height</span><span class="p">),</span>
-                                                 <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="n">_title</span><span class="p">)))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_window</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">),</span>
+                                                 <span class="n">c_int_t</span><span class="p">(</span><span class="n">_width</span><span class="p">),</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">_height</span><span class="p">),</span>
+                                                 <span class="n">c_char_ptr_t</span><span class="p">(</span><span class="n">_title</span><span class="p">)))</span>
 
     <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -123,7 +126,7 @@
 <span class="sd">            Pixel offset from top</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_position</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span></div>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_position</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">y</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="Window.set_title"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.set_title">[docs]</a>    <span class="k">def</span> <span class="nf">set_title</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -165,7 +168,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_size</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span><span class="p">))</span></div>
 
-<div class="viewcode-block" id="Window.image"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.image">[docs]</a>    <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Window.image"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.image">[docs]</a>    <span class="k">def</span> <span class="nf">image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">img</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Display an arrayfire array as an image.</span>
 
@@ -180,11 +183,11 @@
 <span class="sd">             Title used for the image.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_image</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">img</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="Window.scatter"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.scatter">[docs]</a>    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">MARKER</span><span class="o">.</span><span class="n">POINT</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Window.scatter"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.scatter">[docs]</a>    <span class="k">def</span> <span class="nf">scatter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">points</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">MARKER</span><span class="o">.</span><span class="n">POINT</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Renders input arrays as 2D scatter plot.</span>
+<span class="sd">        Renders input arrays as 2D or 3D scatter plot.</span>
 
 <span class="sd">        Paramters</span>
 <span class="sd">        ---------</span>
@@ -194,6 +197,14 @@
 
 <span class="sd">        Y: af.Array.</span>
 <span class="sd">             A 1 dimensional array containing Y co-ordinates.</span>
+
+<span class="sd">        Z: optional: af.Array. default: None.</span>
+<span class="sd">             - A 1 dimensional array containing Z co-ordinates.</span>
+<span class="sd">             - Not used if line is not None</span>
+
+<span class="sd">        points: optional: af.Array. default: None.</span>
+<span class="sd">             - A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for 2D scatter plot.</span>
+<span class="sd">             - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for 3D scatter plot.</span>
 
 <span class="sd">        marker: af.MARKER</span>
 <span class="sd">             Specifies how the points look</span>
@@ -202,62 +213,199 @@
 <span class="sd">             Title used for the plot.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_scatter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
-                                                <span class="n">marker</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="Window.scatter3"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.scatter3">[docs]</a>    <span class="k">def</span> <span class="nf">scatter3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">P</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">MARKER</span><span class="o">.</span><span class="n">POINT</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">points</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Z</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_scatter_2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                           <span class="n">marker</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_scatter_3d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">Z</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                           <span class="n">marker</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_scatter_nd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">points</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">marker</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.scatter2"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.scatter2">[docs]</a>    <span class="k">def</span> <span class="nf">scatter2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">MARKER</span><span class="o">.</span><span class="n">POINT</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Renders the input array as a 2D Scatter plot.</span>
+
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        points: af.Array.</span>
+<span class="sd">             A 2 dimensional array containing (X,Y) co-ordinates.</span>
+
+<span class="sd">        marker: af.MARKER</span>
+<span class="sd">             Specifies how the points look</span>
+
+<span class="sd">        title: str.</span>
+<span class="sd">             Title used for the plot.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">numdims</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_scatter2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">points</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                 <span class="n">marker</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.scatter3"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.scatter3">[docs]</a>    <span class="k">def</span> <span class="nf">scatter3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">points</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="n">MARKER</span><span class="o">.</span><span class="n">POINT</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Renders the input array as a 3D Scatter plot.</span>
 
 <span class="sd">        Paramters</span>
 <span class="sd">        ---------</span>
 
-<span class="sd">        P: af.Array.</span>
+<span class="sd">        points: af.Array.</span>
 <span class="sd">             A 2 dimensional array containing (X,Y,Z) co-ordinates.</span>
+
+<span class="sd">        marker: af.MARKER</span>
+<span class="sd">             Specifies how the points look</span>
 
 <span class="sd">        title: str.</span>
 <span class="sd">             Title used for the plot.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">points</span><span class="o">.</span><span class="n">numdims</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
         <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_scatter3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">P</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
-                                                 <span class="n">marker</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_scatter3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">points</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                 <span class="n">marker</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+<div class="viewcode-block" id="Window.plot"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display a 2D or 3D Plot.</span>
 
-<div class="viewcode-block" id="Window.plot"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.plot">[docs]</a>    <span class="k">def</span> <span class="nf">plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        X: af.Array.</span>
+<span class="sd">             - A 1 dimensional array containing X co-ordinates.</span>
+<span class="sd">             - Not used if line is not None</span>
+
+<span class="sd">        Y: af.Array.</span>
+<span class="sd">             - A 1 dimensional array containing Y co-ordinates.</span>
+<span class="sd">             - Not used if line is not None</span>
+
+<span class="sd">        Z: optional: af.Array. default: None.</span>
+<span class="sd">             - A 1 dimensional array containing Z co-ordinates.</span>
+<span class="sd">             - Not used if line is not None</span>
+
+<span class="sd">        line: optional: af.Array. default: None.</span>
+<span class="sd">             - A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for plotting 2D lines.</span>
+<span class="sd">             - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</span>
+
+<span class="sd">        title: str.</span>
+<span class="sd">             Title used for the plot.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+
+<span class="sd">        The line parameter takes precedence.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Z</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_plot_2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_plot_3d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">Z</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_plot_nd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.plot2"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.plot2">[docs]</a>    <span class="k">def</span> <span class="nf">plot2</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Display a 2D Plot.</span>
 
 <span class="sd">        Paramters</span>
 <span class="sd">        ---------</span>
 
-<span class="sd">        X: af.Array.</span>
-<span class="sd">             A 1 dimensional array containing X co-ordinates.</span>
-
-<span class="sd">        Y: af.Array.</span>
-<span class="sd">             A 1 dimensional array containing Y co-ordinates.</span>
+<span class="sd">        line: af.Array.</span>
+<span class="sd">             - A 2 dimensional array of size [n 2]. Each column denotes X, and Y co-ordinates for plotting 2D lines.</span>
 
 <span class="sd">        title: str.</span>
 <span class="sd">             Title used for the plot.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">Y</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="Window.plot3"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.plot3">[docs]</a>    <span class="k">def</span> <span class="nf">plot3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">assert</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">numdims</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_plot_nd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.plot3"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.plot3">[docs]</a>    <span class="k">def</span> <span class="nf">plot3</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">Z</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Renders the input array as a 3D line plot.</span>
+<span class="sd">        Display a 3D Plot.</span>
 
 <span class="sd">        Paramters</span>
 <span class="sd">        ---------</span>
 
 <span class="sd">        line: af.Array.</span>
-<span class="sd">             A 2 dimensional array containing (X,Y,Z) co-ordinates.</span>
+<span class="sd">             - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</span>
 
 <span class="sd">        title: str.</span>
 <span class="sd">             Title used for the plot.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_plot3</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="Window.surface"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.surface">[docs]</a>    <span class="k">def</span> <span class="nf">surface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">z_vals</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">numdims</span><span class="p">()</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_plot_nd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">line</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.vector_field"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.vector_field">[docs]</a>    <span class="k">def</span> <span class="nf">vector_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xpoints</span><span class="p">,</span> <span class="n">xdirs</span><span class="p">,</span> <span class="n">ypoints</span><span class="p">,</span> <span class="n">ydirs</span><span class="p">,</span> <span class="n">zpoints</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zdirs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                     <span class="n">points</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dirs</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Display a 2D or 3D Vector_Field.</span>
+
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        xpoints : af.Array.</span>
+<span class="sd">                 - A 1 dimensional array containing X co-ordinates.</span>
+<span class="sd">                 - Not used if points is not None</span>
+
+<span class="sd">        xdirs   : af.Array.</span>
+<span class="sd">                 - A 1 dimensional array specifying direction at current location.</span>
+<span class="sd">                 - Not used if dirs is not None</span>
+
+<span class="sd">        ypoints : af.Array.</span>
+<span class="sd">                 - A 1 dimensional array containing Y co-ordinates.</span>
+<span class="sd">                 - Not used if points is not None</span>
+
+<span class="sd">        ydirs   : af.Array.</span>
+<span class="sd">                 - A 1 dimensional array specifying direction at current location.</span>
+<span class="sd">                 - Not used if dirs is not None</span>
+
+<span class="sd">        zpoints : optional: af.Array. default: None.</span>
+<span class="sd">                 - A 1 dimensional array containing Z co-ordinates.</span>
+<span class="sd">                 - Not used if points is not None</span>
+
+<span class="sd">        zdirs   : optional: af.Array. default: none.</span>
+<span class="sd">                 - A 1 dimensional array specifying direction at current location.</span>
+<span class="sd">                 - Not used if dirs is not None</span>
+
+<span class="sd">        points  : optional: af.Array. default: None.</span>
+<span class="sd">             - A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for plotting 2D lines.</span>
+<span class="sd">             - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</span>
+
+<span class="sd">        dirs    : optional: af.Array. default: None.</span>
+<span class="sd">             - A 2 dimensional array of size [n 2]. Each column denotes X and Y directions for plotting 2D lines.</span>
+<span class="sd">             - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z directions for plotting 3D lines.</span>
+
+<span class="sd">        title   : str.</span>
+<span class="sd">             Title used for the plot.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+
+<span class="sd">        The line parameter takes precedence.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">line</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Z</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_vector_field_2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span>
+                                                                <span class="n">xpoints</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ypoints</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                                <span class="n">xdirs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ydirs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                                <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_vector_field_2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span>
+                                                                <span class="n">xpoints</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ypoints</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">zpoints</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                                <span class="n">xdirs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ydirs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">zdirs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                                                <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_plot_nd</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">points</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">dirs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+
+<div class="viewcode-block" id="Window.surface"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.surface">[docs]</a>    <span class="k">def</span> <span class="nf">surface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x_vals</span><span class="p">,</span> <span class="n">y_vals</span><span class="p">,</span> <span class="n">z_vals</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Renders the input array as a 3D surface plot.</span>
 
@@ -279,9 +427,9 @@
         <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
         <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_surface</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span>
                                                 <span class="n">x_vals</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">y_vals</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">z_vals</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
-                                                <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+                                                <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="Window.hist"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.hist">[docs]</a>    <span class="k">def</span> <span class="nf">hist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Window.hist"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.hist">[docs]</a>    <span class="k">def</span> <span class="nf">hist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Display a histogram Plot.</span>
 
@@ -302,8 +450,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
         <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_draw_hist</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">X</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
-                                             <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">max_val</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">min_val</span><span class="p">),</span>
-                                             <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
+                                             <span class="n">c_double_t</span><span class="p">(</span><span class="n">max_val</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">min_val</span><span class="p">),</span>
+                                             <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="Window.grid"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.grid">[docs]</a>    <span class="k">def</span> <span class="nf">grid</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -319,7 +467,7 @@
 <span class="sd">              Number of columns in the grid.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_grid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">rows</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">cols</span><span class="p">)))</span></div>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_grid</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">rows</span><span class="p">),</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">cols</span><span class="p">)))</span></div>
 
 <div class="viewcode-block" id="Window.show"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.show">[docs]</a>    <span class="k">def</span> <span class="nf">show</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -333,8 +481,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Close the window.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">tmp</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_window_closed</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">tmp</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">))</span>
+        <span class="n">tmp</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_window_closed</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">tmp</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">tmp</span></div>
 
 <div class="viewcode-block" id="Window.set_visibility"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.set_visibility">[docs]</a>    <span class="k">def</span> <span class="nf">set_visibility</span><span class="p">(</span><span class="n">is_visible</span><span class="p">):</span>
@@ -346,6 +494,52 @@
 <span class="sd">        is_visible: Flag specifying the visibility of the flag.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_visibility</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span> <span class="n">is_visible</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Window.set_axes_limits"><a class="viewcode-back" href="../../arrayfire.graphics.html#arrayfire.graphics.Window.set_axes_limits">[docs]</a>    <span class="k">def</span> <span class="nf">set_axes_limits</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">zmin</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">zmax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exact</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set axis limits.</span>
+
+<span class="sd">        Paramters</span>
+<span class="sd">        ---------</span>
+
+<span class="sd">        xmin : af.Array.</span>
+<span class="sd">              - lower limit of the x axis.</span>
+
+<span class="sd">        xmax : af.Array.</span>
+<span class="sd">              - upper limit of the x axis.</span>
+
+<span class="sd">        ymin : af.Array.</span>
+<span class="sd">              - lower limit of the y axis.</span>
+
+<span class="sd">        ymax : af.Array.</span>
+<span class="sd">              - upper limit of the y axis.</span>
+
+<span class="sd">        zmin : optional: af.Array. default: None.</span>
+<span class="sd">              - lower limit of the z axis.</span>
+
+<span class="sd">        zmax : optional: af.Array. default: None.</span>
+<span class="sd">              - upper limit of the z axis.</span>
+
+<span class="sd">        title   : str.</span>
+<span class="sd">             Title used for the plot.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+
+<span class="sd">        The line parameter takes precedence.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_cell</span> <span class="o">=</span> <span class="n">_Cell</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_c</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cmap</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">zmin</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">zmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_axes_limits_2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span>
+                                                          <span class="n">c_float_t</span><span class="p">(</span><span class="n">xmin</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">xmax</span><span class="p">),</span>
+                                                          <span class="n">c_float_t</span><span class="p">(</span><span class="n">ymin</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">ymax</span><span class="p">),</span>
+                                                          <span class="n">exact</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_set_axes_limits_2d</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_wnd</span><span class="p">,</span>
+                                                          <span class="n">c_float_t</span><span class="p">(</span><span class="n">xmin</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">xmax</span><span class="p">),</span>
+                                                          <span class="n">c_float_t</span><span class="p">(</span><span class="n">ymin</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">ymax</span><span class="p">),</span>
+                                                          <span class="n">c_float_t</span><span class="p">(</span><span class="n">zmin</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">zmax</span><span class="p">),</span>
+                                                          <span class="n">exact</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">_cell</span><span class="p">)))</span></div>
 
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -408,8 +602,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

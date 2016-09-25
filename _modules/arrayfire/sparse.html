@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>arrayfire.sparse &#8212; ArrayFire Python documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '3.4.20160925',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for arrayfire.sparse</h1><div class="highlight"><pre>
+<span></span><span class="c1">#######################################################</span>
+<span class="c1"># Copyright (c) 2015, ArrayFire</span>
+<span class="c1"># All rights reserved.</span>
+<span class="c1">#</span>
+<span class="c1"># This file is distributed under 3-clause BSD license.</span>
+<span class="c1"># The complete license agreement can be obtained at:</span>
+<span class="c1"># http://arrayfire.com/licenses/BSD-3-Clause</span>
+<span class="c1">########################################################</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Functions to create and manipulate sparse matrices.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">import</span> <span class="nn">numbers</span>
+<span class="kn">from</span> <span class="nn">.interop</span> <span class="k">import</span> <span class="n">to_array</span>
+
+<span class="n">__to_sparse_enum</span> <span class="o">=</span> <span class="p">[</span><span class="n">STORAGE</span><span class="o">.</span><span class="n">DENSE</span><span class="p">,</span>
+                    <span class="n">STORAGE</span><span class="o">.</span><span class="n">CSR</span><span class="p">,</span>
+                    <span class="n">STORAGE</span><span class="o">.</span><span class="n">CSC</span><span class="p">,</span>
+                    <span class="n">STORAGE</span><span class="o">.</span><span class="n">COO</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="create_sparse"><a class="viewcode-back" href="../../arrayfire.sparse.html#arrayfire.sparse.create_sparse">[docs]</a><span class="k">def</span> <span class="nf">create_sparse</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">storage</span> <span class="o">=</span> <span class="n">STORAGE</span><span class="o">.</span><span class="n">CSR</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a sparse matrix from it&#39;s constituent parts.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    values : af.Array.</span>
+<span class="sd">          - Contains the non zero elements of the sparse array.</span>
+
+<span class="sd">    row_idx : af.Array.</span>
+<span class="sd">          - Contains row indices of the sparse array.</span>
+
+<span class="sd">    col_idx : af.Array.</span>
+<span class="sd">          - Contains column indices of the sparse array.</span>
+
+<span class="sd">    nrows   : int.</span>
+<span class="sd">          - specifies the number of rows in sparse matrix.</span>
+
+<span class="sd">    ncols   : int.</span>
+<span class="sd">          - specifies the number of columns in sparse matrix.</span>
+
+<span class="sd">    storage : optional: arrayfire.STORAGE. default: arrayfire.STORAGE.CSR.</span>
+<span class="sd">          - Can be one of arrayfire.STORAGE.CSR, arrayfire.STORAGE.COO.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    A sparse matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">Array</span><span class="p">))</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">row_idx</span><span class="p">,</span> <span class="n">Array</span><span class="p">))</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">col_idx</span><span class="p">,</span> <span class="n">Array</span><span class="p">))</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_sparse_array</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">nrows</span><span class="p">),</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">ncols</span><span class="p">),</span>
+                                                   <span class="n">values</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">row_idx</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">col_idx</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="create_sparse_from_host"><a class="viewcode-back" href="../../arrayfire.sparse.html#arrayfire.sparse.create_sparse_from_host">[docs]</a><span class="k">def</span> <span class="nf">create_sparse_from_host</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">,</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">storage</span> <span class="o">=</span> <span class="n">STORAGE</span><span class="o">.</span><span class="n">CSR</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a sparse matrix from it&#39;s constituent parts.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    values : Any datatype that can be converted to array.</span>
+<span class="sd">          - Contains the non zero elements of the sparse array.</span>
+
+<span class="sd">    row_idx : Any datatype that can be converted to array.</span>
+<span class="sd">          - Contains row indices of the sparse array.</span>
+
+<span class="sd">    col_idx : Any datatype that can be converted to array.</span>
+<span class="sd">          - Contains column indices of the sparse array.</span>
+
+<span class="sd">    nrows   : int.</span>
+<span class="sd">          - specifies the number of rows in sparse matrix.</span>
+
+<span class="sd">    ncols   : int.</span>
+<span class="sd">          - specifies the number of columns in sparse matrix.</span>
+
+<span class="sd">    storage : optional: arrayfire.STORAGE. default: arrayfire.STORAGE.CSR.</span>
+<span class="sd">          - Can be one of arrayfire.STORAGE.CSR, arrayfire.STORAGE.COO.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    A sparse matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">create_sparse</span><span class="p">(</span><span class="n">to_array</span><span class="p">(</span><span class="n">values</span><span class="p">),</span> <span class="n">to_array</span><span class="p">(</span><span class="n">row_idx</span><span class="p">),</span> <span class="n">to_array</span><span class="p">(</span><span class="n">col_idx</span><span class="p">),</span> <span class="n">nrows</span><span class="p">,</span> <span class="n">ncols</span><span class="p">,</span> <span class="n">storage</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="create_sparse_from_dense"><a class="viewcode-back" href="../../arrayfire.sparse.html#arrayfire.sparse.create_sparse_from_dense">[docs]</a><span class="k">def</span> <span class="nf">create_sparse_from_dense</span><span class="p">(</span><span class="n">dense</span><span class="p">,</span> <span class="n">storage</span> <span class="o">=</span> <span class="n">STORAGE</span><span class="o">.</span><span class="n">CSR</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a sparse matrix from a dense matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    dense : af.Array.</span>
+<span class="sd">          - A dense matrix.</span>
+
+<span class="sd">    storage : optional: arrayfire.STORAGE. default: arrayfire.STORAGE.CSR.</span>
+<span class="sd">          - Can be one of arrayfire.STORAGE.CSR, arrayfire.STORAGE.COO.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    A sparse matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">dense</span><span class="p">,</span> <span class="n">Array</span><span class="p">))</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_sparse_array_from_dense</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">dense</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="convert_sparse_to_dense"><a class="viewcode-back" href="../../arrayfire.sparse.html#arrayfire.sparse.convert_sparse_to_dense">[docs]</a><span class="k">def</span> <span class="nf">convert_sparse_to_dense</span><span class="p">(</span><span class="n">sparse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a dense matrix from a sparse matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    sparse : af.Array.</span>
+<span class="sd">          - A sparse matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    A dense matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sparse_to_dense</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">sparse</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="sparse_get_info"><a class="viewcode-back" href="../../arrayfire.sparse.html#arrayfire.sparse.sparse_get_info">[docs]</a><span class="k">def</span> <span class="nf">sparse_get_info</span><span class="p">(</span><span class="n">sparse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the constituent arrays and storage info from a sparse matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    sparse : af.Array.</span>
+<span class="sd">           - A sparse matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    (values, row_idx, col_idx, storage) where</span>
+<span class="sd">    values : arrayfire.Array containing non zero elements from sparse matrix</span>
+<span class="sd">    row_idx : arrayfire.Array containing the row indices</span>
+<span class="sd">    col_idx : arrayfire.Array containing the column indices</span>
+<span class="sd">    storage : sparse storage</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">row_idx</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">col_idx</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">stype</span> <span class="o">=</span> <span class="n">c_int_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sparse_get_info</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">row_idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                               <span class="n">c_pointer</span><span class="p">(</span><span class="n">col_idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">stype</span><span class="p">),</span>
+                                               <span class="n">sparse</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">row_idx</span><span class="p">,</span> <span class="n">col_idx</span><span class="p">,</span> <span class="n">__to_sparse_enum</span><span class="p">[</span><span class="n">stype</span><span class="o">.</span><span class="n">value</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="sparse_get_values"><a class="viewcode-back" href="../../arrayfire.sparse.html#arrayfire.sparse.sparse_get_values">[docs]</a><span class="k">def</span> <span class="nf">sparse_get_values</span><span class="p">(</span><span class="n">sparse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the non zero values from sparse matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    sparse : af.Array.</span>
+<span class="sd">           - A sparse matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    arrayfire array containing the non zero elements.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">values</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sparse_get_values</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">sparse</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">values</span></div>
+
+<div class="viewcode-block" id="sparse_get_row_idx"><a class="viewcode-back" href="../../arrayfire.sparse.html#arrayfire.sparse.sparse_get_row_idx">[docs]</a><span class="k">def</span> <span class="nf">sparse_get_row_idx</span><span class="p">(</span><span class="n">sparse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the row indices from sparse matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    sparse : af.Array.</span>
+<span class="sd">           - A sparse matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    arrayfire array containing the non zero elements.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">row_idx</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sparse_get_row_idx</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">row_idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">sparse</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">row_idx</span></div>
+
+<div class="viewcode-block" id="sparse_get_col_idx"><a class="viewcode-back" href="../../arrayfire.sparse.html#arrayfire.sparse.sparse_get_col_idx">[docs]</a><span class="k">def</span> <span class="nf">sparse_get_col_idx</span><span class="p">(</span><span class="n">sparse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the column indices from sparse matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    sparse : af.Array.</span>
+<span class="sd">           - A sparse matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    arrayfire array containing the non zero elements.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">col_idx</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sparse_get_col_idx</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">col_idx</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">sparse</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">col_idx</span></div>
+
+<div class="viewcode-block" id="sparse_get_nnz"><a class="viewcode-back" href="../../arrayfire.sparse.html#arrayfire.sparse.sparse_get_nnz">[docs]</a><span class="k">def</span> <span class="nf">sparse_get_nnz</span><span class="p">(</span><span class="n">sparse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the column indices from sparse matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    sparse : af.Array.</span>
+<span class="sd">           - A sparse matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    Number of non zero elements in the sparse matrix.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nnz</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sparse_get_nnz</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">nnz</span><span class="p">),</span> <span class="n">sparse</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">nnz</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="sparse_get_storage"><a class="viewcode-back" href="../../arrayfire.sparse.html#arrayfire.sparse.sparse_get_storage">[docs]</a><span class="k">def</span> <span class="nf">sparse_get_storage</span><span class="p">(</span><span class="n">sparse</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get the column indices from sparse matrix.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    sparse : af.Array.</span>
+<span class="sd">           - A sparse matrix.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+<span class="sd">    Number of non zero elements in the sparse matrix.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">storage</span> <span class="o">=</span> <span class="n">c_int_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sparse_get_storage</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">storage</span><span class="p">),</span> <span class="n">sparse</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">__to_sparse_enum</span><span class="p">[</span><span class="n">storage</span><span class="o">.</span><span class="n">value</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="convert_sparse"><a class="viewcode-back" href="../../arrayfire.sparse.html#arrayfire.sparse.convert_sparse">[docs]</a><span class="k">def</span> <span class="nf">convert_sparse</span><span class="p">(</span><span class="n">sparse</span><span class="p">,</span> <span class="n">storage</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Convert sparse matrix from one format to another.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    storage : arrayfire.STORAGE.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    Sparse matrix converted to the appropriate type.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sparse_convert_to</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">sparse</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../index.html">
+              <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
+            </a></p><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Pavan Yalamanchili.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

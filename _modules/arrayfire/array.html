@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.array &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.array &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -28,11 +28,14 @@
     <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
     <link rel="up" title="Module code" href="../index.html" />
    
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -54,32 +57,32 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">inspect</span>
-<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.util</span> <span class="kn">import</span> <span class="n">_is_number</span>
-<span class="kn">from</span> <span class="nn">.bcast</span> <span class="kn">import</span> <span class="n">_bcast_var</span>
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.index</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.index</span> <span class="kn">import</span> <span class="n">_Index4</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">_is_number</span>
+<span class="kn">from</span> <span class="nn">.bcast</span> <span class="k">import</span> <span class="n">_bcast_var</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.index</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.index</span> <span class="k">import</span> <span class="n">_Index4</span>
 
 <span class="k">def</span> <span class="nf">_create_array</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">numdims</span><span class="p">,</span> <span class="n">idims</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="p">):</span>
-    <span class="n">out_arr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">out_arr</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">c_dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">idims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
     <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">is_device</span><span class="p">):</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_array</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out_arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span>
-                                                <span class="n">numdims</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">c_dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_array</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out_arr</span><span class="p">),</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span>
+                                                <span class="n">numdims</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">c_dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_device_array</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out_arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span>
-                                                <span class="n">numdims</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">c_dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_device_array</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out_arr</span><span class="p">),</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span>
+                                                <span class="n">numdims</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">c_dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out_arr</span>
 
 <span class="k">def</span> <span class="nf">_create_strided_array</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">numdims</span><span class="p">,</span> <span class="n">idims</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">strides</span><span class="p">):</span>
-    <span class="n">out_arr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">out_arr</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">c_dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">idims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-    <span class="k">if</span> <span class="n">offset</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">offset</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">offset</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">strides</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">strides</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">strides</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">idims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">idims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">idims</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">idims</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">strides</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">4</span><span class="p">:</span>
         <span class="n">strides</span> <span class="o">=</span> <span class="n">strides</span> <span class="o">+</span> <span class="p">(</span><span class="n">strides</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],)</span>
@@ -88,53 +91,53 @@
         <span class="n">location</span> <span class="o">=</span> <span class="n">Source</span><span class="o">.</span><span class="n">device</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">location</span> <span class="o">=</span> <span class="n">Source</span><span class="o">.</span><span class="n">host</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_strided_array</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out_arr</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span>
-                                                    <span class="n">offset</span><span class="p">,</span> <span class="n">numdims</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">c_dims</span><span class="p">),</span>
-                                                    <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">strides</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_strided_array</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out_arr</span><span class="p">),</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="n">buf</span><span class="p">),</span>
+                                                    <span class="n">offset</span><span class="p">,</span> <span class="n">numdims</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">c_dims</span><span class="p">),</span>
+                                                    <span class="n">c_pointer</span><span class="p">(</span><span class="n">strides</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                                     <span class="n">location</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out_arr</span>
 
 <span class="k">def</span> <span class="nf">_create_empty_array</span><span class="p">(</span><span class="n">numdims</span><span class="p">,</span> <span class="n">idims</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
-    <span class="n">out_arr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">out_arr</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">c_dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">idims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_handle</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out_arr</span><span class="p">),</span>
-                                             <span class="n">numdims</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">c_dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_handle</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out_arr</span><span class="p">),</span>
+                                             <span class="n">numdims</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">c_dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out_arr</span>
 
-<div class="viewcode-block" id="constant_array"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.constant_array">[docs]</a><span class="k">def</span> <span class="nf">constant_array</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
+<div class="viewcode-block" id="constant_array"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.constant_array">[docs]</a><span class="k">def</span> <span class="nf">constant_array</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Internal function to create a C array. Should not be used externall.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">):</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">dtype</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">Dtype</span><span class="p">):</span>
-            <span class="n">dtype</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Invalid dtype&quot;</span><span class="p">)</span>
 
-    <span class="n">out</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">d0</span><span class="p">,</span> <span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">complex</span><span class="p">):</span>
-        <span class="n">c_real</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
-        <span class="n">c_imag</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
+        <span class="n">c_real</span> <span class="o">=</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+        <span class="n">c_imag</span> <span class="o">=</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="o">.</span><span class="n">value</span> <span class="ow">and</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span> <span class="o">!=</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="o">.</span><span class="n">value</span><span class="p">):</span>
             <span class="n">dtype</span> <span class="o">=</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="o">.</span><span class="n">value</span>
 
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_constant_complex</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="n">c_real</span><span class="p">,</span> <span class="n">c_imag</span><span class="p">,</span>
-                                                    <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dtype</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_constant_complex</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="n">c_real</span><span class="p">,</span> <span class="n">c_imag</span><span class="p">,</span>
+                                                    <span class="mi">4</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dtype</span><span class="p">))</span>
     <span class="k">elif</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
-        <span class="n">c_val</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_longlong</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_constant_long</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="n">c_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">)))</span>
+        <span class="n">c_val</span> <span class="o">=</span> <span class="n">c_longlong_t</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_constant_long</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="n">c_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">)))</span>
     <span class="k">elif</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u64</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
-        <span class="n">c_val</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_ulonglong</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_constant_ulong</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="n">c_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">)))</span>
+        <span class="n">c_val</span> <span class="o">=</span> <span class="n">c_ulonglong_t</span><span class="p">(</span><span class="n">val</span><span class="o">.</span><span class="n">real</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_constant_ulong</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="n">c_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">)))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">c_val</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_double</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_constant</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="n">c_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dtype</span><span class="p">))</span>
+        <span class="n">c_val</span> <span class="o">=</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_constant</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="p">),</span> <span class="n">c_val</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dims</span><span class="p">),</span> <span class="n">dtype</span><span class="p">))</span>
 
     <span class="k">return</span> <span class="n">out</span></div>
 
@@ -151,7 +154,7 @@
     <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">rhs</span><span class="p">,</span> <span class="n">Array</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Invalid parameter to binary function&quot;</span><span class="p">)</span>
 
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">()))</span>
 
     <span class="k">return</span> <span class="n">out</span>
 
@@ -167,7 +170,7 @@
     <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">Array</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Invalid parameter to binary function&quot;</span><span class="p">)</span>
 
-    <span class="n">c_func</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">other</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+    <span class="n">c_func</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">other</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">_bcast_var</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
     <span class="k">return</span> <span class="n">out</span>
 
@@ -185,17 +188,17 @@
 <span class="k">def</span> <span class="nf">_slice_to_length</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">dim</span><span class="p">):</span>
     <span class="n">tkey</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">stop</span><span class="p">,</span> <span class="n">key</span><span class="o">.</span><span class="n">step</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">tkey</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="k">elif</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">tkey</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">dim</span> <span class="o">-</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">tkey</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dim</span>
     <span class="k">elif</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">tkey</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dim</span> <span class="o">-</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">tkey</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
 
     <span class="k">return</span> <span class="nb">int</span><span class="p">(((</span><span class="n">tkey</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">tkey</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
@@ -220,10 +223,7 @@
 
 
 <span class="k">def</span> <span class="nf">_get_indices</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-
-    <span class="n">S</span> <span class="o">=</span> <span class="n">Index</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="bp">None</span><span class="p">))</span>
-    <span class="n">inds</span> <span class="o">=</span> <span class="n">_Index4</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
-
+    <span class="n">inds</span> <span class="o">=</span> <span class="n">_Index4</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
         <span class="n">n_idx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_idx</span><span class="p">):</span>
@@ -280,7 +280,7 @@
         <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="s2">&quot;Invalid type while assigning to arrayfire.array&quot;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="transpose"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.transpose">[docs]</a><span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">conj</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="transpose"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.transpose">[docs]</a><span class="k">def</span> <span class="nf">transpose</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">conj</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform the transpose on an input.</span>
 
@@ -299,10 +299,10 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_transpose</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">conj</span><span class="p">))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_transpose</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">conj</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="transpose_inplace"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.transpose_inplace">[docs]</a><span class="k">def</span> <span class="nf">transpose_inplace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">conj</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="transpose_inplace"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.transpose_inplace">[docs]</a><span class="k">def</span> <span class="nf">transpose_inplace</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">conj</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Perform inplace transpose on an input.</span>
 
@@ -350,6 +350,7 @@
 <span class="sd">               - &#39;L&#39; for unsigned 64 bit integer</span>
 <span class="sd">               - &#39;F&#39; for 32 bit complex number</span>
 <span class="sd">               - &#39;D&#39; for 64 bit complex number</span>
+
 <span class="sd">           - if arrayfire.Dtype, must be one of the following:</span>
 <span class="sd">               - Dtype.f32 for float</span>
 <span class="sd">               - Dtype.f64 for double</span>
@@ -363,6 +364,7 @@
 <span class="sd">               - Dtype.u64 for unsigned 64 bit integer</span>
 <span class="sd">               - Dtype.c32 for 32 bit complex number</span>
 <span class="sd">               - Dtype.c64 for 64 bit complex number</span>
+
 <span class="sd">            - if None, Dtype.f32 is assumed</span>
 
 <span class="sd">    Attributes</span>
@@ -425,27 +427,27 @@
     <span class="c1"># arrayfire&#39;s __radd__() instead of numpy&#39;s __add__()</span>
     <span class="n">__array_priority__</span> <span class="o">=</span> <span class="mi">30</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
         <span class="nb">super</span><span class="p">(</span><span class="n">Array</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
 
-        <span class="n">buf</span><span class="o">=</span><span class="bp">None</span>
+        <span class="n">buf</span><span class="o">=</span><span class="kc">None</span>
         <span class="n">buf_len</span><span class="o">=</span><span class="mi">0</span>
 
-        <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
                 <span class="n">type_char</span> <span class="o">=</span> <span class="n">dtype</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">type_char</span> <span class="o">=</span> <span class="n">to_typecode</span><span class="p">[</span><span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">type_char</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="n">type_char</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="n">_type_char</span><span class="o">=</span><span class="s1">&#39;f&#39;</span>
 
-        <span class="k">if</span> <span class="n">src</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">src</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 
             <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">Array</span><span class="p">)):</span>
-                <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_retain_array</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">src</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+                <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_retain_array</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">src</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
                 <span class="k">return</span>
 
             <span class="n">host</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;array&quot;</span><span class="p">)</span>
@@ -459,8 +461,8 @@
                 <span class="n">buf</span><span class="p">,</span><span class="n">buf_len</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">buffer_info</span><span class="p">()</span>
                 <span class="n">_type_char</span> <span class="o">=</span> <span class="n">tmp</span><span class="o">.</span><span class="n">typecode</span>
                 <span class="n">numdims</span><span class="p">,</span> <span class="n">idims</span> <span class="o">=</span> <span class="n">_get_info</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">buf_len</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">):</span>
-                <span class="n">buf</span> <span class="o">=</span> <span class="n">src</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">)</span> <span class="k">else</span> <span class="n">src</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">c_void_ptr_t</span><span class="p">):</span>
+                <span class="n">buf</span> <span class="o">=</span> <span class="n">src</span> <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">c_void_ptr_t</span><span class="p">)</span> <span class="k">else</span> <span class="n">src</span><span class="o">.</span><span class="n">value</span>
 
                 <span class="n">numdims</span><span class="p">,</span> <span class="n">idims</span> <span class="o">=</span> <span class="n">_get_info</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">buf_len</span><span class="p">)</span>
 
@@ -471,7 +473,7 @@
                 <span class="k">if</span> <span class="p">(</span><span class="n">elements</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Expected dims when src is data pointer&quot;</span><span class="p">)</span>
 
-                <span class="k">if</span> <span class="p">(</span><span class="n">type_char</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">type_char</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
                     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Expected type_char when src is data pointer&quot;</span><span class="p">)</span>
 
                 <span class="n">_type_char</span> <span class="o">=</span> <span class="n">type_char</span>
@@ -479,17 +481,17 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;src is an object of unsupported class&quot;</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="p">(</span><span class="n">type_char</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">type_char</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span>
                 <span class="n">type_char</span> <span class="o">!=</span> <span class="n">_type_char</span><span class="p">):</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;Can not create array of requested type from input data type&quot;</span><span class="p">)</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">offset</span> <span class="ow">is</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">strides</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">):</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">offset</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">strides</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">arr</span> <span class="o">=</span> <span class="n">_create_array</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">numdims</span><span class="p">,</span> <span class="n">idims</span><span class="p">,</span> <span class="n">to_dtype</span><span class="p">[</span><span class="n">_type_char</span><span class="p">],</span> <span class="n">is_device</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">arr</span> <span class="o">=</span> <span class="n">_create_strided_array</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">numdims</span><span class="p">,</span> <span class="n">idims</span><span class="p">,</span> <span class="n">to_dtype</span><span class="p">[</span><span class="n">_type_char</span><span class="p">],</span> <span class="n">is_device</span><span class="p">,</span> <span class="n">offset</span><span class="p">,</span> <span class="n">strides</span><span class="p">)</span>
 
         <span class="k">else</span><span class="p">:</span>
 
-            <span class="k">if</span> <span class="n">type_char</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">type_char</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">type_char</span> <span class="o">=</span> <span class="s1">&#39;f&#39;</span>
 
             <span class="n">numdims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
@@ -518,7 +520,7 @@
 <span class="sd">             An identical copy of self.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_copy_array</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_copy_array</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">out</span></div>
 
     <span class="k">def</span> <span class="nf">__del__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -545,8 +547,8 @@
 <span class="sd">        - A copy of the memory is done if multiple arrays share the same memory or the array is not the owner of the memory.</span>
 <span class="sd">        - In case of a copy the return value points to the newly allocated memory which is now exclusively owned by the array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ptr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_device_ptr</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">ptr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">)</span>
+        <span class="n">ptr</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_device_ptr</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">ptr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ptr</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.raw_ptr"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.raw_ptr">[docs]</a>    <span class="k">def</span> <span class="nf">raw_ptr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -566,8 +568,8 @@
 <span class="sd">        - In particular the JIT compiler will not be aware of the shared arrays.</span>
 <span class="sd">        - This results in JITed operations not being immediately visible through the other array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ptr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_raw_ptr</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">ptr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">)</span>
+        <span class="n">ptr</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_raw_ptr</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">ptr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">ptr</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.offset"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.offset">[docs]</a>    <span class="k">def</span> <span class="nf">offset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -580,7 +582,7 @@
 <span class="sd">                 The offset in number of elements</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_offset</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">offset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_offset</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">offset</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">offset</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.strides"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.strides">[docs]</a>    <span class="k">def</span> <span class="nf">strides</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -596,8 +598,8 @@
         <span class="n">s1</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">s2</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">s3</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_strides</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">s0</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span>
-                                   <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">s2</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">s3</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_strides</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">s0</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">s1</span><span class="p">),</span>
+                                   <span class="n">c_pointer</span><span class="p">(</span><span class="n">s2</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">s3</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="n">strides</span> <span class="o">=</span> <span class="p">(</span><span class="n">s0</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">s1</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">s2</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">s3</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">strides</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">numdims</span><span class="p">()]</span></div>
 
@@ -606,15 +608,15 @@
 <span class="sd">        Return the number of elements in the array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">num</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_elements</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_elements</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.dtype"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the data type as a arrayfire.Dtype enum value.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">dty</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_type</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">dty</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">dty</span> <span class="o">=</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_type</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">dty</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">to_dtype</span><span class="p">[</span><span class="n">to_typecode</span><span class="p">[</span><span class="n">dty</span><span class="o">.</span><span class="n">value</span><span class="p">]]</span></div>
 
 <div class="viewcode-block" id="Array.type"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.type">[docs]</a>    <span class="k">def</span> <span class="nf">type</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -628,14 +630,14 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the transpose of the array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">H</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the hermitian transpose of the array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Array.dims"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.dims">[docs]</a>    <span class="k">def</span> <span class="nf">dims</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -645,8 +647,8 @@
         <span class="n">d1</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">d2</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">d3</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_dims</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">d0</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">d1</span><span class="p">),</span>
-                                   <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">d2</span><span class="p">),</span> <span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">d3</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_dims</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">d0</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">d1</span><span class="p">),</span>
+                                   <span class="n">c_pointer</span><span class="p">(</span><span class="n">d2</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">d3</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="n">dims</span> <span class="o">=</span> <span class="p">(</span><span class="n">d0</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">d1</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">d2</span><span class="o">.</span><span class="n">value</span><span class="p">,</span><span class="n">d3</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dims</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">numdims</span><span class="p">()]</span></div>
 
@@ -661,40 +663,40 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the number of dimensions of the array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">nd</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_uint</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_numdims</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">nd</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">nd</span> <span class="o">=</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_numdims</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">nd</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">nd</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_empty"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_empty">[docs]</a>    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is empty i.e. it has no elements.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_empty</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_empty</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_scalar"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_scalar">[docs]</a>    <span class="k">def</span> <span class="nf">is_scalar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is scalar i.e. it has only one element.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_scalar</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_scalar</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_row"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_row">[docs]</a>    <span class="k">def</span> <span class="nf">is_row</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is a row i.e. it has a shape of (1, cols).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_row</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_row</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_column"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_column">[docs]</a>    <span class="k">def</span> <span class="nf">is_column</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is a column i.e. it has a shape of (rows, 1).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_column</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_column</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_vector"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_vector">[docs]</a>    <span class="k">def</span> <span class="nf">is_vector</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -705,88 +707,96 @@
 <span class="sd">        - (1, 1, vols)</span>
 <span class="sd">        - (1, 1, 1, batch)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_vector</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_vector</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="Array.is_sparse"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_sparse">[docs]</a>    <span class="k">def</span> <span class="nf">is_sparse</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check if the array is a sparse matrix.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_sparse</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_complex"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_complex">[docs]</a>    <span class="k">def</span> <span class="nf">is_complex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is of complex type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_complex</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_complex</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_real"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_real">[docs]</a>    <span class="k">def</span> <span class="nf">is_real</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is not of complex type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_real</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_real</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_double"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_double">[docs]</a>    <span class="k">def</span> <span class="nf">is_double</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is of double precision floating point type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_double</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_double</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_single"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_single">[docs]</a>    <span class="k">def</span> <span class="nf">is_single</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is of single precision floating point type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_single</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_single</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_real_floating"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_real_floating">[docs]</a>    <span class="k">def</span> <span class="nf">is_real_floating</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is real and of floating point type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_realfloating</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_realfloating</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_floating"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_floating">[docs]</a>    <span class="k">def</span> <span class="nf">is_floating</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is of floating point type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_floating</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_floating</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_integer"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_integer">[docs]</a>    <span class="k">def</span> <span class="nf">is_integer</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is of integer type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_integer</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_integer</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_bool"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_bool">[docs]</a>    <span class="k">def</span> <span class="nf">is_bool</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array is of type b8.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_bool</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_bool</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_linear"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_linear">[docs]</a>    <span class="k">def</span> <span class="nf">is_linear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if all elements of the array are contiguous.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_linear</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_linear</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.is_owner"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.is_owner">[docs]</a>    <span class="k">def</span> <span class="nf">is_owner</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Check if the array owns the raw pointer or is a derived array.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_bool</span><span class="p">(</span><span class="bp">False</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_owner</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_is_owner</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
 
     <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -1067,7 +1077,7 @@
 
             <span class="n">inds</span> <span class="o">=</span> <span class="n">_get_indices</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_index_gen</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_index_gen</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                     <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">n_dims</span><span class="p">),</span> <span class="n">inds</span><span class="o">.</span><span class="n">pointer</span><span class="p">))</span>
             <span class="k">return</span> <span class="n">out</span>
         <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -1100,15 +1110,15 @@
                     <span class="n">other_arr</span> <span class="o">=</span> <span class="n">constant_array</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">())</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">other_arr</span> <span class="o">=</span> <span class="n">constant_array</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">tdims</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">,</span> <span class="n">tdims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">tdims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">tdims</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">())</span>
-                <span class="n">del_other</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">del_other</span> <span class="o">=</span> <span class="kc">True</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">other_arr</span> <span class="o">=</span> <span class="n">val</span><span class="o">.</span><span class="n">arr</span>
-                <span class="n">del_other</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="n">del_other</span> <span class="o">=</span> <span class="kc">False</span>
 
-            <span class="n">out_arr</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">out_arr</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
             <span class="n">inds</span>  <span class="o">=</span> <span class="n">_get_indices</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_assign_gen</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out_arr</span><span class="p">),</span>
+            <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_assign_gen</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out_arr</span><span class="p">),</span>
                                                   <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">n_dims</span><span class="p">),</span> <span class="n">inds</span><span class="o">.</span><span class="n">pointer</span><span class="p">,</span>
                                                   <span class="n">other_arr</span><span class="p">))</span>
             <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_release_array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
@@ -1119,7 +1129,7 @@
         <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">))</span>
 
-<div class="viewcode-block" id="Array.to_ctype"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.to_ctype">[docs]</a>    <span class="k">def</span> <span class="nf">to_ctype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_major</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">return_shape</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Array.to_ctype"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.to_ctype">[docs]</a>    <span class="k">def</span> <span class="nf">to_ctype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_major</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_shape</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the data as a ctype C array after copying to host memory</span>
 
@@ -1147,13 +1157,13 @@
         <span class="n">tmp</span> <span class="o">=</span> <span class="n">transpose</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="k">if</span> <span class="n">row_major</span> <span class="k">else</span> <span class="bp">self</span>
         <span class="n">ctype_type</span> <span class="o">=</span> <span class="n">to_c_type</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">()]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">()</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">ctype_type</span><span class="p">()</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_data_ptr</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_data_ptr</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">return_shape</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">res</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">res</span></div>
 
-<div class="viewcode-block" id="Array.to_array"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.to_array">[docs]</a>    <span class="k">def</span> <span class="nf">to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_major</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">return_shape</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Array.to_array"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.to_array">[docs]</a>    <span class="k">def</span> <span class="nf">to_array</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_major</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">return_shape</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the data as array.array</span>
 
@@ -1188,7 +1198,7 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">host</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">h_type</span><span class="p">,</span> <span class="n">res</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Array.to_list"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.to_list">[docs]</a>    <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_major</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="Array.to_list"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.to_list">[docs]</a>    <span class="k">def</span> <span class="nf">to_list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">row_major</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return the data as list</span>
 
@@ -1210,7 +1220,7 @@
 <span class="sd">            (res, dims): list and the shape of the array</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">ct_array</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_ctype</span><span class="p">(</span><span class="n">row_major</span><span class="p">,</span> <span class="bp">True</span><span class="p">)</span>
+        <span class="n">ct_array</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_ctype</span><span class="p">(</span><span class="n">row_major</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_ctype_to_lists</span><span class="p">(</span><span class="n">ct_array</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span></div>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1222,8 +1232,8 @@
 <span class="sd">        You can also use af.display(a, pres) to display the contents of the array with better precision.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">arr_str</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_array_to_string</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">arr_str</span><span class="p">),</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="bp">True</span><span class="p">))</span>
+        <span class="n">arr_str</span> <span class="o">=</span> <span class="n">c_char_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_array_to_string</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">arr_str</span><span class="p">),</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
 
         <span class="k">return</span> <span class="s1">&#39;arrayfire.Array()</span><span class="se">\n</span><span class="s1">Type: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> \
             <span class="p">(</span><span class="n">to_typename</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">()])</span> <span class="o">+</span> <span class="n">to_str</span><span class="p">(</span><span class="n">arr_str</span><span class="p">)</span>
@@ -1232,9 +1242,9 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructs a numpy.array from arrayfire.Array</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+        <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
         <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">to_typecode</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">()]),</span> <span class="n">order</span><span class="o">=</span><span class="s1">&#39;F&#39;</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_data_ptr</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">c_void_p</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_data_ptr</span><span class="p">(</span><span class="n">c_void_ptr_t</span><span class="p">(</span><span class="n">res</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">res</span></div>
 
 <div class="viewcode-block" id="display"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.display">[docs]</a><span class="k">def</span> <span class="nf">display</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
@@ -1252,7 +1262,7 @@
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">expr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">expr</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
             <span class="n">st</span> <span class="o">=</span> <span class="n">expr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">en</span> <span class="o">=</span> <span class="n">expr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">expr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">st</span><span class="p">:</span><span class="n">en</span><span class="p">]</span>
@@ -1260,9 +1270,9 @@
         <span class="k">pass</span>
 
     <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_print_array_gen</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span>
-                                               <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="n">precision</span><span class="p">)))</span></div>
+                                               <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">precision</span><span class="p">)))</span></div>
 
-<div class="viewcode-block" id="save_array"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.save_array">[docs]</a><span class="k">def</span> <span class="nf">save_array</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+<div class="viewcode-block" id="save_array"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.save_array">[docs]</a><span class="k">def</span> <span class="nf">save_array</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">append</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Save an array to disk.</span>
 
@@ -1285,15 +1295,15 @@
 <span class="sd">    index   : int</span>
 <span class="sd">            The index of the array stored in the file.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">index</span> <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_int</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_save_array</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">index</span><span class="p">),</span>
+    <span class="n">index</span> <span class="o">=</span> <span class="n">c_int_t</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_save_array</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">index</span><span class="p">),</span>
                                           <span class="n">key</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span>
                                           <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                           <span class="n">filename</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span>
                                           <span class="n">append</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">index</span><span class="o">.</span><span class="n">value</span></div>
 
-<div class="viewcode-block" id="read_array"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.read_array">[docs]</a><span class="k">def</span> <span class="nf">read_array</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+<div class="viewcode-block" id="read_array"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.read_array">[docs]</a><span class="k">def</span> <span class="nf">read_array</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read an array from disk.</span>
 
@@ -1314,21 +1324,21 @@
 <span class="sd">    Returns</span>
 <span class="sd">    ---------</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span><span class="p">((</span><span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">))</span>
+    <span class="k">assert</span><span class="p">((</span><span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">))</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">):</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_read_array_index</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_read_array_index</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                                     <span class="n">filename</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span>
                                                     <span class="n">index</span><span class="p">))</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">):</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_read_array_key</span><span class="p">(</span><span class="n">ct</span><span class="o">.</span><span class="n">pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_read_array_key</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
                                                   <span class="n">filename</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span>
                                                   <span class="n">key</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)))</span>
 
     <span class="k">return</span> <span class="n">out</span></div>
 
-<span class="kn">from</span> <span class="nn">.algorithm</span> <span class="kn">import</span> <span class="p">(</span><span class="nb">sum</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
-<span class="kn">from</span> <span class="nn">.arith</span> <span class="kn">import</span> <span class="n">cast</span>
+<span class="kn">from</span> <span class="nn">.algorithm</span> <span class="k">import</span> <span class="p">(</span><span class="nb">sum</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.arith</span> <span class="k">import</span> <span class="n">cast</span>
 </pre></div>
 
           </div>
@@ -1365,8 +1375,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
     </div>
 

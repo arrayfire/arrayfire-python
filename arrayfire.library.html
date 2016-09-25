@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>arrayfire.library module &mdash; ArrayFire Python documentation</title>
+    <title>arrayfire.library module &#8212; ArrayFire Python documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -15,7 +15,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.3.20160624',
+        VERSION:     '3.4.20160925',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,11 +27,14 @@
     <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="top" title="ArrayFire Python documentation" href="index.html" />
    
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">  
+  <body role="document">
+  
 
     <div class="document">
       <div class="documentwrapper">
@@ -64,6 +67,33 @@
 <dl class="attribute">
 <dt id="arrayfire.library.BACKEND.OPENCL">
 <code class="descname">OPENCL</code><em class="property"> = &lt;BACKEND.OPENCL: 4&gt;</em><a class="headerlink" href="#arrayfire.library.BACKEND.OPENCL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.BINARYOP">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">BINARYOP</code><a class="reference internal" href="_modules/arrayfire/library.html#BINARYOP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.BINARYOP" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Binary Operators</p>
+<dl class="attribute">
+<dt id="arrayfire.library.BINARYOP.ADD">
+<code class="descname">ADD</code><em class="property"> = &lt;BINARYOP.ADD: 0&gt;</em><a class="headerlink" href="#arrayfire.library.BINARYOP.ADD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.BINARYOP.MAX">
+<code class="descname">MAX</code><em class="property"> = &lt;BINARYOP.MAX: 3&gt;</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.BINARYOP.MIN">
+<code class="descname">MIN</code><em class="property"> = &lt;BINARYOP.MIN: 2&gt;</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.BINARYOP.MUL">
+<code class="descname">MUL</code><em class="property"> = &lt;BINARYOP.MUL: 1&gt;</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MUL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -467,8 +497,23 @@
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
 <p>Interpolation method</p>
 <dl class="attribute">
+<dt id="arrayfire.library.INTERP.BICUBIC">
+<code class="descname">BICUBIC</code><em class="property"> = &lt;INTERP.BICUBIC: 7&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.BICUBIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.INTERP.BICUBIC_SPLINE">
+<code class="descname">BICUBIC_SPLINE</code><em class="property"> = &lt;INTERP.BICUBIC_SPLINE: 9&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.BICUBIC_SPLINE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="arrayfire.library.INTERP.BILINEAR">
 <code class="descname">BILINEAR</code><em class="property"> = &lt;INTERP.BILINEAR: 2&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.BILINEAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.INTERP.BILINEAR_COSINE">
+<code class="descname">BILINEAR_COSINE</code><em class="property"> = &lt;INTERP.BILINEAR_COSINE: 6&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.BILINEAR_COSINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -477,8 +522,18 @@
 <dd></dd></dl>
 
 <dl class="attribute">
+<dt id="arrayfire.library.INTERP.CUBIC_SPLINE">
+<code class="descname">CUBIC_SPLINE</code><em class="property"> = &lt;INTERP.CUBIC_SPLINE: 8&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.CUBIC_SPLINE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="arrayfire.library.INTERP.LINEAR">
 <code class="descname">LINEAR</code><em class="property"> = &lt;INTERP.LINEAR: 1&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.LINEAR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.INTERP.LINEAR_COSINE">
+<code class="descname">LINEAR_COSINE</code><em class="property"> = &lt;INTERP.LINEAR_COSINE: 5&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.LINEAR_COSINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -673,6 +728,38 @@
 </dd></dl>
 
 <dl class="class">
+<dt id="arrayfire.library.MOMENT">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MOMENT</code><a class="reference internal" href="_modules/arrayfire/library.html#MOMENT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MOMENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Image Moments types</p>
+<dl class="attribute">
+<dt id="arrayfire.library.MOMENT.FIRST_ORDER">
+<code class="descname">FIRST_ORDER</code><em class="property"> = &lt;MOMENT.FIRST_ORDER: 15&gt;</em><a class="headerlink" href="#arrayfire.library.MOMENT.FIRST_ORDER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MOMENT.M00">
+<code class="descname">M00</code><em class="property"> = &lt;MOMENT.M00: 1&gt;</em><a class="headerlink" href="#arrayfire.library.MOMENT.M00" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MOMENT.M01">
+<code class="descname">M01</code><em class="property"> = &lt;MOMENT.M01: 2&gt;</em><a class="headerlink" href="#arrayfire.library.MOMENT.M01" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MOMENT.M10">
+<code class="descname">M10</code><em class="property"> = &lt;MOMENT.M10: 4&gt;</em><a class="headerlink" href="#arrayfire.library.MOMENT.M10" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.MOMENT.M11">
+<code class="descname">M11</code><em class="property"> = &lt;MOMENT.M11: 8&gt;</em><a class="headerlink" href="#arrayfire.library.MOMENT.M11" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="arrayfire.library.NORM">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">NORM</code><a class="reference internal" href="_modules/arrayfire/library.html#NORM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.NORM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
@@ -737,6 +824,70 @@
 <dl class="attribute">
 <dt id="arrayfire.library.PAD.ZERO">
 <code class="descname">ZERO</code><em class="property"> = &lt;PAD.ZERO: 0&gt;</em><a class="headerlink" href="#arrayfire.library.PAD.ZERO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.RANDOM_ENGINE">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">RANDOM_ENGINE</code><a class="reference internal" href="_modules/arrayfire/library.html#RANDOM_ENGINE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Random engine types</p>
+<dl class="attribute">
+<dt id="arrayfire.library.RANDOM_ENGINE.DEFAULT">
+<code class="descname">DEFAULT</code><em class="property"> = &lt;RANDOM_ENGINE.PHILOX_4X32_10: 100&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.RANDOM_ENGINE.MERSENNE_GP11213">
+<code class="descname">MERSENNE_GP11213</code><em class="property"> = &lt;RANDOM_ENGINE.MERSENNE_GP11213: 300&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.MERSENNE_GP11213" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.RANDOM_ENGINE.PHILOX">
+<code class="descname">PHILOX</code><em class="property"> = &lt;RANDOM_ENGINE.PHILOX_4X32_10: 100&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.PHILOX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.RANDOM_ENGINE.PHILOX_4X32_10">
+<code class="descname">PHILOX_4X32_10</code><em class="property"> = &lt;RANDOM_ENGINE.PHILOX_4X32_10: 100&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.PHILOX_4X32_10" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.RANDOM_ENGINE.THREEFRY">
+<code class="descname">THREEFRY</code><em class="property"> = &lt;RANDOM_ENGINE.THREEFRY_2X32_16: 200&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.THREEFRY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.RANDOM_ENGINE.THREEFRY_2X32_16">
+<code class="descname">THREEFRY_2X32_16</code><em class="property"> = &lt;RANDOM_ENGINE.THREEFRY_2X32_16: 200&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.THREEFRY_2X32_16" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.STORAGE">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">STORAGE</code><a class="reference internal" href="_modules/arrayfire/library.html#STORAGE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.STORAGE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Matrix Storage types</p>
+<dl class="attribute">
+<dt id="arrayfire.library.STORAGE.COO">
+<code class="descname">COO</code><em class="property"> = &lt;STORAGE.COO: 3&gt;</em><a class="headerlink" href="#arrayfire.library.STORAGE.COO" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.STORAGE.CSC">
+<code class="descname">CSC</code><em class="property"> = &lt;STORAGE.CSC: 2&gt;</em><a class="headerlink" href="#arrayfire.library.STORAGE.CSC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.STORAGE.CSR">
+<code class="descname">CSR</code><em class="property"> = &lt;STORAGE.CSR: 1&gt;</em><a class="headerlink" href="#arrayfire.library.STORAGE.CSR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.STORAGE.DENSE">
+<code class="descname">DENSE</code><em class="property"> = &lt;STORAGE.DENSE: 0&gt;</em><a class="headerlink" href="#arrayfire.library.STORAGE.DENSE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -875,6 +1026,12 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="arrayfire.library.get_size_of">
+<code class="descclassname">arrayfire.library.</code><code class="descname">get_size_of</code><span class="sig-paren">(</span><em>dtype</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_size_of"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_size_of" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the size of the type represented by arrayfire.Dtype</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="arrayfire.library.set_backend">
 <code class="descclassname">arrayfire.library.</code><code class="descname">set_backend</code><span class="sig-paren">(</span><em>name</em>, <em>unsafe=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#set_backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.set_backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set a specific backend by name</p>
@@ -935,8 +1092,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.3</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.7</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
       
       |
       <a href="_sources/arrayfire.library.txt"
