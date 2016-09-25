@@ -59,7 +59,20 @@ class Seq(ct.Structure):
             if (S.start is not None):
                 self.begin = c_double_t(S.start)
             if (S.stop is not None):
-                self.end = c_double_t(S.stop - math.copysign(1, self.step))
+                self.end = c_double_t(S.stop)
+
+            # handle special cases
+            if self.begin >= 0 and self.end >=0 and self.end <= self.begin and self.step >= 0:
+                self.begin = 1
+                self.end   = 1
+                self.step  = 1
+            elif self.begin < 0 and self.end < 0 and self.end >= self.begin and self.step <= 0:
+                self.begin = -2
+                self.end   = -2
+                self.step  = -1
+
+            if (S.stop is not None):
+                self.end = self.end - math.copysign(1, self.step)
         else:
             raise IndexError("Invalid type while indexing arrayfire.array")
 
@@ -217,14 +230,15 @@ class Index(ct.Structure):
             arr = c_void_ptr_t(self.idx.arr)
             backend.get().af_release_array(arr)
 
+_span = Index(slice(None))
 class _Index4(object):
-    def __init__(self, idx0, idx1, idx2, idx3):
+    def __init__(self):
         index_vec = Index * 4
-        self.array = index_vec(idx0, idx1, idx2, idx3)
+        self.array = index_vec(_span, _span, _span, _span)
         # Do not lose those idx as self.array keeps
         # no reference to them. Otherwise the destructor
         # is prematurely called
-        self.idxs = [idx0,idx1,idx2,idx3]
+        self.idxs = [_span, _span, _span, _span]
     @property
     def pointer(self):
         return c_pointer(self.array)

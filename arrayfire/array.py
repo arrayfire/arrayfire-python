@@ -178,10 +178,7 @@ def _get_info(dims, buf_len):
 
 
 def _get_indices(key):
-
-    S = Index(slice(None))
-    inds = _Index4(S, S, S, S)
-
+    inds = _Index4()
     if isinstance(key, tuple):
         n_idx = len(key)
         for n in range(n_idx):
