@@ -173,54 +173,297 @@
 <dt id="arrayfire.graphics.Window.hist">
 <code class="descname">hist</code><span class="sig-paren">(</span><em>X</em>, <em>min_val</em>, <em>max_val</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.hist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.hist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a histogram Plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: af.Array.</strong></p>
+<blockquote>
+<div><p>A 1 dimensional array containing the histogram.</p>
+</div></blockquote>
+<p><strong>min_val: scalar.</strong></p>
+<blockquote>
+<div><p>A scalar value specifying the lower bound of the histogram.</p>
+</div></blockquote>
+<p><strong>max_val: scalar.</strong></p>
+<blockquote>
+<div><p>A scalar value specifying the upper bound of the histogram.</p>
+</div></blockquote>
+<p><strong>title: str.</strong></p>
+<blockquote class="last">
+<div><p>Title used for the histogram.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="arrayfire.graphics.Window.image">
 <code class="descname">image</code><span class="sig-paren">(</span><em>img</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display an arrayfire array as an image.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>img: af.Array.</strong></p>
+<blockquote>
+<div><p>A 2 dimensional array for single channel image.
+A 3 dimensional array for 3 channel image.</p>
+</div></blockquote>
+<p><strong>title: str.</strong></p>
+<blockquote class="last">
+<div><p>Title used for the image.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="arrayfire.graphics.Window.plot">
 <code class="descname">plot</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Z=None</em>, <em>line=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a 2D or 3D Plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: af.Array.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional array containing X co-ordinates.</li>
+<li>Not used if line is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>Y: af.Array.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional array containing Y co-ordinates.</li>
+<li>Not used if line is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>Z: optional: af.Array. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional array containing Z co-ordinates.</li>
+<li>Not used if line is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>line: optional: af.Array. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for plotting 2D lines.</li>
+<li>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</li>
+</ul>
+</div></blockquote>
+<p><strong>title: str.</strong></p>
+<blockquote class="last">
+<div><p>Title used for the plot.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="arrayfire.graphics.Window.plot2">
 <code class="descname">plot2</code><span class="sig-paren">(</span><em>line</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.plot2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.plot2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a 2D Plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>line: af.Array.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 dimensional array of size [n 2]. Each column denotes X, and Y co-ordinates for plotting 2D lines.</li>
+</ul>
+</div></blockquote>
+<p><strong>title: str.</strong></p>
+<blockquote class="last">
+<div><p>Title used for the plot.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="arrayfire.graphics.Window.plot3">
 <code class="descname">plot3</code><span class="sig-paren">(</span><em>X=None</em>, <em>Y=None</em>, <em>Z=None</em>, <em>line=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.plot3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.plot3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a 3D Plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>line: af.Array.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</li>
+</ul>
+</div></blockquote>
+<p><strong>title: str.</strong></p>
+<blockquote class="last">
+<div><p>Title used for the plot.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="arrayfire.graphics.Window.scatter">
 <code class="descname">scatter</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Z=None</em>, <em>points=None</em>, <em>marker=&lt;MARKER.POINT: 1&gt;</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.scatter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders input arrays as 2D or 3D scatter plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: af.Array.</strong></p>
+<blockquote>
+<div><p>A 1 dimensional array containing X co-ordinates.</p>
+</div></blockquote>
+<p><strong>Y: af.Array.</strong></p>
+<blockquote>
+<div><p>A 1 dimensional array containing Y co-ordinates.</p>
+</div></blockquote>
+<p><strong>Z: optional: af.Array. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional array containing Z co-ordinates.</li>
+<li>Not used if line is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>points: optional: af.Array. default: None.</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for 2D scatter plot.</li>
+<li>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for 3D scatter plot.</li>
+</ul>
+</div></blockquote>
+<p><strong>marker: af.MARKER</strong></p>
+<blockquote>
+<div><p>Specifies how the points look</p>
+</div></blockquote>
+<p><strong>title: str.</strong></p>
+<blockquote class="last">
+<div><p>Title used for the plot.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="arrayfire.graphics.Window.scatter2">
 <code class="descname">scatter2</code><span class="sig-paren">(</span><em>points</em>, <em>marker=&lt;MARKER.POINT: 1&gt;</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.scatter2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.scatter2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders the input array as a 2D Scatter plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>points: af.Array.</strong></p>
+<blockquote>
+<div><p>A 2 dimensional array containing (X,Y) co-ordinates.</p>
+</div></blockquote>
+<p><strong>marker: af.MARKER</strong></p>
+<blockquote>
+<div><p>Specifies how the points look</p>
+</div></blockquote>
+<p><strong>title: str.</strong></p>
+<blockquote class="last">
+<div><p>Title used for the plot.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="arrayfire.graphics.Window.scatter3">
 <code class="descname">scatter3</code><span class="sig-paren">(</span><em>points</em>, <em>marker=&lt;MARKER.POINT: 1&gt;</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.scatter3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.scatter3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders the input array as a 3D Scatter plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>points: af.Array.</strong></p>
+<blockquote>
+<div><p>A 2 dimensional array containing (X,Y,Z) co-ordinates.</p>
+</div></blockquote>
+<p><strong>marker: af.MARKER</strong></p>
+<blockquote>
+<div><p>Specifies how the points look</p>
+</div></blockquote>
+<p><strong>title: str.</strong></p>
+<blockquote class="last">
+<div><p>Title used for the plot.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="arrayfire.graphics.Window.set_axes_limits">
 <code class="descname">set_axes_limits</code><span class="sig-paren">(</span><em>xmin</em>, <em>xmax</em>, <em>ymin</em>, <em>ymax</em>, <em>zmin=None</em>, <em>zmax=None</em>, <em>exact=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_axes_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_axes_limits" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set axis limits.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xmin</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>lower limit of the x axis.</li>
+</ul>
+</div></blockquote>
+<p><strong>xmax</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>upper limit of the x axis.</li>
+</ul>
+</div></blockquote>
+<p><strong>ymin</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>lower limit of the y axis.</li>
+</ul>
+</div></blockquote>
+<p><strong>ymax</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>upper limit of the y axis.</li>
+</ul>
+</div></blockquote>
+<p><strong>zmin</strong> : optional: af.Array. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>lower limit of the z axis.</li>
+</ul>
+</div></blockquote>
+<p><strong>zmax</strong> : optional: af.Array. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>upper limit of the z axis.</li>
+</ul>
+</div></blockquote>
+<p><strong>title</strong> : str.</p>
+<blockquote class="last">
+<div><p>Title used for the plot.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -328,12 +571,104 @@
 <dt id="arrayfire.graphics.Window.surface">
 <code class="descname">surface</code><span class="sig-paren">(</span><em>x_vals</em>, <em>y_vals</em>, <em>z_vals</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.surface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders the input array as a 3D surface plot.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x_vals: af.Array.</strong></p>
+<blockquote>
+<div><p>A 1 dimensional array containing X co-ordinates.</p>
+</div></blockquote>
+<p><strong>y_vals: af.Array.</strong></p>
+<blockquote>
+<div><p>A 1 dimensional array containing Y co-ordinates.</p>
+</div></blockquote>
+<p><strong>z_vals: af.Array.</strong></p>
+<blockquote>
+<div><p>A 1 dimensional array containing Z co-ordinates.</p>
+</div></blockquote>
+<p><strong>title: str.</strong></p>
+<blockquote class="last">
+<div><p>Title used for the plot.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="arrayfire.graphics.Window.vector_field">
 <code class="descname">vector_field</code><span class="sig-paren">(</span><em>xpoints</em>, <em>xdirs</em>, <em>ypoints</em>, <em>ydirs</em>, <em>zpoints=None</em>, <em>zdirs=None</em>, <em>points=None</em>, <em>dirs=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.vector_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.vector_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a 2D or 3D Vector_Field.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xpoints</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional array containing X co-ordinates.</li>
+<li>Not used if points is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>xdirs</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional array specifying direction at current location.</li>
+<li>Not used if dirs is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>ypoints</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional array containing Y co-ordinates.</li>
+<li>Not used if points is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>ydirs</strong> : af.Array.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional array specifying direction at current location.</li>
+<li>Not used if dirs is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>zpoints</strong> : optional: af.Array. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional array containing Z co-ordinates.</li>
+<li>Not used if points is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>zdirs</strong> : optional: af.Array. default: none.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 1 dimensional array specifying direction at current location.</li>
+<li>Not used if dirs is not None</li>
+</ul>
+</div></blockquote>
+<p><strong>points</strong> : optional: af.Array. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for plotting 2D lines.</li>
+<li>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</li>
+</ul>
+</div></blockquote>
+<p><strong>dirs</strong> : optional: af.Array. default: None.</p>
+<blockquote>
+<div><ul class="simple">
+<li>A 2 dimensional array of size [n 2]. Each column denotes X and Y directions for plotting 2D lines.</li>
+<li>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z directions for plotting 3D lines.</li>
+</ul>
+</div></blockquote>
+<p><strong>title</strong> : str.</p>
+<blockquote class="last">
+<div><p>Title used for the plot.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
