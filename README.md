@@ -70,6 +70,12 @@ python setup.py install
 
 Please follow [these instructions](https://github.com/arrayfire/arrayfire-python/wiki) to ensure the arrayfire-python can find the arrayfire libraries.
 
+To run arrayfire tests, you can run the following command from command line.
+
+```
+python -m arrayfire.tests
+```
+
 ## Acknowledgements
 
 The ArrayFire library is written by developers at [ArrayFire](http://arrayfire.com) LLC

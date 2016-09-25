@@ -14,11 +14,10 @@ from setuptools import setup, find_packages
 
 #TODO:
 #1) Look for af libraries during setup
-#2) Include test suite
 
 setup(
     author="Pavan Yalamanchili",
-    author_email="pavan@arrayfire.com",
+    author_email="contact@pavanky.com",
     name="arrayfire",
     version="3.4.0",
     description="Python bindings for ArrayFire",
