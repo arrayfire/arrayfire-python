@@ -22,7 +22,7 @@ __to_sparse_enum = [STORAGE.DENSE,
                     STORAGE.COO]
 
 
-def sparse(values, row_idx, col_idx, nrows, ncols, storage = STORAGE.CSR):
+def create_sparse(values, row_idx, col_idx, nrows, ncols, storage = STORAGE.CSR):
     """
     Create a sparse matrix from it's constituent parts.
 
@@ -60,7 +60,7 @@ def sparse(values, row_idx, col_idx, nrows, ncols, storage = STORAGE.CSR):
                                                    values.arr, row_idx.arr, col_idx.arr, storage.value))
     return out
 
-def sparse_from_host(values, row_idx, col_idx, nrows, ncols, storage = STORAGE.CSR):
+def create_sparse_from_host(values, row_idx, col_idx, nrows, ncols, storage = STORAGE.CSR):
     """
     Create a sparse matrix from it's constituent parts.
 
@@ -90,9 +90,9 @@ def sparse_from_host(values, row_idx, col_idx, nrows, ncols, storage = STORAGE.C
 
     A sparse matrix.
     """
-    return sparse(to_array(values), to_array(row_idx), to_array(col_idx), nrows, ncols, storage)
+    return create_sparse(to_array(values), to_array(row_idx), to_array(col_idx), nrows, ncols, storage)
 
-def sparse_from_dense(dense, storage = STORAGE.CSR):
+def create_sparse_from_dense(dense, storage = STORAGE.CSR):
     """
     Create a sparse matrix from a dense matrix.
 
@@ -115,7 +115,7 @@ def sparse_from_dense(dense, storage = STORAGE.CSR):
     safe_call(backend.get().af_create_sparse_array_from_dense(c_pointer(out.arr), dense.arr, storage.value))
     return out
 
-def sparse_to_dense(sparse):
+def create_sparse_to_dense(sparse):
     """
     Create a dense matrix from a sparse matrix.
 

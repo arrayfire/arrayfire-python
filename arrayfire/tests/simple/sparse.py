@@ -17,7 +17,7 @@ def simple_sparse(verbose=False):
 
     dd = af.randu(5, 5)
     ds = dd * (dd > 0.5)
-    sp = af.sparse_from_dense(ds)
+    sp = af.create_sparse_from_dense(ds)
     display_func(af.sparse_get_info(sp))
     display_func(af.sparse_get_values(sp))
     display_func(af.sparse_get_row_idx(sp))
