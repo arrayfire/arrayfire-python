@@ -186,7 +186,7 @@ def get_seed():
     Get the seed for the random number generator.
 
     Returns
-    ----------
+    -------
     seed: int.
           Seed for the random number generator
     """
@@ -221,7 +221,7 @@ def get_default_random_engine():
     Get the default random engine
 
     Returns
-    ------
+    -------
 
     The default random engine used by randu and randn
     """

@@ -115,7 +115,7 @@ def create_sparse_from_dense(dense, storage = STORAGE.CSR):
     safe_call(backend.get().af_create_sparse_array_from_dense(c_pointer(out.arr), dense.arr, storage.value))
     return out
 
-def create_sparse_to_dense(sparse):
+def convert_sparse_to_dense(sparse):
     """
     Create a dense matrix from a sparse matrix.
 
@@ -256,7 +256,7 @@ def sparse_get_storage(sparse):
     safe_call(backend.get().af_sparse_get_storage(c_pointer(storage), sparse.arr))
     return __to_sparse_enum[storage.value]
 
-def sparse_convert_to(sparse, storage):
+def convert_sparse(sparse, storage):
     """
     Convert sparse matrix from one format to another.
 

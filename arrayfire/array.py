@@ -305,6 +305,7 @@ class Array(BaseArray):
                - 'L' for unsigned 64 bit integer
                - 'F' for 32 bit complex number
                - 'D' for 64 bit complex number
+
            - if arrayfire.Dtype, must be one of the following:
                - Dtype.f32 for float
                - Dtype.f64 for double
@@ -318,6 +319,7 @@ class Array(BaseArray):
                - Dtype.u64 for unsigned 64 bit integer
                - Dtype.c32 for 32 bit complex number
                - Dtype.c64 for 64 bit complex number
+
             - if None, Dtype.f32 is assumed
 
     Attributes

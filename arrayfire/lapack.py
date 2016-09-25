@@ -142,6 +142,7 @@ def cholesky(A, is_upper=True):
     (R,info): tuple of af.Array, int.
            - R - triangular matrix.
            - info - 0 if decomposition sucessful.
+
     Note
     ----
 
