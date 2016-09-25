@@ -17,6 +17,7 @@ def simple_algorithm(verbose = False):
 
     a = af.randu(3, 3)
     k = af.constant(1, 3, 3, dtype=af.Dtype.u32)
+    af.eval(k)
 
     print_func(af.sum(a), af.product(a), af.min(a), af.max(a),
                af.count(a), af.any_true(a), af.all_true(a))
