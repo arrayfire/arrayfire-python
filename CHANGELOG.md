@@ -1,3 +1,57 @@
+### v3.4.20160925
+- Feature parity with ArrayFire 3.4 libs
+
+    - [Sparse matrix support](http://arrayfire.org/arrayfire-python/arrayfire.sparse.html#module-arrayfire.sparse)
+        - `create_sparse`
+        - `create_sparse_from_dense`
+        - `create_sparse_from_host`
+        - `convert_sparse_to_dense`
+        - `convert_sparse`
+        - `sparse_get_info`
+        - `sparse_get_nnz`
+        - `sparse_get_values`
+        - `sparse_get_row_idx`
+        - `sparse_get_col_idx`
+        - `sparse_get_storage`
+
+    - [Random Engine support](http://arrayfire.org/arrayfire-python/arrayfire.random.html#module-arrayfire.random)
+        - Three new random engines, `RANDOM_ENGINE.PHILOX`, `RANDOM_ENGINE.THREEFRY`, and `RANDOM_ENGINE.MERSENNE`.
+        - `randu` and `randn` now accept an additional engine parameter.
+        - `set_default_random_engine_type`
+        - `get_default_random_engine`
+
+    - New functions
+        - [`scan`](http://arrayfire.org/arrayfire-python/arrayfire.algorithm.html?arrayfire.algorithm.scan#arrayfire.algorithm.scan)
+        - [`scan_by_key`](http://arrayfire.org/arrayfire-python/arrayfire.algorithm.html?arrayfire.algorithm.scan#arrayfire.algorithm.scan_by_key)
+        - [`clamp`](http://arrayfire.org/arrayfire-python/arrayfire.arith.html?arrayfire.arith.clamp#arrayfire.arith.clamp)
+        - [`medfilt1`](http://arrayfire.org/arrayfire-python/arrayfire.signal.html#arrayfire.signal.medfilt1)
+        - [`medfilt2`](http://arrayfire.org/arrayfire-python/arrayfire.signal.html#arrayfire.signal.medfilt2)
+        - [`moments`](http://arrayfire.org/arrayfire-python/arrayfire.image.html#arrayfire.image.moments)
+        - [`get_size_of`](http://arrayfire.org/arrayfire-python/arrayfire.library.html#arrayfire.library.get_size_of)
+        - [`get_manual_eval_flag`](http://arrayfire.org/arrayfire-python/arrayfire.device.html#arrayfire.device.get_manual_eval_flag)
+        - [`set_manual_eval_flag`](http://arrayfire.org/arrayfire-python/arrayfire.device.html#arrayfire.device.set_manual_eval_flag)
+
+    - Behavior changes
+        - [`eval`](http://arrayfire.org/arrayfire-python/arrayfire.device.html#arrayfire.device.eval) now supports fusing kernels.
+
+    - Graphics updates
+       - [`plot`](http://arrayfire.org/arrayfire-python/arrayfire.graphics.html#arrayfire.graphics.Window.plot) updated to take new parameters.
+       - [`plot2`](http://arrayfire.org/arrayfire-python/arrayfire.graphics.html#arrayfire.graphics.Window.plot2) added.
+       - [`scatter`](http://arrayfire.org/arrayfire-python/arrayfire.graphics.html#arrayfire.graphics.Window.scatter) updated to take new parameters.
+       - [`scatter2`](http://arrayfire.org/arrayfire-python/arrayfire.graphics.html#arrayfire.graphics.Window.scatter2) added.
+       - [`vector_field`](http://arrayfire.org/arrayfire-python/arrayfire.graphics.html#arrayfire.graphics.Window.vector_field) added.
+       - [`set_axes_limits`](http://arrayfire.org/arrayfire-python/arrayfire.graphics.html#arrayfire.graphics.Window.set_axes_limits) added.
+
+- Bug fixes
+
+  - ArrayFire now has higher priority when numpy for mixed operations. <sup>[1](https://github.com/arrayfire/arrayfire-python/issues/69) [2](https://github.com/arrayfire/arrayfire-python/pull/71) </sup>
+  - Numpy interoperability issues on Widnows. <sup>[1](https://github.com/arrayfire/arrayfire-python/issues/92)</sup>
+  - Switch to a working backend by default. <sup>[1](https://github.com/arrayfire/arrayfire-python/issues/90)</sup>
+  - Fixed incorrect behavior for Hermitian transpose and QR. <sup>[1](https://github.com/arrayfire/arrayfire-python/issues/91)</sup>
+  - `array[0:0]` now returns empty arrays. <sup>[1](https://github.com/arrayfire/arrayfire-python/issues/26)</sup>
+
+- Further Improvements from upstream can be read in the [arrayfire release notes](https://github.com/arrayfire/arrayfire/blob/master/docs/pages/release_notes.md).
+
 ### v3.3.20160624
 - Adding 16 bit integer support
 - Adding support for sphinx documentation
