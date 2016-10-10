@@ -31,6 +31,7 @@ try:
                          'f8' : Dtype.f64,
                          'b1' : Dtype.b8,
                          'u1' : Dtype.u8,
+                         'u2' : Dtype.u16,
                          'i4' : Dtype.s32,
                          's4' : Dtype.u32,
                          'i8' : Dtype.s64,
