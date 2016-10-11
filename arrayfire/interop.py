@@ -28,15 +28,15 @@ try:
     AF_NUMPY_FOUND=True
 
     _nptype_to_aftype = {'b1' : Dtype.b8,
-						 'u1' : Dtype.u8,
-						 'u2' : Dtype.u16,
-						 'i2' : Dtype.s16,
-						 's4' : Dtype.u32,
-						 'i4' : Dtype.s32,
-						 'f4' : Dtype.f32,
-						 'c8' : Dtype.c32,
-						 's8' : Dtype.u64,
-						 'i8' : Dtype.s64,
+			 'u1' : Dtype.u8,
+			 'u2' : Dtype.u16,
+			 'i2' : Dtype.s16,
+			 's4' : Dtype.u32,
+			 'i4' : Dtype.s32,
+			 'f4' : Dtype.f32,
+			 'c8' : Dtype.c32,
+			 's8' : Dtype.u64,
+			 'i8' : Dtype.s64,
                          'f8' : Dtype.f64,
                          'c16' : Dtype.c64}
 
