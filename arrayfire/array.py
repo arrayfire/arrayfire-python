@@ -163,19 +163,18 @@ def _slice_to_length(key, dim):
 
 def _get_info(dims, buf_len):
     elements = 1
-    numdims = len(dims)
-    idims = [1]*4
-
-    for i in range(numdims):
-        elements *= dims[i]
-        idims[i] = dims[i]
-
-    if (elements == 0):
-        if (buf_len != 0):
-            idims = [buf_len, 1, 1, 1]
-            numdims = 1
-        else:
-            raise RuntimeError("Invalid size")
+    numdims = 0
+    if dims:
+        numdims = len(dims)
+        idims = [1]*4
+        for i in range(numdims):
+            elements *= dims[i]
+            idims[i] = dims[i]
+    elif (buf_len != 0):
+        idims = [buf_len, 1, 1, 1]
+        numdims = 1
+    else:
+        raise RuntimeError("Invalid size")
 
     return numdims, idims
 
