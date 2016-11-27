@@ -1,3 +1,7 @@
+### v3.3.20161126
+- Fixing memory leak in array creation.
+- Supporting 16 bit integer types in interop.
+
 ### v3.4.20160925
 - Feature parity with ArrayFire 3.4 libs
 
