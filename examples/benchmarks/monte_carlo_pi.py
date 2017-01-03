@@ -38,7 +38,7 @@ def calc_pi_numpy(samples):
     np.random.seed(1)
     x = np.random.rand(samples).astype(np.float32)
     y = np.random.rand(samples).astype(np.float32)
-    return 4 * np.sum(in_circle(x, y)) / samples
+    return 4. * np.sum(in_circle(x, y)) / samples
 
 def calc_pi_host(samples):
     count = sum(1 for k in frange(samples) if in_circle(random(), random()))
