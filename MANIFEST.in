@@ -1,0 +1,3 @@
+recursive-include docs *
+recursive-include examples *
+include CHANGELOG.md LICENSE README.md
