@@ -799,3 +799,50 @@ def replace(lhs, cond, rhs):
         safe_call(backend.get().af_replace(lhs.arr, cond.arr, rhs.arr))
     else:
         safe_call(backend.get().af_replace_scalar(lhs.arr, cond.arr, c_double_t(rhs)))
+
+def lookup(a, idx, dim=0):
+    """
+    Lookup the values of input array based on index.
+
+    Parameters
+    ----------
+
+    a : af.Array.
+       Multi dimensional array.
+
+    idx : is lookup indices
+
+    dim : optional: int. default: 0.
+       Specifies the dimension for indexing
+
+    Returns
+    -------
+
+    out : af.Array
+          An array containing values at locations specified by 'idx'
+
+    Examples
+    ---------
+
+    >>> import arrayfire as af
+    >>> arr = af.Array([1,0,3,4,5,6], (2,3))
+    >>> af.display(arr)
+    [2 3 1 1]
+        1.0000     3.0000     5.0000
+        0.0000     4.0000     6.0000
+
+    >>> idx = af.array([0, 2])
+    >>> af.lookup(arr, idx, 1)
+    [2 2 1 1]
+        1.0000     5.0000
+        0.0000     6.0000
+
+    >>> idx = af.array([0])
+    >>> af.lookup(arr, idx, 0)
+    [2 1 1 1]
+        0.0000
+        2.0000
+    """
+    out = Array()
+    safe_call(backend.get().af_lookup(c_pointer(out.arr), a.arr, idx.arr, c_int_t(dim)))
+    return out
