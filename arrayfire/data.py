@@ -825,19 +825,23 @@ def lookup(a, idx, dim=0):
     ---------
 
     >>> import arrayfire as af
-    >>> a = af.randu(3, 3)
-    >>> af.display(a)
-    [3 3 1 1]
-        0.7269     0.3569     0.3341
-        0.7104     0.1437     0.0899
-        0.5201     0.4563     0.5363
+    >>> arr = af.Array([1,0,3,4,5,6], (2,3))
+    >>> af.display(arr)
+    [2 3 1 1]
+        1.0000     3.0000     5.0000
+        0.0000     4.0000     6.0000
 
-    >>> idx = af.array([1, 2])
-    >>> o = af.lookup()
+    >>> idx = af.array([0, 2])
+    >>> af.lookup(arr, idx, 1)
+    [2 2 1 1]
+        1.0000     5.0000
+        0.0000     6.0000
+
+    >>> idx = af.array([0])
+    >>> af.lookup(arr, idx, 0)
     [2 1 1 1]
-        0.7269     0.3569     0.3341
-        0.7104     0.1437     0.0899
-
+        0.0000
+        2.0000
     """
     out = Array()
     safe_call(backend.get().af_lookup(c_pointer(out.arr), a.arr, idx.arr, c_int_t(dim)))
