@@ -164,7 +164,7 @@ def hamming_matcher(query, database, dim = 0, num_nearest = 1):
     """
     index = Array()
     dist = Array()
-    safe_call(backend.get().af_hamming_matcher(c_pointer(idx.arr), c_pointer(dist.arr),
+    safe_call(backend.get().af_hamming_matcher(c_pointer(index.arr), c_pointer(dist.arr),
                                                query.arr, database.arr,
                                                c_dim_t(dim), c_dim_t(num_nearest)))
     return index, dist
@@ -200,7 +200,7 @@ def nearest_neighbour(query, database, dim = 0, num_nearest = 1, match_type=MATC
     """
     index = Array()
     dist = Array()
-    safe_call(backend.get().af_nearest_neighbour(c_pointer(idx.arr), c_pointer(dist.arr),
+    safe_call(backend.get().af_nearest_neighbour(c_pointer(index.arr), c_pointer(dist.arr),
                                                  query.arr, database.arr,
                                                  c_dim_t(dim), c_dim_t(num_nearest),
                                                  match_type.value))
