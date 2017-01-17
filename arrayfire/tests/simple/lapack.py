@@ -39,7 +39,7 @@ def simple_lapack(verbose=False):
     display_func(a)
 
     a = af.randu(5, 5)
-    a = af.matmulTN(a, a) + 10 * af.identity(5,5)
+    a = af.matmulTN(a, a.copy()) + 10 * af.identity(5,5)
 
     R,info = af.cholesky(a)
     display_func(R)
