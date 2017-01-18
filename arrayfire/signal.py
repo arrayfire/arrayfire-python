@@ -49,7 +49,7 @@ def approx1(signal, pos0, method=INTERP.LINEAR, off_grid=0.0):
     """
     output = Array()
     safe_call(backend.get().af_approx1(c_pointer(output.arr), signal.arr, pos0.arr,
-                                       method.value, c_double_t(off_grid)))
+                                       method.value, c_float_t(off_grid)))
     return output
 
 def approx2(signal, pos0, pos1, method=INTERP.LINEAR, off_grid=0.0):
@@ -91,7 +91,7 @@ def approx2(signal, pos0, pos1, method=INTERP.LINEAR, off_grid=0.0):
     """
     output = Array()
     safe_call(backend.get().af_approx2(c_pointer(output.arr), signal.arr,
-                                       pos0.arr, pos1.arr, method.value, c_double_t(off_grid)))
+                                       pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
     return output
 
 def fft(signal, dim0 = None , scale = None):
