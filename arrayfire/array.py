@@ -1185,9 +1185,9 @@ class Array(BaseArray):
         ct_array, shape = self.to_ctype(row_major, True)
         return _ctype_to_lists(ct_array, len(shape) - 1, shape)
 
-    def __repr__(self):
+    def to_string(self):
         """
-        Displays the meta data and contents of  the arrayfire array.
+        Converts the arrayfire array to string showing its meta data and contents.
 
         Note
         ----
@@ -1195,10 +1195,25 @@ class Array(BaseArray):
         """
 
         arr_str = c_char_ptr_t(0)
-        safe_call(backend.get().af_array_to_string(c_pointer(arr_str), "", self.arr, 4, True))
+        be = backend.get()
+        safe_call(be.af_array_to_string(c_pointer(arr_str), "", self.arr, 4, True))
+        py_str = to_str(arr_str)
+        safe_call(be.af_free_host(arr_str))
 
-        return 'arrayfire.Array()\nType: %s' % \
-            (to_typename[self.type()]) + to_str(arr_str)
+        return 'arrayfire.Array()\nType: {}\nDims: {}\nData: {}' \
+            .format(to_typename[self.type()], str(self.dims()), py_str)
+
+    def __repr__(self):
+        """
+        Displays the meta data of the arrayfire array.
+
+        Note
+        ----
+        You can use af.display(a, pres) to display the contents of the array.
+        """
+
+        return 'arrayfire.Array()\nType: {}\nDims: {}' \
+            .format(to_typename[self.type()], str(self.dims()))
 
     def __array__(self):
         """
