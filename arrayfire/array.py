@@ -12,6 +12,7 @@ Array class and helper functions.
 """
 
 import inspect
+import os
 from .library import *
 from .util import *
 from .util import _is_number
@@ -19,6 +20,63 @@ from .bcast import _bcast_var
 from .base import *
 from .index import *
 from .index import _Index4
+
+_is_running_in_py_charm = "PYCHARM_HOSTED" in os.environ
+
+_display_dims_limit = None
+
+def set_display_dims_limit(*dims):
+    """
+    Sets the dimension limit after which array's data won't get
+    presented to the result of str(arr).
+
+    Default is None, which means there is no limit.
+
+    Parameters
+    ----------
+    *dims : dimension limit args
+
+    Example
+    -------
+    set_display_dims_limit(10, 10, 10, 10)
+
+    """
+    global _display_dims_limit
+    _display_dims_limit = dims
+
+def get_display_dims_limit():
+    """
+    Gets the dimension limit after which array's data won't get
+    presented to the result of str(arr).
+
+    Default is None, which means there is no limit.
+
+    Returns
+    -----------
+        - tuple of the current limit
+        - None is there is no limit
+
+    Example
+    -------
+    get_display_dims_limit()
+    # None
+    set_display_dims_limit(10, 10, 10, 10)
+    get_display_dims_limit()
+    # (10, 10, 10, 10)
+
+    """
+    return _display_dims_limit
+
+def _in_display_dims_limit(dims):
+    if _is_running_in_py_charm:
+        return False
+    print(_display_dims_limit)
+    if _display_dims_limit is not None:
+        min_dim_len = min(len(_display_dims_limit), len(dims))
+        for i in range(min_dim_len):
+            if dims[i] > _display_dims_limit[i]:
+                return False
+    return True
 
 def _create_array(buf, numdims, idims, dtype, is_device):
     out_arr = c_void_ptr_t(0)
@@ -1185,7 +1243,7 @@ class Array(BaseArray):
         ct_array, shape = self.to_ctype(row_major, True)
         return _ctype_to_lists(ct_array, len(shape) - 1, shape)
 
-    def to_string(self):
+    def __str__(self):
         """
         Converts the arrayfire array to string showing its meta data and contents.
 
@@ -1193,6 +1251,9 @@ class Array(BaseArray):
         ----
         You can also use af.display(a, pres) to display the contents of the array with better precision.
         """
+
+        if not _in_display_dims_limit(self.dims()):
+            return self.__repr__();
 
         arr_str = c_char_ptr_t(0)
         be = backend.get()
