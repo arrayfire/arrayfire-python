@@ -1253,7 +1253,7 @@ class Array(BaseArray):
         """
 
         if not _in_display_dims_limit(self.dims()):
-            return self.__repr__();
+            return self.__repr__()
 
         arr_str = c_char_ptr_t(0)
         be = backend.get()
