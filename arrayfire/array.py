@@ -72,10 +72,10 @@ def _in_display_dims_limit(dims):
         return False
     if _display_dims_limit is not None:
         limit_len = len(_display_dims_limit)
-        len = len(dims)
-        if len > limit_len:
+        dim_len = len(dims)
+        if dim_len > limit_len:
             return False
-        for i in range(len):
+        for i in range(dim_len):
             if dims[i] > _display_dims_limit[i]:
                 return False
     return True
