@@ -70,10 +70,12 @@ def get_display_dims_limit():
 def _in_display_dims_limit(dims):
     if _is_running_in_py_charm:
         return False
-    print(_display_dims_limit)
     if _display_dims_limit is not None:
-        min_dim_len = min(len(_display_dims_limit), len(dims))
-        for i in range(min_dim_len):
+        limit_len = len(_display_dims_limit)
+        len = len(dims)
+        if len > limit_len:
+            return False
+        for i in range(len):
             if dims[i] > _display_dims_limit[i]:
                 return False
     return True
@@ -1253,16 +1255,9 @@ class Array(BaseArray):
         """
 
         if not _in_display_dims_limit(self.dims()):
-            return self.__repr__()
+            return self._get_metadata_str()
 
-        arr_str = c_char_ptr_t(0)
-        be = backend.get()
-        safe_call(be.af_array_to_string(c_pointer(arr_str), "", self.arr, 4, True))
-        py_str = to_str(arr_str)
-        safe_call(be.af_free_host(arr_str))
-
-        return 'arrayfire.Array()\nType: {}\nDims: {}\nData: {}' \
-            .format(to_typename[self.type()], str(self.dims()), py_str)
+        return self._get_metadata_str(dims=False) + self._as_str()
 
     def __repr__(self):
         """
@@ -1273,8 +1268,19 @@ class Array(BaseArray):
         You can use af.display(a, pres) to display the contents of the array.
         """
 
-        return 'arrayfire.Array()\nType: {}\nDims: {}' \
-            .format(to_typename[self.type()], str(self.dims()))
+        return self._get_metadata_str()
+
+    def _get_metadata_str(self, dims=True):
+        return 'arrayfire.Array()\nType: {}\n{}' \
+            .format(to_typename[self.type()], 'Dims: {}'.format(str(self.dims())) if dims else '')
+
+    def _as_str(self):
+        arr_str = c_char_ptr_t(0)
+        be = backend.get()
+        safe_call(be.af_array_to_string(c_pointer(arr_str), "", self.arr, 4, True))
+        py_str = to_str(arr_str)
+        safe_call(be.af_free_host(arr_str))
+        return py_str
 
     def __array__(self):
         """
