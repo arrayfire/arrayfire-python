@@ -95,4 +95,33 @@ def simple_interop(verbose = False):
         # assert((n==n2).all())
         pass
 
+    if af.AF_NUMBA_FOUND and af.get_active_backend() == 'cuda':
+
+        import numba
+        from numba import cuda
+
+        n = np.random.random((5,))
+        c = cuda.to_device(n)
+        a = af.to_array(c)
+        n2 = np.array(a)
+        assert((n==n2).all())
+
+        n = np.random.random((5,3))
+        c = cuda.to_device(n)
+        a = af.to_array(c)
+        n2 = np.array(a)
+        assert((n==n2).all())
+
+        n = np.random.random((5,3,2))
+        c = cuda.to_device(n)
+        a = af.to_array(c)
+        n2 = np.array(a)
+        assert((n==n2).all())
+
+        n = np.random.random((5,3,2,2))
+        c = cuda.to_device(n)
+        a = af.to_array(c)
+        n2 = np.array(a)
+        assert((n==n2).all())
+
 _util.tests['interop'] = simple_interop

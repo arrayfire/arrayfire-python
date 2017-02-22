@@ -15,6 +15,7 @@ This module provides helper functions to copy data to arrayfire from the followi
      1. numpy - numpy.ndarray
      2. pycuda - pycuda.gpuarray
      3. pyopencl - pyopencl.array
+     4. numba - numba.cuda.cudadrv.devicearray.DeviceNDArray
 
 """
 
@@ -58,25 +59,26 @@ def _cc_to_af_array(in_ptr, ndim, in_shape, in_dtype, is_device=False, copy = Tr
     else:
         raise RuntimeError("Unsupported ndim")
 
+
+_nptype_to_aftype = {'b1' : Dtype.b8,
+		     'u1' : Dtype.u8,
+		     'u2' : Dtype.u16,
+		     'i2' : Dtype.s16,
+		     's4' : Dtype.u32,
+		     'i4' : Dtype.s32,
+		     'f4' : Dtype.f32,
+		     'c8' : Dtype.c32,
+		     's8' : Dtype.u64,
+		     'i8' : Dtype.s64,
+                     'f8' : Dtype.f64,
+                     'c16' : Dtype.c64}
+
 try:
     import numpy as np
     from numpy import ndarray as NumpyArray
     from .data import reorder
 
     AF_NUMPY_FOUND=True
-
-    _nptype_to_aftype = {'b1' : Dtype.b8,
-			 'u1' : Dtype.u8,
-			 'u2' : Dtype.u16,
-			 'i2' : Dtype.s16,
-			 's4' : Dtype.u32,
-			 'i4' : Dtype.s32,
-			 'f4' : Dtype.f32,
-			 'c8' : Dtype.c32,
-			 's8' : Dtype.u64,
-			 'i8' : Dtype.s64,
-                         'f8' : Dtype.f64,
-                         'c16' : Dtype.c64}
 
     def np_to_af_array(np_arr, copy=True):
         """
@@ -222,6 +224,48 @@ try:
 except:
     AF_PYOPENCL_FOUND=False
 
+try:
+    import numba
+    from numba import cuda
+    NumbaCudaArray = cuda.cudadrv.devicearray.DeviceNDArray
+    AF_NUMBA_FOUND=True
+
+    def numba_to_af_array(nb_arr, copy=True):
+        """
+        Convert numba.gpuarray to arrayfire.Array
+
+        Parameters
+        -----------
+        nb_arr  : numba.cuda.cudadrv.devicearray.DeviceNDArray()
+
+        copy : Bool specifying if array is to be copied.
+               Default is true.
+               Can only be False if array is fortran contiguous.
+
+        Returns
+        ----------
+        af_arr    : arrayfire.Array()
+
+        Note
+        ----------
+        The input array is copied to af.Array
+        """
+
+        in_ptr = nb_arr.device_ctypes_pointer.value
+        in_shape = nb_arr.shape
+        in_dtype = _nptype_to_aftype[nb_arr.dtype.str[1:]]
+
+        if not copy and not nb_arr.flags.f_contiguous:
+            raise RuntimeError("Copy can only be False when arr.flags.f_contiguous is True")
+
+        if (nb_arr.is_f_contiguous()):
+            return _fc_to_af_array(in_ptr, in_shape, in_dtype, True, copy)
+        elif (nb_arr.is_c_contiguous()):
+            return _cc_to_af_array(in_ptr, nb_arr.ndim, in_shape, in_dtype, True, copy)
+        else:
+            return numba_to_af_array(nb_arr.copy())
+except:
+    AF_NUMBA_FOUND=False
 
 def to_array(in_array, copy = True):
     """
@@ -231,8 +275,13 @@ def to_array(in_array, copy = True):
     -------------
 
     in_array : array like object
-             Can be one of numpy.ndarray, pycuda.GPUArray, pyopencl.Array, array.array, list
-
+             Can be one of the following:
+             - numpy.ndarray
+             - pycuda.GPUArray
+             - pyopencl.Array
+             - numba.cuda.cudadrv.devicearray.DeviceNDArray
+             - array.array
+             - list
     copy : Bool specifying if array is to be copied.
           Default is true.
           Can only be False if array is fortran contiguous.
@@ -248,4 +297,6 @@ def to_array(in_array, copy = True):
         return pycuda_to_af_array(in_array, copy)
     if AF_PYOPENCL_FOUND and isinstance(in_array, OpenclArray):
         return pyopencl_to_af_array(in_array, copy)
+    if AF_NUMBA_FOUND and isinstance(in_array, NumbaCudaArray):
+        return numba_to_af_array(in_array, copy)
     return Array(src=in_array)
