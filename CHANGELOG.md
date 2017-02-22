@@ -1,3 +1,11 @@
+### v3.3.20160222
+- Bugfix: Fixes typo in `approx1`.
+- Bugfix: Fixes typo in `hamming_matcher` and `nearest_neighbour`.
+- Bugfix: Added necessary copy and lock mechanisms in interop.py.
+- Example / Benchmark: New conjugate gradient benchmark.
+- Feature: Added support to create arrayfire arrays from numba.
+- Behavior change: af.print() only prints full arrays for smaller sizes.
+
 ### v3.3.20161126
 - Fixing memory leak in array creation.
 - Supporting 16 bit integer types in interop.
