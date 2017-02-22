@@ -10,15 +10,53 @@
 """
 Interop with other python packages.
 
-This module provides interoperability with the following python packages.
+This module provides helper functions to copy data to arrayfire from the following modules:
 
-     1. numpy
-     2. pycuda
-     3. pyopencl
+     1. numpy - numpy.ndarray
+     2. pycuda - pycuda.gpuarray
+     3. pyopencl - pyopencl.array
+
 """
 
 from .array import *
 from .device import *
+
+
+def _fc_to_af_array(in_ptr, in_shape, in_dtype, is_device=False, copy = True):
+    """
+    Fortran Contiguous to af array
+    """
+    res = Array(in_ptr, in_shape, in_dtype, is_device=is_device)
+
+    if is_device:
+        lock_array(res)
+        pass
+
+    return res.copy() if copy else res
+
+def _cc_to_af_array(in_ptr, ndim, in_shape, in_dtype, is_device=False, copy = True):
+    """
+    C Contiguous to af array
+    """
+    if ndim == 1:
+        return _fc_to_af_array(in_ptr, in_shape, in_dtype, is_device, copy)
+    elif ndim == 2:
+        shape = (in_shape[1], in_shape[0])
+        res = Array(in_ptr, shape, in_dtype, is_device=is_device)
+        if is_device: lock_array(res)
+        return reorder(res, 1, 0)
+    elif ndim == 3:
+        shape = (in_shape[2], in_shape[1], in_shape[0])
+        res = Array(in_ptr, shape, in_dtype, is_device=is_device)
+        if is_device: lock_array(res)
+        return reorder(res, 2, 1, 0)
+    elif ndim == 4:
+        shape = (in_shape[3], in_shape[2], in_shape[1], in_shape[0])
+        res = Array(in_ptr, shape, in_dtype, is_device=is_device)
+        if is_device: lock_array(res)
+        return reorder(res, 3, 2, 1, 0)
+    else:
+        raise RuntimeError("Unsupported ndim")
 
 try:
     import numpy as np
@@ -40,13 +78,17 @@ try:
                          'f8' : Dtype.f64,
                          'c16' : Dtype.c64}
 
-    def np_to_af_array(np_arr):
+    def np_to_af_array(np_arr, copy=True):
         """
         Convert numpy.ndarray to arrayfire.Array.
 
         Parameters
         ----------
         np_arr  : numpy.ndarray()
+
+        copy : Bool specifying if array is to be copied.
+               Default is true.
+               Can only be False if array is fortran contiguous.
 
         Returns
         ---------
@@ -57,27 +99,15 @@ try:
         in_ptr = np_arr.ctypes.data_as(c_void_ptr_t)
         in_dtype = _nptype_to_aftype[np_arr.dtype.str[1:]]
 
+        if not copy:
+            raise RuntimeError("Copy can not be False for numpy arrays")
+
         if (np_arr.flags['F_CONTIGUOUS']):
-            return Array(in_ptr, in_shape, in_dtype)
+            return _fc_to_af_array(in_ptr, in_shape, in_dtype)
         elif (np_arr.flags['C_CONTIGUOUS']):
-            if np_arr.ndim == 1:
-                return Array(in_ptr, in_shape, in_dtype)
-            elif np_arr.ndim == 2:
-                shape = (in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype)
-                return reorder(res, 1, 0)
-            elif np_arr.ndim == 3:
-                shape = (in_shape[2], in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype)
-                return reorder(res, 2, 1, 0)
-            elif np_arr.ndim == 4:
-                shape = (in_shape[3], in_shape[2], in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype)
-                return reorder(res, 3, 2, 1, 0)
-            else:
-                raise RuntimeError("Unsupported ndim")
+            return _cc_to_af_array(in_ptr, np_arr.ndim, in_shape, in_dtype)
         else:
-            return np_to_af_array(np.asfortranarray(np_arr))
+            return np_to_af_array(np_arr.copy())
 
     from_ndarray = np_to_af_array
 except:
@@ -88,13 +118,17 @@ try:
     from pycuda.gpuarray import GPUArray as CudaArray
     AF_PYCUDA_FOUND=True
 
-    def pycuda_to_af_array(pycu_arr):
+    def pycuda_to_af_array(pycu_arr, copy=True):
         """
         Convert pycuda.gpuarray to arrayfire.Array
 
         Parameters
         -----------
         pycu_arr  : pycuda.GPUArray()
+
+        copy : Bool specifying if array is to be copied.
+               Default is true.
+               Can only be False if array is fortran contiguous.
 
         Returns
         ----------
@@ -109,31 +143,13 @@ try:
         in_shape = pycu_arr.shape
         in_dtype = pycu_arr.dtype.char
 
+        if not copy and not pycu_arr.flags.f_contiguous:
+            raise RuntimeError("Copy can only be False when arr.flags.f_contiguous is True")
+
         if (pycu_arr.flags.f_contiguous):
-            res = Array(in_ptr, in_shape, in_dtype, is_device=True)
-            lock_array(res)
-            res = res.copy()
-            return res
+            return _fc_to_af_array(in_ptr, in_shape, in_dtype, True, copy)
         elif (pycu_arr.flags.c_contiguous):
-            if pycu_arr.ndim == 1:
-                return Array(in_ptr, in_shape, in_dtype, is_device=True)
-            elif pycu_arr.ndim == 2:
-                shape = (in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype, is_device=True)
-                lock_array(res)
-                return reorder(res, 1, 0)
-            elif pycu_arr.ndim == 3:
-                shape = (in_shape[2], in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype, is_device=True)
-                lock_array(res)
-                return reorder(res, 2, 1, 0)
-            elif pycu_arr.ndim == 4:
-                shape = (in_shape[3], in_shape[2], in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype, is_device=True)
-                lock_array(res)
-                return reorder(res, 3, 2, 1, 0)
-            else:
-                raise RuntimeError("Unsupported ndim")
+            return _cc_to_af_array(in_ptr, pycu_arr.ndim, in_shape, in_dtype, True, copy)
         else:
             return pycuda_to_af_array(pycu_arr.copy())
 except:
@@ -147,13 +163,17 @@ try:
     from .opencl import get_context as _get_context
     AF_PYOPENCL_FOUND=True
 
-    def pyopencl_to_af_array(pycl_arr):
+    def pyopencl_to_af_array(pycl_arr, copy=True):
         """
         Convert pyopencl.gpuarray to arrayfire.Array
 
         Parameters
         -----------
         pycl_arr  : pyopencl.Array()
+
+        copy : Bool specifying if array is to be copied.
+               Default is true.
+               Can only be False if array is fortran contiguous.
 
         Returns
         ----------
@@ -179,44 +199,31 @@ try:
 
         if (dev_idx == None or ctx_idx == None or
             dev_idx != dev or ctx_idx != ctx):
+            print("Adding context and queue")
             _add_device_context(dev, ctx, que)
             _set_device_context(dev, ctx)
 
+        info()
         in_ptr = pycl_arr.base_data.int_ptr
         in_shape = pycl_arr.shape
         in_dtype = pycl_arr.dtype.char
 
+        if not copy and not pycl_arr.flags.f_contiguous:
+            raise RuntimeError("Copy can only be False when arr.flags.f_contiguous is True")
+
+        print("Copying array")
+        print(pycl_arr.base_data.int_ptr)
         if (pycl_arr.flags.f_contiguous):
-            res = Array(in_ptr, in_shape, in_dtype, is_device=True)
-            lock_array(res)
-            return res
+            return _fc_to_af_array(in_ptr, in_shape, in_dtype, True, copy)
         elif (pycl_arr.flags.c_contiguous):
-            if pycl_arr.ndim == 1:
-                return Array(in_ptr, in_shape, in_dtype, is_device=True)
-            elif pycl_arr.ndim == 2:
-                shape = (in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype, is_device=True)
-                lock_array(res)
-                return reorder(res, 1, 0)
-            elif pycl_arr.ndim == 3:
-                shape = (in_shape[2], in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype, is_device=True)
-                lock_array(res)
-                return reorder(res, 2, 1, 0)
-            elif pycl_arr.ndim == 4:
-                shape = (in_shape[3], in_shape[2], in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype, is_device=True)
-                lock_array(res)
-                return reorder(res, 3, 2, 1, 0)
-            else:
-                raise RuntimeError("Unsupported ndim")
+            return _cc_to_af_array(in_ptr, pycl_arr.ndim, in_shape, in_dtype, True, copy)
         else:
             return pyopencl_to_af_array(pycl_arr.copy())
 except:
     AF_PYOPENCL_FOUND=False
 
 
-def to_array(in_array):
+def to_array(in_array, copy = True):
     """
     Helper function to convert input from a different module to af.Array
 
@@ -226,16 +233,19 @@ def to_array(in_array):
     in_array : array like object
              Can be one of numpy.ndarray, pycuda.GPUArray, pyopencl.Array, array.array, list
 
+    copy : Bool specifying if array is to be copied.
+          Default is true.
+          Can only be False if array is fortran contiguous.
+
     Returns
     --------------
     af.Array of same dimensions as input after copying the data from the input
 
-
     """
     if AF_NUMPY_FOUND and isinstance(in_array, NumpyArray):
-        return np_to_af_array(in_array)
+        return np_to_af_array(in_array, copy)
     if AF_PYCUDA_FOUND and isinstance(in_array, CudaArray):
-        return pycuda_to_af_array(in_array)
+        return pycuda_to_af_array(in_array, copy)
     if AF_PYOPENCL_FOUND and isinstance(in_array, OpenclArray):
-        return pyopencl_to_af_array(in_array)
+        return pyopencl_to_af_array(in_array, copy)
     return Array(src=in_array)

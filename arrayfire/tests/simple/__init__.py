@@ -15,6 +15,7 @@ from .data import *
 from .device import *
 from .image import *
 from .index import *
+from .interop import *
 from .lapack import *
 from .signal import *
 from .statistics import *

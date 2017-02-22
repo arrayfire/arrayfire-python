@@ -54,7 +54,7 @@ def get_context(retain=False):
 
     import ctypes as ct
     from .util import safe_call as safe_call
-    from .library import backend as backend
+    from .library import backend
 
     if (backend.name() != "opencl"):
         raise RuntimeError("Invalid backend loaded")
@@ -80,7 +80,7 @@ def get_queue(retain):
 
     import ctypes as ct
     from .util import safe_call as safe_call
-    from .library import backend as backend
+    from .library import backend
 
     if (backend.name() != "opencl"):
         raise RuntimeError("Invalid backend loaded")
@@ -102,7 +102,7 @@ def get_device_id():
 
     import ctypes as ct
     from .util import safe_call as safe_call
-    from .library import backend as backend
+    from .library import backend
 
     if (backend.name() != "opencl"):
         raise RuntimeError("Invalid backend loaded")
@@ -124,7 +124,7 @@ def set_device_id(idx):
 
     import ctypes as ct
     from .util import safe_call as safe_call
-    from .library import backend as backend
+    from .library import backend
 
     if (backend.name() != "opencl"):
         raise RuntimeError("Invalid backend loaded")
@@ -146,6 +146,10 @@ def add_device_context(dev, ctx, que):
     que : cl_command_queue
 
     """
+    import ctypes as ct
+    from .util import safe_call as safe_call
+    from .library import backend
+
     if (backend.name() != "opencl"):
         raise RuntimeError("Invalid backend loaded")
 
@@ -163,6 +167,10 @@ def set_device_context(dev, ctx):
     ctx  : cl_context
 
     """
+    import ctypes as ct
+    from .util import safe_call as safe_call
+    from .library import backend
+
     if (backend.name() != "opencl"):
         raise RuntimeError("Invalid backend loaded")
 
@@ -180,6 +188,10 @@ def delete_device_context(dev, ctx):
     ctx  : cl_context
 
     """
+    import ctypes as ct
+    from .util import safe_call as safe_call
+    from .library import backend
+
     if (backend.name() != "opencl"):
         raise RuntimeError("Invalid backend loaded")
 
@@ -204,6 +216,13 @@ def get_device_type():
     """
     Get opencl device type
     """
+    import ctypes as ct
+    from .util import safe_call as safe_call
+    from .library import backend
+
+    if (backend.name() != "opencl"):
+        raise RuntimeError("Invalid backend loaded")
+
     res = c_int_t(DEVICE_TYPE.UNKNOWN.value)
     safe_call(backend.get().afcl_get_device_type(c_pointer(res)))
     return _to_device_type[res.value]
@@ -212,6 +231,13 @@ def get_platform():
     """
     Get opencl platform
     """
+    import ctypes as ct
+    from .util import safe_call as safe_call
+    from .library import backend
+
+    if (backend.name() != "opencl"):
+        raise RuntimeError("Invalid backend loaded")
+
     res = c_int_t(PLATFORM.UNKNOWN.value)
     safe_call(backend.get().afcl_get_platform(c_pointer(res)))
     return _to_platform[res.value]
