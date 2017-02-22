@@ -1,4 +1,4 @@
-### v3.3.20160222
+### v3.3.20170222
 - Bugfix: Fixes typo in `approx1`.
 - Bugfix: Fixes typo in `hamming_matcher` and `nearest_neighbour`.
 - Bugfix: Added necessary copy and lock mechanisms in interop.py.
