@@ -30,6 +30,10 @@ c_void_ptr_t  = ct.c_void_p
 c_char_ptr_t  = ct.c_char_p
 c_size_t      = ct.c_size_t
 
+
+AF_VER_MAJOR = '3'
+FORGE_VER_MAJOR = '0'
+
 # Work around for unexpected architectures
 if 'c_dim_t_forced' in globals():
     global c_dim_t_forced
@@ -409,6 +413,8 @@ class STORAGE(_Enum):
     CSC   = _Enum_Type(2)
     COO   = _Enum_Type(3)
 
+_VER_MAJOR_PLACEHOLDER = "__VER_MAJOR__"
+
 def _setup():
     import platform
     import os
@@ -446,7 +452,7 @@ def _setup():
             ct.windll.kernel32.SetErrorMode(0x0001 | 0x0002)
 
         if AF_SEARCH_PATH is None:
-            AF_SEARCH_PATH="C:/Program Files/ArrayFire/v3/"
+            AF_SEARCH_PATH="C:/Program Files/ArrayFire/v" + AF_VER_MAJOR +"/"
 
         if CUDA_PATH is not None:
             CUDA_FOUND = os.path.isdir(CUDA_PATH + '/bin') and os.path.isdir(CUDA_PATH + '/nvvm/bin/')
@@ -455,7 +461,7 @@ def _setup():
 
         ## OSX specific setup
         pre = 'lib'
-        post = '.3.dylib'
+        post = '.' + _VER_MAJOR_PLACEHOLDER + '.dylib'
 
         if AF_SEARCH_PATH is None:
             AF_SEARCH_PATH='/usr/local/'
@@ -467,10 +473,10 @@ def _setup():
 
     elif platform_name == 'Linux':
         pre = 'lib'
-        post = '.so.3'
+        post = '.so.' + _VER_MAJOR_PLACEHOLDER
 
         if AF_SEARCH_PATH is None:
-            AF_SEARCH_PATH='/opt/arrayfire-3/'
+            AF_SEARCH_PATH='/opt/arrayfire-' + AF_VER_MAJOR + '/'
 
         if CUDA_PATH is None:
             CUDA_PATH='/usr/local/cuda/'
@@ -489,8 +495,9 @@ def _setup():
 
 class _clibrary(object):
 
-    def __libname(self, name, head='af'):
-        libname = self.__pre + head + name + self.__post
+    def __libname(self, name, head='af', ver_major=AF_VER_MAJOR):
+        post = self.__post.replace(_VER_MAJOR_PLACEHOLDER, ver_major)
+        libname = self.__pre + head + name + post
         libname_full = self.AF_PATH + '/lib/' + libname
         return (libname, libname_full)
 
@@ -530,7 +537,7 @@ class _clibrary(object):
                                    'opencl'  : 4}
 
         # Try to pre-load forge library if it exists
-        libnames = self.__libname('forge', '')
+        libnames = self.__libname('forge', head='', ver_major=FORGE_VER_MAJOR)
         for libname in libnames:
             try:
                 ct.cdll.LoadLibrary(libname)
