@@ -63,16 +63,13 @@ try:
             if np_arr.ndim == 1:
                 return Array(in_ptr, in_shape, in_dtype)
             elif np_arr.ndim == 2:
-                shape = (in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype)
+                res = Array(in_ptr, in_shape, in_dtype)
                 return reorder(res, 1, 0)
             elif np_arr.ndim == 3:
-                shape = (in_shape[2], in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype)
+                res = Array(in_ptr, in_shape, in_dtype)
                 return reorder(res, 2, 1, 0)
             elif np_arr.ndim == 4:
-                shape = (in_shape[3], in_shape[2], in_shape[1], in_shape[0])
-                res = Array(in_ptr, shape, in_dtype)
+                res = Array(in_ptr, in_shape, in_dtype)
                 return reorder(res, 3, 2, 1, 0)
             else:
                 raise RuntimeError("Unsupported ndim")
