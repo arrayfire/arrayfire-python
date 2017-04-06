@@ -81,7 +81,7 @@ class Random_Engine(object):
         safe_call(backend.get().af_random_engine_get_seed(c_pointer(seed), self.engine))
         return seed.value
 
-def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
+def randu(d0, d1=None, d2=None, d3=None, dtype=set_global_precision(), engine=None):
     """
     Create a multi dimensional array containing values from a uniform distribution.
 
@@ -125,7 +125,7 @@ def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
 
     return out
 
-def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
+def randn(d0, d1=None, d2=None, d3=None, dtype=set_global_precision(), engine=None):
     """
     Create a multi dimensional array containing values from a normal distribution.
 

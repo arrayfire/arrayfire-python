@@ -122,7 +122,7 @@ def _create_empty_array(numdims, idims, dtype):
                                              numdims, c_pointer(c_dims), dtype.value))
     return out_arr
 
-def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
+def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=set_global_precision()):
     """
     Internal function to create a C array. Should not be used externall.
     """

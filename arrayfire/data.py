@@ -18,7 +18,7 @@ from .util import *
 from .util import _is_number
 from .random import randu, randn, set_seed, get_seed
 
-def constant(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
+def constant(val, d0, d1=None, d2=None, d3=None, dtype=set_global_precision()):
     """
     Create a multi dimensional array whose elements contain the same value.
 
@@ -60,7 +60,7 @@ def constant(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
 # Store builtin range function to be used later
 _brange = range
 
-def range(d0, d1=None, d2=None, d3=None, dim=0, dtype=Dtype.f32):
+def range(d0, d1=None, d2=None, d3=None, dim=0, dtype=set_global_precision()):
     """
     Create a multi dimensional array using length of a dimension as range.
 
@@ -122,7 +122,7 @@ def range(d0, d1=None, d2=None, d3=None, dim=0, dtype=Dtype.f32):
     return out
 
 
-def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=Dtype.f32):
+def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=set_global_precision()):
     """
     Create a multi dimensional array using the number of elements in the array as the range.
 
@@ -187,7 +187,7 @@ def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=Dtype.f32)
                                     4, c_pointer(tdims), dtype.value))
     return out
 
-def identity(d0, d1, d2=None, d3=None, dtype=Dtype.f32):
+def identity(d0, d1, d2=None, d3=None, dtype=set_global_precision()):
     """
     Create an identity matrix or batch of identity matrices.
 

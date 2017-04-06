@@ -702,4 +702,20 @@ def get_size_of(dtype):
     safe_call(backend.get().af_get_size_of(c_pointer(size), dtype.value))
     return size.value
 
+precision_setting = 'f64'
+
+def set_global_precision(precision = precision_setting):
+
+    global global_precision
+
+    if(precision == 'f64'):
+        global_precision = Dtype.f64
+    elif(precision == 'f32'):
+        global_precision = Dtype.f32
+    else:
+        print("Unrecognized precision option. Defaulting to double precision")
+        global_precision = Dtype.f64
+
+    return global_precision
+
 from .util import safe_call
