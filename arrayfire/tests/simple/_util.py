@@ -24,7 +24,7 @@ class _simple_test_dict(dict):
             self.print_log = ''
             try:
                 test = self[key]
-            except:
+            except KeyError:
                 print(self.print_str % (key, "NOTFOUND"))
                 continue
 

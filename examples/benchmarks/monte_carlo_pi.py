@@ -16,7 +16,7 @@ import sys
 
 try:
     import numpy as np
-except:
+except ImportError:
     np = None
 
 #alias range / xrange because xrange is faster than range in python2
