@@ -817,6 +817,26 @@ def erf(a):
     """
     return _arith_unary_func(a, backend.get().af_erf)
 
+def erfinv(a):
+    """
+    Inverse error function of each element in the array.
+
+    Parameters
+    ----------
+    a : af.Array
+        Multi dimensional arrayfire array.
+
+    Returns
+    --------
+    out : af.Array
+         array containing the inverse error function of each value from `a`.
+
+    Note
+    -------
+    `a` must not be complex.
+    """
+    return _arith_unary_func(a, backend.get().af_erfinv)
+
 def erfc(a):
     """
     Complementary error function of each element in the array.
@@ -836,6 +856,26 @@ def erfc(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_erfc)
+
+def erfcinv(a):
+    """
+    Complementary inverse error function of each element in the array.
+
+    Parameters
+    ----------
+    a : af.Array
+        Multi dimensional arrayfire array.
+
+    Returns
+    --------
+    out : af.Array
+         array containing the complementary inverse error function of each value from `a`.
+
+    Note
+    -------
+    `a` must not be complex.
+    """
+    return _arith_unary_func(a, backend.get().af_erfcinv)
 
 def log(a):
     """
