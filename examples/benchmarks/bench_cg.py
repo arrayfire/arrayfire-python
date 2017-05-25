@@ -16,13 +16,13 @@ import arrayfire as af
 
 try:
     import numpy as np
-except:
+except ImportError:
     np = None
 
 try:
     from scipy import sparse as sp
     from scipy.sparse import linalg
-except:
+except ImportError:
     sp = None
 
 

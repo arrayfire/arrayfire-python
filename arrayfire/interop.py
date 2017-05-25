@@ -75,6 +75,9 @@ _nptype_to_aftype = {'b1' : Dtype.b8,
 
 try:
     import numpy as np
+except ImportError:
+    AF_NUMPY_FOUND=False
+else:
     from numpy import ndarray as NumpyArray
     from .data import reorder
 
@@ -112,11 +115,12 @@ try:
             return np_to_af_array(np_arr.copy())
 
     from_ndarray = np_to_af_array
-except:
-    AF_NUMPY_FOUND=False
 
 try:
     import pycuda.gpuarray
+except ImportError:
+    AF_PYCUDA_FOUND=False
+else:
     from pycuda.gpuarray import GPUArray as CudaArray
     AF_PYCUDA_FOUND=True
 
@@ -154,11 +158,12 @@ try:
             return _cc_to_af_array(in_ptr, pycu_arr.ndim, in_shape, in_dtype, True, copy)
         else:
             return pycuda_to_af_array(pycu_arr.copy())
-except:
-    AF_PYCUDA_FOUND=False
 
 try:
     from pyopencl.array import Array as OpenclArray
+except ImportError:
+    AF_PYOPENCL_FOUND=False
+else:
     from .opencl import add_device_context as _add_device_context
     from .opencl import set_device_context as _set_device_context
     from .opencl import get_device_id as _get_device_id
@@ -221,11 +226,12 @@ try:
             return _cc_to_af_array(in_ptr, pycl_arr.ndim, in_shape, in_dtype, True, copy)
         else:
             return pyopencl_to_af_array(pycl_arr.copy())
-except:
-    AF_PYOPENCL_FOUND=False
 
 try:
     import numba
+except ImportError:
+    AF_NUMBA_FOUND=False
+else:
     from numba import cuda
     NumbaCudaArray = cuda.cudadrv.devicearray.DeviceNDArray
     AF_NUMBA_FOUND=True
@@ -264,8 +270,6 @@ try:
             return _cc_to_af_array(in_ptr, nb_arr.ndim, in_shape, in_dtype, True, copy)
         else:
             return numba_to_af_array(nb_arr.copy())
-except:
-    AF_NUMBA_FOUND=False
 
 def to_array(in_array, copy = True):
     """

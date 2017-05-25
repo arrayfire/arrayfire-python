@@ -1310,7 +1310,7 @@ def display(a, precision=4):
             st = expr[0].find('(') + 1
             en = expr[0].rfind(')')
             name = expr[0][st:en]
-    except:
+    except IndexError:
         pass
 
     safe_call(backend.get().af_print_array_gen(name.encode('utf-8'),
