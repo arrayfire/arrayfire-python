@@ -458,7 +458,7 @@ def dilate(image, mask = None):
 
     """
     if mask is None:
-        mask = constant(1, 3, 3, dtype=Dtype.f32)
+        mask = constant(1, 3, 3, dtype=set_global_precision())
 
     output = Array()
     safe_call(backend.get().af_dilate(c_pointer(output.arr), image.arr, mask.arr))
@@ -487,7 +487,7 @@ def dilate3(volume, mask = None):
 
     """
     if mask is None:
-        mask = constant(1, 3, 3, 3, dtype=Dtype.f32)
+        mask = constant(1, 3, 3, 3, dtype=set_global_precision())
 
     output = Array()
     safe_call(backend.get().af_dilate3(c_pointer(output.arr), volume.arr, mask.arr))
@@ -516,7 +516,7 @@ def erode(image, mask = None):
 
     """
     if mask is None:
-        mask = constant(1, 3, 3, dtype=Dtype.f32)
+        mask = constant(1, 3, 3, dtype=set_global_precision())
 
     output = Array()
     safe_call(backend.get().af_erode(c_pointer(output.arr), image.arr, mask.arr))
@@ -546,7 +546,7 @@ def erode3(volume, mask = None):
     """
 
     if mask is None:
-        mask = constant(1, 3, 3, 3, dtype=Dtype.f32)
+        mask = constant(1, 3, 3, 3, dtype=set_global_precision())
 
     output = Array()
     safe_call(backend.get().af_erode3(c_pointer(output.arr), volume.arr, mask.arr))
