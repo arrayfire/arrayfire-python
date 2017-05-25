@@ -16,7 +16,7 @@ import arrayfire as af
 
 try:
     import numpy as np
-except:
+except ImportError:
     np = None
 
 

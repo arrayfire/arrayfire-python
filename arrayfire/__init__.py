@@ -50,7 +50,7 @@ The functionality provided by ArrayFire spans the following domains:
 
 try:
     import pycuda.autoinit
-except:
+except ImportError:
     pass
 
 from .library    import *

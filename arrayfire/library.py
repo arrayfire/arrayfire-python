@@ -51,7 +51,7 @@ try:
     from enum import Enum as _Enum
     def _Enum_Type(v):
         return v
-except:
+except ImportError:
     class _MetaEnum(type):
         def __init__(cls, name, bases, attrs):
             for attrname, attrvalue in attrs.iteritems():
@@ -423,7 +423,7 @@ def _setup():
 
     try:
         AF_PATH = os.environ['AF_PATH']
-    except:
+    except KeyError:
         AF_PATH = None
         pass
 
@@ -431,7 +431,7 @@ def _setup():
 
     try:
         CUDA_PATH = os.environ['CUDA_PATH']
-    except:
+    except KeyError:
         CUDA_PATH= None
         pass
 
@@ -541,7 +541,7 @@ class _clibrary(object):
         for libname in libnames:
             try:
                 ct.cdll.LoadLibrary(libname)
-            except:
+            except OSError:
                 pass
 
         c_dim4 = c_dim_t*4
@@ -562,7 +562,7 @@ class _clibrary(object):
                         self.__name = __name
                         clib.af_release_array(out)
                     break;
-                except:
+                except OSError:
                     pass
 
         if (self.__name is None):
