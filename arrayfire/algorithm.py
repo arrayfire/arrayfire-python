@@ -473,16 +473,16 @@ def sort_index(a, dim=0, is_ascending=True):
                                           c_uint_t(dim), c_bool_t(is_ascending)))
     return out,idx
 
-def sort_by_key(iv, ik, dim=0, is_ascending=True):
+def sort_by_key(ik, iv, dim=0, is_ascending=True):
     """
     Sort an array based on specified keys
 
     Parameters
     ----------
-    iv  : af.Array
-         An Array containing the values
     ik  : af.Array
          An Array containing the keys
+    iv  : af.Array
+         An Array containing the values
     dim: optional: int. default: 0
          Dimension along which sort is to be performed.
     is_ascending: optional: bool. default: True
@@ -490,9 +490,9 @@ def sort_by_key(iv, ik, dim=0, is_ascending=True):
 
     Returns
     -------
-    (ov, ok): tuple of af.Array
-         `ov` contains the values from `iv` after sorting them based on `ik`
+    (ok, ov): tuple of af.Array
          `ok` contains the values from `ik` in sorted order
+         `ov` contains the values from `iv` after sorting them based on `ik`
 
     Note
     -------
@@ -500,8 +500,8 @@ def sort_by_key(iv, ik, dim=0, is_ascending=True):
     """
     ov = Array()
     ok = Array()
-    safe_call(backend.get().af_sort_by_key(c_pointer(ov.arr), c_pointer(ok.arr),
-                                           iv.arr, ik.arr, c_uint_t(dim), c_bool_t(is_ascending)))
+    safe_call(backend.get().af_sort_by_key(c_pointer(ok.arr), c_pointer(ov.arr),
+                                           ik.arr, iv.arr, c_uint_t(dim), c_bool_t(is_ascending)))
     return ov,ok
 
 def set_unique(a, is_sorted=False):
