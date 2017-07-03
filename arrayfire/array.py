@@ -630,6 +630,14 @@ class Array(BaseArray):
         safe_call(backend.get().af_get_elements(c_pointer(num), self.arr))
         return num.value
 
+    def allocated(self):
+        """
+        Returns the number of bytes allocated by the memory manager for the array.
+        """
+        num = c_size_t(0)
+        safe_call(backend.get().af_get_allocated_bytes(c_pointer(num), self.arr))
+        return num.value
+
     def dtype(self):
         """
         Return the data type as a arrayfire.Dtype enum value.
