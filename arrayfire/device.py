@@ -273,6 +273,52 @@ def device_mem_info():
     mem_info['lock'] = {'buffers' : lock_buffers.value, 'bytes' : lock_bytes.value}
     return mem_info
 
+def print_mem_info(title = "Memory Info", device_id = None):
+    """
+    Prints the memory used for the specified device.
+
+    Parameters
+    ----------
+    title: optional. Default: "Memory Info"
+       - Title to display before printing the memory info.
+    device_id: optional. Default: None
+       - Specifies the device for which the memory info should be displayed.
+       - If None, uses the current device.
+
+    Examples
+    --------
+
+    >>> a = af.randu(5,5)
+    >>> af.print_mem_info()
+    Memory Info
+    ---------------------------------------------------------
+    |     POINTER      |    SIZE    |  AF LOCK  | USER LOCK |
+    ---------------------------------------------------------
+    |     0x706400000  |       1 KB |       Yes |        No |
+    ---------------------------------------------------------
+    >>> b = af.randu(5,5)
+    >>> af.print_mem_info()
+    Memory Info
+    ---------------------------------------------------------
+    |     POINTER      |    SIZE    |  AF LOCK  | USER LOCK |
+    ---------------------------------------------------------
+    |     0x706400400  |       1 KB |       Yes |        No |
+    |     0x706400000  |       1 KB |       Yes |        No |
+    ---------------------------------------------------------
+    >>> a = af.randu(1000,1000)
+    >>> af.print_mem_info()
+    Memory Info
+    ---------------------------------------------------------
+    |     POINTER      |    SIZE    |  AF LOCK  | USER LOCK |
+    ---------------------------------------------------------
+    |     0x706500000  |   3.815 MB |       Yes |        No |
+    |     0x706400400  |       1 KB |       Yes |        No |
+    |     0x706400000  |       1 KB |        No |        No |
+    ---------------------------------------------------------
+    """
+    device_id = device_id if device_id else get_device()
+    safe_call(backend.get().af_print_mem_info(title.encode('utf-8'), device_id))
+
 def device_gc():
     """
     Ask the garbage collector to free all unlocked memory
