@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,18 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -34,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -57,6 +58,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.util</span> <span class="k">import</span> <span class="n">_is_number</span>
@@ -64,6 +66,65 @@
 <span class="kn">from</span> <span class="nn">.base</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.index</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.index</span> <span class="k">import</span> <span class="n">_Index4</span>
+
+<span class="n">_is_running_in_py_charm</span> <span class="o">=</span> <span class="s2">&quot;PYCHARM_HOSTED&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span>
+
+<span class="n">_display_dims_limit</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="set_display_dims_limit"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.set_display_dims_limit">[docs]</a><span class="k">def</span> <span class="nf">set_display_dims_limit</span><span class="p">(</span><span class="o">*</span><span class="n">dims</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sets the dimension limit after which array&#39;s data won&#39;t get</span>
+<span class="sd">    presented to the result of str(arr).</span>
+
+<span class="sd">    Default is None, which means there is no limit.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    *dims : dimension limit args</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    set_display_dims_limit(10, 10, 10, 10)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">_display_dims_limit</span>
+    <span class="n">_display_dims_limit</span> <span class="o">=</span> <span class="n">dims</span></div>
+
+<div class="viewcode-block" id="get_display_dims_limit"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.get_display_dims_limit">[docs]</a><span class="k">def</span> <span class="nf">get_display_dims_limit</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets the dimension limit after which array&#39;s data won&#39;t get</span>
+<span class="sd">    presented to the result of str(arr).</span>
+
+<span class="sd">    Default is None, which means there is no limit.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -----------</span>
+<span class="sd">        - tuple of the current limit</span>
+<span class="sd">        - None is there is no limit</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    get_display_dims_limit()</span>
+<span class="sd">    # None</span>
+<span class="sd">    set_display_dims_limit(10, 10, 10, 10)</span>
+<span class="sd">    get_display_dims_limit()</span>
+<span class="sd">    # (10, 10, 10, 10)</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_display_dims_limit</span></div>
+
+<span class="k">def</span> <span class="nf">_in_display_dims_limit</span><span class="p">(</span><span class="n">dims</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">_is_running_in_py_charm</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">_display_dims_limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">limit_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">_display_dims_limit</span><span class="p">)</span>
+        <span class="n">dim_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dim_len</span> <span class="o">&gt;</span> <span class="n">limit_len</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim_len</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">dims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">_display_dims_limit</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span> <span class="kc">True</span>
 
 <span class="k">def</span> <span class="nf">_create_array</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="n">numdims</span><span class="p">,</span> <span class="n">idims</span><span class="p">,</span> <span class="n">dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="p">):</span>
     <span class="n">out_arr</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
@@ -99,6 +160,9 @@
 
 <span class="k">def</span> <span class="nf">_create_empty_array</span><span class="p">(</span><span class="n">numdims</span><span class="p">,</span> <span class="n">idims</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
     <span class="n">out_arr</span> <span class="o">=</span> <span class="n">c_void_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">numdims</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="k">return</span> <span class="n">out_arr</span>
+
     <span class="n">c_dims</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">idims</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">idims</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
     <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_create_handle</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out_arr</span><span class="p">),</span>
                                              <span class="n">numdims</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">c_dims</span><span class="p">),</span> <span class="n">dtype</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
@@ -205,19 +269,18 @@
 
 <span class="k">def</span> <span class="nf">_get_info</span><span class="p">(</span><span class="n">dims</span><span class="p">,</span> <span class="n">buf_len</span><span class="p">):</span>
     <span class="n">elements</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="n">numdims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
-    <span class="n">idims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">4</span>
-
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numdims</span><span class="p">):</span>
-        <span class="n">elements</span> <span class="o">*=</span> <span class="n">dims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="n">idims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="p">(</span><span class="n">elements</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">buf_len</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="n">idims</span> <span class="o">=</span> <span class="p">[</span><span class="n">buf_len</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="n">numdims</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid size&quot;</span><span class="p">)</span>
+    <span class="n">numdims</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">dims</span><span class="p">:</span>
+        <span class="n">numdims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+        <span class="n">idims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">4</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numdims</span><span class="p">):</span>
+            <span class="n">elements</span> <span class="o">*=</span> <span class="n">dims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">idims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="n">buf_len</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="n">idims</span> <span class="o">=</span> <span class="p">[</span><span class="n">buf_len</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">numdims</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Invalid size&quot;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">numdims</span><span class="p">,</span> <span class="n">idims</span>
 
@@ -427,9 +490,9 @@
     <span class="c1"># arrayfire&#39;s __radd__() instead of numpy&#39;s __add__()</span>
     <span class="n">__array_priority__</span> <span class="o">=</span> <span class="mi">30</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">src</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 
-        <span class="nb">super</span><span class="p">(</span><span class="n">Array</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">__init__</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Array</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="n">buf</span><span class="o">=</span><span class="kc">None</span>
         <span class="n">buf_len</span><span class="o">=</span><span class="mi">0</span>
@@ -494,10 +557,12 @@
             <span class="k">if</span> <span class="n">type_char</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">type_char</span> <span class="o">=</span> <span class="s1">&#39;f&#39;</span>
 
-            <span class="n">numdims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+            <span class="n">numdims</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span> <span class="k">if</span> <span class="n">dims</span> <span class="k">else</span> <span class="mi">0</span>
+
             <span class="n">idims</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span>
             <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">numdims</span><span class="p">):</span>
                 <span class="n">idims</span><span class="p">[</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">dims</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+
             <span class="bp">self</span><span class="o">.</span><span class="n">arr</span> <span class="o">=</span> <span class="n">_create_empty_array</span><span class="p">(</span><span class="n">numdims</span><span class="p">,</span> <span class="n">idims</span><span class="p">,</span> <span class="n">to_dtype</span><span class="p">[</span><span class="n">type_char</span><span class="p">])</span>
 
 <div class="viewcode-block" id="Array.as_type"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.as_type">[docs]</a>    <span class="k">def</span> <span class="nf">as_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ty</span><span class="p">):</span>
@@ -609,6 +674,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">num</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
         <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_elements</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">value</span></div>
+
+<div class="viewcode-block" id="Array.allocated"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.allocated">[docs]</a>    <span class="k">def</span> <span class="nf">allocated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns the number of bytes allocated by the memory manager for the array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">num</span> <span class="o">=</span> <span class="n">c_size_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_allocated_bytes</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">num</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">num</span><span class="o">.</span><span class="n">value</span></div>
 
 <div class="viewcode-block" id="Array.dtype"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.dtype">[docs]</a>    <span class="k">def</span> <span class="nf">dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -1049,7 +1122,10 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Return ~self</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span> <span class="o">==</span> <span class="mi">0</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_not</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="bp">self</span> <span class="o">=</span> <span class="n">out</span>
+        <span class="k">return</span> <span class="bp">self</span>
 
     <span class="k">def</span> <span class="nf">__nonzero__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span> <span class="o">!=</span> <span class="mi">0</span>
@@ -1223,20 +1299,55 @@
         <span class="n">ct_array</span><span class="p">,</span> <span class="n">shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_ctype</span><span class="p">(</span><span class="n">row_major</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">_ctype_to_lists</span><span class="p">(</span><span class="n">ct_array</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span></div>
 
-    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Array.scalar"><a class="viewcode-back" href="../../arrayfire.array.html#arrayfire.array.Array.scalar">[docs]</a>    <span class="k">def</span> <span class="nf">scalar</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Displays the meta data and contents of  the arrayfire array.</span>
+<span class="sd">        Return the first element of the array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Can not call to_ctype on empty array&quot;</span><span class="p">)</span>
+
+        <span class="n">ctype_type</span> <span class="o">=</span> <span class="n">to_c_type</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">()]</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">ctype_type</span><span class="p">()</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_get_scalar</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">value</span></div>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Converts the arrayfire array to string showing its meta data and contents.</span>
 
 <span class="sd">        Note</span>
 <span class="sd">        ----</span>
 <span class="sd">        You can also use af.display(a, pres) to display the contents of the array with better precision.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
-        <span class="n">arr_str</span> <span class="o">=</span> <span class="n">c_char_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_array_to_string</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">arr_str</span><span class="p">),</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_in_display_dims_limit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_metadata_str</span><span class="p">()</span>
 
-        <span class="k">return</span> <span class="s1">&#39;arrayfire.Array()</span><span class="se">\n</span><span class="s1">Type: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> \
-            <span class="p">(</span><span class="n">to_typename</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">()])</span> <span class="o">+</span> <span class="n">to_str</span><span class="p">(</span><span class="n">arr_str</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_metadata_str</span><span class="p">(</span><span class="n">dims</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_as_str</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Displays the meta data of the arrayfire array.</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----</span>
+<span class="sd">        You can use af.display(a, pres) to display the contents of the array.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_metadata_str</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_get_metadata_str</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;arrayfire.Array()</span><span class="se">\n</span><span class="s1">Type: </span><span class="si">{}</span><span class="se">\n</span><span class="si">{}</span><span class="s1">&#39;</span> \
+            <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">to_typename</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">()],</span> <span class="s1">&#39;Dims: </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dims</span><span class="p">()))</span> <span class="k">if</span> <span class="n">dims</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_as_str</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">arr_str</span> <span class="o">=</span> <span class="n">c_char_ptr_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">be</span> <span class="o">=</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">be</span><span class="o">.</span><span class="n">af_array_to_string</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">arr_str</span><span class="p">),</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+        <span class="n">py_str</span> <span class="o">=</span> <span class="n">to_str</span><span class="p">(</span><span class="n">arr_str</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">be</span><span class="o">.</span><span class="n">af_free_host</span><span class="p">(</span><span class="n">arr_str</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">py_str</span>
 
     <span class="k">def</span> <span class="nf">__array__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -1266,7 +1377,7 @@
             <span class="n">st</span> <span class="o">=</span> <span class="n">expr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;(&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span>
             <span class="n">en</span> <span class="o">=</span> <span class="n">expr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">rfind</span><span class="p">(</span><span class="s1">&#39;)&#39;</span><span class="p">)</span>
             <span class="n">name</span> <span class="o">=</span> <span class="n">expr</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">st</span><span class="p">:</span><span class="n">en</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
         <span class="k">pass</span>
 
     <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_print_array_gen</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span>
@@ -1375,8 +1486,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

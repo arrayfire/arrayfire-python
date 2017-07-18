@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,17 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -51,22 +53,22 @@
 <p>Backend libraries</p>
 <dl class="attribute">
 <dt id="arrayfire.library.BACKEND.CPU">
-<code class="descname">CPU</code><em class="property"> = &lt;BACKEND.CPU: 1&gt;</em><a class="headerlink" href="#arrayfire.library.BACKEND.CPU" title="Permalink to this definition">¶</a></dt>
+<code class="descname">CPU</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.BACKEND.CPU" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.BACKEND.CUDA">
-<code class="descname">CUDA</code><em class="property"> = &lt;BACKEND.CUDA: 2&gt;</em><a class="headerlink" href="#arrayfire.library.BACKEND.CUDA" title="Permalink to this definition">¶</a></dt>
+<code class="descname">CUDA</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.BACKEND.CUDA" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.BACKEND.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = &lt;BACKEND.DEFAULT: 0&gt;</em><a class="headerlink" href="#arrayfire.library.BACKEND.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.BACKEND.DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.BACKEND.OPENCL">
-<code class="descname">OPENCL</code><em class="property"> = &lt;BACKEND.OPENCL: 4&gt;</em><a class="headerlink" href="#arrayfire.library.BACKEND.OPENCL" title="Permalink to this definition">¶</a></dt>
+<code class="descname">OPENCL</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.BACKEND.OPENCL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -78,22 +80,39 @@
 <p>Binary Operators</p>
 <dl class="attribute">
 <dt id="arrayfire.library.BINARYOP.ADD">
-<code class="descname">ADD</code><em class="property"> = &lt;BINARYOP.ADD: 0&gt;</em><a class="headerlink" href="#arrayfire.library.BINARYOP.ADD" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ADD</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.BINARYOP.ADD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.BINARYOP.MAX">
-<code class="descname">MAX</code><em class="property"> = &lt;BINARYOP.MAX: 3&gt;</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MAX" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MAX</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MAX" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.BINARYOP.MIN">
-<code class="descname">MIN</code><em class="property"> = &lt;BINARYOP.MIN: 2&gt;</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MIN" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MIN</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MIN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.BINARYOP.MUL">
-<code class="descname">MUL</code><em class="property"> = &lt;BINARYOP.MUL: 1&gt;</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MUL" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MUL</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MUL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="arrayfire.library.CANNY_THRESHOLD">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CANNY_THRESHOLD</code><a class="reference internal" href="_modules/arrayfire/library.html#CANNY_THRESHOLD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CANNY_THRESHOLD" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<p>Canny Edge Threshold types</p>
+<dl class="attribute">
+<dt id="arrayfire.library.CANNY_THRESHOLD.AUTO_OTSU">
+<code class="descname">AUTO_OTSU</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.CANNY_THRESHOLD.AUTO_OTSU" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.CANNY_THRESHOLD.MANUAL">
+<code class="descname">MANUAL</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.CANNY_THRESHOLD.MANUAL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -105,37 +124,37 @@
 <p>Colormaps</p>
 <dl class="attribute">
 <dt id="arrayfire.library.COLORMAP.BLUE">
-<code class="descname">BLUE</code><em class="property"> = &lt;COLORMAP.BLUE: 6&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.BLUE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BLUE</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.COLORMAP.BLUE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.COLORMAP.COLORS">
-<code class="descname">COLORS</code><em class="property"> = &lt;COLORMAP.COLORS: 2&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.COLORS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">COLORS</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.COLORMAP.COLORS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.COLORMAP.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = &lt;COLORMAP.DEFAULT: 0&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.COLORMAP.DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.COLORMAP.HEAT">
-<code class="descname">HEAT</code><em class="property"> = &lt;COLORMAP.HEAT: 5&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.HEAT" title="Permalink to this definition">¶</a></dt>
+<code class="descname">HEAT</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.COLORMAP.HEAT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.COLORMAP.MOOD">
-<code class="descname">MOOD</code><em class="property"> = &lt;COLORMAP.MOOD: 4&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.MOOD" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MOOD</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.COLORMAP.MOOD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.COLORMAP.RED">
-<code class="descname">RED</code><em class="property"> = &lt;COLORMAP.RED: 3&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.RED" title="Permalink to this definition">¶</a></dt>
+<code class="descname">RED</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.COLORMAP.RED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.COLORMAP.SPECTRUM">
-<code class="descname">SPECTRUM</code><em class="property"> = &lt;COLORMAP.SPECTRUM: 1&gt;</em><a class="headerlink" href="#arrayfire.library.COLORMAP.SPECTRUM" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SPECTRUM</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.COLORMAP.SPECTRUM" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -147,12 +166,12 @@
 <p>Neighborhood connectivity</p>
 <dl class="attribute">
 <dt id="arrayfire.library.CONNECTIVITY.EIGHT">
-<code class="descname">EIGHT</code><em class="property"> = &lt;CONNECTIVITY.EIGHT: 8&gt;</em><a class="headerlink" href="#arrayfire.library.CONNECTIVITY.EIGHT" title="Permalink to this definition">¶</a></dt>
+<code class="descname">EIGHT</code><em class="property"> = 8</em><a class="headerlink" href="#arrayfire.library.CONNECTIVITY.EIGHT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.CONNECTIVITY.FOUR">
-<code class="descname">FOUR</code><em class="property"> = &lt;CONNECTIVITY.FOUR: 4&gt;</em><a class="headerlink" href="#arrayfire.library.CONNECTIVITY.FOUR" title="Permalink to this definition">¶</a></dt>
+<code class="descname">FOUR</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.CONNECTIVITY.FOUR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -164,17 +183,17 @@
 <p>Convolution domain</p>
 <dl class="attribute">
 <dt id="arrayfire.library.CONV_DOMAIN.AUTO">
-<code class="descname">AUTO</code><em class="property"> = &lt;CONV_DOMAIN.AUTO: 0&gt;</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.AUTO" title="Permalink to this definition">¶</a></dt>
+<code class="descname">AUTO</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.AUTO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.CONV_DOMAIN.FREQ">
-<code class="descname">FREQ</code><em class="property"> = &lt;CONV_DOMAIN.FREQ: 2&gt;</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.FREQ" title="Permalink to this definition">¶</a></dt>
+<code class="descname">FREQ</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.FREQ" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.CONV_DOMAIN.SPATIAL">
-<code class="descname">SPATIAL</code><em class="property"> = &lt;CONV_DOMAIN.SPATIAL: 1&gt;</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.SPATIAL" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SPATIAL</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.SPATIAL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -186,12 +205,12 @@
 <p>Convolution mode</p>
 <dl class="attribute">
 <dt id="arrayfire.library.CONV_MODE.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = &lt;CONV_MODE.DEFAULT: 0&gt;</em><a class="headerlink" href="#arrayfire.library.CONV_MODE.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.CONV_MODE.DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.CONV_MODE.EXPAND">
-<code class="descname">EXPAND</code><em class="property"> = &lt;CONV_MODE.EXPAND: 1&gt;</em><a class="headerlink" href="#arrayfire.library.CONV_MODE.EXPAND" title="Permalink to this definition">¶</a></dt>
+<code class="descname">EXPAND</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.CONV_MODE.EXPAND" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -203,22 +222,22 @@
 <p>Colorspace formats</p>
 <dl class="attribute">
 <dt id="arrayfire.library.CSPACE.GRAY">
-<code class="descname">GRAY</code><em class="property"> = &lt;CSPACE.GRAY: 0&gt;</em><a class="headerlink" href="#arrayfire.library.CSPACE.GRAY" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GRAY</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.CSPACE.GRAY" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.CSPACE.HSV">
-<code class="descname">HSV</code><em class="property"> = &lt;CSPACE.HSV: 2&gt;</em><a class="headerlink" href="#arrayfire.library.CSPACE.HSV" title="Permalink to this definition">¶</a></dt>
+<code class="descname">HSV</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.CSPACE.HSV" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.CSPACE.RGB">
-<code class="descname">RGB</code><em class="property"> = &lt;CSPACE.RGB: 1&gt;</em><a class="headerlink" href="#arrayfire.library.CSPACE.RGB" title="Permalink to this definition">¶</a></dt>
+<code class="descname">RGB</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.CSPACE.RGB" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.CSPACE.YCbCr">
-<code class="descname">YCbCr</code><em class="property"> = &lt;CSPACE.YCbCr: 3&gt;</em><a class="headerlink" href="#arrayfire.library.CSPACE.YCbCr" title="Permalink to this definition">¶</a></dt>
+<code class="descname">YCbCr</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.CSPACE.YCbCr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -230,62 +249,62 @@
 <p>Error values. For internal use only.</p>
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.b8">
-<code class="descname">b8</code><em class="property"> = &lt;Dtype.b8: 4&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.b8" title="Permalink to this definition">¶</a></dt>
+<code class="descname">b8</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.Dtype.b8" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.c32">
-<code class="descname">c32</code><em class="property"> = &lt;Dtype.c32: 1&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.c32" title="Permalink to this definition">¶</a></dt>
+<code class="descname">c32</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.Dtype.c32" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.c64">
-<code class="descname">c64</code><em class="property"> = &lt;Dtype.c64: 3&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.c64" title="Permalink to this definition">¶</a></dt>
+<code class="descname">c64</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.Dtype.c64" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.f32">
-<code class="descname">f32</code><em class="property"> = &lt;Dtype.f32: 0&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.f32" title="Permalink to this definition">¶</a></dt>
+<code class="descname">f32</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.Dtype.f32" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.f64">
-<code class="descname">f64</code><em class="property"> = &lt;Dtype.f64: 2&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.f64" title="Permalink to this definition">¶</a></dt>
+<code class="descname">f64</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.Dtype.f64" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.s16">
-<code class="descname">s16</code><em class="property"> = &lt;Dtype.s16: 10&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.s16" title="Permalink to this definition">¶</a></dt>
+<code class="descname">s16</code><em class="property"> = 10</em><a class="headerlink" href="#arrayfire.library.Dtype.s16" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.s32">
-<code class="descname">s32</code><em class="property"> = &lt;Dtype.s32: 5&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.s32" title="Permalink to this definition">¶</a></dt>
+<code class="descname">s32</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.Dtype.s32" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.s64">
-<code class="descname">s64</code><em class="property"> = &lt;Dtype.s64: 8&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.s64" title="Permalink to this definition">¶</a></dt>
+<code class="descname">s64</code><em class="property"> = 8</em><a class="headerlink" href="#arrayfire.library.Dtype.s64" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.u16">
-<code class="descname">u16</code><em class="property"> = &lt;Dtype.u16: 11&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.u16" title="Permalink to this definition">¶</a></dt>
+<code class="descname">u16</code><em class="property"> = 11</em><a class="headerlink" href="#arrayfire.library.Dtype.u16" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.u32">
-<code class="descname">u32</code><em class="property"> = &lt;Dtype.u32: 6&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.u32" title="Permalink to this definition">¶</a></dt>
+<code class="descname">u32</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.Dtype.u32" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.u64">
-<code class="descname">u64</code><em class="property"> = &lt;Dtype.u64: 9&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.u64" title="Permalink to this definition">¶</a></dt>
+<code class="descname">u64</code><em class="property"> = 9</em><a class="headerlink" href="#arrayfire.library.Dtype.u64" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.u8">
-<code class="descname">u8</code><em class="property"> = &lt;Dtype.u8: 7&gt;</em><a class="headerlink" href="#arrayfire.library.Dtype.u8" title="Permalink to this definition">¶</a></dt>
+<code class="descname">u8</code><em class="property"> = 7</em><a class="headerlink" href="#arrayfire.library.Dtype.u8" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -297,107 +316,107 @@
 <p>Error values. For internal use only.</p>
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.ARG">
-<code class="descname">ARG</code><em class="property"> = &lt;ERR.ARG: 202&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.ARG" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ARG</code><em class="property"> = 202</em><a class="headerlink" href="#arrayfire.library.ERR.ARG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.ARR_BKND_MISMATCH">
-<code class="descname">ARR_BKND_MISMATCH</code><em class="property"> = &lt;ERR.ARR_BKND_MISMATCH: 503&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.ARR_BKND_MISMATCH" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ARR_BKND_MISMATCH</code><em class="property"> = 503</em><a class="headerlink" href="#arrayfire.library.ERR.ARR_BKND_MISMATCH" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.BATCH">
-<code class="descname">BATCH</code><em class="property"> = &lt;ERR.BATCH: 207&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.BATCH" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BATCH</code><em class="property"> = 207</em><a class="headerlink" href="#arrayfire.library.ERR.BATCH" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.DEVICE">
-<code class="descname">DEVICE</code><em class="property"> = &lt;ERR.DEVICE: 208&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.DEVICE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DEVICE</code><em class="property"> = 208</em><a class="headerlink" href="#arrayfire.library.ERR.DEVICE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.DIFF_TYPE">
-<code class="descname">DIFF_TYPE</code><em class="property"> = &lt;ERR.DIFF_TYPE: 205&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.DIFF_TYPE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DIFF_TYPE</code><em class="property"> = 205</em><a class="headerlink" href="#arrayfire.library.ERR.DIFF_TYPE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.DRIVER">
-<code class="descname">DRIVER</code><em class="property"> = &lt;ERR.DRIVER: 102&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.DRIVER" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DRIVER</code><em class="property"> = 102</em><a class="headerlink" href="#arrayfire.library.ERR.DRIVER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.INTERNAL">
-<code class="descname">INTERNAL</code><em class="property"> = &lt;ERR.INTERNAL: 998&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.INTERNAL" title="Permalink to this definition">¶</a></dt>
+<code class="descname">INTERNAL</code><em class="property"> = 998</em><a class="headerlink" href="#arrayfire.library.ERR.INTERNAL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.INVALID_ARRAY">
-<code class="descname">INVALID_ARRAY</code><em class="property"> = &lt;ERR.INVALID_ARRAY: 201&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.INVALID_ARRAY" title="Permalink to this definition">¶</a></dt>
+<code class="descname">INVALID_ARRAY</code><em class="property"> = 201</em><a class="headerlink" href="#arrayfire.library.ERR.INVALID_ARRAY" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.LOAD_LIB">
-<code class="descname">LOAD_LIB</code><em class="property"> = &lt;ERR.LOAD_LIB: 501&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.LOAD_LIB" title="Permalink to this definition">¶</a></dt>
+<code class="descname">LOAD_LIB</code><em class="property"> = 501</em><a class="headerlink" href="#arrayfire.library.ERR.LOAD_LIB" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.LOAD_SYM">
-<code class="descname">LOAD_SYM</code><em class="property"> = &lt;ERR.LOAD_SYM: 502&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.LOAD_SYM" title="Permalink to this definition">¶</a></dt>
+<code class="descname">LOAD_SYM</code><em class="property"> = 502</em><a class="headerlink" href="#arrayfire.library.ERR.LOAD_SYM" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.NONE">
-<code class="descname">NONE</code><em class="property"> = &lt;ERR.NONE: 0&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NONE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.ERR.NONE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.NONFREE">
-<code class="descname">NONFREE</code><em class="property"> = &lt;ERR.NONFREE: 303&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NONFREE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NONFREE</code><em class="property"> = 303</em><a class="headerlink" href="#arrayfire.library.ERR.NONFREE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.NOT_CONFIGURED">
-<code class="descname">NOT_CONFIGURED</code><em class="property"> = &lt;ERR.NOT_CONFIGURED: 302&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NOT_CONFIGURED" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NOT_CONFIGURED</code><em class="property"> = 302</em><a class="headerlink" href="#arrayfire.library.ERR.NOT_CONFIGURED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.NOT_SUPPORTED">
-<code class="descname">NOT_SUPPORTED</code><em class="property"> = &lt;ERR.NOT_SUPPORTED: 301&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NOT_SUPPORTED" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NOT_SUPPORTED</code><em class="property"> = 301</em><a class="headerlink" href="#arrayfire.library.ERR.NOT_SUPPORTED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.NO_DBL">
-<code class="descname">NO_DBL</code><em class="property"> = &lt;ERR.NO_DBL: 401&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NO_DBL" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NO_DBL</code><em class="property"> = 401</em><a class="headerlink" href="#arrayfire.library.ERR.NO_DBL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.NO_GFX">
-<code class="descname">NO_GFX</code><em class="property"> = &lt;ERR.NO_GFX: 402&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NO_GFX" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NO_GFX</code><em class="property"> = 402</em><a class="headerlink" href="#arrayfire.library.ERR.NO_GFX" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.NO_MEM">
-<code class="descname">NO_MEM</code><em class="property"> = &lt;ERR.NO_MEM: 101&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.NO_MEM" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NO_MEM</code><em class="property"> = 101</em><a class="headerlink" href="#arrayfire.library.ERR.NO_MEM" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.RUNTIME">
-<code class="descname">RUNTIME</code><em class="property"> = &lt;ERR.RUNTIME: 103&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.RUNTIME" title="Permalink to this definition">¶</a></dt>
+<code class="descname">RUNTIME</code><em class="property"> = 103</em><a class="headerlink" href="#arrayfire.library.ERR.RUNTIME" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.SIZE">
-<code class="descname">SIZE</code><em class="property"> = &lt;ERR.SIZE: 203&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.SIZE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SIZE</code><em class="property"> = 203</em><a class="headerlink" href="#arrayfire.library.ERR.SIZE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.TYPE">
-<code class="descname">TYPE</code><em class="property"> = &lt;ERR.TYPE: 204&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.TYPE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">TYPE</code><em class="property"> = 204</em><a class="headerlink" href="#arrayfire.library.ERR.TYPE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.UNKNOWN">
-<code class="descname">UNKNOWN</code><em class="property"> = &lt;ERR.UNKNOWN: 999&gt;</em><a class="headerlink" href="#arrayfire.library.ERR.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<code class="descname">UNKNOWN</code><em class="property"> = 999</em><a class="headerlink" href="#arrayfire.library.ERR.UNKNOWN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -409,12 +428,12 @@
 <p>Homography Types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.HOMOGRAPHY.LMEDS">
-<code class="descname">LMEDS</code><em class="property"> = &lt;HOMOGRAPHY.LMEDS: 1&gt;</em><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY.LMEDS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">LMEDS</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY.LMEDS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.HOMOGRAPHY.RANSAC">
-<code class="descname">RANSAC</code><em class="property"> = &lt;HOMOGRAPHY.RANSAC: 0&gt;</em><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY.RANSAC" title="Permalink to this definition">¶</a></dt>
+<code class="descname">RANSAC</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY.RANSAC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -426,67 +445,67 @@
 <p>Image Formats</p>
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.BMP">
-<code class="descname">BMP</code><em class="property"> = &lt;IMAGE_FORMAT.BMP: 0&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.BMP" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BMP</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.BMP" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.EXR">
-<code class="descname">EXR</code><em class="property"> = &lt;IMAGE_FORMAT.EXR: 29&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.EXR" title="Permalink to this definition">¶</a></dt>
+<code class="descname">EXR</code><em class="property"> = 29</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.EXR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.HDR">
-<code class="descname">HDR</code><em class="property"> = &lt;IMAGE_FORMAT.HDR: 26&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.HDR" title="Permalink to this definition">¶</a></dt>
+<code class="descname">HDR</code><em class="property"> = 26</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.HDR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.ICO">
-<code class="descname">ICO</code><em class="property"> = &lt;IMAGE_FORMAT.ICO: 1&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.ICO" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ICO</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.ICO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.JNG">
-<code class="descname">JNG</code><em class="property"> = &lt;IMAGE_FORMAT.JNG: 3&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JNG" title="Permalink to this definition">¶</a></dt>
+<code class="descname">JNG</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JNG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.JP2">
-<code class="descname">JP2</code><em class="property"> = &lt;IMAGE_FORMAT.JP2: 31&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JP2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">JP2</code><em class="property"> = 31</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JP2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.JPEG">
-<code class="descname">JPEG</code><em class="property"> = &lt;IMAGE_FORMAT.JPEG: 2&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JPEG" title="Permalink to this definition">¶</a></dt>
+<code class="descname">JPEG</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JPEG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.PNG">
-<code class="descname">PNG</code><em class="property"> = &lt;IMAGE_FORMAT.PNG: 13&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PNG" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PNG</code><em class="property"> = 13</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PNG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.PPM">
-<code class="descname">PPM</code><em class="property"> = &lt;IMAGE_FORMAT.PPM: 14&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PPM" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PPM</code><em class="property"> = 14</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PPM" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.PPMRAW">
-<code class="descname">PPMRAW</code><em class="property"> = &lt;IMAGE_FORMAT.PPMRAW: 15&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PPMRAW" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PPMRAW</code><em class="property"> = 15</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PPMRAW" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.PSD">
-<code class="descname">PSD</code><em class="property"> = &lt;IMAGE_FORMAT.PSD: 20&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PSD" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PSD</code><em class="property"> = 20</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PSD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.RAW">
-<code class="descname">RAW</code><em class="property"> = &lt;IMAGE_FORMAT.RAW: 34&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.RAW" title="Permalink to this definition">¶</a></dt>
+<code class="descname">RAW</code><em class="property"> = 34</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.RAW" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.TIFF">
-<code class="descname">TIFF</code><em class="property"> = &lt;IMAGE_FORMAT.TIFF: 18&gt;</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.TIFF" title="Permalink to this definition">¶</a></dt>
+<code class="descname">TIFF</code><em class="property"> = 18</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.TIFF" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -498,52 +517,52 @@
 <p>Interpolation method</p>
 <dl class="attribute">
 <dt id="arrayfire.library.INTERP.BICUBIC">
-<code class="descname">BICUBIC</code><em class="property"> = &lt;INTERP.BICUBIC: 7&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.BICUBIC" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BICUBIC</code><em class="property"> = 7</em><a class="headerlink" href="#arrayfire.library.INTERP.BICUBIC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.INTERP.BICUBIC_SPLINE">
-<code class="descname">BICUBIC_SPLINE</code><em class="property"> = &lt;INTERP.BICUBIC_SPLINE: 9&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.BICUBIC_SPLINE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BICUBIC_SPLINE</code><em class="property"> = 9</em><a class="headerlink" href="#arrayfire.library.INTERP.BICUBIC_SPLINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.INTERP.BILINEAR">
-<code class="descname">BILINEAR</code><em class="property"> = &lt;INTERP.BILINEAR: 2&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.BILINEAR" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BILINEAR</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.INTERP.BILINEAR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.INTERP.BILINEAR_COSINE">
-<code class="descname">BILINEAR_COSINE</code><em class="property"> = &lt;INTERP.BILINEAR_COSINE: 6&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.BILINEAR_COSINE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BILINEAR_COSINE</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.INTERP.BILINEAR_COSINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.INTERP.CUBIC">
-<code class="descname">CUBIC</code><em class="property"> = &lt;INTERP.CUBIC: 3&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.CUBIC" title="Permalink to this definition">¶</a></dt>
+<code class="descname">CUBIC</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.INTERP.CUBIC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.INTERP.CUBIC_SPLINE">
-<code class="descname">CUBIC_SPLINE</code><em class="property"> = &lt;INTERP.CUBIC_SPLINE: 8&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.CUBIC_SPLINE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">CUBIC_SPLINE</code><em class="property"> = 8</em><a class="headerlink" href="#arrayfire.library.INTERP.CUBIC_SPLINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.INTERP.LINEAR">
-<code class="descname">LINEAR</code><em class="property"> = &lt;INTERP.LINEAR: 1&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.LINEAR" title="Permalink to this definition">¶</a></dt>
+<code class="descname">LINEAR</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.INTERP.LINEAR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.INTERP.LINEAR_COSINE">
-<code class="descname">LINEAR_COSINE</code><em class="property"> = &lt;INTERP.LINEAR_COSINE: 5&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.LINEAR_COSINE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">LINEAR_COSINE</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.INTERP.LINEAR_COSINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.INTERP.LOWER">
-<code class="descname">LOWER</code><em class="property"> = &lt;INTERP.LOWER: 4&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.LOWER" title="Permalink to this definition">¶</a></dt>
+<code class="descname">LOWER</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.INTERP.LOWER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.INTERP.NEAREST">
-<code class="descname">NEAREST</code><em class="property"> = &lt;INTERP.NEAREST: 0&gt;</em><a class="headerlink" href="#arrayfire.library.INTERP.NEAREST" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NEAREST</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.INTERP.NEAREST" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -555,42 +574,42 @@
 <p>Markers used for different points in graphics plots</p>
 <dl class="attribute">
 <dt id="arrayfire.library.MARKER.CIRCLE">
-<code class="descname">CIRCLE</code><em class="property"> = &lt;MARKER.CIRCLE: 2&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.CIRCLE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">CIRCLE</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.MARKER.CIRCLE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MARKER.CROSS">
-<code class="descname">CROSS</code><em class="property"> = &lt;MARKER.CROSS: 5&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.CROSS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">CROSS</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.MARKER.CROSS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MARKER.NONE">
-<code class="descname">NONE</code><em class="property"> = &lt;MARKER.NONE: 0&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.NONE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.MARKER.NONE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MARKER.PLUS">
-<code class="descname">PLUS</code><em class="property"> = &lt;MARKER.PLUS: 6&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.PLUS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PLUS</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.MARKER.PLUS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MARKER.POINT">
-<code class="descname">POINT</code><em class="property"> = &lt;MARKER.POINT: 1&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.POINT" title="Permalink to this definition">¶</a></dt>
+<code class="descname">POINT</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.MARKER.POINT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MARKER.SQUARE">
-<code class="descname">SQUARE</code><em class="property"> = &lt;MARKER.SQUARE: 3&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.SQUARE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SQUARE</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.MARKER.SQUARE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MARKER.STAR">
-<code class="descname">STAR</code><em class="property"> = &lt;MARKER.STAR: 7&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.STAR" title="Permalink to this definition">¶</a></dt>
+<code class="descname">STAR</code><em class="property"> = 7</em><a class="headerlink" href="#arrayfire.library.MARKER.STAR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MARKER.TRIANGE">
-<code class="descname">TRIANGE</code><em class="property"> = &lt;MARKER.TRIANGE: 4&gt;</em><a class="headerlink" href="#arrayfire.library.MARKER.TRIANGE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">TRIANGE</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.MARKER.TRIANGE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -602,54 +621,54 @@
 <p>Match type</p>
 <dl class="attribute">
 <dt id="arrayfire.library.MATCH.LSAD">
-<code class="descname">LSAD</code><em class="property"> = &lt;MATCH.LSAD: 2&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.LSAD" title="Permalink to this definition">¶</a></dt>
+<code class="descname">LSAD</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.MATCH.LSAD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sum of squared differences</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATCH.LSSD">
-<code class="descname">LSSD</code><em class="property"> = &lt;MATCH.LSSD: 5&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.LSSD" title="Permalink to this definition">¶</a></dt>
+<code class="descname">LSSD</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.MATCH.LSSD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normalized cross correlation</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATCH.NCC">
-<code class="descname">NCC</code><em class="property"> = &lt;MATCH.NCC: 6&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.NCC" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NCC</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.MATCH.NCC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Zero mean NCC</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATCH.SAD">
-<code class="descname">SAD</code><em class="property"> = &lt;MATCH.SAD: 0&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.SAD" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SAD</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.MATCH.SAD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Zero mean SAD</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATCH.SHD">
-<code class="descname">SHD</code><em class="property"> = &lt;MATCH.SHD: 8&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.SHD" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SHD</code><em class="property"> = 8</em><a class="headerlink" href="#arrayfire.library.MATCH.SHD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATCH.SSD">
-<code class="descname">SSD</code><em class="property"> = &lt;MATCH.SSD: 3&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.SSD" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SSD</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.MATCH.SSD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Zero mean SSD</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATCH.ZNCC">
-<code class="descname">ZNCC</code><em class="property"> = &lt;MATCH.ZNCC: 7&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.ZNCC" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ZNCC</code><em class="property"> = 7</em><a class="headerlink" href="#arrayfire.library.MATCH.ZNCC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sum of hamming distances</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATCH.ZSAD">
-<code class="descname">ZSAD</code><em class="property"> = &lt;MATCH.ZSAD: 1&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.ZSAD" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ZSAD</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.MATCH.ZSAD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Locally scaled SAD</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATCH.ZSSD">
-<code class="descname">ZSSD</code><em class="property"> = &lt;MATCH.ZSSD: 4&gt;</em><a class="headerlink" href="#arrayfire.library.MATCH.ZSSD" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ZSSD</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.MATCH.ZSSD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Locally scaled SSD</p>
 </dd></dl>
 
@@ -662,66 +681,66 @@
 <p>Matrix properties</p>
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.BLOCK_DIAG">
-<code class="descname">BLOCK_DIAG</code><em class="property"> = &lt;MATPROP.BLOCK_DIAG: 8192&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.BLOCK_DIAG" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BLOCK_DIAG</code><em class="property"> = 8192</em><a class="headerlink" href="#arrayfire.library.MATPROP.BLOCK_DIAG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.CTRANS">
-<code class="descname">CTRANS</code><em class="property"> = &lt;MATPROP.CTRANS: 2&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.CTRANS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">CTRANS</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.MATPROP.CTRANS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upper triangular matrix.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.DIAG_UNIT">
-<code class="descname">DIAG_UNIT</code><em class="property"> = &lt;MATPROP.DIAG_UNIT: 128&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.DIAG_UNIT" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DIAG_UNIT</code><em class="property"> = 128</em><a class="headerlink" href="#arrayfire.library.MATPROP.DIAG_UNIT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Symmetric matrix.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.LOWER">
-<code class="descname">LOWER</code><em class="property"> = &lt;MATPROP.LOWER: 64&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.LOWER" title="Permalink to this definition">¶</a></dt>
+<code class="descname">LOWER</code><em class="property"> = 64</em><a class="headerlink" href="#arrayfire.library.MATPROP.LOWER" title="Permalink to this definition">¶</a></dt>
 <dd><p>Treat diagonal as units.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.NONE">
-<code class="descname">NONE</code><em class="property"> = &lt;MATPROP.NONE: 0&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.NONE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.MATPROP.NONE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transposed.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.ORTHOG">
-<code class="descname">ORTHOG</code><em class="property"> = &lt;MATPROP.ORTHOG: 2048&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.ORTHOG" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ORTHOG</code><em class="property"> = 2048</em><a class="headerlink" href="#arrayfire.library.MATPROP.ORTHOG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tri diagonal matrix.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.POSDEF">
-<code class="descname">POSDEF</code><em class="property"> = &lt;MATPROP.POSDEF: 1024&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.POSDEF" title="Permalink to this definition">¶</a></dt>
+<code class="descname">POSDEF</code><em class="property"> = 1024</em><a class="headerlink" href="#arrayfire.library.MATPROP.POSDEF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Orthogonal matrix.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.SYM">
-<code class="descname">SYM</code><em class="property"> = &lt;MATPROP.SYM: 512&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.SYM" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SYM</code><em class="property"> = 512</em><a class="headerlink" href="#arrayfire.library.MATPROP.SYM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Positive definite matrix.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.TRANS">
-<code class="descname">TRANS</code><em class="property"> = &lt;MATPROP.TRANS: 1&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.TRANS" title="Permalink to this definition">¶</a></dt>
+<code class="descname">TRANS</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.MATPROP.TRANS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Conjugate transposed.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.TRI_DIAG">
-<code class="descname">TRI_DIAG</code><em class="property"> = &lt;MATPROP.TRI_DIAG: 4096&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.TRI_DIAG" title="Permalink to this definition">¶</a></dt>
+<code class="descname">TRI_DIAG</code><em class="property"> = 4096</em><a class="headerlink" href="#arrayfire.library.MATPROP.TRI_DIAG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Block diagonal matrix.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.UPPER">
-<code class="descname">UPPER</code><em class="property"> = &lt;MATPROP.UPPER: 32&gt;</em><a class="headerlink" href="#arrayfire.library.MATPROP.UPPER" title="Permalink to this definition">¶</a></dt>
+<code class="descname">UPPER</code><em class="property"> = 32</em><a class="headerlink" href="#arrayfire.library.MATPROP.UPPER" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lower triangular matrix.</p>
 </dd></dl>
 
@@ -734,27 +753,27 @@
 <p>Image Moments types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.MOMENT.FIRST_ORDER">
-<code class="descname">FIRST_ORDER</code><em class="property"> = &lt;MOMENT.FIRST_ORDER: 15&gt;</em><a class="headerlink" href="#arrayfire.library.MOMENT.FIRST_ORDER" title="Permalink to this definition">¶</a></dt>
+<code class="descname">FIRST_ORDER</code><em class="property"> = 15</em><a class="headerlink" href="#arrayfire.library.MOMENT.FIRST_ORDER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MOMENT.M00">
-<code class="descname">M00</code><em class="property"> = &lt;MOMENT.M00: 1&gt;</em><a class="headerlink" href="#arrayfire.library.MOMENT.M00" title="Permalink to this definition">¶</a></dt>
+<code class="descname">M00</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.MOMENT.M00" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MOMENT.M01">
-<code class="descname">M01</code><em class="property"> = &lt;MOMENT.M01: 2&gt;</em><a class="headerlink" href="#arrayfire.library.MOMENT.M01" title="Permalink to this definition">¶</a></dt>
+<code class="descname">M01</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.MOMENT.M01" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MOMENT.M10">
-<code class="descname">M10</code><em class="property"> = &lt;MOMENT.M10: 4&gt;</em><a class="headerlink" href="#arrayfire.library.MOMENT.M10" title="Permalink to this definition">¶</a></dt>
+<code class="descname">M10</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.MOMENT.M10" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.MOMENT.M11">
-<code class="descname">M11</code><em class="property"> = &lt;MOMENT.M11: 8&gt;</em><a class="headerlink" href="#arrayfire.library.MOMENT.M11" title="Permalink to this definition">¶</a></dt>
+<code class="descname">M11</code><em class="property"> = 8</em><a class="headerlink" href="#arrayfire.library.MOMENT.M11" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -766,47 +785,47 @@
 <p>Norm types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.NORM.EUCLID">
-<code class="descname">EUCLID</code><em class="property"> = &lt;NORM.VECTOR_2: 2&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.EUCLID" title="Permalink to this definition">¶</a></dt>
+<code class="descname">EUCLID</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.NORM.EUCLID" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.NORM.MATRIX_1">
-<code class="descname">MATRIX_1</code><em class="property"> = &lt;NORM.MATRIX_1: 4&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_1" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MATRIX_1</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.NORM.MATRIX_2">
-<code class="descname">MATRIX_2</code><em class="property"> = &lt;NORM.MATRIX_2: 6&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MATRIX_2</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.NORM.MATRIX_INF">
-<code class="descname">MATRIX_INF</code><em class="property"> = &lt;NORM.MATRIX_INF: 5&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_INF" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MATRIX_INF</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_INF" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.NORM.MATRIX_L_PQ">
-<code class="descname">MATRIX_L_PQ</code><em class="property"> = &lt;NORM.MATRIX_L_PQ: 7&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_L_PQ" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MATRIX_L_PQ</code><em class="property"> = 7</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_L_PQ" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.NORM.VECTOR_1">
-<code class="descname">VECTOR_1</code><em class="property"> = &lt;NORM.VECTOR_1: 0&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_1" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VECTOR_1</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.NORM.VECTOR_2">
-<code class="descname">VECTOR_2</code><em class="property"> = &lt;NORM.VECTOR_2: 2&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_2" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VECTOR_2</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.NORM.VECTOR_INF">
-<code class="descname">VECTOR_INF</code><em class="property"> = &lt;NORM.VECTOR_INF: 1&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_INF" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VECTOR_INF</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_INF" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.NORM.VECTOR_P">
-<code class="descname">VECTOR_P</code><em class="property"> = &lt;NORM.VECTOR_P: 3&gt;</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_P" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VECTOR_P</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_P" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -818,12 +837,12 @@
 <p>Edge padding types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.PAD.SYM">
-<code class="descname">SYM</code><em class="property"> = &lt;PAD.SYM: 1&gt;</em><a class="headerlink" href="#arrayfire.library.PAD.SYM" title="Permalink to this definition">¶</a></dt>
+<code class="descname">SYM</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.PAD.SYM" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.PAD.ZERO">
-<code class="descname">ZERO</code><em class="property"> = &lt;PAD.ZERO: 0&gt;</em><a class="headerlink" href="#arrayfire.library.PAD.ZERO" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ZERO</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.PAD.ZERO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -835,32 +854,32 @@
 <p>Random engine types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = &lt;RANDOM_ENGINE.PHILOX_4X32_10: 100&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DEFAULT</code><em class="property"> = 100</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.MERSENNE_GP11213">
-<code class="descname">MERSENNE_GP11213</code><em class="property"> = &lt;RANDOM_ENGINE.MERSENNE_GP11213: 300&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.MERSENNE_GP11213" title="Permalink to this definition">¶</a></dt>
+<code class="descname">MERSENNE_GP11213</code><em class="property"> = 300</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.MERSENNE_GP11213" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.PHILOX">
-<code class="descname">PHILOX</code><em class="property"> = &lt;RANDOM_ENGINE.PHILOX_4X32_10: 100&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.PHILOX" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PHILOX</code><em class="property"> = 100</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.PHILOX" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.PHILOX_4X32_10">
-<code class="descname">PHILOX_4X32_10</code><em class="property"> = &lt;RANDOM_ENGINE.PHILOX_4X32_10: 100&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.PHILOX_4X32_10" title="Permalink to this definition">¶</a></dt>
+<code class="descname">PHILOX_4X32_10</code><em class="property"> = 100</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.PHILOX_4X32_10" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.THREEFRY">
-<code class="descname">THREEFRY</code><em class="property"> = &lt;RANDOM_ENGINE.THREEFRY_2X32_16: 200&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.THREEFRY" title="Permalink to this definition">¶</a></dt>
+<code class="descname">THREEFRY</code><em class="property"> = 200</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.THREEFRY" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.THREEFRY_2X32_16">
-<code class="descname">THREEFRY_2X32_16</code><em class="property"> = &lt;RANDOM_ENGINE.THREEFRY_2X32_16: 200&gt;</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.THREEFRY_2X32_16" title="Permalink to this definition">¶</a></dt>
+<code class="descname">THREEFRY_2X32_16</code><em class="property"> = 200</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.THREEFRY_2X32_16" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -872,22 +891,22 @@
 <p>Matrix Storage types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.STORAGE.COO">
-<code class="descname">COO</code><em class="property"> = &lt;STORAGE.COO: 3&gt;</em><a class="headerlink" href="#arrayfire.library.STORAGE.COO" title="Permalink to this definition">¶</a></dt>
+<code class="descname">COO</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.STORAGE.COO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.STORAGE.CSC">
-<code class="descname">CSC</code><em class="property"> = &lt;STORAGE.CSC: 2&gt;</em><a class="headerlink" href="#arrayfire.library.STORAGE.CSC" title="Permalink to this definition">¶</a></dt>
+<code class="descname">CSC</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.STORAGE.CSC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.STORAGE.CSR">
-<code class="descname">CSR</code><em class="property"> = &lt;STORAGE.CSR: 1&gt;</em><a class="headerlink" href="#arrayfire.library.STORAGE.CSR" title="Permalink to this definition">¶</a></dt>
+<code class="descname">CSR</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.STORAGE.CSR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.STORAGE.DENSE">
-<code class="descname">DENSE</code><em class="property"> = &lt;STORAGE.DENSE: 0&gt;</em><a class="headerlink" href="#arrayfire.library.STORAGE.DENSE" title="Permalink to this definition">¶</a></dt>
+<code class="descname">DENSE</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.STORAGE.DENSE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -899,12 +918,12 @@
 <p>Source of the pointer</p>
 <dl class="attribute">
 <dt id="arrayfire.library.Source.device">
-<code class="descname">device</code><em class="property"> = &lt;Source.device: 0&gt;</em><a class="headerlink" href="#arrayfire.library.Source.device" title="Permalink to this definition">¶</a></dt>
+<code class="descname">device</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.Source.device" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.Source.host">
-<code class="descname">host</code><em class="property"> = &lt;Source.host: 1&gt;</em><a class="headerlink" href="#arrayfire.library.Source.host" title="Permalink to this definition">¶</a></dt>
+<code class="descname">host</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.Source.host" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -916,17 +935,17 @@
 <p>YCC Standard formats</p>
 <dl class="attribute">
 <dt id="arrayfire.library.YCC_STD.BT_2020">
-<code class="descname">BT_2020</code><em class="property"> = &lt;YCC_STD.BT_2020: 2020&gt;</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_2020" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BT_2020</code><em class="property"> = 2020</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_2020" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.YCC_STD.BT_601">
-<code class="descname">BT_601</code><em class="property"> = &lt;YCC_STD.BT_601: 601&gt;</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_601" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BT_601</code><em class="property"> = 601</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_601" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
 <dt id="arrayfire.library.YCC_STD.BT_709">
-<code class="descname">BT_709</code><em class="property"> = &lt;YCC_STD.BT_709: 709&gt;</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_709" title="Permalink to this definition">¶</a></dt>
+<code class="descname">BT_709</code><em class="property"> = 709</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_709" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -936,8 +955,8 @@
 <code class="descclassname">arrayfire.library.</code><code class="descname">get_active_backend</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_active_backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_active_backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current active backend</p>
 <dl class="docutils">
-<dt>name</dt>
- <span class="classifier-delimiter">:</span> <span class="classifier">str.</span><dd>Backend name</dd>
+<dt>name <span class="classifier-delimiter">:</span> <span class="classifier">str.</span></dt>
+<dd>Backend name</dd>
 </dl>
 </dd></dl>
 
@@ -1070,7 +1089,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/arrayfire.library.txt"
+      <li><a href="_sources/arrayfire.library.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -1092,11 +1111,11 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/arrayfire.library.txt"
+      <a href="_sources/arrayfire.library.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

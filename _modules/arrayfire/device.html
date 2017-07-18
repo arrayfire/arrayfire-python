@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,18 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -34,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -318,6 +319,52 @@
     <span class="n">mem_info</span><span class="p">[</span><span class="s1">&#39;lock&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;buffers&#39;</span> <span class="p">:</span> <span class="n">lock_buffers</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="s1">&#39;bytes&#39;</span> <span class="p">:</span> <span class="n">lock_bytes</span><span class="o">.</span><span class="n">value</span><span class="p">}</span>
     <span class="k">return</span> <span class="n">mem_info</span></div>
 
+<div class="viewcode-block" id="print_mem_info"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.print_mem_info">[docs]</a><span class="k">def</span> <span class="nf">print_mem_info</span><span class="p">(</span><span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Memory Info&quot;</span><span class="p">,</span> <span class="n">device_id</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Prints the memory used for the specified device.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    title: optional. Default: &quot;Memory Info&quot;</span>
+<span class="sd">       - Title to display before printing the memory info.</span>
+<span class="sd">    device_id: optional. Default: None</span>
+<span class="sd">       - Specifies the device for which the memory info should be displayed.</span>
+<span class="sd">       - If None, uses the current device.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    &gt;&gt;&gt; a = af.randu(5,5)</span>
+<span class="sd">    &gt;&gt;&gt; af.print_mem_info()</span>
+<span class="sd">    Memory Info</span>
+<span class="sd">    ---------------------------------------------------------</span>
+<span class="sd">    |     POINTER      |    SIZE    |  AF LOCK  | USER LOCK |</span>
+<span class="sd">    ---------------------------------------------------------</span>
+<span class="sd">    |     0x706400000  |       1 KB |       Yes |        No |</span>
+<span class="sd">    ---------------------------------------------------------</span>
+<span class="sd">    &gt;&gt;&gt; b = af.randu(5,5)</span>
+<span class="sd">    &gt;&gt;&gt; af.print_mem_info()</span>
+<span class="sd">    Memory Info</span>
+<span class="sd">    ---------------------------------------------------------</span>
+<span class="sd">    |     POINTER      |    SIZE    |  AF LOCK  | USER LOCK |</span>
+<span class="sd">    ---------------------------------------------------------</span>
+<span class="sd">    |     0x706400400  |       1 KB |       Yes |        No |</span>
+<span class="sd">    |     0x706400000  |       1 KB |       Yes |        No |</span>
+<span class="sd">    ---------------------------------------------------------</span>
+<span class="sd">    &gt;&gt;&gt; a = af.randu(1000,1000)</span>
+<span class="sd">    &gt;&gt;&gt; af.print_mem_info()</span>
+<span class="sd">    Memory Info</span>
+<span class="sd">    ---------------------------------------------------------</span>
+<span class="sd">    |     POINTER      |    SIZE    |  AF LOCK  | USER LOCK |</span>
+<span class="sd">    ---------------------------------------------------------</span>
+<span class="sd">    |     0x706500000  |   3.815 MB |       Yes |        No |</span>
+<span class="sd">    |     0x706400400  |       1 KB |       Yes |        No |</span>
+<span class="sd">    |     0x706400000  |       1 KB |        No |        No |</span>
+<span class="sd">    ---------------------------------------------------------</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">device_id</span> <span class="o">=</span> <span class="n">device_id</span> <span class="k">if</span> <span class="n">device_id</span> <span class="k">else</span> <span class="n">get_device</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_print_mem_info</span><span class="p">(</span><span class="n">title</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span> <span class="n">device_id</span><span class="p">))</span></div>
+
 <div class="viewcode-block" id="device_gc"><a class="viewcode-back" href="../../arrayfire.device.html#arrayfire.device.device_gc">[docs]</a><span class="k">def</span> <span class="nf">device_gc</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Ask the garbage collector to free all unlocked memory</span>
@@ -492,8 +539,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

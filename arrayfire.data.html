@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,17 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -123,8 +125,8 @@
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
 <blockquote class="last">
 <div><ul class="simple">
-<li>if extract is True, <cite>out</cite> contains the num&#8217;th diagonal from <cite>a</cite>.</li>
-<li>if extract is False, <cite>out</cite> contains <cite>a</cite> as the num&#8217;th diagonal.</li>
+<li>if extract is True, <cite>out</cite> contains the num’th diagonal from <cite>a</cite>.</li>
+<li>if extract is False, <cite>out</cite> contains <cite>a</cite> as the num’th diagonal.</li>
 </ul>
 </div></blockquote>
 </td>
@@ -389,6 +391,58 @@
 <span class="go">[2 6 1 1]</span>
 <span class="go">    0.9508     0.2591     0.7928     0.3266     0.6009     0.2442</span>
 <span class="go">    0.5367     0.8359     0.8719     0.6275     0.0495     0.6591</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.data.lookup">
+<code class="descclassname">arrayfire.data.</code><code class="descname">lookup</code><span class="sig-paren">(</span><em>a</em>, <em>idx</em>, <em>dim=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/data.html#lookup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.data.lookup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lookup the values of input array based on index.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a</strong> : af.Array.</p>
+<blockquote>
+<div><p>Multi dimensional array.</p>
+</div></blockquote>
+<p><strong>idx</strong> : is lookup indices</p>
+<p><strong>dim</strong> : optional: int. default: 0.</p>
+<blockquote>
+<div><p>Specifies the dimension for indexing</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
+<blockquote class="last">
+<div><p>An array containing values at locations specified by ‘idx’</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">arr</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">Array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">],</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">display</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="go">[2 3 1 1]</span>
+<span class="go">    1.0000     3.0000     5.0000</span>
+<span class="go">    0.0000     4.0000     6.0000</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">idx</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="go">[2 2 1 1]</span>
+<span class="go">    1.0000     5.0000</span>
+<span class="go">    0.0000     6.0000</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">idx</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="go">[2 1 1 1]</span>
+<span class="go">    0.0000</span>
+<span class="go">    2.0000</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -925,7 +979,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/arrayfire.data.txt"
+      <li><a href="_sources/arrayfire.data.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -947,11 +1001,11 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/arrayfire.data.txt"
+      <a href="_sources/arrayfire.data.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

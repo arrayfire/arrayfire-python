@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,18 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -34,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -1239,6 +1240,47 @@
     <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_moments</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">moment</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
+<div class="viewcode-block" id="canny"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.canny">[docs]</a><span class="k">def</span> <span class="nf">canny</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
+          <span class="n">low_threshold</span><span class="p">,</span> <span class="n">high_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+          <span class="n">treshold_type</span> <span class="o">=</span> <span class="n">CANNY_THRESHOLD</span><span class="o">.</span><span class="n">MANUAL</span><span class="p">,</span>
+          <span class="n">sobel_window</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">is_fast</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Canny edge detector.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image : af.Array</span>
+<span class="sd">          - A 2 D arrayfire array representing an image</span>
+
+<span class="sd">    threshold_type : optional: af.CANNY_THRESHOLD. default: af.CANNY_THRESHOLD.MANUAL.</span>
+<span class="sd">          Can be one of:</span>
+<span class="sd">          - af.CANNY_THRESHOLD.MANUAL</span>
+<span class="sd">          - af.CANNY_THRESHOLD.AUTO_OTSU</span>
+
+<span class="sd">    low_threshold :  required: float.</span>
+<span class="sd">          Specifies the % of maximum in gradient image if threshold_type is MANUAL.</span>
+<span class="sd">          Specifies the % of auto dervied high value if threshold_type is AUTO_OTSU.</span>
+
+<span class="sd">    high_threshold : optional: float. default: None</span>
+<span class="sd">          Specifies the % of maximum in gradient image if threshold_type is MANUAL.</span>
+<span class="sd">          Ignored if threshold_type is AUTO_OTSU</span>
+
+<span class="sd">    sobel_window : optional: int. default: 3</span>
+<span class="sd">          Specifies the size of sobel kernel when computing the gradient image.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">        - A binary image containing the edges</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_canny</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">threshold_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                     <span class="n">low_threshold</span><span class="p">,</span> <span class="n">high_threshold</span> <span class="ow">and</span> <span class="n">high_threshold</span><span class="o">.</span><span class="n">value</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,</span>
+                                     <span class="n">c_uint</span><span class="p">(</span><span class="n">sobel_window</span><span class="p">),</span> <span class="n">c_bool</span><span class="p">(</span><span class="n">is_fast</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
 <div class="viewcode-block" id="is_image_io_available"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.is_image_io_available">[docs]</a><span class="k">def</span> <span class="nf">is_image_io_available</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Function to check if the arrayfire library was built with Image IO support.</span>
@@ -1282,8 +1324,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

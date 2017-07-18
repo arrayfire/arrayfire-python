@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,18 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -34,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -172,8 +173,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Display an arrayfire array as an image.</span>
 
-<span class="sd">        Paramters</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
 <span class="sd">        img: af.Array.</span>
 <span class="sd">             A 2 dimensional array for single channel image.</span>
@@ -189,8 +190,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Renders input arrays as 2D or 3D scatter plot.</span>
 
-<span class="sd">        Paramters</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
 <span class="sd">        X: af.Array.</span>
 <span class="sd">             A 1 dimensional array containing X co-ordinates.</span>
@@ -228,8 +229,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Renders the input array as a 2D Scatter plot.</span>
 
-<span class="sd">        Paramters</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
 <span class="sd">        points: af.Array.</span>
 <span class="sd">             A 2 dimensional array containing (X,Y) co-ordinates.</span>
@@ -249,8 +250,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Renders the input array as a 3D Scatter plot.</span>
 
-<span class="sd">        Paramters</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
 <span class="sd">        points: af.Array.</span>
 <span class="sd">             A 2 dimensional array containing (X,Y,Z) co-ordinates.</span>
@@ -269,8 +270,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Display a 2D or 3D Plot.</span>
 
-<span class="sd">        Paramters</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
 <span class="sd">        X: af.Array.</span>
 <span class="sd">             - A 1 dimensional array containing X co-ordinates.</span>
@@ -309,8 +310,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Display a 2D Plot.</span>
 
-<span class="sd">        Paramters</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
 <span class="sd">        line: af.Array.</span>
 <span class="sd">             - A 2 dimensional array of size [n 2]. Each column denotes X, and Y co-ordinates for plotting 2D lines.</span>
@@ -328,8 +329,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Display a 3D Plot.</span>
 
-<span class="sd">        Paramters</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
 <span class="sd">        line: af.Array.</span>
 <span class="sd">             - A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</span>
@@ -347,8 +348,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Display a 2D or 3D Vector_Field.</span>
 
-<span class="sd">        Paramters</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
 <span class="sd">        xpoints : af.Array.</span>
 <span class="sd">                 - A 1 dimensional array containing X co-ordinates.</span>
@@ -409,8 +410,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Renders the input array as a 3D surface plot.</span>
 
-<span class="sd">        Paramters</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
 <span class="sd">        x_vals: af.Array.</span>
 <span class="sd">             A 1 dimensional array containing X co-ordinates.</span>
@@ -433,8 +434,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Display a histogram Plot.</span>
 
-<span class="sd">        Paramters</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
 <span class="sd">        X: af.Array.</span>
 <span class="sd">             A 1 dimensional array containing the histogram.</span>
@@ -499,8 +500,8 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Set axis limits.</span>
 
-<span class="sd">        Paramters</span>
-<span class="sd">        ---------</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
 
 <span class="sd">        xmin : af.Array.</span>
 <span class="sd">              - lower limit of the x axis.</span>
@@ -602,8 +603,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

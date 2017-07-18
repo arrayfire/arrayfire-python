@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,18 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -34,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -75,6 +76,10 @@
 <span class="n">c_char_ptr_t</span>  <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_char_p</span>
 <span class="n">c_size_t</span>      <span class="o">=</span> <span class="n">ct</span><span class="o">.</span><span class="n">c_size_t</span>
 
+
+<span class="n">AF_VER_MAJOR</span> <span class="o">=</span> <span class="s1">&#39;3&#39;</span>
+<span class="n">FORGE_VER_MAJOR</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+
 <span class="c1"># Work around for unexpected architectures</span>
 <span class="k">if</span> <span class="s1">&#39;c_dim_t_forced&#39;</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">():</span>
     <span class="k">global</span> <span class="n">c_dim_t_forced</span>
@@ -92,12 +97,12 @@
     <span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span> <span class="k">as</span> <span class="n">_Enum</span>
     <span class="k">def</span> <span class="nf">_Enum_Type</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">v</span>
-<span class="k">except</span><span class="p">:</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
     <span class="k">class</span> <span class="nc">_MetaEnum</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">attrname</span><span class="p">,</span> <span class="n">attrvalue</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
                 <span class="k">if</span> <span class="n">name</span> <span class="o">!=</span> <span class="s1">&#39;_Enum&#39;</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">attrvalue</span><span class="p">,</span> <span class="n">_Enum_Type</span><span class="p">):</span>
-                    <span class="n">attrvalue</span><span class="o">.</span><span class="n">__class__</span> <span class="o">=</span> <span class="n">cls</span>
+                    <span class="n">attrvalue</span><span class="o">.</span><span class="vm">__class__</span> <span class="o">=</span> <span class="bp">cls</span>
                     <span class="n">attrs</span><span class="p">[</span><span class="n">attrname</span><span class="p">]</span> <span class="o">=</span> <span class="n">attrvalue</span>
 
     <span class="k">class</span> <span class="nc">_Enum</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -454,6 +459,15 @@
     <span class="n">CSC</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">COO</span>   <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="CANNY_THRESHOLD"><a class="viewcode-back" href="../../arrayfire.library.html#arrayfire.library.CANNY_THRESHOLD">[docs]</a><span class="k">class</span> <span class="nc">CANNY_THRESHOLD</span><span class="p">(</span><span class="n">_Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Canny Edge Threshold types</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">MANUAL</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">AUTO_OTSU</span> <span class="o">=</span> <span class="n">_Enum_Type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div>
+
+<span class="n">_VER_MAJOR_PLACEHOLDER</span> <span class="o">=</span> <span class="s2">&quot;__VER_MAJOR__&quot;</span>
+
 <span class="k">def</span> <span class="nf">_setup</span><span class="p">():</span>
     <span class="kn">import</span> <span class="nn">platform</span>
     <span class="kn">import</span> <span class="nn">os</span>
@@ -462,7 +476,7 @@
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">AF_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;AF_PATH&#39;</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">AF_PATH</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">pass</span>
 
@@ -470,7 +484,7 @@
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">CUDA_PATH</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;CUDA_PATH&#39;</span><span class="p">]</span>
-    <span class="k">except</span><span class="p">:</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
         <span class="n">CUDA_PATH</span><span class="o">=</span> <span class="kc">None</span>
         <span class="k">pass</span>
 
@@ -491,7 +505,7 @@
             <span class="n">ct</span><span class="o">.</span><span class="n">windll</span><span class="o">.</span><span class="n">kernel32</span><span class="o">.</span><span class="n">SetErrorMode</span><span class="p">(</span><span class="mh">0x0001</span> <span class="o">|</span> <span class="mh">0x0002</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">AF_SEARCH_PATH</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">AF_SEARCH_PATH</span><span class="o">=</span><span class="s2">&quot;C:/Program Files/ArrayFire/v3/&quot;</span>
+            <span class="n">AF_SEARCH_PATH</span><span class="o">=</span><span class="s2">&quot;C:/Program Files/ArrayFire/v&quot;</span> <span class="o">+</span> <span class="n">AF_VER_MAJOR</span> <span class="o">+</span><span class="s2">&quot;/&quot;</span>
 
         <span class="k">if</span> <span class="n">CUDA_PATH</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">CUDA_FOUND</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">CUDA_PATH</span> <span class="o">+</span> <span class="s1">&#39;/bin&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">CUDA_PATH</span> <span class="o">+</span> <span class="s1">&#39;/nvvm/bin/&#39;</span><span class="p">)</span>
@@ -500,7 +514,7 @@
 
         <span class="c1">## OSX specific setup</span>
         <span class="n">pre</span> <span class="o">=</span> <span class="s1">&#39;lib&#39;</span>
-        <span class="n">post</span> <span class="o">=</span> <span class="s1">&#39;.3.dylib&#39;</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span> <span class="o">+</span> <span class="n">_VER_MAJOR_PLACEHOLDER</span> <span class="o">+</span> <span class="s1">&#39;.dylib&#39;</span>
 
         <span class="k">if</span> <span class="n">AF_SEARCH_PATH</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">AF_SEARCH_PATH</span><span class="o">=</span><span class="s1">&#39;/usr/local/&#39;</span>
@@ -512,10 +526,10 @@
 
     <span class="k">elif</span> <span class="n">platform_name</span> <span class="o">==</span> <span class="s1">&#39;Linux&#39;</span><span class="p">:</span>
         <span class="n">pre</span> <span class="o">=</span> <span class="s1">&#39;lib&#39;</span>
-        <span class="n">post</span> <span class="o">=</span> <span class="s1">&#39;.so.3&#39;</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="s1">&#39;.so.&#39;</span> <span class="o">+</span> <span class="n">_VER_MAJOR_PLACEHOLDER</span>
 
         <span class="k">if</span> <span class="n">AF_SEARCH_PATH</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">AF_SEARCH_PATH</span><span class="o">=</span><span class="s1">&#39;/opt/arrayfire-3/&#39;</span>
+            <span class="n">AF_SEARCH_PATH</span><span class="o">=</span><span class="s1">&#39;/opt/arrayfire-&#39;</span> <span class="o">+</span> <span class="n">AF_VER_MAJOR</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
 
         <span class="k">if</span> <span class="n">CUDA_PATH</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">CUDA_PATH</span><span class="o">=</span><span class="s1">&#39;/usr/local/cuda/&#39;</span>
@@ -534,8 +548,9 @@
 
 <span class="k">class</span> <span class="nc">_clibrary</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
 
-    <span class="k">def</span> <span class="nf">__libname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">head</span><span class="o">=</span><span class="s1">&#39;af&#39;</span><span class="p">):</span>
-        <span class="n">libname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pre</span> <span class="o">+</span> <span class="n">head</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">__post</span>
+    <span class="k">def</span> <span class="nf">__libname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">head</span><span class="o">=</span><span class="s1">&#39;af&#39;</span><span class="p">,</span> <span class="n">ver_major</span><span class="o">=</span><span class="n">AF_VER_MAJOR</span><span class="p">):</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__post</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">_VER_MAJOR_PLACEHOLDER</span><span class="p">,</span> <span class="n">ver_major</span><span class="p">)</span>
+        <span class="n">libname</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pre</span> <span class="o">+</span> <span class="n">head</span> <span class="o">+</span> <span class="n">name</span> <span class="o">+</span> <span class="n">post</span>
         <span class="n">libname_full</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AF_PATH</span> <span class="o">+</span> <span class="s1">&#39;/lib/&#39;</span> <span class="o">+</span> <span class="n">libname</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">libname</span><span class="p">,</span> <span class="n">libname_full</span><span class="p">)</span>
 
@@ -575,11 +590,11 @@
                                    <span class="s1">&#39;opencl&#39;</span>  <span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
 
         <span class="c1"># Try to pre-load forge library if it exists</span>
-        <span class="n">libnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__libname</span><span class="p">(</span><span class="s1">&#39;forge&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">libnames</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__libname</span><span class="p">(</span><span class="s1">&#39;forge&#39;</span><span class="p">,</span> <span class="n">head</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">ver_major</span><span class="o">=</span><span class="n">FORGE_VER_MAJOR</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">libname</span> <span class="ow">in</span> <span class="n">libnames</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">ct</span><span class="o">.</span><span class="n">cdll</span><span class="o">.</span><span class="n">LoadLibrary</span><span class="p">(</span><span class="n">libname</span><span class="p">)</span>
-            <span class="k">except</span><span class="p">:</span>
+            <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                 <span class="k">pass</span>
 
         <span class="n">c_dim4</span> <span class="o">=</span> <span class="n">c_dim_t</span><span class="o">*</span><span class="mi">4</span>
@@ -600,7 +615,7 @@
                         <span class="bp">self</span><span class="o">.</span><span class="n">__name</span> <span class="o">=</span> <span class="n">__name</span>
                         <span class="n">clib</span><span class="o">.</span><span class="n">af_release_array</span><span class="p">(</span><span class="n">out</span><span class="p">)</span>
                     <span class="k">break</span><span class="p">;</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
                     <span class="k">pass</span>
 
         <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">):</span>
@@ -777,8 +792,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

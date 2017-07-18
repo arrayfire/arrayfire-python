@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,17 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -46,7 +48,7 @@
 <p>Graphics functions (plot, image, etc).</p>
 <dl class="class">
 <dt id="arrayfire.graphics.Window">
-<em class="property">class </em><code class="descclassname">arrayfire.graphics.</code><code class="descname">Window</code><span class="sig-paren">(</span><em>width=1280</em>, <em>height=720</em>, <em>title='ArrayFire'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">arrayfire.graphics.</code><code class="descname">Window</code><span class="sig-paren">(</span><em>width=1280</em>, <em>height=720</em>, <em>title=’ArrayFire’</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Class to create the Window object.</p>
 <table class="docutils field-list" frame="void" rules="none">
@@ -65,7 +67,7 @@
 <li>Specifies the height of the window in pixels.</li>
 </ul>
 </div></blockquote>
-<p><strong>title: optional: str. default: &#8220;ArrayFire&#8221;.</strong></p>
+<p><strong>title: optional: str. default: “ArrayFire”.</strong></p>
 <blockquote class="last">
 <div><ul class="simple">
 <li>Specifies the title used for the window.</li>
@@ -112,7 +114,7 @@
 <tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.scatter3" title="arrayfire.graphics.Window.scatter3"><code class="xref py py-obj docutils literal"><span class="pre">scatter3</span></code></a>(points[,&nbsp;marker,&nbsp;title])</td>
 <td>Renders the input array as a 3D Scatter plot.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_axes_limits" title="arrayfire.graphics.Window.set_axes_limits"><code class="xref py py-obj docutils literal"><span class="pre">set_axes_limits</span></code></a>(xmin,&nbsp;xmax,&nbsp;ymin,&nbsp;ymax[,&nbsp;...])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_axes_limits" title="arrayfire.graphics.Window.set_axes_limits"><code class="xref py py-obj docutils literal"><span class="pre">set_axes_limits</span></code></a>(xmin,&nbsp;xmax,&nbsp;ymin,&nbsp;ymax[,&nbsp;…])</td>
 <td>Set axis limits.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_colormap" title="arrayfire.graphics.Window.set_colormap"><code class="xref py py-obj docutils literal"><span class="pre">set_colormap</span></code></a>(cmap)</td>
@@ -693,7 +695,7 @@ A 3 dimensional array for 3 channel image.</p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/arrayfire.graphics.txt"
+      <li><a href="_sources/arrayfire.graphics.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -715,11 +717,11 @@ A 3 dimensional array for 3 channel image.</p>
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/arrayfire.graphics.txt"
+      <a href="_sources/arrayfire.graphics.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

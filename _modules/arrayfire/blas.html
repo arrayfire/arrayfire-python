@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,18 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -34,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -195,7 +196,7 @@
                                       <span class="n">MATPROP</span><span class="o">.</span><span class="n">TRANS</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">MATPROP</span><span class="o">.</span><span class="n">TRANS</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">out</span></div>
 
-<div class="viewcode-block" id="dot"><a class="viewcode-back" href="../../arrayfire.blas.html#arrayfire.blas.dot">[docs]</a><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">lhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
+<div class="viewcode-block" id="dot"><a class="viewcode-back" href="../../arrayfire.blas.html#arrayfire.blas.dot">[docs]</a><span class="k">def</span> <span class="nf">dot</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">lhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">return_scalar</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Dot product of two input vectors.</span>
 
@@ -218,10 +219,13 @@
 <span class="sd">               - af.MATPROP.NONE   - If no op should be done on `rhs`.</span>
 <span class="sd">               - No other options are currently supported.</span>
 
+<span class="sd">    return_scalar: optional: bool. default: False.</span>
+<span class="sd">               - When set to true, the input arrays are flattened and the output is a scalar</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 
-<span class="sd">    out : af.Array</span>
+<span class="sd">    out : af.Array or scalar</span>
 <span class="sd">          Output of dot product of `lhs` and `rhs`.</span>
 
 <span class="sd">    Note</span>
@@ -231,10 +235,19 @@
 <span class="sd">    - Batches are not supported.</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dot</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
-                                   <span class="n">lhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">out</span></div>
+    <span class="k">if</span> <span class="n">return_scalar</span><span class="p">:</span>
+        <span class="n">real</span> <span class="o">=</span> <span class="n">c_double_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">imag</span> <span class="o">=</span> <span class="n">c_double_t</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dot_all</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">real</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">imag</span><span class="p">),</span>
+                                           <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">lhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="n">real</span> <span class="o">=</span> <span class="n">real</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">imag</span> <span class="o">=</span> <span class="n">imag</span><span class="o">.</span><span class="n">value</span>
+        <span class="k">return</span> <span class="n">real</span> <span class="k">if</span> <span class="n">imag</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">real</span> <span class="o">+</span> <span class="n">imag</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dot</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                       <span class="n">lhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">out</span></div>
 </pre></div>
 
           </div>
@@ -271,8 +284,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

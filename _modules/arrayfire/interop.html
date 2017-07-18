@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,18 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -34,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -55,42 +56,90 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Interop with other python packages.</span>
 
-<span class="sd">This module provides interoperability with the following python packages.</span>
+<span class="sd">This module provides helper functions to copy data to arrayfire from the following modules:</span>
 
-<span class="sd">     1. numpy</span>
-<span class="sd">     2. pycuda</span>
-<span class="sd">     3. pyopencl</span>
+<span class="sd">     1. numpy - numpy.ndarray</span>
+<span class="sd">     2. pycuda - pycuda.gpuarray</span>
+<span class="sd">     3. pyopencl - pyopencl.array</span>
+<span class="sd">     4. numba - numba.cuda.cudadrv.devicearray.DeviceNDArray</span>
+
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
 <span class="kn">from</span> <span class="nn">.device</span> <span class="k">import</span> <span class="o">*</span>
 
+
+<span class="k">def</span> <span class="nf">_fc_to_af_array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Fortran Contiguous to af array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="n">is_device</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">is_device</span><span class="p">:</span>
+        <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">pass</span>
+
+    <span class="k">return</span> <span class="n">res</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="k">if</span> <span class="n">copy</span> <span class="k">else</span> <span class="n">res</span>
+
+<span class="k">def</span> <span class="nf">_cc_to_af_array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">ndim</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    C Contiguous to af array</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_fc_to_af_array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="n">is_device</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_device</span><span class="p">:</span> <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="n">is_device</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_device</span><span class="p">:</span> <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">ndim</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="n">is_device</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">is_device</span><span class="p">:</span> <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Unsupported ndim&quot;</span><span class="p">)</span>
+
+
+<span class="n">_nptype_to_aftype</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;b1&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span><span class="p">,</span>
+		     <span class="s1">&#39;u1&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u8</span><span class="p">,</span>
+		     <span class="s1">&#39;u2&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u16</span><span class="p">,</span>
+		     <span class="s1">&#39;i2&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s16</span><span class="p">,</span>
+		     <span class="s1">&#39;s4&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u32</span><span class="p">,</span>
+		     <span class="s1">&#39;i4&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s32</span><span class="p">,</span>
+		     <span class="s1">&#39;f4&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">,</span>
+		     <span class="s1">&#39;c8&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="p">,</span>
+		     <span class="s1">&#39;s8&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u64</span><span class="p">,</span>
+		     <span class="s1">&#39;i8&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="p">,</span>
+                     <span class="s1">&#39;f8&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="p">,</span>
+                     <span class="s1">&#39;c16&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="p">}</span>
+
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">AF_NUMPY_FOUND</span><span class="o">=</span><span class="kc">False</span>
+<span class="k">else</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">numpy</span> <span class="k">import</span> <span class="n">ndarray</span> <span class="k">as</span> <span class="n">NumpyArray</span>
     <span class="kn">from</span> <span class="nn">.data</span> <span class="k">import</span> <span class="n">reorder</span>
 
     <span class="n">AF_NUMPY_FOUND</span><span class="o">=</span><span class="kc">True</span>
 
-    <span class="n">_nptype_to_aftype</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;f4&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">,</span>
-                         <span class="s1">&#39;f8&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="p">,</span>
-                         <span class="s1">&#39;b1&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">b8</span><span class="p">,</span>
-                         <span class="s1">&#39;u1&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u8</span><span class="p">,</span>
-                         <span class="s1">&#39;i4&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s32</span><span class="p">,</span>
-                         <span class="s1">&#39;s4&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u32</span><span class="p">,</span>
-                         <span class="s1">&#39;i8&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="p">,</span>
-                         <span class="s1">&#39;s8&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u64</span><span class="p">,</span>
-                         <span class="s1">&#39;c8&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="p">,</span>
-                         <span class="s1">&#39;c16&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="p">}</span>
-
-
-<div class="viewcode-block" id="np_to_af_array"><a class="viewcode-back" href="../../arrayfire.interop.html#arrayfire.interop.np_to_af_array">[docs]</a>    <span class="k">def</span> <span class="nf">np_to_af_array</span><span class="p">(</span><span class="n">np_arr</span><span class="p">):</span>
+<div class="viewcode-block" id="np_to_af_array"><a class="viewcode-back" href="../../arrayfire.interop.html#arrayfire.interop.np_to_af_array">[docs]</a>    <span class="k">def</span> <span class="nf">np_to_af_array</span><span class="p">(</span><span class="n">np_arr</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert numpy.ndarray to arrayfire.Array.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        np_arr  : numpy.ndarray()</span>
+
+<span class="sd">        copy : Bool specifying if array is to be copied.</span>
+<span class="sd">               Default is true.</span>
+<span class="sd">               Can only be False if array is fortran contiguous.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        ---------</span>
@@ -101,44 +150,37 @@
         <span class="n">in_ptr</span> <span class="o">=</span> <span class="n">np_arr</span><span class="o">.</span><span class="n">ctypes</span><span class="o">.</span><span class="n">data_as</span><span class="p">(</span><span class="n">c_void_ptr_t</span><span class="p">)</span>
         <span class="n">in_dtype</span> <span class="o">=</span> <span class="n">_nptype_to_aftype</span><span class="p">[</span><span class="n">np_arr</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">copy</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Copy can not be False for numpy arrays&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="p">(</span><span class="n">np_arr</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s1">&#39;F_CONTIGUOUS&#39;</span><span class="p">]):</span>
-            <span class="k">return</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_fc_to_af_array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span><span class="n">np_arr</span><span class="o">.</span><span class="n">flags</span><span class="p">[</span><span class="s1">&#39;C_CONTIGUOUS&#39;</span><span class="p">]):</span>
-            <span class="k">if</span> <span class="n">np_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">np_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">np_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">np_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Unsupported ndim&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_cc_to_af_array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">np_arr</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">np_to_af_array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">asfortranarray</span><span class="p">(</span><span class="n">np_arr</span><span class="p">))</span></div>
+            <span class="k">return</span> <span class="n">np_to_af_array</span><span class="p">(</span><span class="n">np_arr</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span></div>
 
     <span class="n">from_ndarray</span> <span class="o">=</span> <span class="n">np_to_af_array</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="n">AF_NUMPY_FOUND</span><span class="o">=</span><span class="kc">False</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">pycuda.gpuarray</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">AF_PYCUDA_FOUND</span><span class="o">=</span><span class="kc">False</span>
+<span class="k">else</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">pycuda.gpuarray</span> <span class="k">import</span> <span class="n">GPUArray</span> <span class="k">as</span> <span class="n">CudaArray</span>
     <span class="n">AF_PYCUDA_FOUND</span><span class="o">=</span><span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">pycuda_to_af_array</span><span class="p">(</span><span class="n">pycu_arr</span><span class="p">):</span>
+<div class="viewcode-block" id="pycuda_to_af_array"><a class="viewcode-back" href="../../arrayfire.interop.html#arrayfire.interop.pycuda_to_af_array">[docs]</a>    <span class="k">def</span> <span class="nf">pycuda_to_af_array</span><span class="p">(</span><span class="n">pycu_arr</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert pycuda.gpuarray to arrayfire.Array</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        -----------</span>
 <span class="sd">        pycu_arr  : pycuda.GPUArray()</span>
+
+<span class="sd">        copy : Bool specifying if array is to be copied.</span>
+<span class="sd">               Default is true.</span>
+<span class="sd">               Can only be False if array is fortran contiguous.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        ----------</span>
@@ -153,51 +195,38 @@
         <span class="n">in_shape</span> <span class="o">=</span> <span class="n">pycu_arr</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">in_dtype</span> <span class="o">=</span> <span class="n">pycu_arr</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">char</span>
 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">copy</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pycu_arr</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">f_contiguous</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Copy can only be False when arr.flags.f_contiguous is True&quot;</span><span class="p">)</span>
+
         <span class="k">if</span> <span class="p">(</span><span class="n">pycu_arr</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">f_contiguous</span><span class="p">):</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="k">return</span> <span class="n">res</span>
+            <span class="k">return</span> <span class="n">_fc_to_af_array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span><span class="n">pycu_arr</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">c_contiguous</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">pycu_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">pycu_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">pycu_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">pycu_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Unsupported ndim&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_cc_to_af_array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">pycu_arr</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">pycuda_to_af_array</span><span class="p">(</span><span class="n">pycu_arr</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="n">AF_PYCUDA_FOUND</span><span class="o">=</span><span class="kc">False</span>
+            <span class="k">return</span> <span class="n">pycuda_to_af_array</span><span class="p">(</span><span class="n">pycu_arr</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span></div>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">pyopencl.array</span> <span class="k">import</span> <span class="n">Array</span> <span class="k">as</span> <span class="n">OpenclArray</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">AF_PYOPENCL_FOUND</span><span class="o">=</span><span class="kc">False</span>
+<span class="k">else</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">.opencl</span> <span class="k">import</span> <span class="n">add_device_context</span> <span class="k">as</span> <span class="n">_add_device_context</span>
     <span class="kn">from</span> <span class="nn">.opencl</span> <span class="k">import</span> <span class="n">set_device_context</span> <span class="k">as</span> <span class="n">_set_device_context</span>
     <span class="kn">from</span> <span class="nn">.opencl</span> <span class="k">import</span> <span class="n">get_device_id</span> <span class="k">as</span> <span class="n">_get_device_id</span>
     <span class="kn">from</span> <span class="nn">.opencl</span> <span class="k">import</span> <span class="n">get_context</span> <span class="k">as</span> <span class="n">_get_context</span>
     <span class="n">AF_PYOPENCL_FOUND</span><span class="o">=</span><span class="kc">True</span>
 
-    <span class="k">def</span> <span class="nf">pyopencl_to_af_array</span><span class="p">(</span><span class="n">pycl_arr</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">pyopencl_to_af_array</span><span class="p">(</span><span class="n">pycl_arr</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Convert pyopencl.gpuarray to arrayfire.Array</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        -----------</span>
 <span class="sd">        pycl_arr  : pyopencl.Array()</span>
+
+<span class="sd">        copy : Bool specifying if array is to be copied.</span>
+<span class="sd">               Default is true.</span>
+<span class="sd">               Can only be False if array is fortran contiguous.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        ----------</span>
@@ -223,44 +252,72 @@
 
         <span class="k">if</span> <span class="p">(</span><span class="n">dev_idx</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">ctx_idx</span> <span class="o">==</span> <span class="kc">None</span> <span class="ow">or</span>
             <span class="n">dev_idx</span> <span class="o">!=</span> <span class="n">dev</span> <span class="ow">or</span> <span class="n">ctx_idx</span> <span class="o">!=</span> <span class="n">ctx</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Adding context and queue&quot;</span><span class="p">)</span>
             <span class="n">_add_device_context</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">ctx</span><span class="p">,</span> <span class="n">que</span><span class="p">)</span>
             <span class="n">_set_device_context</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span> <span class="n">ctx</span><span class="p">)</span>
 
+        <span class="n">info</span><span class="p">()</span>
         <span class="n">in_ptr</span> <span class="o">=</span> <span class="n">pycl_arr</span><span class="o">.</span><span class="n">base_data</span><span class="o">.</span><span class="n">int_ptr</span>
         <span class="n">in_shape</span> <span class="o">=</span> <span class="n">pycl_arr</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">in_dtype</span> <span class="o">=</span> <span class="n">pycl_arr</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">char</span>
 
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">copy</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pycl_arr</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">f_contiguous</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Copy can only be False when arr.flags.f_contiguous is True&quot;</span><span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Copying array&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">pycl_arr</span><span class="o">.</span><span class="n">base_data</span><span class="o">.</span><span class="n">int_ptr</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">pycl_arr</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">f_contiguous</span><span class="p">):</span>
-            <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-            <span class="k">return</span> <span class="n">res</span>
+            <span class="k">return</span> <span class="n">_fc_to_af_array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
         <span class="k">elif</span> <span class="p">(</span><span class="n">pycl_arr</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">c_contiguous</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">pycl_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">return</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">pycl_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">pycl_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="k">elif</span> <span class="n">pycl_arr</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
-                <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">in_shape</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">in_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-                <span class="n">res</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="n">is_device</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">lock_array</span><span class="p">(</span><span class="n">res</span><span class="p">)</span>
-                <span class="k">return</span> <span class="n">reorder</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Unsupported ndim&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">_cc_to_af_array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">pycl_arr</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">pyopencl_to_af_array</span><span class="p">(</span><span class="n">pycl_arr</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
-<span class="k">except</span><span class="p">:</span>
-    <span class="n">AF_PYOPENCL_FOUND</span><span class="o">=</span><span class="kc">False</span>
 
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numba</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">AF_NUMBA_FOUND</span><span class="o">=</span><span class="kc">False</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">numba</span> <span class="k">import</span> <span class="n">cuda</span>
+    <span class="n">NumbaCudaArray</span> <span class="o">=</span> <span class="n">cuda</span><span class="o">.</span><span class="n">cudadrv</span><span class="o">.</span><span class="n">devicearray</span><span class="o">.</span><span class="n">DeviceNDArray</span>
+    <span class="n">AF_NUMBA_FOUND</span><span class="o">=</span><span class="kc">True</span>
 
-<div class="viewcode-block" id="to_array"><a class="viewcode-back" href="../../arrayfire.interop.html#arrayfire.interop.to_array">[docs]</a><span class="k">def</span> <span class="nf">to_array</span><span class="p">(</span><span class="n">in_array</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">numba_to_af_array</span><span class="p">(</span><span class="n">nb_arr</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Convert numba.gpuarray to arrayfire.Array</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        -----------</span>
+<span class="sd">        nb_arr  : numba.cuda.cudadrv.devicearray.DeviceNDArray()</span>
+
+<span class="sd">        copy : Bool specifying if array is to be copied.</span>
+<span class="sd">               Default is true.</span>
+<span class="sd">               Can only be False if array is fortran contiguous.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        ----------</span>
+<span class="sd">        af_arr    : arrayfire.Array()</span>
+
+<span class="sd">        Note</span>
+<span class="sd">        ----------</span>
+<span class="sd">        The input array is copied to af.Array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="n">in_ptr</span> <span class="o">=</span> <span class="n">nb_arr</span><span class="o">.</span><span class="n">device_ctypes_pointer</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">in_shape</span> <span class="o">=</span> <span class="n">nb_arr</span><span class="o">.</span><span class="n">shape</span>
+        <span class="n">in_dtype</span> <span class="o">=</span> <span class="n">_nptype_to_aftype</span><span class="p">[</span><span class="n">nb_arr</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">str</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">copy</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">nb_arr</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">f_contiguous</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Copy can only be False when arr.flags.f_contiguous is True&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">nb_arr</span><span class="o">.</span><span class="n">is_f_contiguous</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="n">_fc_to_af_array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">nb_arr</span><span class="o">.</span><span class="n">is_c_contiguous</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="n">_cc_to_af_array</span><span class="p">(</span><span class="n">in_ptr</span><span class="p">,</span> <span class="n">nb_arr</span><span class="o">.</span><span class="n">ndim</span><span class="p">,</span> <span class="n">in_shape</span><span class="p">,</span> <span class="n">in_dtype</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">numba_to_af_array</span><span class="p">(</span><span class="n">nb_arr</span><span class="o">.</span><span class="n">copy</span><span class="p">())</span>
+
+<div class="viewcode-block" id="to_array"><a class="viewcode-back" href="../../arrayfire.interop.html#arrayfire.interop.to_array">[docs]</a><span class="k">def</span> <span class="nf">to_array</span><span class="p">(</span><span class="n">in_array</span><span class="p">,</span> <span class="n">copy</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Helper function to convert input from a different module to af.Array</span>
 
@@ -268,20 +325,30 @@
 <span class="sd">    -------------</span>
 
 <span class="sd">    in_array : array like object</span>
-<span class="sd">             Can be one of numpy.ndarray, pycuda.GPUArray, pyopencl.Array, array.array, list</span>
+<span class="sd">             Can be one of the following:</span>
+<span class="sd">             - numpy.ndarray</span>
+<span class="sd">             - pycuda.GPUArray</span>
+<span class="sd">             - pyopencl.Array</span>
+<span class="sd">             - numba.cuda.cudadrv.devicearray.DeviceNDArray</span>
+<span class="sd">             - array.array</span>
+<span class="sd">             - list</span>
+<span class="sd">    copy : Bool specifying if array is to be copied.</span>
+<span class="sd">          Default is true.</span>
+<span class="sd">          Can only be False if array is fortran contiguous.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    --------------</span>
 <span class="sd">    af.Array of same dimensions as input after copying the data from the input</span>
 
-
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">AF_NUMPY_FOUND</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_array</span><span class="p">,</span> <span class="n">NumpyArray</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">np_to_af_array</span><span class="p">(</span><span class="n">in_array</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np_to_af_array</span><span class="p">(</span><span class="n">in_array</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">AF_PYCUDA_FOUND</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_array</span><span class="p">,</span> <span class="n">CudaArray</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">pycuda_to_af_array</span><span class="p">(</span><span class="n">in_array</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pycuda_to_af_array</span><span class="p">(</span><span class="n">in_array</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">AF_PYOPENCL_FOUND</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_array</span><span class="p">,</span> <span class="n">OpenclArray</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">pyopencl_to_af_array</span><span class="p">(</span><span class="n">in_array</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pyopencl_to_af_array</span><span class="p">(</span><span class="n">in_array</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">AF_NUMBA_FOUND</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">in_array</span><span class="p">,</span> <span class="n">NumbaCudaArray</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">numba_to_af_array</span><span class="p">(</span><span class="n">in_array</span><span class="p">,</span> <span class="n">copy</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Array</span><span class="p">(</span><span class="n">src</span><span class="o">=</span><span class="n">in_array</span><span class="p">)</span></div>
 </pre></div>
 
@@ -319,8 +386,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

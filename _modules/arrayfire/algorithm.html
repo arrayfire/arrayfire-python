@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,18 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="../../index.html" />
-    <link rel="up" title="Module code" href="../index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
    
   <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
   
@@ -34,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -518,16 +519,16 @@
                                           <span class="n">c_uint_t</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="n">is_ascending</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">out</span><span class="p">,</span><span class="n">idx</span></div>
 
-<div class="viewcode-block" id="sort_by_key"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.sort_by_key">[docs]</a><span class="k">def</span> <span class="nf">sort_by_key</span><span class="p">(</span><span class="n">iv</span><span class="p">,</span> <span class="n">ik</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="sort_by_key"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.sort_by_key">[docs]</a><span class="k">def</span> <span class="nf">sort_by_key</span><span class="p">(</span><span class="n">ik</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">is_ascending</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Sort an array based on specified keys</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    iv  : af.Array</span>
-<span class="sd">         An Array containing the values</span>
 <span class="sd">    ik  : af.Array</span>
 <span class="sd">         An Array containing the keys</span>
+<span class="sd">    iv  : af.Array</span>
+<span class="sd">         An Array containing the values</span>
 <span class="sd">    dim: optional: int. default: 0</span>
 <span class="sd">         Dimension along which sort is to be performed.</span>
 <span class="sd">    is_ascending: optional: bool. default: True</span>
@@ -535,9 +536,9 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    (ov, ok): tuple of af.Array</span>
-<span class="sd">         `ov` contains the values from `iv` after sorting them based on `ik`</span>
+<span class="sd">    (ok, ov): tuple of af.Array</span>
 <span class="sd">         `ok` contains the values from `ik` in sorted order</span>
+<span class="sd">         `ov` contains the values from `iv` after sorting them based on `ik`</span>
 
 <span class="sd">    Note</span>
 <span class="sd">    -------</span>
@@ -545,8 +546,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">ov</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
     <span class="n">ok</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sort_by_key</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">ov</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">ok</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
-                                           <span class="n">iv</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">ik</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="n">is_ascending</span><span class="p">)))</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sort_by_key</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">ok</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">ov</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                           <span class="n">ik</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">iv</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">dim</span><span class="p">),</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="n">is_ascending</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">ov</span><span class="p">,</span><span class="n">ok</span></div>
 
 <div class="viewcode-block" id="set_unique"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.set_unique">[docs]</a><span class="k">def</span> <span class="nf">set_unique</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">is_sorted</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -648,8 +649,8 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>
 

@@ -1,6 +1,6 @@
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
@@ -15,17 +15,19 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '3.4.20160925',
+        VERSION:     '3.5.20170718',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="ArrayFire Python documentation" href="index.html" />
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,7 +35,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
   </head>
-  <body role="document">
+  <body>
   
 
     <div class="document">
@@ -44,25 +46,33 @@
   <div class="section" id="module-arrayfire.interop">
 <span id="arrayfire-interop-module"></span><h1>arrayfire.interop module<a class="headerlink" href="#module-arrayfire.interop" title="Permalink to this headline">¶</a></h1>
 <p>Interop with other python packages.</p>
-<p>This module provides interoperability with the following python packages.</p>
+<p>This module provides helper functions to copy data to arrayfire from the following modules:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li>numpy</li>
-<li>pycuda</li>
-<li>pyopencl</li>
+<li>numpy - numpy.ndarray</li>
+<li>pycuda - pycuda.gpuarray</li>
+<li>pyopencl - pyopencl.array</li>
+<li>numba - numba.cuda.cudadrv.devicearray.DeviceNDArray</li>
 </ol>
 </div></blockquote>
 <dl class="function">
 <dt id="arrayfire.interop.from_ndarray">
-<code class="descclassname">arrayfire.interop.</code><code class="descname">from_ndarray</code><span class="sig-paren">(</span><em>np_arr</em><span class="sig-paren">)</span><a class="headerlink" href="#arrayfire.interop.from_ndarray" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">arrayfire.interop.</code><code class="descname">from_ndarray</code><span class="sig-paren">(</span><em>np_arr</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="headerlink" href="#arrayfire.interop.from_ndarray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert numpy.ndarray to arrayfire.Array.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>np_arr</strong> : numpy.ndarray()</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>np_arr</strong> : numpy.ndarray()</p>
+<p><strong>copy</strong> : Bool specifying if array is to be copied.</p>
+<blockquote>
+<div><p>Default is true.
+Can only be False if array is fortran contiguous.</p>
+</div></blockquote>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>af_arr</strong> : arrayfire.Array()</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>af_arr</strong> : arrayfire.Array()</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -70,15 +80,45 @@
 
 <dl class="function">
 <dt id="arrayfire.interop.np_to_af_array">
-<code class="descclassname">arrayfire.interop.</code><code class="descname">np_to_af_array</code><span class="sig-paren">(</span><em>np_arr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/interop.html#np_to_af_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.interop.np_to_af_array" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">arrayfire.interop.</code><code class="descname">np_to_af_array</code><span class="sig-paren">(</span><em>np_arr</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/interop.html#np_to_af_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.interop.np_to_af_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert numpy.ndarray to arrayfire.Array.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>np_arr</strong> : numpy.ndarray()</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>np_arr</strong> : numpy.ndarray()</p>
+<p><strong>copy</strong> : Bool specifying if array is to be copied.</p>
+<blockquote>
+<div><p>Default is true.
+Can only be False if array is fortran contiguous.</p>
+</div></blockquote>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>af_arr</strong> : arrayfire.Array()</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>af_arr</strong> : arrayfire.Array()</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.interop.pycuda_to_af_array">
+<code class="descclassname">arrayfire.interop.</code><code class="descname">pycuda_to_af_array</code><span class="sig-paren">(</span><em>pycu_arr</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/interop.html#pycuda_to_af_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.interop.pycuda_to_af_array" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert pycuda.gpuarray to arrayfire.Array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>pycu_arr</strong> : pycuda.GPUArray()</p>
+<p><strong>copy</strong> : Bool specifying if array is to be copied.</p>
+<blockquote>
+<div><p>Default is true.
+Can only be False if array is fortran contiguous.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>af_arr</strong> : arrayfire.Array()</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -86,7 +126,7 @@
 
 <dl class="function">
 <dt id="arrayfire.interop.to_array">
-<code class="descclassname">arrayfire.interop.</code><code class="descname">to_array</code><span class="sig-paren">(</span><em>in_array</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/interop.html#to_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.interop.to_array" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">arrayfire.interop.</code><code class="descname">to_array</code><span class="sig-paren">(</span><em>in_array</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/interop.html#to_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.interop.to_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper function to convert input from a different module to af.Array</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -94,7 +134,18 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>in_array</strong> : array like object</p>
 <blockquote>
-<div><p>Can be one of numpy.ndarray, pycuda.GPUArray, pyopencl.Array, array.array, list</p>
+<div><p>Can be one of the following:
+- numpy.ndarray
+- pycuda.GPUArray
+- pyopencl.Array
+- numba.cuda.cudadrv.devicearray.DeviceNDArray
+- array.array
+- list</p>
+</div></blockquote>
+<p><strong>copy</strong> : Bool specifying if array is to be copied.</p>
+<blockquote>
+<div><p>Default is true.
+Can only be False if array is fortran contiguous.</p>
 </div></blockquote>
 </td>
 </tr>
@@ -125,7 +176,7 @@
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="_sources/arrayfire.interop.txt"
+      <li><a href="_sources/arrayfire.interop.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div>
@@ -147,11 +198,11 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/arrayfire.interop.txt"
+      <a href="_sources/arrayfire.interop.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
