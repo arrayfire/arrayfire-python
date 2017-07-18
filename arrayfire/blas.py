@@ -150,7 +150,7 @@ def matmulTT(lhs, rhs):
                                       MATPROP.TRANS.value, MATPROP.TRANS.value))
     return out
 
-def dot(lhs, rhs, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE):
+def dot(lhs, rhs, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE, return_scalar = False):
     """
     Dot product of two input vectors.
 
@@ -173,10 +173,13 @@ def dot(lhs, rhs, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE):
                - af.MATPROP.NONE   - If no op should be done on `rhs`.
                - No other options are currently supported.
 
+    return_scalar: optional: bool. default: False.
+               - When set to true, the input arrays are flattened and the output is a scalar
+
     Returns
     -------
 
-    out : af.Array
+    out : af.Array or scalar
           Output of dot product of `lhs` and `rhs`.
 
     Note
@@ -186,7 +189,16 @@ def dot(lhs, rhs, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE):
     - Batches are not supported.
 
     """
-    out = Array()
-    safe_call(backend.get().af_dot(c_pointer(out.arr), lhs.arr, rhs.arr,
-                                   lhs_opts.value, rhs_opts.value))
-    return out
+    if return_scalar:
+        real = c_double_t(0)
+        imag = c_double_t(0)
+        safe_call(backend.get().af_dot_all(c_pointer(real), c_pointer(imag),
+                                           lhs.arr, rhs.arr, lhs_opts.value, rhs_opts.value))
+        real = real.value
+        imag = imag.value
+        return real if imag == 0 else real + imag * 1j
+    else:
+        out = Array()
+        safe_call(backend.get().af_dot(c_pointer(out.arr), lhs.arr, rhs.arr,
+                                       lhs_opts.value, rhs_opts.value))
+        return out
