@@ -1,4 +1,22 @@
-### v3.3.20170222
+### v3.5.20170718
+- Feature parity with ArrayFire 3.5.
+    - `canny`: Canny Edge detector
+    - `Array.scalar`: Return the first element of the array
+    - `dot`: Now support option to return scalar
+    - `print_mem_info`: Prints memory being used / locked by arrayfire memory manager.
+    - `Array.allocated`: Returs the amount of memory allocated for the given buffer.
+    - `set_fft_plan_cache_size`: Sets the size of the fft plan cache.
+
+- Bug Fixes:
+    - `sort_by_key` had key and value flipped in documentation.
+
+- Improvements and bugfixes from upstream include:
+    - CUDA backend uses nvrtc instead of nvvm
+    - Performance improvements to arrayfire.reorder
+    - Faster unified backend
+    - You can find more information at arrayfire's [release notes](https://github.com/arrayfire/arrayfire/blob/v3.5.0/docs/pages/release_notes.md)
+
+### v3.4.20170222
 - Bugfix: Fixes typo in `approx1`.
 - Bugfix: Fixes typo in `hamming_matcher` and `nearest_neighbour`.
 - Bugfix: Added necessary copy and lock mechanisms in interop.py.
@@ -6,7 +24,7 @@
 - Feature: Added support to create arrayfire arrays from numba.
 - Behavior change: af.print() only prints full arrays for smaller sizes.
 
-### v3.3.20161126
+### v3.4.20161126
 - Fixing memory leak in array creation.
 - Supporting 16 bit integer types in interop.
 
