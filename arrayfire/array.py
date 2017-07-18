@@ -1253,6 +1253,19 @@ class Array(BaseArray):
         ct_array, shape = self.to_ctype(row_major, True)
         return _ctype_to_lists(ct_array, len(shape) - 1, shape)
 
+    def scalar(self):
+        """
+        Return the first element of the array
+        """
+
+        if (self.arr.value == 0):
+            raise RuntimeError("Can not call to_ctype on empty array")
+
+        ctype_type = to_c_type[self.type()]
+        res = ctype_type()
+        safe_call(backend.get().af_get_scalar(c_pointer(res), self.arr))
+        return res.value
+
     def __str__(self):
         """
         Converts the arrayfire array to string showing its meta data and contents.
