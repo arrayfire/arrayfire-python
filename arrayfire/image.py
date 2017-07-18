@@ -1194,6 +1194,47 @@ def moments(image, moment = MOMENT.FIRST_ORDER):
     safe_call(backend.get().af_moments(c_pointer(output.arr), image.arr, moment.value))
     return output
 
+def canny(image,
+          low_threshold, high_threshold = None,
+          treshold_type = CANNY_THRESHOLD.MANUAL,
+          sobel_window = 3, is_fast = False):
+    """
+    Canny edge detector.
+
+    Parameters
+    ----------
+    image : af.Array
+          - A 2 D arrayfire array representing an image
+
+    threshold_type : optional: af.CANNY_THRESHOLD. default: af.CANNY_THRESHOLD.MANUAL.
+          Can be one of:
+          - af.CANNY_THRESHOLD.MANUAL
+          - af.CANNY_THRESHOLD.AUTO_OTSU
+
+    low_threshold :  required: float.
+          Specifies the % of maximum in gradient image if threshold_type is MANUAL.
+          Specifies the % of auto dervied high value if threshold_type is AUTO_OTSU.
+
+    high_threshold : optional: float. default: None
+          Specifies the % of maximum in gradient image if threshold_type is MANUAL.
+          Ignored if threshold_type is AUTO_OTSU
+
+    sobel_window : optional: int. default: 3
+          Specifies the size of sobel kernel when computing the gradient image.
+
+    Returns
+    --------
+
+    out : af.Array
+        - A binary image containing the edges
+
+    """
+    output = Array()
+    safe_call(backend.get().af_canny(c_pointer(output.arr), threshold_type.value,
+                                     low_threshold, high_threshold and high_threshold.value or 0,
+                                     c_uint(sobel_window), c_bool(is_fast)))
+    return output
+
 def is_image_io_available():
     """
     Function to check if the arrayfire library was built with Image IO support.

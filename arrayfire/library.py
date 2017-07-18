@@ -413,6 +413,13 @@ class STORAGE(_Enum):
     CSC   = _Enum_Type(2)
     COO   = _Enum_Type(3)
 
+class CANNY_THRESHOLD(_Enum):
+    """
+    Canny Edge Threshold types
+    """
+    MANUAL = _Enum_Type(0)
+    AUTO_OTSU = _Enum_Type(1)
+
 _VER_MAJOR_PLACEHOLDER = "__VER_MAJOR__"
 
 def _setup():
