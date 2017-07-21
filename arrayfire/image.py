@@ -1196,7 +1196,7 @@ def moments(image, moment = MOMENT.FIRST_ORDER):
 
 def canny(image,
           low_threshold, high_threshold = None,
-          treshold_type = CANNY_THRESHOLD.MANUAL,
+          threshold_type = CANNY_THRESHOLD.MANUAL,
           sobel_window = 3, is_fast = False):
     """
     Canny edge detector.
@@ -1230,9 +1230,14 @@ def canny(image,
 
     """
     output = Array()
-    safe_call(backend.get().af_canny(c_pointer(output.arr), threshold_type.value,
-                                     low_threshold, high_threshold and high_threshold.value or 0,
-                                     c_uint(sobel_window), c_bool(is_fast)))
+    if threshold_type.value == CANNY_THRESHOLD.MANUAL.value:
+        assert(high_threshold is not None)
+
+    high_threshold = high_threshold if high_threshold else 0
+    safe_call(backend.get().af_canny(c_pointer(output.arr), image.arr,
+                                     c_int_t(threshold_type.value),
+                                     c_float_t(low_threshold), c_float_t(high_threshold),
+                                     c_uint_t(sobel_window), c_bool_t(is_fast)))
     return output
 
 def is_image_io_available():
