@@ -1,3 +1,6 @@
+### v3.5.20170721
+- Bug fixes for canny edge detection
+
 ### v3.5.20170718
 - Feature parity with ArrayFire 3.5.
     - `canny`: Canny Edge detector
