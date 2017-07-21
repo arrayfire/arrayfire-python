@@ -78,4 +78,7 @@ def simple_image(verbose = False):
     display_func(af.rgb2ycbcr(a))
     display_func(af.ycbcr2rgb(a))
 
+    a = af.randu(10, 10)
+    b = af.canny(a, low_threshold = 0.2, high_threshold = 0.8)
+
 _util.tests['image'] = simple_image
