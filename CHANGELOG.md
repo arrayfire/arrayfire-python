@@ -1,4 +1,7 @@
 ### v3.5.20170721
+- Bug fixes when using v3.5 of arrayfire libs + graphics
+
+### v3.5.20170721
 - Bug fixes for canny edge detection
 
 ### v3.5.20170718
