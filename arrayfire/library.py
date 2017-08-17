@@ -13,6 +13,8 @@ Module containing enums and other constants.
 
 import platform
 import ctypes as ct
+import traceback
+import os
 
 c_float_t     = ct.c_float
 c_double_t    = ct.c_double
@@ -32,7 +34,7 @@ c_size_t      = ct.c_size_t
 
 
 AF_VER_MAJOR = '3'
-FORGE_VER_MAJOR = '0'
+FORGE_VER_MAJOR = '1'
 
 # Work around for unexpected architectures
 if 'c_dim_t_forced' in globals():
@@ -424,7 +426,6 @@ _VER_MAJOR_PLACEHOLDER = "__VER_MAJOR__"
 
 def _setup():
     import platform
-    import os
 
     platform_name = platform.system()
 
@@ -545,10 +546,23 @@ class _clibrary(object):
 
         # Try to pre-load forge library if it exists
         libnames = self.__libname('forge', head='', ver_major=FORGE_VER_MAJOR)
+
+        try:
+            VERBOSE_LOADS = os.environ['AF_VERBOSE_LOADS'] == '1'
+        except KeyError:
+            VERBOSE_LOADS = False
+            pass
+
         for libname in libnames:
             try:
                 ct.cdll.LoadLibrary(libname)
+                if VERBOSE_LOADS:
+                    print('Loaded ' + libname)
+                break
             except OSError:
+                if VERBOSE_LOADS:
+                    traceback.print_exc()
+                    print('Unable to load ' + libname)
                 pass
 
         c_dim4 = c_dim_t*4
@@ -568,8 +582,13 @@ class _clibrary(object):
                     if (err == ERR.NONE.value):
                         self.__name = __name
                         clib.af_release_array(out)
-                    break;
+                        if VERBOSE_LOADS:
+                            print('Loaded ' + libname)
+                        break;
                 except OSError:
+                    if VERBOSE_LOADS:
+                        traceback.print_exc()
+                        print('Unable to load ' + libname)
                     pass
 
         if (self.__name is None):
