@@ -19,7 +19,7 @@ setup(
     author="Pavan Yalamanchili",
     author_email="contact@pavanky.com",
     name="arrayfire",
-    version="3.5.20170817",
+    version="3.6.0",
     description="Python bindings for ArrayFire",
     license="BSD",
     url="http://arrayfire.com",

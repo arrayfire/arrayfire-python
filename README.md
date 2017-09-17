@@ -76,6 +76,11 @@ To run arrayfire tests, you can run the following command from command line.
 python -m arrayfire.tests
 ```
 
+## Communication
+
+* [Slack Chat](https://join.slack.com/t/arrayfire-org/shared_invite/MjI4MjIzMDMzMTczLTE1MDI5ODg4NzYtN2QwNGE3ODA5OQ)
+* [Google Groups](https://groups.google.com/forum/#!forum/arrayfire-users)
+
 ## Acknowledgements
 
 The ArrayFire library is written by developers at [ArrayFire](http://arrayfire.com) LLC
