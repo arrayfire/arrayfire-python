@@ -1198,9 +1198,11 @@ class Array(BaseArray):
         if (self.arr.value == 0):
             raise RuntimeError("Can not call to_ctype on empty array")
 
-        tmp = transpose(self) if row_major else self
+        tmp = self._reorder() if (row_major) else self
+
         ctype_type = to_c_type[self.type()] * self.elements()
         res = ctype_type()
+
         safe_call(backend.get().af_get_data_ptr(c_pointer(res), self.arr))
         if (return_shape):
             return res, self.dims()
