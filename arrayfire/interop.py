@@ -29,10 +29,10 @@ def _fc_to_af_array(in_ptr, in_shape, in_dtype, is_device=False, copy = True):
     """
     res = Array(in_ptr, in_shape, in_dtype, is_device=is_device)
 
-    if is_device:
-        lock_array(res)
-        pass
+    if not is_device:
+        return res
 
+    lock_array(res)
     return res.copy() if copy else res
 
 def _cc_to_af_array(in_ptr, ndim, in_shape, in_dtype, is_device=False, copy = True):
@@ -41,24 +41,11 @@ def _cc_to_af_array(in_ptr, ndim, in_shape, in_dtype, is_device=False, copy = Tr
     """
     if ndim == 1:
         return _fc_to_af_array(in_ptr, in_shape, in_dtype, is_device, copy)
-    elif ndim == 2:
-        shape = (in_shape[1], in_shape[0])
-        res = Array(in_ptr, shape, in_dtype, is_device=is_device)
-        if is_device: lock_array(res)
-        return reorder(res, 1, 0)
-    elif ndim == 3:
-        shape = (in_shape[2], in_shape[1], in_shape[0])
-        res = Array(in_ptr, shape, in_dtype, is_device=is_device)
-        if is_device: lock_array(res)
-        return reorder(res, 2, 1, 0)
-    elif ndim == 4:
-        shape = (in_shape[3], in_shape[2], in_shape[1], in_shape[0])
-        res = Array(in_ptr, shape, in_dtype, is_device=is_device)
-        if is_device: lock_array(res)
-        return reorder(res, 3, 2, 1, 0)
     else:
-        raise RuntimeError("Unsupported ndim")
-
+        shape = tuple(reversed(in_shape))
+        res = Array(in_ptr, shape, in_dtype, is_device=is_device)
+        if is_device: lock_array(res)
+        return res._reorder()
 
 _nptype_to_aftype = {'b1' : Dtype.b8,
 		     'u1' : Dtype.u8,
