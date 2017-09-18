@@ -397,7 +397,6 @@ def tile(a, d0, d1=1, d2=1, d3=1):
     safe_call(backend.get().af_tile(c_pointer(out.arr), a.arr, d0, d1, d2, d3))
     return out
 
-
 def reorder(a, d0=1, d1=0, d2=2, d3=3):
     """
     Reorder the dimensions of the input.

@@ -18,20 +18,32 @@ def simple_interop(verbose = False):
         a = af.to_array(n)
         n2 = np.array(a)
         assert((n==n2).all())
+        n2[:] = 0
+        a.to_ndarray(n2)
+        assert((n==n2).all())
 
         n = np.random.random((5,3))
         a = af.to_array(n)
         n2 = np.array(a)
+        assert((n==n2).all())
+        n2[:] = 0
+        a.to_ndarray(n2)
         assert((n==n2).all())
 
         n = np.random.random((5,3,2))
         a = af.to_array(n)
         n2 = np.array(a)
         assert((n==n2).all())
+        n2[:] = 0
+        a.to_ndarray(n2)
+        assert((n==n2).all())
 
-        n = np.random.random((5,3,2, 2))
+        n = np.random.random((5,3,2,2))
         a = af.to_array(n)
         n2 = np.array(a)
+        assert((n==n2).all())
+        n2[:] = 0
+        a.to_ndarray(n2)
         assert((n==n2).all())
 
     if af.AF_PYCUDA_FOUND and af.get_active_backend() == 'cuda':

@@ -296,7 +296,6 @@ def _get_assign_dims(key, idims):
     else:
         raise IndexError("Invalid type while assigning to arrayfire.array")
 
-
 def transpose(a, conj=False):
     """
     Perform the transpose on an input.
@@ -504,7 +503,9 @@ class Array(BaseArray):
             if(offset is None and strides is None):
                 self.arr = _create_array(buf, numdims, idims, to_dtype[_type_char], is_device)
             else:
-                self.arr = _create_strided_array(buf, numdims, idims, to_dtype[_type_char], is_device, offset, strides)
+                self.arr = _create_strided_array(buf, numdims, idims,
+                                                 to_dtype[_type_char],
+                                                 is_device, offset, strides)
 
         else:
 
@@ -1159,6 +1160,19 @@ class Array(BaseArray):
         except RuntimeError as e:
             raise IndexError(str(e))
 
+    def _reorder(self):
+        """
+        Returns a reordered array to help interoperate with row major formats.
+        """
+        ndims = self.numdims()
+        if (ndims == 1):
+            return self
+
+        rdims = tuple(reversed(range(ndims))) + tuple(range(ndims, 4))
+        out = Array()
+        safe_call(backend.get().af_reorder(c_pointer(out.arr), self.arr, *rdims))
+        return out
+
     def to_ctype(self, row_major=False, return_shape=False):
         """
         Return the data as a ctype C array after copying to host memory
@@ -1311,6 +1325,44 @@ class Array(BaseArray):
         res = np.empty(self.dims(), dtype=np.dtype(to_typecode[self.type()]), order='F')
         safe_call(backend.get().af_get_data_ptr(c_void_ptr_t(res.ctypes.data), self.arr))
         return res
+
+    def to_ndarray(self, output=None):
+        """
+        Parameters
+        -----------
+        output: optional: numpy. default: None
+
+        Returns
+        ----------
+        If output is None: Constructs a numpy.array from arrayfire.Array
+        If output is not None: copies content of af.array into numpy array.
+
+        Note
+        ------
+
+        - An exception is thrown when output is not None and it is not contiguous.
+        - When output is None, The returned array is in fortran contiguous order.
+        """
+        if output is None:
+            return self.__array__()
+
+        if (output.dtype != to_typecode[self.type()]):
+            raise TypeError("Output is not the same type as the array")
+
+        if (output.size != self.elements()):
+            raise RuntimeError("Output size does not match that of input")
+
+        flags = output.flags
+        tmp = None
+        if flags['F_CONTIGUOUS']:
+            tmp = self
+        elif flags['C_CONTIGUOUS']:
+            tmp = self._reorder()
+        else:
+            raise RuntimeError("When output is not None, it must be contiguous")
+
+        safe_call(backend.get().af_get_data_ptr(c_void_ptr_t(output.ctypes.data), tmp.arr))
+        return output
 
 def display(a, precision=4):
     """
