@@ -96,20 +96,21 @@ def approx2(signal, pos0, pos1, method=INTERP.LINEAR, off_grid=0.0):
 
 def interp1d(x_interpolated, x_input, signal_input, method=INTERP.LINEAR, off_grid=0.0):
     """
-    One-dimensional linear interpolation.Interpolation is performed along axis 0.
+    One-dimensional linear interpolation.Interpolation is performed along axis 0
+    of the input array.
 
     Parameters
     ----------
 
-    x : af.Array
-        The x-coordinates of the interpolated values. The interpolation function
-        is queried at these set of points.
+    x_interpolated : af.Array
+                     The x-coordinates of the interpolation points. The interpolation 
+                     function is queried at these set of points.
 
     x : af.Array
-        The x-coordinates of the data points
+        The x-coordinates of the input data points
 
     signal_input: af.Array
-                  Input signal array(uniform data)
+                  Input signal array (signal = f(x))
 
     method: optional: af.INTERP. default: af.INTERP.LINEAR.
             Interpolation method.
@@ -127,6 +128,56 @@ def interp1d(x_interpolated, x_input, signal_input, method=INTERP.LINEAR, off_gr
     pos0 = (x_interpolated - sum(x_input[0, 0, 0, 0]))/dx
 
     return approx1(signal_input, pos0, method, off_grid)
+
+
+def interp2d(x_interpolated, x_input, y_interpolated, y_input, 
+             signal_input, method=INTERP.LINEAR, off_grid=0.0
+            ):
+    """
+    Two-dimensional linear interpolation.Interpolation is performed along axes 0 and 1
+    of the input array.
+
+    Parameters
+    ----------
+
+    x_interpolated : af.Array
+                     The x-coordinates of the interpolation points. The interpolation 
+                     function is queried at these set of points.
+
+    x : af.Array
+        The x-coordinates of the input data points. The convention followed is that
+        the x-coordinates vary along axis 0
+
+    y_interpolated : af.Array
+                     The y-coordinates of the interpolation points. The interpolation 
+                     function is queried at these set of points.
+
+    y : af.Array
+        The y-coordinates of the input data points. The convention followed is that
+        the y-coordinates vary along axis 1
+
+    signal_input: af.Array
+                  Input signal array (signal = f(x, y))
+
+    method: optional: af.INTERP. default: af.INTERP.LINEAR.
+            Interpolation method.
+
+    off_grid: optional: scalar. default: 0.0.
+              The value used for positions outside the range.
+
+    Returns
+    -------
+
+    output: af.Array
+            Values calculated at interpolation points.
+    """
+    dx = sum(x_input[1, 0, 0, 0] - x_input[0, 0, 0, 0])
+    dy = sum(y_input[0, 1, 0, 0] - y_input[0, 0, 0, 0])
+
+    pos0 = (x_interpolated - sum(x_input[0, 0, 0, 0]))/dx
+    pos1 = (y_interpolated - sum(y_input[0, 0, 0, 0]))/dy
+
+    return approx2(signal_input, pos0, pos1, method, off_grid)
 
 def fft(signal, dim0 = None , scale = None):
     """
