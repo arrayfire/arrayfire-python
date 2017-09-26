@@ -94,6 +94,40 @@ def approx2(signal, pos0, pos1, method=INTERP.LINEAR, off_grid=0.0):
                                        pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
     return output
 
+def interp1d(x_interpolated, x_input, signal_input, method=INTERP.LINEAR, off_grid=0.0):
+    """
+    One-dimensional linear interpolation.Interpolation is performed along axis 0.
+
+    Parameters
+    ----------
+
+    x : af.Array
+        The x-coordinates of the interpolated values. The interpolation function
+        is queried at these set of points.
+
+    x : af.Array
+        The x-coordinates of the data points
+
+    signal_input: af.Array
+                  Input signal array(uniform data)
+
+    method: optional: af.INTERP. default: af.INTERP.LINEAR.
+            Interpolation method.
+
+    off_grid: optional: scalar. default: 0.0.
+              The value used for positions outside the range.
+
+    Returns
+    -------
+
+    output: af.Array
+            Values calculated at interpolation points.
+    """
+    dx   = sum(x_input[1, 0, 0, 0] - x_input[0, 0, 0, 0])
+    pos0 = (x_interpolated - sum(x_input[0, 0, 0, 0]))/dx
+
+    return approx1(signal_input, pos0, method, off_grid)
+
 def fft(signal, dim0 = None , scale = None):
     """
     Fast Fourier Transform: 1D
