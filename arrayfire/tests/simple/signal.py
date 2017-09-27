@@ -15,15 +15,18 @@ def simple_signal(verbose=False):
     display_func = _util.display_func(verbose)
     print_func   = _util.print_func(verbose)
 
-    a = af.randu(10, 1)
-    pos0 = af.randu(10) * 10
-    display_func(af.approx1(a, pos0))
+    signal = af.randu(10)
+    x_new  = af.randu(10)
+    x_orig = af.randu(10)
+    display_func(af.approx1(x_new, x_orig, signal))
 
-    a = af.randu(3, 3)
-    pos0 = af.randu(3, 3) * 10
-    pos1 = af.randu(3, 3) * 10
+    signal = af.randu(3, 3)
+    x_new  = af.randu(3, 3)
+    x_orig = af.randu(3, 3)
+    y_new  = af.randu(3, 3)
+    y_orig = af.randu(3, 3)
 
-    display_func(af.approx2(a, pos0, pos1))
+    display_func(af.approx2(x_new, x_orig, y_new, y_orig, signal))
 
     a = af.randu(8, 1)
     display_func(a)
