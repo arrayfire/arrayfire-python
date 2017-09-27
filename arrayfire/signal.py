@@ -13,90 +13,23 @@ Signal processing functions (fft, convolve, etc).
 
 from .library import *
 from .array import *
+from .bcast import broadcast
 
-def approx1(signal, pos0, method=INTERP.LINEAR, off_grid=0.0):
+@broadcast
+def _scale_pos_axis0(x_curr, x_orig):
+    x0 = x_orig[0, 0, 0, 0]
+    dx = x_orig[1, 0, 0, 0] - x0
+    return((x_curr - x0) / dx)
+
+@broadcast
+def _scale_pos_axis1(y_curr, y_orig):
+    y0 = y_orig[0, 0, 0, 0]
+    dy = y_orig[0, 1, 0, 0] - y0
+    return((y_curr - y0) / dy)
+
+def approx1(x_interpolated, x_input, signal_input, method=INTERP.LINEAR, off_grid=0.0):
     """
-    Interpolate along a single dimension.
-
-    Parameters
-    ----------
-
-    signal: af.Array
-            A 1 dimensional signal or batch of 1 dimensional signals.
-
-    pos0  : af.Array
-            Locations of the interpolation points.
-
-    method: optional: af.INTERP. default: af.INTERP.LINEAR.
-            Interpolation method.
-
-    off_grid: optional: scalar. default: 0.0.
-            The value used for positions outside the range.
-
-    Returns
-    -------
-
-    output: af.Array
-            Values calculated at interpolation points.
-
-    Note
-    -----
-
-    The initial measurements are assumed to have taken place at equal steps between [0, N - 1],
-    where N is the length of the first dimension of `signal`.
-
-
-    """
-    output = Array()
-    safe_call(backend.get().af_approx1(c_pointer(output.arr), signal.arr, pos0.arr,
-                                       method.value, c_float_t(off_grid)))
-    return output
-
-def approx2(signal, pos0, pos1, method=INTERP.LINEAR, off_grid=0.0):
-    """
-    Interpolate along a two dimension.
-
-    Parameters
-    ----------
-
-    signal: af.Array
-            A 2 dimensional signal or batch of 2 dimensional signals.
-
-    pos0  : af.Array
-            Locations of the interpolation points along the first dimension.
-
-    pos1  : af.Array
-            Locations of the interpolation points along the second dimension.
-
-    method: optional: af.INTERP. default: af.INTERP.LINEAR.
-            Interpolation method.
-
-    off_grid: optional: scalar. default: 0.0.
-            The value used for positions outside the range.
-
-    Returns
-    -------
-
-    output: af.Array
-            Values calculated at interpolation points.
-
-    Note
-    -----
-
-    The initial measurements are assumed to have taken place at equal steps between [(0,0) - [M - 1, N - 1]]
-    where M is the length of the first dimension of `signal`,
-    and N is the length of the second dimension of `signal`.
-
-
-    """
-    output = Array()
-    safe_call(backend.get().af_approx2(c_pointer(output.arr), signal.arr,
-                                       pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
-    return output
-
-def interp1d(x_interpolated, x_input, signal_input, method=INTERP.LINEAR, off_grid=0.0):
-    """
-    One-dimensional linear interpolation.Interpolation is performed along axis 0
+    Interpolate along a single dimension.Interpolation is performed along axis 0
     of the input array.
 
     Parameters
@@ -106,17 +39,18 @@ def interp1d(x_interpolated, x_input, signal_input, method=INTERP.LINEAR, off_gr
                      The x-coordinates of the interpolation points. The interpolation 
                      function is queried at these set of points.
 
-    x : af.Array
-        The x-coordinates of the input data points
+    x_input : af.Array
+              The x-coordinates of the input data points
 
     signal_input: af.Array
                   Input signal array (signal = f(x))
 
+
     method: optional: af.INTERP. default: af.INTERP.LINEAR.
             Interpolation method.
 
     off_grid: optional: scalar. default: 0.0.
-              The value used for positions outside the range.
+            The value used for positions outside the range.
 
     Returns
     -------
@@ -124,17 +58,17 @@ def interp1d(x_interpolated, x_input, signal_input, method=INTERP.LINEAR, off_gr
     output: af.Array
             Values calculated at interpolation points.
     """
-    dx   = sum(x_input[1, 0, 0, 0] - x_input[0, 0, 0, 0])
-    pos0 = (x_interpolated - sum(x_input[0, 0, 0, 0]))/dx
+    output = Array()
+    pos0   = _scale_pos_axis0(x_interpolated, x_input)
+    safe_call(backend.get().af_approx1(c_pointer(output.arr), signal_input.arr, pos0.arr,
+                                       method.value, c_float_t(off_grid)))
+    return output
 
-    return approx1(signal_input, pos0, method, off_grid)
-
-
-def interp2d(x_interpolated, x_input, y_interpolated, y_input, 
-             signal_input, method=INTERP.LINEAR, off_grid=0.0
-            ):
+def approx2(x_interpolated, x_input, y_interpolated, y_input, signal_input, 
+            method=INTERP.LINEAR, off_grid=0.0
+           ):
     """
-    Two-dimensional linear interpolation.Interpolation is performed along axes 0 and 1
+    Interpolate along a two dimension.Interpolation is performed along axes 0 and 1
     of the input array.
 
     Parameters
@@ -144,17 +78,17 @@ def interp2d(x_interpolated, x_input, y_interpolated, y_input,
                      The x-coordinates of the interpolation points. The interpolation 
                      function is queried at these set of points.
 
-    x : af.Array
-        The x-coordinates of the input data points. The convention followed is that
-        the x-coordinates vary along axis 0
+    x_input : af.Array
+              The x-coordinates of the input data points. The convention followed is that
+              the x-coordinates vary along axis 0
 
     y_interpolated : af.Array
                      The y-coordinates of the interpolation points. The interpolation 
                      function is queried at these set of points.
 
-    y : af.Array
-        The y-coordinates of the input data points. The convention followed is that
-        the y-coordinates vary along axis 1
+    y_input : af.Array
+              The y-coordinates of the input data points. The convention followed is that
+              the y-coordinates vary along axis 1
 
     signal_input: af.Array
                   Input signal array (signal = f(x, y))
@@ -163,21 +97,21 @@ def interp2d(x_interpolated, x_input, y_interpolated, y_input,
             Interpolation method.
 
     off_grid: optional: scalar. default: 0.0.
-              The value used for positions outside the range.
+            The value used for positions outside the range.
 
     Returns
     -------
 
     output: af.Array
             Values calculated at interpolation points.
+
     """
-    dx = sum(x_input[1, 0, 0, 0] - x_input[0, 0, 0, 0])
-    dy = sum(y_input[0, 1, 0, 0] - y_input[0, 0, 0, 0])
-
-    pos0 = (x_interpolated - sum(x_input[0, 0, 0, 0]))/dx
-    pos1 = (y_interpolated - sum(y_input[0, 0, 0, 0]))/dy
-
-    return approx2(signal_input, pos0, pos1, method, off_grid)
+    output = Array()
+    pos0   = _scale_pos_axis0(x_interpolated, x_input)
+    pos1   = _scale_pos_axis1(y_interpolated, y_input)
+    safe_call(backend.get().af_approx2(c_pointer(output.arr), signal_input.arr,
+                                       pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
+    return output
 
 def fft(signal, dim0 = None , scale = None):
     """
