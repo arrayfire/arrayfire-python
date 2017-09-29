@@ -18,7 +18,7 @@ def simple_signal(verbose=False):
     signal = af.randu(10)
     x_new  = af.randu(10)
     x_orig = af.randu(10)
-    display_func(af.approx1(signal, x_new, x_input = x_orig))
+    display_func(af.approx1(signal, x_new, xp = x_orig))
 
     signal = af.randu(3, 3)
     x_new  = af.randu(3, 3)
@@ -26,7 +26,7 @@ def simple_signal(verbose=False):
     y_new  = af.randu(3, 3)
     y_orig = af.randu(3, 3)
 
-    display_func(af.approx2(signal, x_new, y_new, x_input = x_orig, y_input = y_orig))
+    display_func(af.approx2(signal, x_new, y_new, xp = x_orig, yp = y_orig))
 
     a = af.randu(8, 1)
     display_func(a)

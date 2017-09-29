@@ -27,7 +27,7 @@ def _scale_pos_axis1(y_curr, y_orig):
     dy = y_orig[0, 1, 0, 0] - y0
     return((y_curr - y0) / dy)
 
-def approx1(signal, x_interpolated, method=INTERP.LINEAR, off_grid=0.0, x_input = None):
+def approx1(signal, x, method=INTERP.LINEAR, off_grid=0.0, xp = None):
     """
     Interpolate along a single dimension.Interpolation is performed along axis 0
     of the input array.
@@ -38,9 +38,9 @@ def approx1(signal, x_interpolated, method=INTERP.LINEAR, off_grid=0.0, x_input 
     signal: af.Array
             Input signal array (signal = f(x))
 
-    x_interpolated : af.Array
-                     The x-coordinates of the interpolation points. The interpolation 
-                     function is queried at these set of points.
+    x: af.Array
+       The x-coordinates of the interpolation points. The interpolation 
+       function is queried at these set of points.
 
     method: optional: af.INTERP. default: af.INTERP.LINEAR.
             Interpolation method.
@@ -48,8 +48,8 @@ def approx1(signal, x_interpolated, method=INTERP.LINEAR, off_grid=0.0, x_input 
     off_grid: optional: scalar. default: 0.0.
             The value used for positions outside the range.
 
-    x_input : af.Array
-              The x-coordinates of the input data points
+    xp : af.Array
+         The x-coordinates of the input data points
 
     Returns
     -------
@@ -67,17 +67,17 @@ def approx1(signal, x_interpolated, method=INTERP.LINEAR, off_grid=0.0, x_input 
 
     output = Array()
 
-    if(x_input is not None):
-        pos0 = _scale_pos_axis0(x_interpolated, x_input)
+    if(xp is not None):
+        pos0 = _scale_pos_axis0(x, xp)
     else:
-        pos0 = x_interpolated
+        pos0 = x
 
     safe_call(backend.get().af_approx1(c_pointer(output.arr), signal.arr, pos0.arr,
                                        method.value, c_float_t(off_grid)))
     return output
 
-def approx2(signal, x_interpolated, y_interpolated,
-            method=INTERP.LINEAR, off_grid=0.0, x_input = None, y_input = None 
+def approx2(signal, x, y,
+            method=INTERP.LINEAR, off_grid=0.0, xp = None, yp = None 
            ):
     """
     Interpolate along a two dimension.Interpolation is performed along axes 0 and 1
@@ -89,14 +89,14 @@ def approx2(signal, x_interpolated, y_interpolated,
     signal: af.Array
             Input signal array (signal = f(x, y))
 
-    x_interpolated : af.Array
-                     The x-coordinates of the interpolation points. The interpolation 
-                     function is queried at these set of points.
+    x : af.Array
+        The x-coordinates of the interpolation points. The interpolation 
+        function is queried at these set of points.
 
 
-    y_interpolated : af.Array
-                     The y-coordinates of the interpolation points. The interpolation 
-                     function is queried at these set of points.
+    y : af.Array
+        The y-coordinates of the interpolation points. The interpolation 
+        function is queried at these set of points.
 
     method: optional: af.INTERP. default: af.INTERP.LINEAR.
             Interpolation method.
@@ -104,13 +104,13 @@ def approx2(signal, x_interpolated, y_interpolated,
     off_grid: optional: scalar. default: 0.0.
             The value used for positions outside the range.
 
-    x_input : af.Array
-              The x-coordinates of the input data points. The convention followed is that
-              the x-coordinates vary along axis 0
+    xp : af.Array
+         The x-coordinates of the input data points. The convention followed is that
+         the x-coordinates vary along axis 0
 
-    y_input : af.Array
-              The y-coordinates of the input data points. The convention followed is that
-              the y-coordinates vary along axis 1
+    yp : af.Array
+         The y-coordinates of the input data points. The convention followed is that
+         the y-coordinates vary along axis 1
 
     Returns
     -------
@@ -129,15 +129,15 @@ def approx2(signal, x_interpolated, y_interpolated,
 
     output = Array()
     
-    if(x_input is not None):
-        pos0 = _scale_pos_axis0(x_interpolated, x_input)
+    if(xp is not None):
+        pos0 = _scale_pos_axis0(x, xp)
     else:
-        pos0 = x_interpolated
+        pos0 = x
 
-    if(y_input is not None):
-        pos1 = _scale_pos_axis1(y_interpolated, y_input)
+    if(yp is not None):
+        pos1 = _scale_pos_axis1(y, yp)
     else:
-        pos1 = y_interpolated
+        pos1 = y
 
     safe_call(backend.get().af_approx2(c_pointer(output.arr), signal.arr,
                                        pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
