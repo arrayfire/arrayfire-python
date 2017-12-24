@@ -391,9 +391,11 @@ def gloh(image, num_layers=3, contrast_threshold=0.04, edge_threshold=10.0, init
 
     feat = Features()
     desc = Array()
-    safe_call(af_gloh(c_pointer(feat), c_pointer(desc),
-                      image.arr, num_layers, contrast_threshold, edge_threshold,
-                      initial_sigma, double_input, intensity_scale, feature_ratio))
+    safe_call(backend.get().af_gloh(c_pointer(feat.feat), c_pointer(desc.arr),
+                      image.arr, num_layers, c_float_t(contrast_threshold),
+                      c_float_t(edge_threshold), c_float_t(initial_sigma),
+                      double_input, c_float_t(intensity_scale), 
+                      c_float_t(feature_ratio)))
 
     return (feat, desc)
 
