@@ -32,6 +32,14 @@ class Features(object):
             assert(isinstance(num, numbers.Number))
             safe_call(backend.get().af_create_features(c_pointer(self.feat), c_dim_t(num)))
 
+    def __del__(self):
+        """
+        Release features' memory
+        """
+        if self.feat:
+            backend.get().af_release_features(self.feat)
+            self.feat = None
+
     def num_features(self):
         """
         Returns the number of features detected.
