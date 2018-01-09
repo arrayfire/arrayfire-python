@@ -631,6 +631,9 @@ class Array(BaseArray):
         safe_call(backend.get().af_get_elements(c_pointer(num), self.arr))
         return num.value
 
+    def __len__(self):
+        return(self.elements())
+
     def allocated(self):
         """
         Returns the number of bytes allocated by the memory manager for the array.
