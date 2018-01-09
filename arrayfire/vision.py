@@ -131,7 +131,7 @@ def orb(image, threshold=20.0, max_features=400, scale = 1.5, num_levels = 4, bl
     """
     feat = Features()
     desc = Array()
-    safe_call(backend.get().af_orb(c_pointer(feat.feat), c_pointer(desc.arr),
+    safe_call(backend.get().af_orb(c_pointer(feat.feat), c_pointer(desc.arr), image.arr,
                                    c_float_t(threshold), c_uint_t(max_features),
                                    c_float_t(scale), c_uint_t(num_levels), blur_image))
     return feat, desc
@@ -345,9 +345,9 @@ def sift(image, num_layers=3, contrast_threshold=0.04, edge_threshold=10.0, init
 
     feat = Features()
     desc = Array()
-    safe_call(af_sift(c_pointer(feat), c_pointer(desc),
-                      image.arr, num_layers, contrast_threshold, edge_threshold,
-                      initial_sigma, double_input, intensity_scale, feature_ratio))
+    safe_call(backend.get().af_sift(c_pointer(feat.feat), c_pointer(desc.arr),
+                      image.arr, num_layers, c_float_t(contrast_threshold), c_float_t(edge_threshold),
+                      c_float_t(initial_sigma), double_input, c_float_t(intensity_scale), c_float_t(feature_ratio)))
 
     return (feat, desc)
 
@@ -391,9 +391,11 @@ def gloh(image, num_layers=3, contrast_threshold=0.04, edge_threshold=10.0, init
 
     feat = Features()
     desc = Array()
-    safe_call(af_gloh(c_pointer(feat), c_pointer(desc),
-                      image.arr, num_layers, contrast_threshold, edge_threshold,
-                      initial_sigma, double_input, intensity_scale, feature_ratio))
+    safe_call(backend.get().af_gloh(c_pointer(feat.feat), c_pointer(desc.arr),
+                      image.arr, num_layers, c_float_t(contrast_threshold),
+                      c_float_t(edge_threshold), c_float_t(initial_sigma),
+                      double_input, c_float_t(intensity_scale), 
+                      c_float_t(feature_ratio)))
 
     return (feat, desc)
 
