@@ -164,6 +164,26 @@ def clamp(val, low, high):
 
     return out
 
+def mod(lhs, rhs):
+    """
+    Find the modulus.
+    Parameters
+    ----------
+    lhs : af.Array or scalar
+          Multi dimensional arrayfire array or a scalar number.
+    rhs : af.Array or scalar
+          Multi dimensional arrayfire array or a scalar number.
+    Returns
+    --------
+    out : af.Array
+         Contains the moduli after dividing each value of lhs` with those in `rhs`.
+    Note
+    -------
+    - Atleast one of `lhs` and `rhs` needs to be af.Array.
+    - If `lhs` and `rhs` are both af.Array, they must be of same size.
+    """
+    return _arith_binary_func(lhs, rhs, backend.get().af_mod)
+
 def rem(lhs, rhs):
     """
     Find the remainder.
