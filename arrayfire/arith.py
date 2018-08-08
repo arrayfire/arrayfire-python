@@ -252,7 +252,7 @@ def sign(a):
     Returns
     --------
     out : af.Array
-         array containing -1 for negative values, 1 otherwise.
+         array containing 1 for negative values, 0 otherwise.
     """
     return _arith_unary_func(a, backend.get().af_sign)
 
