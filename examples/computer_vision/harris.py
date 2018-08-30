@@ -40,8 +40,8 @@ def harris_demo(console):
     else:
         img_color = af.load_image("../../assets/examples/images/man.jpg", True);
 
-    img_color /= 255.0
     img = af.color_space(img_color, af.CSPACE.GRAY, af.CSPACE.RGB)
+    img_color /= 255.0
 
     ix, iy = af.gradient(img)
     ixx = ix * ix
@@ -100,8 +100,8 @@ def harris_demo(console):
     else:
         idx = af.where(corners)
 
-        corners_x = idx / corners.dims()[0]
-        corners_y = idx % corners.dims()[0]
+        corners_x = idx / float(corners.dims()[0])
+        corners_y = idx % float(corners.dims()[0])
 
         print(corners_x)
         print(corners_y)

@@ -25,8 +25,8 @@ def draw_corners(img, x, y, draw_len):
 
     # Draw vertical line of (draw_len * 2 + 1) pixels centered on  the corner
     # Set only the first channel to 1 (green lines)
-    ymin = max(0, y - draw_len)
-    ymax = min(img.dims()[0], y + draw_len)
+    ymin = int(max(0, y - draw_len))
+    ymax = int(min(img.dims()[0], y + draw_len))
 
     img[ymin : ymax, x, 0] = 0.0
     img[ymin : ymax, x, 1] = 1.0
@@ -40,13 +40,13 @@ def fast_demo(console):
     else:
         img_color = af.load_image("../../assets/examples/images/man.jpg", True);
 
-    img_color /= 255.0
     img = af.color_space(img_color, af.CSPACE.GRAY, af.CSPACE.RGB)
+    img_color /= 255.0
 
     features = af.fast(img)
 
-    xs = features.get_xpos()
-    ys = features.get_ypos()
+    xs = features.get_xpos().to_list()
+    ys = features.get_ypos().to_list()
 
     draw_len = 3;
     num_features = features.num_features().value
