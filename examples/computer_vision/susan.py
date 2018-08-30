@@ -40,13 +40,13 @@ def susan_demo(console):
     else:
         img_color = af.load_image("../../assets/examples/images/man.jpg", True);
 
-    img_color /= 255.0
     img = af.color_space(img_color, af.CSPACE.GRAY, af.CSPACE.RGB)
+    img_color /= 255.0
 
     features = af.susan(img)
 
-    xs = features.get_xpos()
-    ys = features.get_ypos()
+    xs = features.get_xpos().to_list()
+    ys = features.get_ypos().to_list()
 
     draw_len = 3;
     num_features = features.num_features().value
