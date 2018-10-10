@@ -422,6 +422,22 @@ class CANNY_THRESHOLD(_Enum):
     MANUAL = _Enum_Type(0)
     AUTO_OTSU = _Enum_Type(1)
 
+class FLUX(_Enum):
+    """
+    Flux function types
+    """
+    DEFAULT     = _Enum_Type(0)
+    QUADRATIC   = _Enum_Type(1)
+    EXPONENTIAL = _Enum_Type(2)
+
+class DIFFUSION(_Enum):
+    """
+    Diffusion equation types
+    """
+    DEFAULT = _Enum_Type(0)
+    GRAD    = _Enum_Type(1)
+    MCDE    = _Enum_Type(2)
+
 _VER_MAJOR_PLACEHOLDER = "__VER_MAJOR__"
 
 def _setup():
