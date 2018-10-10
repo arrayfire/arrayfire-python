@@ -11,14 +11,51 @@
 
 import arrayfire as af
 
-# Display backend information
-af.info()
+try:
+    # Display backend information
+    af.info()
 
-# Generate a uniform random array with a size of 5 elements
-a = af.randu(5, 1)
+    print("Create a 5-by-3 matrix of random floats on the GPU\n")
+    A = af.randu(5, 3, 1, 1, af.Dtype.f32)
+    af.display(A)
 
-# Print a and its minimum value
-print(a)
+    print("Element-wise arithmetic\n")
+    B = af.sin(A) + 1.5
+    af.display(B)
 
-# Print min and max values of a
-print("Minimum, Maximum: ", af.min(a), af.max(a))
+    print("Negate the first three elements of second column\n")
+    B[0:3, 1] = B[0:3, 1] * -1
+    af.display(B)
+
+    print("Fourier transform the result\n");
+    C = af.fft(B);
+    af.display(C);
+
+    print("Grab last row\n");
+    c = C[-1,:];
+    af.display(c);
+
+    print("Scan Test\n");
+    r = af.constant(2, 16, 4, 1, 1);
+    af.display(r);
+
+    print("Scan\n");
+    S = af.scan(r, 0, af.BINARYOP.MUL);
+    af.display(S);
+
+    print("Create 2-by-3 matrix from host data\n");
+    d = [ 1, 2, 3, 4, 5, 6 ]
+    D = af.Array(d, (2, 3))
+    af.display(D)
+
+    print("Copy last column onto first\n");
+    D[:,0] = D[:, -1]
+    af.display(D);
+
+    print("Sort A and print sorted array and corresponding indices\n");
+    [sorted_vals, sorted_idxs] = af.sort_index(A);
+    af.display(A)
+    af.display(sorted_vals)
+    af.display(sorted_idxs)
+except Exception as e:
+    print("Error: " + str(e))
