@@ -108,3 +108,40 @@ def corrcoef(x, y):
     real = real.value
     imag = imag.value
     return real if imag == 0 else real + imag * 1j
+
+def topk(data, k, dim=0, order=TOPK.DEFAULT):
+    """
+    Return top k elements along a single dimension.
+
+    Parameters
+    ----------
+
+    data: af.Array
+          Input array to return k elements from.
+
+    k: scalar. default: 0
+       The number of elements to return from input array.
+
+    dim: optional: scalar. default: 0
+         The dimension along which the top k elements are
+         extracted. Note: at the moment, topk() only supports the
+         extraction of values along the first dimension.
+
+    order: optional: af.TOPK. default: af.TOPK.DEFAULT
+           The ordering of k extracted elements. Defaults to top k max values.
+
+    Returns
+    -------
+
+    values: af.Array
+            Top k elements from input array.
+    indices: af.Array
+             Corresponding index array to top k elements.
+    """
+
+    values = Array()
+    indices = Array()
+
+    safe_call(backend.get().af_topk(c_pointer(values.arr), c_pointer(indices.arr), data.arr, k, c_int_t(dim), order.value))
+
+    return values,indices

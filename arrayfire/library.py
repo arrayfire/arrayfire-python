@@ -438,6 +438,14 @@ class DIFFUSION(_Enum):
     GRAD    = _Enum_Type(1)
     MCDE    = _Enum_Type(2)
 
+class TOPK(_Enum):
+    """
+    Top-K ordering
+    """
+    DEFAULT = _Enum_Type(0)
+    MIN     = _Enum_Type(1)
+    MAX     = _Enum_Type(2)
+
 _VER_MAJOR_PLACEHOLDER = "__VER_MAJOR__"
 
 def _setup():
