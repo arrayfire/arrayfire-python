@@ -424,7 +424,7 @@ class CANNY_THRESHOLD(_Enum):
 
 class FLUX(_Enum):
     """
-    Flux function types
+    Flux functions
     """
     DEFAULT     = _Enum_Type(0)
     QUADRATIC   = _Enum_Type(1)
@@ -432,7 +432,7 @@ class FLUX(_Enum):
 
 class DIFFUSION(_Enum):
     """
-    Diffusion equation types
+    Diffusion equations
     """
     DEFAULT = _Enum_Type(0)
     GRAD    = _Enum_Type(1)
