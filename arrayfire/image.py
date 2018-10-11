@@ -1240,6 +1240,47 @@ def canny(image,
                                      c_uint_t(sobel_window), c_bool_t(is_fast)))
     return output
 
+def anisotropic_diffusion(image, time_step, conductance, iterations, flux_function_type = FLUX.QUADRATIC, diffusion_kind = DIFFUSION.GRAD):
+    """
+    Anisotropic smoothing filter.
+
+    Parameters
+    ----------
+    image: af.Array
+        The input image.
+
+    time_step: scalar.
+        The time step used in solving the diffusion equation.
+
+    conductance:
+        Controls conductance sensitivity in diffusion equation.
+
+    iterations:
+        Number of times the diffusion step is performed.
+
+    flux_function_type:
+        Type of flux function to be used. Available flux functions:
+          - Quadratic (af.FLUX.QUADRATIC)
+          - Exponential (af.FLUX.EXPONENTIAL)
+
+    diffusion_kind:
+        Type of diffusion equatoin to be used. Available diffusion equations:
+          - Gradient diffusion equation (af.DIFFUSION.GRAD)
+          - Modified curvature diffusion equation (af.DIFFUSION.MCDE)
+
+    Returns
+    -------
+    out: af.Array
+        Anisotropically-smoothed output image.
+
+    """
+    out = Array()
+    safe_call(backend.get().
+              af_anisotropic_diffusion(c_pointer(out.arr), image.arr,
+                                       c_float_t(time_step), c_float_t(conductance), c_uint_t(iterations),
+                                       flux_function_type.value, diffusion_kind.value))
+    return out
+
 def is_image_io_available():
     """
     Function to check if the arrayfire library was built with Image IO support.
