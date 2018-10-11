@@ -15,6 +15,27 @@ from .library import *
 from .array import *
 
 def mean(a, weights=None, dim=None):
+    """
+    Calculate mean along a given dimension.
+
+    Parameters
+    ----------
+    a: af.Array
+        The input array.
+
+    weights: optional: af.Array. default: None.
+        Array to calculate the weighted mean. Must match size of the
+        input array.
+
+    dim: optional: int. default: None.
+        The dimension for which to obtain the mean from input data.
+
+    Returns
+    -------
+    output: af.Array
+        Array containing the mean of the input array along a given
+        dimension.
+    """
     if dim is not None:
         out = Array()
 
@@ -39,6 +60,31 @@ def mean(a, weights=None, dim=None):
         return real if imag == 0 else real + imag * 1j
 
 def var(a, isbiased=False, weights=None, dim=None):
+    """
+    Calculate variance along a given dimension.
+
+    Parameters
+    ----------
+    a: af.Array
+        The input array.
+
+    isbiased: optional: Boolean. default: False.
+        Boolean denoting population variance (false) or sample
+        variance (true).
+
+    weights: optional: af.Array. default: None.
+        Array to calculate for the weighted mean. Must match size of
+        the input array.
+
+    dim: optional: int. default: None.
+        The dimension for which to obtain the variance from input data.
+
+    Returns
+    -------
+    output: af.Array
+        Array containing the variance of the input array along a given
+        dimension.
+    """
     if dim is not None:
         out = Array()
 
@@ -63,6 +109,24 @@ def var(a, isbiased=False, weights=None, dim=None):
         return real if imag == 0 else real + imag * 1j
 
 def stdev(a, dim=None):
+    """
+    Calculate standard deviation along a given dimension.
+
+    Parameters
+    ----------
+    a: af.Array
+        The input array.
+
+    dim: optional: int. default: None.
+        The dimension for which to obtain the standard deviation from
+        input data.
+
+    Returns
+    -------
+    output: af.Array
+        Array containing the standard deviation of the input array
+        along a given dimension.
+    """
     if dim is not None:
         out = Array()
         safe_call(backend.get().af_stdev(c_pointer(out.arr), a.arr, c_int_t(dim)))
@@ -76,6 +140,26 @@ def stdev(a, dim=None):
         return real if imag == 0 else real + imag * 1j
 
 def cov(a, isbiased=False, dim=None):
+    """
+    Calculate covariance along a given dimension.
+
+    Parameters
+    ----------
+    a: af.Array
+        The input array.
+
+    isbiased: optional: Boolean. default: False.
+        Boolean denoting whether biased estimate should be taken.
+
+    dim: optional: int. default: None.
+        The dimension for which to obtain the covariance from input data.
+
+    Returns
+    -------
+    output: af.Array
+        Array containing the covariance of the input array along a
+        given dimension.
+    """
     if dim is not None:
         out = Array()
         safe_call(backend.get().af_cov(c_pointer(out.arr), a.arr, isbiased, c_int_t(dim)))
@@ -89,6 +173,23 @@ def cov(a, isbiased=False, dim=None):
         return real if imag == 0 else real + imag * 1j
 
 def median(a, dim=None):
+    """
+    Calculate median along a given dimension.
+
+    Parameters
+    ----------
+    a: af.Array
+        The input array.
+
+    dim: optional: int. default: None.
+        The dimension for which to obtain the median from input data.
+
+    Returns
+    -------
+    output: af.Array
+        Array containing the median of the input array along a
+        given dimension.
+    """
     if dim is not None:
         out = Array()
         safe_call(backend.get().af_median(c_pointer(out.arr), a.arr, c_int_t(dim)))
@@ -102,6 +203,22 @@ def median(a, dim=None):
         return real if imag == 0 else real + imag * 1j
 
 def corrcoef(x, y):
+    """
+    Calculate the correlation coefficient of the input arrays.
+
+    Parameters
+    ----------
+    x: af.Array
+        The first input array.
+
+    y: af.Array
+        The second input array.
+
+    Returns
+    -------
+    output: af.Array
+        Array containing the correlation coefficient of the input arrays.
+    """
     real = c_double_t(0)
     imag = c_double_t(0)
     safe_call(backend.get().af_corrcoef(c_pointer(real), c_pointer(imag), x.arr, y.arr))
