@@ -1,3 +1,16 @@
+### v3.6.20181017
+- Feature parity with ArrayFire v3.6. Refer to the [release notes](https://github.com/arrayfire/arrayfire/blob/master/docs/pages/release_notes.md) for more information regarding upstream library improvements in v3.6.
+    - `anisotropic_diffusion()`: Anisotropic diffusion filter.
+    - `topk()`: Returns top-K elements given an array.
+- Bug fixes:
+    - Fixed `sift()` and `gloh()`, which were improperly calling the library.
+- Enhancements:
+    - Added `len()` method, which returns `array.elements()`.
+- Documentation:
+    - Documented statistics API.
+    - Corrected `sign()` documentation.
+    - Modified `helloworld` example to match C++ lib.
+
 ### v3.5.20170721
 - Bug fixes when using v3.5 of arrayfire libs + graphics
 
