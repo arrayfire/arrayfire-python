@@ -4,28 +4,18 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>arrayfire.image &#8212; ArrayFire Python documentation</title>
-    
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../',
-        VERSION:     '3.5.20170718',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -34,8 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -1242,7 +1231,7 @@
 
 <div class="viewcode-block" id="canny"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.canny">[docs]</a><span class="k">def</span> <span class="nf">canny</span><span class="p">(</span><span class="n">image</span><span class="p">,</span>
           <span class="n">low_threshold</span><span class="p">,</span> <span class="n">high_threshold</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-          <span class="n">treshold_type</span> <span class="o">=</span> <span class="n">CANNY_THRESHOLD</span><span class="o">.</span><span class="n">MANUAL</span><span class="p">,</span>
+          <span class="n">threshold_type</span> <span class="o">=</span> <span class="n">CANNY_THRESHOLD</span><span class="o">.</span><span class="n">MANUAL</span><span class="p">,</span>
           <span class="n">sobel_window</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">is_fast</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Canny edge detector.</span>
@@ -1276,10 +1265,56 @@
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_canny</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">threshold_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
-                                     <span class="n">low_threshold</span><span class="p">,</span> <span class="n">high_threshold</span> <span class="ow">and</span> <span class="n">high_threshold</span><span class="o">.</span><span class="n">value</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">,</span>
-                                     <span class="n">c_uint</span><span class="p">(</span><span class="n">sobel_window</span><span class="p">),</span> <span class="n">c_bool</span><span class="p">(</span><span class="n">is_fast</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">threshold_type</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">CANNY_THRESHOLD</span><span class="o">.</span><span class="n">MANUAL</span><span class="o">.</span><span class="n">value</span><span class="p">:</span>
+        <span class="k">assert</span><span class="p">(</span><span class="n">high_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="n">high_threshold</span> <span class="o">=</span> <span class="n">high_threshold</span> <span class="k">if</span> <span class="n">high_threshold</span> <span class="k">else</span> <span class="mi">0</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_canny</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                     <span class="n">c_int_t</span><span class="p">(</span><span class="n">threshold_type</span><span class="o">.</span><span class="n">value</span><span class="p">),</span>
+                                     <span class="n">c_float_t</span><span class="p">(</span><span class="n">low_threshold</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">high_threshold</span><span class="p">),</span>
+                                     <span class="n">c_uint_t</span><span class="p">(</span><span class="n">sobel_window</span><span class="p">),</span> <span class="n">c_bool_t</span><span class="p">(</span><span class="n">is_fast</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="anisotropic_diffusion"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.anisotropic_diffusion">[docs]</a><span class="k">def</span> <span class="nf">anisotropic_diffusion</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">time_step</span><span class="p">,</span> <span class="n">conductance</span><span class="p">,</span> <span class="n">iterations</span><span class="p">,</span> <span class="n">flux_function_type</span> <span class="o">=</span> <span class="n">FLUX</span><span class="o">.</span><span class="n">QUADRATIC</span><span class="p">,</span> <span class="n">diffusion_kind</span> <span class="o">=</span> <span class="n">DIFFUSION</span><span class="o">.</span><span class="n">GRAD</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Anisotropic smoothing filter.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    image: af.Array</span>
+<span class="sd">        The input image.</span>
+
+<span class="sd">    time_step: scalar.</span>
+<span class="sd">        The time step used in solving the diffusion equation.</span>
+
+<span class="sd">    conductance:</span>
+<span class="sd">        Controls conductance sensitivity in diffusion equation.</span>
+
+<span class="sd">    iterations:</span>
+<span class="sd">        Number of times the diffusion step is performed.</span>
+
+<span class="sd">    flux_function_type:</span>
+<span class="sd">        Type of flux function to be used. Available flux functions:</span>
+<span class="sd">          - Quadratic (af.FLUX.QUADRATIC)</span>
+<span class="sd">          - Exponential (af.FLUX.EXPONENTIAL)</span>
+
+<span class="sd">    diffusion_kind:</span>
+<span class="sd">        Type of diffusion equatoin to be used. Available diffusion equations:</span>
+<span class="sd">          - Gradient diffusion equation (af.DIFFUSION.GRAD)</span>
+<span class="sd">          - Modified curvature diffusion equation (af.DIFFUSION.MCDE)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    out: af.Array</span>
+<span class="sd">        Anisotropically-smoothed output image.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span>
+              <span class="n">af_anisotropic_diffusion</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">image</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                       <span class="n">c_float_t</span><span class="p">(</span><span class="n">time_step</span><span class="p">),</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">conductance</span><span class="p">),</span> <span class="n">c_uint_t</span><span class="p">(</span><span class="n">iterations</span><span class="p">),</span>
+                                       <span class="n">flux_function_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">diffusion_kind</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
 
 <div class="viewcode-block" id="is_image_io_available"><a class="viewcode-back" href="../../arrayfire.image.html#arrayfire.image.is_image_io_available">[docs]</a><span class="k">def</span> <span class="nf">is_image_io_available</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -1297,7 +1332,19 @@
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../index.html">
               <img class="logo" src="../../_static/arrayfire_logo_symbol.png" alt="Logo"/>
-            </a></p><div class="relations">
+            </a></p>
+<h1 class="logo"><a href="../../index.html">ArrayFire</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="../../index.html">Documentation overview</a><ul>
@@ -1308,12 +1355,14 @@
 </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -1324,7 +1373,7 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
     </div>

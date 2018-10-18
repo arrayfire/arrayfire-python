@@ -4,28 +4,18 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>arrayfire.library module &#8212; ArrayFire Python documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/style.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '3.5.20170718',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -34,8 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -49,7 +38,7 @@
 <dl class="class">
 <dt id="arrayfire.library.BACKEND">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">BACKEND</code><a class="reference internal" href="_modules/arrayfire/library.html#BACKEND"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.BACKEND" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Backend libraries</p>
 <dl class="attribute">
 <dt id="arrayfire.library.BACKEND.CPU">
@@ -76,7 +65,7 @@
 <dl class="class">
 <dt id="arrayfire.library.BINARYOP">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">BINARYOP</code><a class="reference internal" href="_modules/arrayfire/library.html#BINARYOP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.BINARYOP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Binary Operators</p>
 <dl class="attribute">
 <dt id="arrayfire.library.BINARYOP.ADD">
@@ -103,7 +92,7 @@
 <dl class="class">
 <dt id="arrayfire.library.CANNY_THRESHOLD">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CANNY_THRESHOLD</code><a class="reference internal" href="_modules/arrayfire/library.html#CANNY_THRESHOLD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CANNY_THRESHOLD" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Canny Edge Threshold types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.CANNY_THRESHOLD.AUTO_OTSU">
@@ -120,7 +109,7 @@
 <dl class="class">
 <dt id="arrayfire.library.COLORMAP">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">COLORMAP</code><a class="reference internal" href="_modules/arrayfire/library.html#COLORMAP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.COLORMAP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Colormaps</p>
 <dl class="attribute">
 <dt id="arrayfire.library.COLORMAP.BLUE">
@@ -162,7 +151,7 @@
 <dl class="class">
 <dt id="arrayfire.library.CONNECTIVITY">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CONNECTIVITY</code><a class="reference internal" href="_modules/arrayfire/library.html#CONNECTIVITY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CONNECTIVITY" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Neighborhood connectivity</p>
 <dl class="attribute">
 <dt id="arrayfire.library.CONNECTIVITY.EIGHT">
@@ -179,7 +168,7 @@
 <dl class="class">
 <dt id="arrayfire.library.CONV_DOMAIN">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CONV_DOMAIN</code><a class="reference internal" href="_modules/arrayfire/library.html#CONV_DOMAIN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Convolution domain</p>
 <dl class="attribute">
 <dt id="arrayfire.library.CONV_DOMAIN.AUTO">
@@ -201,7 +190,7 @@
 <dl class="class">
 <dt id="arrayfire.library.CONV_MODE">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CONV_MODE</code><a class="reference internal" href="_modules/arrayfire/library.html#CONV_MODE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CONV_MODE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Convolution mode</p>
 <dl class="attribute">
 <dt id="arrayfire.library.CONV_MODE.DEFAULT">
@@ -218,7 +207,7 @@
 <dl class="class">
 <dt id="arrayfire.library.CSPACE">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CSPACE</code><a class="reference internal" href="_modules/arrayfire/library.html#CSPACE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CSPACE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Colorspace formats</p>
 <dl class="attribute">
 <dt id="arrayfire.library.CSPACE.GRAY">
@@ -243,9 +232,31 @@
 </dd></dl>
 
 <dl class="class">
+<dt id="arrayfire.library.DIFFUSION">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">DIFFUSION</code><a class="reference internal" href="_modules/arrayfire/library.html#DIFFUSION"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.DIFFUSION" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Diffusion equations</p>
+<dl class="attribute">
+<dt id="arrayfire.library.DIFFUSION.DEFAULT">
+<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.DIFFUSION.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.DIFFUSION.GRAD">
+<code class="descname">GRAD</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.DIFFUSION.GRAD" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.DIFFUSION.MCDE">
+<code class="descname">MCDE</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.DIFFUSION.MCDE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="arrayfire.library.Dtype">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">Dtype</code><a class="reference internal" href="_modules/arrayfire/library.html#Dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.Dtype" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Error values. For internal use only.</p>
 <dl class="attribute">
 <dt id="arrayfire.library.Dtype.b8">
@@ -312,7 +323,7 @@
 <dl class="class">
 <dt id="arrayfire.library.ERR">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">ERR</code><a class="reference internal" href="_modules/arrayfire/library.html#ERR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.ERR" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Error values. For internal use only.</p>
 <dl class="attribute">
 <dt id="arrayfire.library.ERR.ARG">
@@ -422,9 +433,31 @@
 </dd></dl>
 
 <dl class="class">
+<dt id="arrayfire.library.FLUX">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">FLUX</code><a class="reference internal" href="_modules/arrayfire/library.html#FLUX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.FLUX" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Flux functions</p>
+<dl class="attribute">
+<dt id="arrayfire.library.FLUX.DEFAULT">
+<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.FLUX.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.FLUX.EXPONENTIAL">
+<code class="descname">EXPONENTIAL</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.FLUX.EXPONENTIAL" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.FLUX.QUADRATIC">
+<code class="descname">QUADRATIC</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.FLUX.QUADRATIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="arrayfire.library.HOMOGRAPHY">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">HOMOGRAPHY</code><a class="reference internal" href="_modules/arrayfire/library.html#HOMOGRAPHY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Homography Types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.HOMOGRAPHY.LMEDS">
@@ -441,7 +474,7 @@
 <dl class="class">
 <dt id="arrayfire.library.IMAGE_FORMAT">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">IMAGE_FORMAT</code><a class="reference internal" href="_modules/arrayfire/library.html#IMAGE_FORMAT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Image Formats</p>
 <dl class="attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.BMP">
@@ -513,7 +546,7 @@
 <dl class="class">
 <dt id="arrayfire.library.INTERP">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">INTERP</code><a class="reference internal" href="_modules/arrayfire/library.html#INTERP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.INTERP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Interpolation method</p>
 <dl class="attribute">
 <dt id="arrayfire.library.INTERP.BICUBIC">
@@ -570,7 +603,7 @@
 <dl class="class">
 <dt id="arrayfire.library.MARKER">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MARKER</code><a class="reference internal" href="_modules/arrayfire/library.html#MARKER"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MARKER" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Markers used for different points in graphics plots</p>
 <dl class="attribute">
 <dt id="arrayfire.library.MARKER.CIRCLE">
@@ -617,7 +650,7 @@
 <dl class="class">
 <dt id="arrayfire.library.MATCH">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MATCH</code><a class="reference internal" href="_modules/arrayfire/library.html#MATCH"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MATCH" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Match type</p>
 <dl class="attribute">
 <dt id="arrayfire.library.MATCH.LSAD">
@@ -677,7 +710,7 @@
 <dl class="class">
 <dt id="arrayfire.library.MATPROP">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MATPROP</code><a class="reference internal" href="_modules/arrayfire/library.html#MATPROP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MATPROP" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Matrix properties</p>
 <dl class="attribute">
 <dt id="arrayfire.library.MATPROP.BLOCK_DIAG">
@@ -749,7 +782,7 @@
 <dl class="class">
 <dt id="arrayfire.library.MOMENT">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MOMENT</code><a class="reference internal" href="_modules/arrayfire/library.html#MOMENT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MOMENT" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Image Moments types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.MOMENT.FIRST_ORDER">
@@ -781,7 +814,7 @@
 <dl class="class">
 <dt id="arrayfire.library.NORM">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">NORM</code><a class="reference internal" href="_modules/arrayfire/library.html#NORM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.NORM" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Norm types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.NORM.EUCLID">
@@ -833,7 +866,7 @@
 <dl class="class">
 <dt id="arrayfire.library.PAD">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">PAD</code><a class="reference internal" href="_modules/arrayfire/library.html#PAD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.PAD" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Edge padding types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.PAD.SYM">
@@ -850,7 +883,7 @@
 <dl class="class">
 <dt id="arrayfire.library.RANDOM_ENGINE">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">RANDOM_ENGINE</code><a class="reference internal" href="_modules/arrayfire/library.html#RANDOM_ENGINE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Random engine types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.DEFAULT">
@@ -887,7 +920,7 @@
 <dl class="class">
 <dt id="arrayfire.library.STORAGE">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">STORAGE</code><a class="reference internal" href="_modules/arrayfire/library.html#STORAGE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.STORAGE" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Matrix Storage types</p>
 <dl class="attribute">
 <dt id="arrayfire.library.STORAGE.COO">
@@ -914,7 +947,7 @@
 <dl class="class">
 <dt id="arrayfire.library.Source">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">Source</code><a class="reference internal" href="_modules/arrayfire/library.html#Source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.Source" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Source of the pointer</p>
 <dl class="attribute">
 <dt id="arrayfire.library.Source.device">
@@ -929,9 +962,31 @@
 </dd></dl>
 
 <dl class="class">
+<dt id="arrayfire.library.TOPK">
+<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">TOPK</code><a class="reference internal" href="_modules/arrayfire/library.html#TOPK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.TOPK" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Top-K ordering</p>
+<dl class="attribute">
+<dt id="arrayfire.library.TOPK.DEFAULT">
+<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.TOPK.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.TOPK.MAX">
+<code class="descname">MAX</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.TOPK.MAX" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="arrayfire.library.TOPK.MIN">
+<code class="descname">MIN</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.TOPK.MIN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="arrayfire.library.YCC_STD">
 <em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">YCC_STD</code><a class="reference internal" href="_modules/arrayfire/library.html#YCC_STD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.YCC_STD" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">enum.Enum</span></code></p>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>YCC Standard formats</p>
 <dl class="attribute">
 <dt id="arrayfire.library.YCC_STD.BT_2020">
@@ -1079,28 +1134,35 @@
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
-            </a></p><div class="relations">
+            </a></p>
+<h1 class="logo"><a href="index.html">ArrayFire</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/arrayfire.library.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -1111,7 +1173,7 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

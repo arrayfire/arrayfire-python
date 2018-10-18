@@ -4,28 +4,18 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>arrayfire.array module &#8212; ArrayFire Python documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/style.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '3.5.20170718',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -34,8 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -49,7 +38,7 @@
 <dl class="class">
 <dt id="arrayfire.array.Array">
 <em class="property">class </em><code class="descclassname">arrayfire.array.</code><code class="descname">Array</code><span class="sig-paren">(</span><em>src=None</em>, <em>dims=None</em>, <em>dtype=None</em>, <em>is_device=False</em>, <em>offset=None</em>, <em>strides=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="arrayfire.base.html#arrayfire.base.BaseArray" title="arrayfire.base.BaseArray"><code class="xref py py-class docutils literal"><span class="pre">arrayfire.base.BaseArray</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="arrayfire.base.html#arrayfire.base.BaseArray" title="arrayfire.base.BaseArray"><code class="xref py py-class docutils literal notranslate"><span class="pre">arrayfire.base.BaseArray</span></code></a></p>
 <p>A multi dimensional array container.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -122,7 +111,7 @@
 </table>
 <p class="rubric">Examples</p>
 <p>Creating an af.Array() from array.array()</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">array</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
@@ -133,7 +122,7 @@
 </pre></div>
 </div>
 <p>Creating an af.Array() from a list</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">array</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">Array</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -146,7 +135,7 @@
 </pre></div>
 </div>
 <p>Creating an af.Array() from numpy.array()</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">arrayfire</span> <span class="k">as</span> <span class="nn">af</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">a</span>
@@ -178,100 +167,111 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.allocated" title="arrayfire.array.Array.allocated"><code class="xref py py-obj docutils literal"><span class="pre">allocated</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.allocated" title="arrayfire.array.Array.allocated"><code class="xref py py-obj docutils literal notranslate"><span class="pre">allocated</span></code></a>()</td>
 <td>Returns the number of bytes allocated by the memory manager for the array.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.as_type" title="arrayfire.array.Array.as_type"><code class="xref py py-obj docutils literal"><span class="pre">as_type</span></code></a>(ty)</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.as_type" title="arrayfire.array.Array.as_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">as_type</span></code></a>(ty)</td>
 <td>Cast current array to a specified data type</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.copy" title="arrayfire.array.Array.copy"><code class="xref py py-obj docutils literal"><span class="pre">copy</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.copy" title="arrayfire.array.Array.copy"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copy</span></code></a>()</td>
 <td>Performs a deep copy of the array.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.device_ptr" title="arrayfire.array.Array.device_ptr"><code class="xref py py-obj docutils literal"><span class="pre">device_ptr</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.device_ptr" title="arrayfire.array.Array.device_ptr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">device_ptr</span></code></a>()</td>
 <td>Return the device pointer exclusively held by the array.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.dims" title="arrayfire.array.Array.dims"><code class="xref py py-obj docutils literal"><span class="pre">dims</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.dims" title="arrayfire.array.Array.dims"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dims</span></code></a>()</td>
 <td>Return the shape of the array as a tuple.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.dtype" title="arrayfire.array.Array.dtype"><code class="xref py py-obj docutils literal"><span class="pre">dtype</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.dtype" title="arrayfire.array.Array.dtype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dtype</span></code></a>()</td>
 <td>Return the data type as a arrayfire.Dtype enum value.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.elements" title="arrayfire.array.Array.elements"><code class="xref py py-obj docutils literal"><span class="pre">elements</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.elements" title="arrayfire.array.Array.elements"><code class="xref py py-obj docutils literal notranslate"><span class="pre">elements</span></code></a>()</td>
 <td>Return the number of elements in the array.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_bool" title="arrayfire.array.Array.is_bool"><code class="xref py py-obj docutils literal"><span class="pre">is_bool</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_bool" title="arrayfire.array.Array.is_bool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_bool</span></code></a>()</td>
 <td>Check if the array is of type b8.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_column" title="arrayfire.array.Array.is_column"><code class="xref py py-obj docutils literal"><span class="pre">is_column</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_column" title="arrayfire.array.Array.is_column"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_column</span></code></a>()</td>
 <td>Check if the array is a column i.e.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_complex" title="arrayfire.array.Array.is_complex"><code class="xref py py-obj docutils literal"><span class="pre">is_complex</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_complex" title="arrayfire.array.Array.is_complex"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_complex</span></code></a>()</td>
 <td>Check if the array is of complex type.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_double" title="arrayfire.array.Array.is_double"><code class="xref py py-obj docutils literal"><span class="pre">is_double</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_double" title="arrayfire.array.Array.is_double"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_double</span></code></a>()</td>
 <td>Check if the array is of double precision floating point type.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_empty" title="arrayfire.array.Array.is_empty"><code class="xref py py-obj docutils literal"><span class="pre">is_empty</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_empty" title="arrayfire.array.Array.is_empty"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_empty</span></code></a>()</td>
 <td>Check if the array is empty i.e.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_floating" title="arrayfire.array.Array.is_floating"><code class="xref py py-obj docutils literal"><span class="pre">is_floating</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_floating" title="arrayfire.array.Array.is_floating"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_floating</span></code></a>()</td>
 <td>Check if the array is of floating point type.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_integer" title="arrayfire.array.Array.is_integer"><code class="xref py py-obj docutils literal"><span class="pre">is_integer</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_integer" title="arrayfire.array.Array.is_integer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_integer</span></code></a>()</td>
 <td>Check if the array is of integer type.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_linear" title="arrayfire.array.Array.is_linear"><code class="xref py py-obj docutils literal"><span class="pre">is_linear</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_linear" title="arrayfire.array.Array.is_linear"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_linear</span></code></a>()</td>
 <td>Check if all elements of the array are contiguous.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_owner" title="arrayfire.array.Array.is_owner"><code class="xref py py-obj docutils literal"><span class="pre">is_owner</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_owner" title="arrayfire.array.Array.is_owner"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_owner</span></code></a>()</td>
 <td>Check if the array owns the raw pointer or is a derived array.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_real" title="arrayfire.array.Array.is_real"><code class="xref py py-obj docutils literal"><span class="pre">is_real</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_real" title="arrayfire.array.Array.is_real"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_real</span></code></a>()</td>
 <td>Check if the array is not of complex type.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_real_floating" title="arrayfire.array.Array.is_real_floating"><code class="xref py py-obj docutils literal"><span class="pre">is_real_floating</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_real_floating" title="arrayfire.array.Array.is_real_floating"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_real_floating</span></code></a>()</td>
 <td>Check if the array is real and of floating point type.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_row" title="arrayfire.array.Array.is_row"><code class="xref py py-obj docutils literal"><span class="pre">is_row</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_row" title="arrayfire.array.Array.is_row"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_row</span></code></a>()</td>
 <td>Check if the array is a row i.e.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_scalar" title="arrayfire.array.Array.is_scalar"><code class="xref py py-obj docutils literal"><span class="pre">is_scalar</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_scalar" title="arrayfire.array.Array.is_scalar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_scalar</span></code></a>()</td>
 <td>Check if the array is scalar i.e.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_single" title="arrayfire.array.Array.is_single"><code class="xref py py-obj docutils literal"><span class="pre">is_single</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_single" title="arrayfire.array.Array.is_single"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_single</span></code></a>()</td>
 <td>Check if the array is of single precision floating point type.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_sparse" title="arrayfire.array.Array.is_sparse"><code class="xref py py-obj docutils literal"><span class="pre">is_sparse</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.is_sparse" title="arrayfire.array.Array.is_sparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_sparse</span></code></a>()</td>
 <td>Check if the array is a sparse matrix.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_vector" title="arrayfire.array.Array.is_vector"><code class="xref py py-obj docutils literal"><span class="pre">is_vector</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.is_vector" title="arrayfire.array.Array.is_vector"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_vector</span></code></a>()</td>
 <td>Check if the array is a vector i.e.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.numdims" title="arrayfire.array.Array.numdims"><code class="xref py py-obj docutils literal"><span class="pre">numdims</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.numdims" title="arrayfire.array.Array.numdims"><code class="xref py py-obj docutils literal notranslate"><span class="pre">numdims</span></code></a>()</td>
 <td>Return the number of dimensions of the array.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.offset" title="arrayfire.array.Array.offset"><code class="xref py py-obj docutils literal"><span class="pre">offset</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.offset" title="arrayfire.array.Array.offset"><code class="xref py py-obj docutils literal notranslate"><span class="pre">offset</span></code></a>()</td>
 <td>Return the offset, of the first element relative to the raw pointer.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.raw_ptr" title="arrayfire.array.Array.raw_ptr"><code class="xref py py-obj docutils literal"><span class="pre">raw_ptr</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.raw_ptr" title="arrayfire.array.Array.raw_ptr"><code class="xref py py-obj docutils literal notranslate"><span class="pre">raw_ptr</span></code></a>()</td>
 <td>Return the device pointer held by the array.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.scalar" title="arrayfire.array.Array.scalar"><code class="xref py py-obj docutils literal"><span class="pre">scalar</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.scalar" title="arrayfire.array.Array.scalar"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scalar</span></code></a>()</td>
 <td>Return the first element of the array</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.strides" title="arrayfire.array.Array.strides"><code class="xref py py-obj docutils literal"><span class="pre">strides</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.strides" title="arrayfire.array.Array.strides"><code class="xref py py-obj docutils literal notranslate"><span class="pre">strides</span></code></a>()</td>
 <td>Return the distance in bytes between consecutive elements for each dimension.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.to_array" title="arrayfire.array.Array.to_array"><code class="xref py py-obj docutils literal"><span class="pre">to_array</span></code></a>([row_major,&nbsp;return_shape])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.to_array" title="arrayfire.array.Array.to_array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_array</span></code></a>([row_major,&nbsp;return_shape])</td>
 <td>Return the data as array.array</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.to_ctype" title="arrayfire.array.Array.to_ctype"><code class="xref py py-obj docutils literal"><span class="pre">to_ctype</span></code></a>([row_major,&nbsp;return_shape])</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.to_ctype" title="arrayfire.array.Array.to_ctype"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ctype</span></code></a>([row_major,&nbsp;return_shape])</td>
 <td>Return the data as a ctype C array after copying to host memory</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.to_list" title="arrayfire.array.Array.to_list"><code class="xref py py-obj docutils literal"><span class="pre">to_list</span></code></a>([row_major])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.to_list" title="arrayfire.array.Array.to_list"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_list</span></code></a>([row_major])</td>
 <td>Return the data as list</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.type" title="arrayfire.array.Array.type"><code class="xref py py-obj docutils literal"><span class="pre">type</span></code></a>()</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.array.Array.to_ndarray" title="arrayfire.array.Array.to_ndarray"><code class="xref py py-obj docutils literal notranslate"><span class="pre">to_ndarray</span></code></a>([output])</td>
+<td><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"></td>
+</tr>
+</tbody>
+</table>
+</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.array.Array.type" title="arrayfire.array.Array.type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code></a>()</td>
 <td>Return the data type as an int.</td>
 </tr>
 </tbody>
@@ -631,6 +631,24 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="arrayfire.array.Array.to_ndarray">
+<code class="descname">to_ndarray</code><span class="sig-paren">(</span><em>output=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.to_ndarray"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.to_ndarray" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>output: optional: numpy. default: None</strong></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">If output is None: Constructs a numpy.array from arrayfire.Array</p>
+<p class="last">If output is not None: copies content of af.array into numpy array.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="arrayfire.array.Array.type">
 <code class="descname">type</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/array.html#Array.type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.array.Array.type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the data type as an int.</p>
@@ -838,28 +856,35 @@ presented to the result of str(arr).</p>
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
-            </a></p><div class="relations">
+            </a></p>
+<h1 class="logo"><a href="index.html">ArrayFire</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/arrayfire.array.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -870,7 +895,7 @@ presented to the result of str(arr).</p>
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

@@ -4,28 +4,18 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>arrayfire.signal module &#8212; ArrayFire Python documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/style.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '3.5.20170718',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -34,8 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -48,19 +37,21 @@
 <p>Signal processing functions (fft, convolve, etc).</p>
 <dl class="function">
 <dt id="arrayfire.signal.approx1">
-<code class="descclassname">arrayfire.signal.</code><code class="descname">approx1</code><span class="sig-paren">(</span><em>signal</em>, <em>pos0</em>, <em>method=&lt;INTERP.LINEAR: 1&gt;</em>, <em>off_grid=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#approx1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.approx1" title="Permalink to this definition">¶</a></dt>
-<dd><p>Interpolate along a single dimension.</p>
+<code class="descclassname">arrayfire.signal.</code><code class="descname">approx1</code><span class="sig-paren">(</span><em>signal</em>, <em>x</em>, <em>method=&lt;INTERP.LINEAR: 1&gt;</em>, <em>off_grid=0.0</em>, <em>xp=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#approx1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.approx1" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate along a single dimension.Interpolation is performed along axis 0
+of the input array.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
 <blockquote>
-<div><p>A 1 dimensional signal or batch of 1 dimensional signals.</p>
+<div><p>Input signal array (signal = f(x))</p>
 </div></blockquote>
-<p><strong>pos0</strong> : af.Array</p>
+<p><strong>x: af.Array</strong></p>
 <blockquote>
-<div><p>Locations of the interpolation points.</p>
+<div><p>The x-coordinates of the interpolation points. The interpolation 
+function is queried at these set of points.</p>
 </div></blockquote>
 <p><strong>method: optional: af.INTERP. default: af.INTERP.LINEAR.</strong></p>
 <blockquote>
@@ -69,6 +60,10 @@
 <p><strong>off_grid: optional: scalar. default: 0.0.</strong></p>
 <blockquote>
 <div><p>The value used for positions outside the range.</p>
+</div></blockquote>
+<p><strong>xp</strong> : af.Array</p>
+<blockquote>
+<div><p>The x-coordinates of the input data points</p>
 </div></blockquote>
 </td>
 </tr>
@@ -84,23 +79,26 @@
 
 <dl class="function">
 <dt id="arrayfire.signal.approx2">
-<code class="descclassname">arrayfire.signal.</code><code class="descname">approx2</code><span class="sig-paren">(</span><em>signal</em>, <em>pos0</em>, <em>pos1</em>, <em>method=&lt;INTERP.LINEAR: 1&gt;</em>, <em>off_grid=0.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#approx2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.approx2" title="Permalink to this definition">¶</a></dt>
-<dd><p>Interpolate along a two dimension.</p>
+<code class="descclassname">arrayfire.signal.</code><code class="descname">approx2</code><span class="sig-paren">(</span><em>signal</em>, <em>x</em>, <em>y</em>, <em>method=&lt;INTERP.LINEAR: 1&gt;</em>, <em>off_grid=0.0</em>, <em>xp=None</em>, <em>yp=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/signal.html#approx2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.signal.approx2" title="Permalink to this definition">¶</a></dt>
+<dd><p>Interpolate along a two dimension.Interpolation is performed along axes 0 and 1
+of the input array.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>signal: af.Array</strong></p>
 <blockquote>
-<div><p>A 2 dimensional signal or batch of 2 dimensional signals.</p>
+<div><p>Input signal array (signal = f(x, y))</p>
 </div></blockquote>
-<p><strong>pos0</strong> : af.Array</p>
+<p><strong>x</strong> : af.Array</p>
 <blockquote>
-<div><p>Locations of the interpolation points along the first dimension.</p>
+<div><p>The x-coordinates of the interpolation points. The interpolation 
+function is queried at these set of points.</p>
 </div></blockquote>
-<p><strong>pos1</strong> : af.Array</p>
+<p><strong>y</strong> : af.Array</p>
 <blockquote>
-<div><p>Locations of the interpolation points along the second dimension.</p>
+<div><p>The y-coordinates of the interpolation points. The interpolation 
+function is queried at these set of points.</p>
 </div></blockquote>
 <p><strong>method: optional: af.INTERP. default: af.INTERP.LINEAR.</strong></p>
 <blockquote>
@@ -109,6 +107,16 @@
 <p><strong>off_grid: optional: scalar. default: 0.0.</strong></p>
 <blockquote>
 <div><p>The value used for positions outside the range.</p>
+</div></blockquote>
+<p><strong>xp</strong> : af.Array</p>
+<blockquote>
+<div><p>The x-coordinates of the input data points. The convention followed is that
+the x-coordinates vary along axis 0</p>
+</div></blockquote>
+<p><strong>yp</strong> : af.Array</p>
+<blockquote>
+<div><p>The y-coordinates of the input data points. The convention followed is that
+the y-coordinates vary along axis 1</p>
 </div></blockquote>
 </td>
 </tr>
@@ -1508,28 +1516,35 @@ maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
-            </a></p><div class="relations">
+            </a></p>
+<h1 class="logo"><a href="index.html">ArrayFire</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/arrayfire.signal.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -1540,7 +1555,7 @@ maintains the same size as input (af.CONV_MODE.DEFAULT).</li>
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

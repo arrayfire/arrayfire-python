@@ -4,28 +4,18 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>ArrayFire Python Wrapper &#8212; ArrayFire Python documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/style.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '3.5.20170718',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -34,8 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -48,7 +37,7 @@
 <div class="section" id="module-arrayfire">
 <span id="introduction"></span><h2>Introduction<a class="headerlink" href="#module-arrayfire" title="Permalink to this headline">¶</a></h2>
 <p>ArrayFire is a high performance scientific computing library with an easy to use API.</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Monte Carlo estimation of pi</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Monte Carlo estimation of pi</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">calc_pi_device</span><span class="p">(</span><span class="n">samples</span><span class="p">):</span>
 <span class="go">        # Simple, array based API</span>
 <span class="go">        # Generate uniformly distributed random numers</span>
@@ -71,7 +60,7 @@
 </ol>
 </div></blockquote>
 <p>The backend can be chosen at the beginning of the program by using the following function</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">set_backend</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">set_backend</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>where name is one of ‘cuda’, ‘opencl’ or ‘cpu’.</p>
@@ -95,76 +84,76 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.algorithm.html#module-arrayfire.algorithm" title="arrayfire.algorithm"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.algorithm</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.algorithm.html#module-arrayfire.algorithm" title="arrayfire.algorithm"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.algorithm</span></code></a></td>
 <td>Vector algorithms (sum, min, sort, etc).</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.arith.html#module-arrayfire.arith" title="arrayfire.arith"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.arith</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.arith.html#module-arrayfire.arith" title="arrayfire.arith"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.arith</span></code></a></td>
 <td>Math functions (sin, sqrt, exp, etc).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.array.html#module-arrayfire.array" title="arrayfire.array"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.array</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.array.html#module-arrayfire.array" title="arrayfire.array"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.array</span></code></a></td>
 <td>Array class and helper functions.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.base.html#module-arrayfire.base" title="arrayfire.base"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.base</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.base.html#module-arrayfire.base" title="arrayfire.base"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.base</span></code></a></td>
 <td>Implementation of BaseArray class.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.bcast.html#module-arrayfire.bcast" title="arrayfire.bcast"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.bcast</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.bcast.html#module-arrayfire.bcast" title="arrayfire.bcast"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.bcast</span></code></a></td>
 <td>Function to perform broadcasting operations.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.blas.html#module-arrayfire.blas" title="arrayfire.blas"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.blas</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.blas.html#module-arrayfire.blas" title="arrayfire.blas"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.blas</span></code></a></td>
 <td>BLAS functions (matmul, dot, etc)</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.cuda.html#module-arrayfire.cuda" title="arrayfire.cuda"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.cuda</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.cuda.html#module-arrayfire.cuda" title="arrayfire.cuda"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.cuda</span></code></a></td>
 <td>Functions specific to CUDA backend.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.data.html#module-arrayfire.data" title="arrayfire.data"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.data</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.data.html#module-arrayfire.data" title="arrayfire.data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.data</span></code></a></td>
 <td>Functions to create and manipulate arrays.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.device.html#module-arrayfire.device" title="arrayfire.device"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.device</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.device.html#module-arrayfire.device" title="arrayfire.device"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.device</span></code></a></td>
 <td>Functions to handle the available devices in the backend.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.features.html#module-arrayfire.features" title="arrayfire.features"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.features</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.features.html#module-arrayfire.features" title="arrayfire.features"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.features</span></code></a></td>
 <td>Features class used for Computer Vision algorithms.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.graphics.html#module-arrayfire.graphics" title="arrayfire.graphics"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.graphics</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.graphics.html#module-arrayfire.graphics" title="arrayfire.graphics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.graphics</span></code></a></td>
 <td>Graphics functions (plot, image, etc).</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.image.html#module-arrayfire.image" title="arrayfire.image"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.image</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.image.html#module-arrayfire.image" title="arrayfire.image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.image</span></code></a></td>
 <td>Image processing functions.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.index.html#module-arrayfire.index" title="arrayfire.index"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.index</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.index.html#module-arrayfire.index" title="arrayfire.index"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.index</span></code></a></td>
 <td>Index and Seq classes used in indexing operations.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.interop.html#module-arrayfire.interop" title="arrayfire.interop"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.interop</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.interop.html#module-arrayfire.interop" title="arrayfire.interop"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.interop</span></code></a></td>
 <td>Interop with other python packages.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.lapack.html#module-arrayfire.lapack" title="arrayfire.lapack"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.lapack</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.lapack.html#module-arrayfire.lapack" title="arrayfire.lapack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.lapack</span></code></a></td>
 <td>Dense Linear Algebra functions (solve, inverse, etc).</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.library.html#module-arrayfire.library" title="arrayfire.library"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.library</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.library.html#module-arrayfire.library" title="arrayfire.library"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.library</span></code></a></td>
 <td>Module containing enums and other constants.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.opencl.html#module-arrayfire.opencl" title="arrayfire.opencl"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.opencl</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.opencl.html#module-arrayfire.opencl" title="arrayfire.opencl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.opencl</span></code></a></td>
 <td>Functions specific to OpenCL backend.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.random.html#module-arrayfire.random" title="arrayfire.random"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.random</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.random.html#module-arrayfire.random" title="arrayfire.random"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.random</span></code></a></td>
 <td>Random engine class and functions to generate random numbers.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.sparse.html#module-arrayfire.sparse" title="arrayfire.sparse"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.sparse</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.sparse.html#module-arrayfire.sparse" title="arrayfire.sparse"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.sparse</span></code></a></td>
 <td>Functions to create and manipulate sparse matrices.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.signal.html#module-arrayfire.signal" title="arrayfire.signal"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.signal</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.signal.html#module-arrayfire.signal" title="arrayfire.signal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.signal</span></code></a></td>
 <td>Signal processing functions (fft, convolve, etc).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.statistics.html#module-arrayfire.statistics" title="arrayfire.statistics"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.statistics</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.statistics.html#module-arrayfire.statistics" title="arrayfire.statistics"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.statistics</span></code></a></td>
 <td>Statistical algorithms (mean, var, stdev, etc).</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.timer.html#module-arrayfire.timer" title="arrayfire.timer"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.timer</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.timer.html#module-arrayfire.timer" title="arrayfire.timer"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.timer</span></code></a></td>
 <td>Functions to time arrayfire.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="arrayfire.util.html#module-arrayfire.util" title="arrayfire.util"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.util</span></code></a></td>
+<tr class="row-odd"><td><a class="reference internal" href="arrayfire.util.html#module-arrayfire.util" title="arrayfire.util"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.util</span></code></a></td>
 <td>Utility functions to help with Array metadata.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="arrayfire.vision.html#module-arrayfire.vision" title="arrayfire.vision"><code class="xref py py-obj docutils literal"><span class="pre">arrayfire.vision</span></code></a></td>
+<tr class="row-even"><td><a class="reference internal" href="arrayfire.vision.html#module-arrayfire.vision" title="arrayfire.vision"><code class="xref py py-obj docutils literal notranslate"><span class="pre">arrayfire.vision</span></code></a></td>
 <td>Computer vision functions (FAST, ORB, etc)</td>
 </tr>
 </tbody>
@@ -181,14 +170,17 @@
             <p class="logo"><a href="#">
               <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
             </a></p>
-  <h3><a href="#">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">ArrayFire Python Wrapper</a><ul>
-<li><a class="reference internal" href="#module-arrayfire">Introduction</a></li>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-</ul>
-</li>
-</ul>
+<h1 class="logo"><a href="#">ArrayFire</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -196,21 +188,16 @@
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/index.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -221,7 +208,7 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

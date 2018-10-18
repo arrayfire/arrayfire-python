@@ -4,28 +4,18 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>arrayfire.statistics module &#8212; ArrayFire Python documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/style.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '3.5.20170718',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -34,8 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -49,32 +38,237 @@
 <dl class="function">
 <dt id="arrayfire.statistics.corrcoef">
 <code class="descclassname">arrayfire.statistics.</code><code class="descname">corrcoef</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/statistics.html#corrcoef"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.statistics.corrcoef" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate the correlation coefficient of the input arrays.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x: af.Array</strong></p>
+<blockquote>
+<div><p>The first input array.</p>
+</div></blockquote>
+<p><strong>y: af.Array</strong></p>
+<blockquote>
+<div><p>The second input array.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>Array containing the correlation coefficient of the input arrays.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="arrayfire.statistics.cov">
 <code class="descclassname">arrayfire.statistics.</code><code class="descname">cov</code><span class="sig-paren">(</span><em>a</em>, <em>isbiased=False</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/statistics.html#cov"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.statistics.cov" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate covariance along a given dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
+<blockquote>
+<div><p>The input array.</p>
+</div></blockquote>
+<p><strong>isbiased: optional: Boolean. default: False.</strong></p>
+<blockquote>
+<div><p>Boolean denoting whether biased estimate should be taken.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None.</strong></p>
+<blockquote>
+<div><p>The dimension for which to obtain the covariance from input data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>Array containing the covariance of the input array along a
+given dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="arrayfire.statistics.mean">
 <code class="descclassname">arrayfire.statistics.</code><code class="descname">mean</code><span class="sig-paren">(</span><em>a</em>, <em>weights=None</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/statistics.html#mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.statistics.mean" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate mean along a given dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
+<blockquote>
+<div><p>The input array.</p>
+</div></blockquote>
+<p><strong>weights: optional: af.Array. default: None.</strong></p>
+<blockquote>
+<div><p>Array to calculate the weighted mean. Must match size of the
+input array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None.</strong></p>
+<blockquote>
+<div><p>The dimension for which to obtain the mean from input data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>Array containing the mean of the input array along a given
+dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="arrayfire.statistics.median">
 <code class="descclassname">arrayfire.statistics.</code><code class="descname">median</code><span class="sig-paren">(</span><em>a</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/statistics.html#median"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.statistics.median" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate median along a given dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
+<blockquote>
+<div><p>The input array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None.</strong></p>
+<blockquote>
+<div><p>The dimension for which to obtain the median from input data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>Array containing the median of the input array along a
+given dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="arrayfire.statistics.stdev">
 <code class="descclassname">arrayfire.statistics.</code><code class="descname">stdev</code><span class="sig-paren">(</span><em>a</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/statistics.html#stdev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.statistics.stdev" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate standard deviation along a given dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
+<blockquote>
+<div><p>The input array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None.</strong></p>
+<blockquote>
+<div><p>The dimension for which to obtain the standard deviation from
+input data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>Array containing the standard deviation of the input array
+along a given dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="arrayfire.statistics.topk">
+<code class="descclassname">arrayfire.statistics.</code><code class="descname">topk</code><span class="sig-paren">(</span><em>data</em>, <em>k</em>, <em>dim=0</em>, <em>order=&lt;TOPK.DEFAULT: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/statistics.html#topk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.statistics.topk" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return top k elements along a single dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data: af.Array</strong></p>
+<blockquote>
+<div><p>Input array to return k elements from.</p>
+</div></blockquote>
+<p><strong>k: scalar. default: 0</strong></p>
+<blockquote>
+<div><p>The number of elements to return from input array.</p>
+</div></blockquote>
+<p><strong>dim: optional: scalar. default: 0</strong></p>
+<blockquote>
+<div><p>The dimension along which the top k elements are
+extracted. Note: at the moment, topk() only supports the
+extraction of values along the first dimension.</p>
+</div></blockquote>
+<p><strong>order: optional: af.TOPK. default: af.TOPK.DEFAULT</strong></p>
+<blockquote>
+<div><p>The ordering of k extracted elements. Defaults to top k max values.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">values: af.Array</p>
+<blockquote>
+<div><p>Top k elements from input array.</p>
+</div></blockquote>
+<p>indices: af.Array</p>
+<blockquote class="last">
+<div><p>Corresponding index array to top k elements.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="function">
 <dt id="arrayfire.statistics.var">
 <code class="descclassname">arrayfire.statistics.</code><code class="descname">var</code><span class="sig-paren">(</span><em>a</em>, <em>isbiased=False</em>, <em>weights=None</em>, <em>dim=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/statistics.html#var"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.statistics.var" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Calculate variance along a given dimension.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
+<blockquote>
+<div><p>The input array.</p>
+</div></blockquote>
+<p><strong>isbiased: optional: Boolean. default: False.</strong></p>
+<blockquote>
+<div><p>Boolean denoting population variance (false) or sample
+variance (true).</p>
+</div></blockquote>
+<p><strong>weights: optional: af.Array. default: None.</strong></p>
+<blockquote>
+<div><p>Array to calculate for the weighted mean. Must match size of
+the input array.</p>
+</div></blockquote>
+<p><strong>dim: optional: int. default: None.</strong></p>
+<blockquote>
+<div><p>The dimension for which to obtain the variance from input data.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">output: af.Array</p>
+<blockquote class="last">
+<div><p>Array containing the variance of the input array along a given
+dimension.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </div>
 
@@ -86,28 +280,35 @@
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
-            </a></p><div class="relations">
+            </a></p>
+<h1 class="logo"><a href="index.html">ArrayFire</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/arrayfire.statistics.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -118,7 +319,7 @@
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

@@ -4,28 +4,18 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
     <title>arrayfire.graphics module &#8212; ArrayFire Python documentation</title>
-    
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/style.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '3.5.20170718',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/style.css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -34,8 +24,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -48,8 +37,8 @@
 <p>Graphics functions (plot, image, etc).</p>
 <dl class="class">
 <dt id="arrayfire.graphics.Window">
-<em class="property">class </em><code class="descclassname">arrayfire.graphics.</code><code class="descname">Window</code><span class="sig-paren">(</span><em>width=1280</em>, <em>height=720</em>, <em>title=’ArrayFire’</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<em class="property">class </em><code class="descclassname">arrayfire.graphics.</code><code class="descname">Window</code><span class="sig-paren">(</span><em>width=1280</em>, <em>height=720</em>, <em>title='ArrayFire'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to create the Window object.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -84,61 +73,61 @@
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.close" title="arrayfire.graphics.Window.close"><code class="xref py py-obj docutils literal"><span class="pre">close</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.close" title="arrayfire.graphics.Window.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</td>
 <td>Close the window.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.grid" title="arrayfire.graphics.Window.grid"><code class="xref py py-obj docutils literal"><span class="pre">grid</span></code></a>(rows,&nbsp;cols)</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.grid" title="arrayfire.graphics.Window.grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grid</span></code></a>(rows,&nbsp;cols)</td>
 <td>Create a grid for sub plotting within the window.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.hist" title="arrayfire.graphics.Window.hist"><code class="xref py py-obj docutils literal"><span class="pre">hist</span></code></a>(X,&nbsp;min_val,&nbsp;max_val[,&nbsp;title])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.hist" title="arrayfire.graphics.Window.hist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hist</span></code></a>(X,&nbsp;min_val,&nbsp;max_val[,&nbsp;title])</td>
 <td>Display a histogram Plot.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.image" title="arrayfire.graphics.Window.image"><code class="xref py py-obj docutils literal"><span class="pre">image</span></code></a>(img[,&nbsp;title])</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.image" title="arrayfire.graphics.Window.image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code></a>(img[,&nbsp;title])</td>
 <td>Display an arrayfire array as an image.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.plot" title="arrayfire.graphics.Window.plot"><code class="xref py py-obj docutils literal"><span class="pre">plot</span></code></a>(X,&nbsp;Y[,&nbsp;Z,&nbsp;line,&nbsp;title])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.plot" title="arrayfire.graphics.Window.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(X,&nbsp;Y[,&nbsp;Z,&nbsp;line,&nbsp;title])</td>
 <td>Display a 2D or 3D Plot.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.plot2" title="arrayfire.graphics.Window.plot2"><code class="xref py py-obj docutils literal"><span class="pre">plot2</span></code></a>(line[,&nbsp;title])</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.plot2" title="arrayfire.graphics.Window.plot2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot2</span></code></a>(line[,&nbsp;title])</td>
 <td>Display a 2D Plot.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.plot3" title="arrayfire.graphics.Window.plot3"><code class="xref py py-obj docutils literal"><span class="pre">plot3</span></code></a>([X,&nbsp;Y,&nbsp;Z,&nbsp;line,&nbsp;title])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.plot3" title="arrayfire.graphics.Window.plot3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot3</span></code></a>([X,&nbsp;Y,&nbsp;Z,&nbsp;line,&nbsp;title])</td>
 <td>Display a 3D Plot.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.scatter" title="arrayfire.graphics.Window.scatter"><code class="xref py py-obj docutils literal"><span class="pre">scatter</span></code></a>(X,&nbsp;Y[,&nbsp;Z,&nbsp;points,&nbsp;marker,&nbsp;title])</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.scatter" title="arrayfire.graphics.Window.scatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scatter</span></code></a>(X,&nbsp;Y[,&nbsp;Z,&nbsp;points,&nbsp;marker,&nbsp;title])</td>
 <td>Renders input arrays as 2D or 3D scatter plot.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.scatter2" title="arrayfire.graphics.Window.scatter2"><code class="xref py py-obj docutils literal"><span class="pre">scatter2</span></code></a>(points[,&nbsp;marker,&nbsp;title])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.scatter2" title="arrayfire.graphics.Window.scatter2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scatter2</span></code></a>(points[,&nbsp;marker,&nbsp;title])</td>
 <td>Renders the input array as a 2D Scatter plot.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.scatter3" title="arrayfire.graphics.Window.scatter3"><code class="xref py py-obj docutils literal"><span class="pre">scatter3</span></code></a>(points[,&nbsp;marker,&nbsp;title])</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.scatter3" title="arrayfire.graphics.Window.scatter3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scatter3</span></code></a>(points[,&nbsp;marker,&nbsp;title])</td>
 <td>Renders the input array as a 3D Scatter plot.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_axes_limits" title="arrayfire.graphics.Window.set_axes_limits"><code class="xref py py-obj docutils literal"><span class="pre">set_axes_limits</span></code></a>(xmin,&nbsp;xmax,&nbsp;ymin,&nbsp;ymax[,&nbsp;…])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_axes_limits" title="arrayfire.graphics.Window.set_axes_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_axes_limits</span></code></a>(xmin,&nbsp;xmax,&nbsp;ymin,&nbsp;ymax[,&nbsp;…])</td>
 <td>Set axis limits.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_colormap" title="arrayfire.graphics.Window.set_colormap"><code class="xref py py-obj docutils literal"><span class="pre">set_colormap</span></code></a>(cmap)</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_colormap" title="arrayfire.graphics.Window.set_colormap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_colormap</span></code></a>(cmap)</td>
 <td>Set the colormap for the window.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_pos" title="arrayfire.graphics.Window.set_pos"><code class="xref py py-obj docutils literal"><span class="pre">set_pos</span></code></a>(x,&nbsp;y)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_pos" title="arrayfire.graphics.Window.set_pos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_pos</span></code></a>(x,&nbsp;y)</td>
 <td>Set the position of window on the screen.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_size" title="arrayfire.graphics.Window.set_size"><code class="xref py py-obj docutils literal"><span class="pre">set_size</span></code></a>(w,&nbsp;h)</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_size" title="arrayfire.graphics.Window.set_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_size</span></code></a>(w,&nbsp;h)</td>
 <td>Set the windo height and width.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_title" title="arrayfire.graphics.Window.set_title"><code class="xref py py-obj docutils literal"><span class="pre">set_title</span></code></a>(title)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_title" title="arrayfire.graphics.Window.set_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_title</span></code></a>(title)</td>
 <td>Set the title of the window</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_visibility" title="arrayfire.graphics.Window.set_visibility"><code class="xref py py-obj docutils literal"><span class="pre">set_visibility</span></code></a>(is_visible)</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_visibility" title="arrayfire.graphics.Window.set_visibility"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_visibility</span></code></a>()</td>
 <td>A flag that shows or hides the window as requested.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.show" title="arrayfire.graphics.Window.show"><code class="xref py py-obj docutils literal"><span class="pre">show</span></code></a>()</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.show" title="arrayfire.graphics.Window.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</td>
 <td>Force the window to display the contents.</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.surface" title="arrayfire.graphics.Window.surface"><code class="xref py py-obj docutils literal"><span class="pre">surface</span></code></a>(x_vals,&nbsp;y_vals,&nbsp;z_vals[,&nbsp;title])</td>
+<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.surface" title="arrayfire.graphics.Window.surface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">surface</span></code></a>(x_vals,&nbsp;y_vals,&nbsp;z_vals[,&nbsp;title])</td>
 <td>Renders the input array as a 3D surface plot.</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.vector_field" title="arrayfire.graphics.Window.vector_field"><code class="xref py py-obj docutils literal"><span class="pre">vector_field</span></code></a>(xpoints,&nbsp;xdirs,&nbsp;ypoints,&nbsp;ydirs)</td>
+<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.vector_field" title="arrayfire.graphics.Window.vector_field"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vector_field</span></code></a>(xpoints,&nbsp;xdirs,&nbsp;ypoints,&nbsp;ydirs)</td>
 <td>Display a 2D or 3D Vector_Field.</td>
 </tr>
 </tbody>
@@ -550,7 +539,7 @@ A 3 dimensional array for 3 channel image.</p>
 
 <dl class="method">
 <dt id="arrayfire.graphics.Window.set_visibility">
-<code class="descname">set_visibility</code><span class="sig-paren">(</span><em>is_visible</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_visibility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_visibility" title="Permalink to this definition">¶</a></dt>
+<code class="descname">set_visibility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_visibility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_visibility" title="Permalink to this definition">¶</a></dt>
 <dd><p>A flag that shows or hides the window as requested.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -685,28 +674,35 @@ A 3 dimensional array for 3 channel image.</p>
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="index.html">
               <img class="logo" src="_static/arrayfire_logo_symbol.png" alt="Logo"/>
-            </a></p><div class="relations">
+            </a></p>
+<h1 class="logo"><a href="index.html">ArrayFire</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/arrayfire.graphics.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -717,7 +713,7 @@ A 3 dimensional array for 3 channel image.</p>
       &copy;2016, Pavan Yalamanchili.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
