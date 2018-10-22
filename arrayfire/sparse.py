@@ -90,7 +90,10 @@ def create_sparse_from_host(values, row_idx, col_idx, nrows, ncols, storage = ST
 
     A sparse matrix.
     """
-    return create_sparse(to_array(values), to_array(row_idx), to_array(col_idx), nrows, ncols, storage)
+    return create_sparse(to_array(values),
+                         to_array(row_idx).as_type(Dtype.s32),
+                         to_array(col_idx).as_type(Dtype.s32),
+                         nrows, ncols, storage)
 
 def create_sparse_from_dense(dense, storage = STORAGE.CSR):
     """
