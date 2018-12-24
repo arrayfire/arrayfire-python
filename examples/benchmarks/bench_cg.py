@@ -80,6 +80,7 @@ def calc_arrayfire(A, b, x0, maxiter=10):
         beta_num = af.dot(r, r)
         beta = beta_num/alpha_num
         p = r + af.tile(beta, p.dims()[0]) * p
+    af.eval(x)
     res = x0 - x
     return x, af.dot(res, res)
 
@@ -137,11 +138,11 @@ def timeit(calc, iters, args):
 
 def test():
     print("\nTesting benchmark functions...")
-    A, b, x0 = setup_input(50)  # dense A
+    A, b, x0 = setup_input(n=50, sparsity=7)  # dense A
     Asp = to_sparse(A)
     x1, _ = calc_arrayfire(A, b, x0)
     x2, _ = calc_arrayfire(Asp, b, x0)
-    if af.sum(af.abs(x1 - x2)/x2 > 1e-6):
+    if af.sum(af.abs(x1 - x2)/x2 > 1e-5):
         raise ValueError("arrayfire test failed")
     if np:
         An = to_numpy(A)
@@ -162,11 +163,13 @@ def test():
 
 
 def bench(n=4*1024, sparsity=7, maxiter=10, iters=10):
+
     # generate data
     print("\nGenerating benchmark data for n = %i ..." %n)
     A, b, x0 = setup_input(n, sparsity)  # dense A
     Asp = to_sparse(A)  # sparse A
     input_info(A, Asp)
+
     # make benchmarks
     print("Benchmarking CG solver for n = %i ..." %n)
     t1 = timeit(calc_arrayfire, iters, args=(A, b, x0, maxiter))
@@ -192,9 +195,8 @@ if __name__ == "__main__":
     if (len(sys.argv) > 1):
         af.set_device(int(sys.argv[1]))
 
-    af.info()    
-
+    af.info()
     test()
-    
+
     for n in (128, 256, 512, 1024, 2048, 4096):
         bench(n)
