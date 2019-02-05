@@ -34,19 +34,19 @@ def abserr(predicted, target):
 
 
 # Predict (probability) based on given parameters
-def predict_proba(X, Weights):
+def predict_prob(X, Weights):
     Z = af.matmul(X, Weights)
     return af.sigmoid(Z)
 
 
 # Predict (log probability) based on given parameters
-def predict_log_proba(X, Weights):
-    return af.log(predict_proba(X, Weights))
+def predict_log_prob(X, Weights):
+    return af.log(predict_prob(X, Weights))
 
 
 # Give most likely class based on given parameters
-def predict(X, Weights):
-    probs = predict_proba(X, Weights)
+def predict_class(X, Weights):
+    probs = predict_prob(X, Weights)
     _, classes = af.imax(probs, 1)
     return classes
 
@@ -66,7 +66,7 @@ def cost(Weights, X, Y, lambda_param=1.0):
     lambdat[0, :] = 0
 
     # Get the prediction
-    H = predict_proba(X, Weights)
+    H = predict_prob(X, Weights)
 
     # Cost of misprediction
     Jerr = -1 * af.sum(Y * af.log(H) + (1 - Y) * af.log(1 - H), dim=0)
@@ -122,7 +122,7 @@ def benchmark_logistic_regression(train_feats, train_targets, test_feats):
     t0 = time.time()
     iters = 100
     for i in range(iters):
-        test_outputs = predict(test_feats, Weights)
+        test_outputs = predict_prob(test_feats, Weights)
         af.eval(test_outputs)
     sync()
     t1 = time.time()
@@ -172,8 +172,8 @@ def logit_demo(console, perc):
     af.sync()
 
     # Predict the results
-    train_outputs = predict_proba(train_feats, Weights)
-    test_outputs = predict_proba(test_feats, Weights)
+    train_outputs = predict_prob(train_feats, Weights)
+    test_outputs = predict_prob(test_feats, Weights)
 
     print('Accuracy on training data: {0:2.2f}'.format(accuracy(train_outputs, train_targets)))
     print('Accuracy on testing data: {0:2.2f}'.format(accuracy(test_outputs, test_targets)))
