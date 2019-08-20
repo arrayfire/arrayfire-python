@@ -563,6 +563,7 @@ class Array(BaseArray):
         Note
         ----
         - This can be used to integrate with custom C code and / or PyCUDA or PyOpenCL.
+        - Implies `af.device.lock_array()`. The device pointer of `a` is not freed by memory manager until `unlock_device_ptr()` is called.
         - No other arrays will share the same device pointer.
         - A copy of the memory is done if multiple arrays share the same memory or the array is not the owner of the memory.
         - In case of a copy the return value points to the newly allocated memory which is now exclusively owned by the array.
