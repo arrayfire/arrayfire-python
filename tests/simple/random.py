@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+
 #######################################################
 # Copyright (c) 2015, ArrayFire
 # All rights reserved.
@@ -9,11 +10,12 @@
 ########################################################
 
 import arrayfire as af
+
 from . import _util
+
 
 def simple_random(verbose=False):
     display_func = _util.display_func(verbose)
-    print_func   = _util.print_func(verbose)
 
     display_func(af.randu(3, 3, 1, 2))
     display_func(af.randu(3, 3, 1, 2, af.Dtype.b8))
@@ -35,4 +37,5 @@ def simple_random(verbose=False):
     engine.set_seed(100)
     assert(engine.get_seed() == 100)
 
-_util.tests['random'] = simple_random
+
+_util.tests["random"] = simple_random

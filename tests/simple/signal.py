@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+
 #######################################################
 # Copyright (c) 2015, ArrayFire
 # All rights reserved.
@@ -9,24 +10,25 @@
 ########################################################
 
 import arrayfire as af
+
 from . import _util
+
 
 def simple_signal(verbose=False):
     display_func = _util.display_func(verbose)
-    print_func   = _util.print_func(verbose)
 
     signal = af.randu(10)
-    x_new  = af.randu(10)
+    x_new = af.randu(10)
     x_orig = af.randu(10)
-    display_func(af.approx1(signal, x_new, xp = x_orig))
+    display_func(af.approx1(signal, x_new, xp=x_orig))
 
     signal = af.randu(3, 3)
-    x_new  = af.randu(3, 3)
+    x_new = af.randu(3, 3)
     x_orig = af.randu(3, 3)
-    y_new  = af.randu(3, 3)
+    y_new = af.randu(3, 3)
     y_orig = af.randu(3, 3)
 
-    display_func(af.approx2(signal, x_new, y_new, xp = x_orig, yp = y_orig))
+    display_func(af.approx2(signal, x_new, y_new, xp=x_orig, yp=y_orig))
 
     a = af.randu(8, 1)
     display_func(a)
@@ -106,7 +108,6 @@ def simple_signal(verbose=False):
     display_func(af.convolve(a, b))
     display_func(af.fft_convolve(a, b))
 
-
     b = af.randu(3, 1)
     x = af.randu(10, 1)
     a = af.randu(2, 1)
@@ -117,4 +118,5 @@ def simple_signal(verbose=False):
     display_func(af.medfilt2(a))
     display_func(af.medfilt(a))
 
-_util.tests['signal'] = simple_signal
+
+_util.tests["signal"] = simple_signal

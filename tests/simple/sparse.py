@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+
 #######################################################
 # Copyright (c) 2015, ArrayFire
 # All rights reserved.
@@ -9,11 +10,13 @@
 ########################################################
 
 import arrayfire as af
+
 from . import _util
+
 
 def simple_sparse(verbose=False):
     display_func = _util.display_func(verbose)
-    print_func   = _util.print_func(verbose)
+    print_func = _util.print_func(verbose)
 
     dd = af.randu(5, 5)
     ds = dd * (dd > 0.5)
@@ -25,4 +28,5 @@ def simple_sparse(verbose=False):
     print_func(af.sparse_get_nnz(sp))
     print_func(af.sparse_get_storage(sp))
 
-_util.tests['sparse'] = simple_sparse
+
+_util.tests["sparse"] = simple_sparse
