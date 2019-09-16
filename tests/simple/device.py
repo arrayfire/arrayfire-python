@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+
 #######################################################
 # Copyright (c) 2015, ArrayFire
 # All rights reserved.
@@ -9,11 +10,13 @@
 ########################################################
 
 import arrayfire as af
+
 from . import _util
+
 
 def simple_device(verbose=False):
     display_func = _util.display_func(verbose)
-    print_func   = _util.print_func(verbose)
+    print_func = _util.print_func(verbose)
     print_func(af.device_info())
     print_func(af.get_device_count())
     print_func(af.is_dbl_supported())
@@ -35,19 +38,19 @@ def simple_device(verbose=False):
         a = af.randu(100, 100)
         af.sync(dev)
         mem_info = af.device_mem_info()
-        assert(mem_info['alloc']['buffers'] == 1 + mem_info_old['alloc']['buffers'])
-        assert(mem_info[ 'lock']['buffers'] == 1 + mem_info_old[ 'lock']['buffers'])
+        assert(mem_info["alloc"]["buffers"] == 1 + mem_info_old["alloc"]["buffers"])
+        assert(mem_info["lock"]["buffers"] == 1 + mem_info_old["lock"]["buffers"])
 
     af.set_device(curr_dev)
 
-    a = af.randu(10,10)
+    a = af.randu(10, 10)
     display_func(a)
     dev_ptr = af.get_device_ptr(a)
     print_func(dev_ptr)
     b = af.Array(src=dev_ptr, dims=a.dims(), dtype=a.dtype(), is_device=True)
     display_func(b)
 
-    c = af.randu(10,10)
+    c = af.randu(10, 10)
     af.lock_array(c)
     af.unlock_array(c)
 
@@ -64,10 +67,11 @@ def simple_device(verbose=False):
     print_func(d)
 
     print_func(af.set_manual_eval_flag(True))
-    assert(af.get_manual_eval_flag() == True)
+    assert(af.get_manual_eval_flag())
     print_func(af.set_manual_eval_flag(False))
-    assert(af.get_manual_eval_flag() == False)
+    assert(not af.get_manual_eval_flag())
 
     display_func(af.is_locked_array(a))
 
-_util.tests['device'] = simple_device
+
+_util.tests["device"] = simple_device

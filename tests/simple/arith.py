@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+
 #######################################################
 # Copyright (c) 2015, ArrayFire
 # All rights reserved.
@@ -9,13 +10,14 @@
 ########################################################
 
 import arrayfire as af
+
 from . import _util
 
-def simple_arith(verbose = False):
-    display_func = _util.display_func(verbose)
-    print_func   = _util.print_func(verbose)
 
-    a = af.randu(3,3)
+def simple_arith(verbose=False):
+    display_func = _util.display_func(verbose)
+
+    a = af.randu(3, 3)
     b = af.constant(4, 3, 3)
     display_func(a)
     display_func(b)
@@ -28,7 +30,6 @@ def simple_arith(verbose = False):
     display_func(d)
     display_func(a + 2)
     display_func(3 + a)
-
 
     c = a - b
     d = a
@@ -99,7 +100,7 @@ def simple_arith(verbose = False):
     display_func(a == 0.5)
     display_func(0.5 == a)
 
-    a = af.randu(3,3,dtype=af.Dtype.u32)
+    a = af.randu(3, 3, dtype=af.Dtype.u32)
     b = af.constant(4, 3, 3, dtype=af.Dtype.u32)
 
     display_func(a & b)
@@ -132,17 +133,17 @@ def simple_arith(verbose = False):
     display_func(a)
 
     display_func(af.cast(a, af.Dtype.c32))
-    display_func(af.maxof(a,b))
-    display_func(af.minof(a,b))
+    display_func(af.maxof(a, b))
+    display_func(af.minof(a, b))
 
     display_func(af.clamp(a, 0, 1))
     display_func(af.clamp(a, 0, b))
     display_func(af.clamp(a, b, 1))
 
-    display_func(af.rem(a,b))
+    display_func(af.rem(a, b))
 
-    a = af.randu(3,3) - 0.5
-    b = af.randu(3,3) - 0.5
+    a = af.randu(3, 3) - 0.5
+    b = af.randu(3, 3) - 0.5
 
     display_func(af.abs(a))
     display_func(af.arg(a))
@@ -161,7 +162,7 @@ def simple_arith(verbose = False):
     display_func(af.atan2(a, b))
 
     c = af.cplx(a)
-    d = af.cplx(a,b)
+    d = af.cplx(a, b)
     display_func(c)
     display_func(d)
     display_func(af.real(d))
@@ -193,8 +194,8 @@ def simple_arith(verbose = False):
     display_func(af.sqrt(a))
     display_func(af.cbrt(a))
 
-    a = af.round(5 * af.randu(3,3) - 1)
-    b = af.round(5 * af.randu(3,3) - 1)
+    a = af.round(5 * af.randu(3, 3) - 1)
+    b = af.round(5 * af.randu(3, 3) - 1)
 
     display_func(af.factorial(a))
     display_func(af.tgamma(a))
@@ -205,7 +206,7 @@ def simple_arith(verbose = False):
 
     a = af.randu(5, 1)
     b = af.randu(1, 5)
-    c = af.broadcast(lambda x,y: x+y, a, b)
+    c = af.broadcast(lambda x, y: x+y, a, b)
     display_func(a)
     display_func(b)
     display_func(c)
@@ -216,4 +217,5 @@ def simple_arith(verbose = False):
 
     display_func(test_add(a, b))
 
-_util.tests['arith'] = simple_arith
+
+_util.tests["arith"] = simple_arith

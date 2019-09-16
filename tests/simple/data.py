@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+
 #######################################################
 # Copyright (c) 2015, ArrayFire
 # All rights reserved.
@@ -9,20 +10,21 @@
 ########################################################
 
 import arrayfire as af
+
 from . import _util
+
 
 def simple_data(verbose=False):
     display_func = _util.display_func(verbose)
-    print_func   = _util.print_func(verbose)
 
-    display_func(af.constant(100, 3,3, dtype=af.Dtype.f32))
-    display_func(af.constant(25, 3,3, dtype=af.Dtype.c32))
-    display_func(af.constant(2**50, 3,3, dtype=af.Dtype.s64))
-    display_func(af.constant(2+3j, 3,3))
-    display_func(af.constant(3+5j, 3,3, dtype=af.Dtype.c32))
+    display_func(af.constant(100, 3, 3, dtype=af.Dtype.f32))
+    display_func(af.constant(25, 3, 3, dtype=af.Dtype.c32))
+    display_func(af.constant(2**50, 3, 3, dtype=af.Dtype.s64))
+    display_func(af.constant(2+3j, 3, 3))
+    display_func(af.constant(3+5j, 3, 3, dtype=af.Dtype.c32))
 
     display_func(af.range(3, 3))
-    display_func(af.iota(3, 3, tile_dims=(2,2)))
+    display_func(af.iota(3, 3, tile_dims=(2, 2)))
 
     display_func(af.identity(3, 3, 1, 2, af.Dtype.b8))
     display_func(af.identity(3, 3, dtype=af.Dtype.c32))
@@ -35,14 +37,13 @@ def simple_data(verbose=False):
     display_func(b)
     display_func(c)
 
-    display_func(af.diag(b, extract = False))
-    display_func(af.diag(c, 1, extract = False))
+    display_func(af.diag(b, extract=False))
+    display_func(af.diag(c, 1, extract=False))
 
     display_func(af.join(0, a, a))
     display_func(af.join(1, a, a, a))
 
     display_func(af.tile(a, 2, 2))
-
 
     display_func(af.reorder(a, 1, 0))
 
@@ -61,7 +62,7 @@ def simple_data(verbose=False):
     display_func(af.upper(a, False))
     display_func(af.upper(a, True))
 
-    a = af.randu(5,5)
+    a = af.randu(5, 5)
     display_func(af.transpose(a))
     af.transpose_inplace(a)
     display_func(a)
@@ -71,4 +72,5 @@ def simple_data(verbose=False):
     af.replace(a, a > 0.3, -0.3)
     display_func(a)
 
-_util.tests['data'] = simple_data
+
+_util.tests["data"] = simple_data

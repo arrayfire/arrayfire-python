@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+
 #######################################################
 # Copyright (c) 2015, ArrayFire
 # All rights reserved.
@@ -9,18 +10,19 @@
 ########################################################
 
 import arrayfire as af
+
 from . import _util
 
-def simple_algorithm(verbose = False):
+
+def simple_algorithm(verbose=False):
     display_func = _util.display_func(verbose)
-    print_func   = _util.print_func(verbose)
+    print_func = _util.print_func(verbose)
 
     a = af.randu(3, 3)
     k = af.constant(1, 3, 3, dtype=af.Dtype.u32)
     af.eval(k)
 
-    print_func(af.sum(a), af.product(a), af.min(a), af.max(a),
-               af.count(a), af.any_true(a), af.all_true(a))
+    print_func(af.sum(a), af.product(a), af.min(a), af.max(a), af.count(a), af.any_true(a), af.all_true(a))
 
     display_func(af.sum(a, 0))
     display_func(af.sum(a, 1))
@@ -58,27 +60,27 @@ def simple_algorithm(verbose = False):
     b = (a > 0.1) * a
     c = (a > 0.4) * a
     d = b / c
-    print_func(af.sum(d));
-    print_func(af.sum(d, nan_val=0.0));
-    display_func(af.sum(d, dim=0, nan_val=0.0));
+    print_func(af.sum(d))
+    print_func(af.sum(d, nan_val=0.0))
+    display_func(af.sum(d, dim=0, nan_val=0.0))
 
-    val,idx = af.sort_index(a, is_ascending=True)
+    val, idx = af.sort_index(a, is_ascending=True)
     display_func(val)
     display_func(idx)
-    val,idx = af.sort_index(a, is_ascending=False)
+    val, idx = af.sort_index(a, is_ascending=False)
     display_func(val)
     display_func(idx)
 
-    b = af.randu(3,3)
-    keys,vals = af.sort_by_key(a, b, is_ascending=True)
+    b = af.randu(3, 3)
+    keys, vals = af.sort_by_key(a, b, is_ascending=True)
     display_func(keys)
     display_func(vals)
-    keys,vals = af.sort_by_key(a, b, is_ascending=False)
+    keys, vals = af.sort_by_key(a, b, is_ascending=False)
     display_func(keys)
     display_func(vals)
 
-    c = af.randu(5,1)
-    d = af.randu(5,1)
+    c = af.randu(5, 1)
+    d = af.randu(5, 1)
     cc = af.set_unique(c, is_sorted=False)
     dd = af.set_unique(af.sort(d), is_sorted=True)
     display_func(cc)
@@ -90,4 +92,5 @@ def simple_algorithm(verbose = False):
     display_func(af.set_intersect(cc, cc, is_unique=True))
     display_func(af.set_intersect(cc, cc, is_unique=False))
 
-_util.tests['algorithm'] = simple_algorithm
+
+_util.tests["algorithm"] = simple_algorithm
