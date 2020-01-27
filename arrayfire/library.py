@@ -517,7 +517,10 @@ def _setup():
         post = '.' + _VER_MAJOR_PLACEHOLDER + '.dylib'
 
         if AF_SEARCH_PATH is None:
-            AF_SEARCH_PATH='/usr/local/'
+            if os.path.exists('/opt/arrayfire'):
+                AF_SEARCH_PATH = '/opt/arrayfire/'
+            else:
+                AF_SEARCH_PATH = '/usr/local/'
 
         if CUDA_PATH is None:
             CUDA_PATH='/usr/local/cuda/'
