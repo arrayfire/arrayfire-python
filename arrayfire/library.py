@@ -448,6 +448,14 @@ class TOPK(_Enum):
     MIN     = _Enum_Type(1)
     MAX     = _Enum_Type(2)
 
+class VARIANCE(_Enum):
+    """
+    Variance bias type
+    """
+    DEFAULT    = _Enum_Type(0)
+    SAMPLE     = _Enum_Type(1)
+    POPULATION = _Enum_Type(2)
+
 _VER_MAJOR_PLACEHOLDER = "__VER_MAJOR__"
 
 def _setup():
