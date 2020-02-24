@@ -177,6 +177,15 @@ class CONV_DOMAIN(_Enum):
     SPATIAL = _Enum_Type(1)
     FREQ    = _Enum_Type(2)
 
+class CONV_GRADIENT(_Enum):
+    """
+    Convolution gradient type
+    """
+    DEFAULT = _Enum_Type(0)
+    FILTER  = _Enum_Type(1)
+    DATA    = _Enum_Type(2)
+    BIAS    = _Enum_Type(3)
+
 class MATCH(_Enum):
     """
     Match type

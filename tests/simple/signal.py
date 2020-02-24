@@ -101,6 +101,11 @@ def simple_signal(verbose=False):
     display_func(af.convolve(a, b))
     display_func(af.fft_convolve(a, b))
 
+    c = af.convolve2NN(a, b)
+    display_func(c)
+    g = af.convolve2NN(a, b, c, gradType=af.CONV_GRADIENT.DATA)
+    display_func(g)
+
     a = af.randu(5, 5, 3)
     b = af.randu(3, 3, 2)
     display_func(af.convolve3(a, b))
