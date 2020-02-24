@@ -799,6 +799,57 @@ def replace(lhs, cond, rhs):
     else:
         safe_call(backend.get().af_replace_scalar(lhs.arr, cond.arr, c_double_t(rhs)))
 
+def pad(a, beginPadding, endPadding, padFillType = PAD.ZERO):
+    """
+    Pad an array
+
+    This function will pad an array with the specified border size and tiling scheme
+
+    Parameters
+    ----------
+
+    a: af.Array
+          A multi dimensional input arrayfire array.
+
+    beginPadding: tuple of ints. default: (0, 0, 0, 0).
+
+    endPadding: tuple of ints. default: (0, 0, 0, 0).
+
+    padFillType: optional af.PAD default: af.PAD.ZERO
+        specifies type of values to fill padded border with
+
+    Returns
+    -------
+    output: af.Array
+           A padded array
+
+    Examples
+    ---------
+    >>> import arrayfire as af
+    >>> a = af.randu(3,3)
+    >>> af.display(a)
+    [3 3 1 1]
+        0.4107     0.1794     0.3775
+        0.8224     0.4198     0.3027
+        0.9518     0.0081     0.6456
+
+    >>> padded = af.pad(a, (1, 1), (1, 1), af.ZERO)
+    >>> af.display(padded)
+    [5 5 1 1]
+        0.0000     0.0000     0.0000     0.0000     0.0000
+        0.0000     0.4107     0.1794     0.3775     0.0000
+        0.0000     0.8224     0.4198     0.3027     0.0000
+        0.0000     0.9518     0.0081     0.6456     0.0000
+        0.0000     0.0000     0.0000     0.0000     0.0000
+    """
+    out = Array()
+    begin_dims = dim4(beginPadding[0], beginPadding[1], beginPadding[2], beginPadding[3])
+    end_dims   = dim4(endPadding[0], endPadding[1], endPadding[2], endPadding[3])
+
+    safe_call(backend.get().af_pad(c_pointer(out.arr), a.arr, 4, c_pointer(begin_dims), 4, c_pointer(end_dims), padFillType.value))
+    return out
+
+
 def lookup(a, idx, dim=0):
     """
     Lookup the values of input array based on index.

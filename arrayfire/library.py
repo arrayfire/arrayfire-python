@@ -152,6 +152,8 @@ class PAD(_Enum):
     """
     ZERO = _Enum_Type(0)
     SYM  = _Enum_Type(1)
+    CLAMP_TO_EDGE  = _Enum_Type(2)
+    PERIODIC = _Enum_Type(3)
 
 class CONNECTIVITY(_Enum):
     """
