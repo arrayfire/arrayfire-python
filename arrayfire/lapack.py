@@ -264,6 +264,39 @@ def inverse(A, options=MATPROP.NONE):
     safe_call(backend.get().af_inverse(c_pointer(AI.arr), A.arr, options.value))
     return AI
 
+def pinverse(A, tol=1E-6, options=MATPROP.NONE):
+    """
+    Find pseudo-inverse(Moore-Penrose) of a matrix.
+
+    Parameters
+    ----------
+
+    A: af.Array
+       - A 2 dimensional arrayfire input matrix array
+
+    tol: optional: scalar. default: 1E-6.
+       - Tolerance for calculating rank
+
+    options: optional: af.MATPROP. default: af.MATPROP.NONE.
+       - Currently needs to be `af.MATPROP.NONE`.
+       - Additional options may speed up computation in the future
+
+    Returns
+    -------
+
+    AI: af.Array
+       - A 2 dimensional array that is the pseudo-inverse of `A`
+
+    Note
+    ----
+
+    This function is not supported in GFOR
+
+    """
+    AI = Array()
+    safe_call(backend.get().af_pinverse(c_pointer(AI.arr), A.arr, c_double_t(tol), options.value))
+    return AI
+
 def rank(A, tol=1E-5):
     """
     Rank of a matrix.

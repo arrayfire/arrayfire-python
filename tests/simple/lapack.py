@@ -58,6 +58,9 @@ def simple_lapack(verbose=False):
     display_func(a)
     display_func(ai)
 
+    ai = af.pinverse(a)
+    display_func(ai)
+
     x0 = af.randu(5, 3)
     b = af.matmul(a, x0)
     x1 = af.solve(a, b)
