@@ -51,6 +51,9 @@ def simple_image(verbose=False):
     display_func(af.maxfilt(a))
 
     display_func(af.regions(af.round(a) > 3))
+    display_func(af.confidenceCC(af.randu(10, 10),
+        (af.randu(2) * 9).as_type(af.Dtype.u32), (af.randu(2) * 9).as_type(af.Dtype.u32), 3, 3, 10, 0.1))
+
 
     dx, dy = af.sobel_derivatives(a)
     display_func(dx)
