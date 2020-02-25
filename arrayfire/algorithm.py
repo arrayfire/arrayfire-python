@@ -44,6 +44,33 @@ def _nan_reduce_all(a, c_func, nan_val):
     imag = imag.value
     return real if imag == 0 else real + imag * 1j
 
+def _FNSD(dim, dims):
+    if dim >= 0:
+        return int(dim)
+
+    fnsd = 0
+    for i, d in enumerate(dims):
+        if d > 1:
+            fnsd = i
+            break
+    return int(fnsd)
+
+def _rbk_dim(keys, vals, dim, c_func):
+    keys_out = Array()
+    vals_out = Array()
+    rdim = _FNSD(dim, vals.dims())
+    print(rdim)
+    safe_call(c_func(c_pointer(keys_out.arr), c_pointer(vals_out.arr), keys.arr, vals.arr, c_int_t(rdim)))
+    return keys_out, vals_out
+
+def _nan_rbk_dim(a, dim, c_func, nan_val):
+    keys_out = Array()
+    vals_out = Array()
+    rdim = _FNSD(dim, vals.dims())
+    print(rdim)
+    safe_call(c_func(c_pointer(keys_out.arr), c_pointer(vals_out.arr), keys.arr, vals.arr, c_int_t(rdim), c_double_t(nan_val)))
+    return keys_out, vals_out
+
 def sum(a, dim=None, nan_val=None):
     """
     Calculate the sum of all the elements along a specified dimension.
@@ -73,6 +100,34 @@ def sum(a, dim=None, nan_val=None):
             return _parallel_dim(a, dim, backend.get().af_sum)
         else:
             return _reduce_all(a, backend.get().af_sum_all)
+
+
+def sumByKey(keys, vals, dim=-1, nan_val=None):
+    """
+    Calculate the sum of elements along a specified dimension according to a key.
+
+    Parameters
+    ----------
+    keys  : af.Array
+         One dimensional arrayfire array with reduction keys.
+    vals  : af.Array
+         Multi dimensional arrayfire array that will be reduced.
+    dim: optional: int. default: -1
+         Dimension along which the sum will occur.
+    nan_val: optional: scalar. default: None
+         The value that replaces NaN in the array
+
+    Returns
+    -------
+    keys: af.Array or scalar number
+         The reduced keys of all elements in `vals` along dimension `dim`.
+    values: af.Array or scalar number
+         The sum of all elements in `vals` along dimension `dim` according to keys
+    """
+    if (nan_val is not None):
+        return _nan_rbk_dim(keys, vals, dim, backend.get().af_sum_by_key_nan, nan_val)
+    else:
+        return _rbk_dim(keys, vals, dim, backend.get().af_sum_by_key)
 
 def product(a, dim=None, nan_val=None):
     """
@@ -104,6 +159,33 @@ def product(a, dim=None, nan_val=None):
         else:
             return _reduce_all(a, backend.get().af_product_all)
 
+def productByKey(keys, vals, dim=-1, nan_val=None):
+    """
+    Calculate the product of elements along a specified dimension according to a key.
+
+    Parameters
+    ----------
+    keys  : af.Array
+         One dimensional arrayfire array with reduction keys.
+    vals  : af.Array
+         Multi dimensional arrayfire array that will be reduced.
+    dim: optional: int. default: -1
+         Dimension along which the product will occur.
+    nan_val: optional: scalar. default: None
+         The value that replaces NaN in the array
+
+    Returns
+    -------
+    keys: af.Array or scalar number
+         The reduced keys of all elements in `vals` along dimension `dim`.
+    values: af.Array or scalar number
+         The product of all elements in `vals` along dimension `dim` according to keys
+    """
+    if (nan_val is not None):
+        return _nan_rbk_dim(keys, vals, dim, backend.get().af_product_by_key_nan, nan_val)
+    else:
+        return _rbk_dim(keys, vals, dim, backend.get().af_product_by_key)
+
 def min(a, dim=None):
     """
     Find the minimum value of all the elements along a specified dimension.
@@ -125,6 +207,28 @@ def min(a, dim=None):
         return _parallel_dim(a, dim, backend.get().af_min)
     else:
         return _reduce_all(a, backend.get().af_min_all)
+
+def minByKey(keys, vals, dim=-1):
+    """
+    Calculate the min of elements along a specified dimension according to a key.
+
+    Parameters
+    ----------
+    keys  : af.Array
+         One dimensional arrayfire array with reduction keys.
+    vals  : af.Array
+         Multi dimensional arrayfire array that will be reduced.
+    dim: optional: int. default: -1
+         Dimension along which the min will occur.
+
+    Returns
+    -------
+    keys: af.Array or scalar number
+         The reduced keys of all elements in `vals` along dimension `dim`.
+    values: af.Array or scalar number
+         The min of all elements in `vals` along dimension `dim` according to keys
+    """
+    return _rbk_dim(keys, vals, dim, backend.get().af_min_by_key)
 
 def max(a, dim=None):
     """
@@ -148,6 +252,28 @@ def max(a, dim=None):
     else:
         return _reduce_all(a, backend.get().af_max_all)
 
+def maxByKey(keys, vals, dim=-1):
+    """
+    Calculate the max of elements along a specified dimension according to a key.
+
+    Parameters
+    ----------
+    keys  : af.Array
+         One dimensional arrayfire array with reduction keys.
+    vals  : af.Array
+         Multi dimensional arrayfire array that will be reduced.
+    dim: optional: int. default: -1
+         Dimension along which the max will occur.
+
+    Returns
+    -------
+    keys: af.Array or scalar number
+         The reduced keys of all elements in `vals` along dimension `dim`.
+    values: af.Array or scalar number
+         The max of all elements in `vals` along dimension `dim` according to keys.
+    """
+    return _rbk_dim(keys, vals, dim, backend.get().af_max_by_key)
+
 def all_true(a, dim=None):
     """
     Check if all the elements along a specified dimension are true.
@@ -169,6 +295,28 @@ def all_true(a, dim=None):
         return _parallel_dim(a, dim, backend.get().af_all_true)
     else:
         return _reduce_all(a, backend.get().af_all_true_all)
+
+def allTrueByKey(keys, vals, dim=-1):
+    """
+    Calculate if all elements are true along a specified dimension according to a key.
+
+    Parameters
+    ----------
+    keys  : af.Array
+         One dimensional arrayfire array with reduction keys.
+    vals  : af.Array
+         Multi dimensional arrayfire array that will be reduced.
+    dim: optional: int. default: -1
+         Dimension along which the all true check will occur.
+
+    Returns
+    -------
+    keys: af.Array or scalar number
+         The reduced keys of all true check in `vals` along dimension `dim`.
+    values: af.Array or scalar number
+         Booleans denoting if all elements are true in `vals` along dimension `dim` according to keys
+    """
+    return _rbk_dim(keys, vals, dim, backend.get().af_all_true_by_key)
 
 def any_true(a, dim=None):
     """
@@ -192,6 +340,28 @@ def any_true(a, dim=None):
     else:
         return _reduce_all(a, backend.get().af_any_true_all)
 
+def anyTrueByKey(keys, vals, dim=-1):
+    """
+    Calculate if any elements are true along a specified dimension according to a key.
+
+    Parameters
+    ----------
+    keys  : af.Array
+         One dimensional arrayfire array with reduction keys.
+    vals  : af.Array
+         Multi dimensional arrayfire array that will be reduced.
+    dim: optional: int. default: -1
+         Dimension along which the any true check will occur.
+
+    Returns
+    -------
+    keys: af.Array or scalar number
+         The reduced keys of any true check in `vals` along dimension `dim`.
+    values: af.Array or scalar number
+         Booleans denoting if any elements are true in `vals` along dimension `dim` according to keys.
+    """
+    return _rbk_dim(keys, vals, dim, backend.get().af_any_true_by_key)
+
 def count(a, dim=None):
     """
     Count the number of non zero elements in an array along a specified dimension.
@@ -213,6 +383,28 @@ def count(a, dim=None):
         return _parallel_dim(a, dim, backend.get().af_count)
     else:
         return _reduce_all(a, backend.get().af_count_all)
+
+def countByKey(keys, vals, dim=-1):
+    """
+    Counts non-zero elements along a specified dimension according to a key.
+
+    Parameters
+    ----------
+    keys  : af.Array
+         One dimensional arrayfire array with reduction keys.
+    vals  : af.Array
+         Multi dimensional arrayfire array that will be reduced.
+    dim: optional: int. default: -1
+         Dimension along which to count elements.
+
+    Returns
+    -------
+    keys: af.Array or scalar number
+         The reduced keys of count in `vals` along dimension `dim`.
+    values: af.Array or scalar number
+         Count of non-zero elements in `vals` along dimension `dim` according to keys.
+    """
+    return _rbk_dim(keys, vals, dim, backend.get().af_count_by_key)
 
 def imin(a, dim=None):
     """
