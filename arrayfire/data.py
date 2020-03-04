@@ -803,7 +803,8 @@ def pad(a, beginPadding, endPadding, padFillType = PAD.ZERO):
     """
     Pad an array
 
-    This function will pad an array with the specified border size and tiling scheme
+    This function will pad an array with the specified border size.
+    Newly padded values can be filled in several different ways.
 
     Parameters
     ----------

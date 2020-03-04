@@ -59,7 +59,6 @@ def _rbk_dim(keys, vals, dim, c_func):
     keys_out = Array()
     vals_out = Array()
     rdim = _FNSD(dim, vals.dims())
-    print(rdim)
     safe_call(c_func(c_pointer(keys_out.arr), c_pointer(vals_out.arr), keys.arr, vals.arr, c_int_t(rdim)))
     return keys_out, vals_out
 
@@ -67,7 +66,6 @@ def _nan_rbk_dim(a, dim, c_func, nan_val):
     keys_out = Array()
     vals_out = Array()
     rdim = _FNSD(dim, vals.dims())
-    print(rdim)
     safe_call(c_func(c_pointer(keys_out.arr), c_pointer(vals_out.arr), keys.arr, vals.arr, c_int_t(rdim), c_double_t(nan_val)))
     return keys_out, vals_out
 
