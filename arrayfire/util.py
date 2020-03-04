@@ -105,7 +105,8 @@ to_dtype = {'f' : Dtype.f32,
             'l' : Dtype.s64,
             'L' : Dtype.u64,
             'F' : Dtype.c32,
-            'D' : Dtype.c64}
+            'D' : Dtype.c64,
+            'hf': Dtype.f16}
 
 to_typecode = {Dtype.f32.value : 'f',
                Dtype.f64.value : 'd',
@@ -118,7 +119,8 @@ to_typecode = {Dtype.f32.value : 'f',
                Dtype.s64.value : 'l',
                Dtype.u64.value : 'L',
                Dtype.c32.value : 'F',
-               Dtype.c64.value : 'D'}
+               Dtype.c64.value : 'D',
+               Dtype.f16.value : 'hf'}
 
 to_c_type = {Dtype.f32.value : c_float_t,
              Dtype.f64.value : c_double_t,
@@ -131,7 +133,8 @@ to_c_type = {Dtype.f32.value : c_float_t,
              Dtype.s64.value : c_longlong_t,
              Dtype.u64.value : c_ulonglong_t,
              Dtype.c32.value : c_float_t * 2,
-             Dtype.c64.value : c_double_t * 2}
+             Dtype.c64.value : c_double_t * 2,
+             Dtype.f16.value : c_ushort_t}
 
 to_typename = {Dtype.f32.value : 'float',
                Dtype.f64.value : 'double',
@@ -144,4 +147,5 @@ to_typename = {Dtype.f32.value : 'float',
                Dtype.s64.value : 'long int',
                Dtype.u64.value : 'unsigned long int',
                Dtype.c32.value : 'float complex',
-               Dtype.c64.value : 'double complex'}
+               Dtype.c64.value : 'double complex',
+               Dtype.f16.value : 'half'}

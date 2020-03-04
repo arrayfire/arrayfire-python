@@ -97,6 +97,7 @@ class ERR(_Enum):
     # 400-499 Errors for missing hardware features
     NO_DBL         = _Enum_Type(401)
     NO_GFX         = _Enum_Type(402)
+    NO_HALF        = _Enum_Type(403)
 
     # 500-599 Errors specific to the heterogeneous API
     LOAD_LIB       = _Enum_Type(501)
@@ -123,6 +124,7 @@ class Dtype(_Enum):
     u64 = _Enum_Type(9)
     s16 = _Enum_Type(10)
     u16 = _Enum_Type(11)
+    f16 = _Enum_Type(12)
 
 class Source(_Enum):
     """
