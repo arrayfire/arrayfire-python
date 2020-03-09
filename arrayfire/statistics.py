@@ -108,6 +108,48 @@ def var(a, isbiased=False, weights=None, dim=None):
 
         return real if imag == 0 else real + imag * 1j
 
+def meanvar(a, weights=None, bias=VARIANCE.DEFAULT, dim=-1):
+    """
+    Calculate mean and variance along a given dimension.
+
+    Parameters
+    ----------
+    a: af.Array
+        The input array.
+
+    weights: optional: af.Array. default: None.
+        Array to calculate for the weighted mean. Must match size of
+        the input array.
+
+    bias: optional: af.VARIANCE. default: DEFAULT.
+        population variance(VARIANCE.POPULATION) or
+        sample variance(VARIANCE.SAMPLE).
+
+    dim: optional: int. default: -1.
+        The dimension for which to obtain the variance from input data.
+
+    Returns
+    -------
+    mean: af.Array
+        Array containing the mean of the input array along a given
+        dimension.
+    variance: af.Array
+        Array containing the variance of the input array along a given
+        dimension.
+    """
+
+    mean_out = Array()
+    var_out  = Array()
+
+    if weights is None:
+        weights  = Array()
+
+    safe_call(backend.get().af_meanvar(c_pointer(mean_out.arr), c_pointer(var_out.arr),
+                                       a.arr, weights.arr, bias.value, c_int_t(dim)))
+
+    return mean_out, var_out
+
+
 def stdev(a, dim=None):
     """
     Calculate standard deviation along a given dimension.

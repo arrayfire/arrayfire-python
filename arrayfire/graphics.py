@@ -496,6 +496,34 @@ class Window(object):
                                                           c_float_t(zmin), c_float_t(zmax),
                                                           exact, c_pointer(_cell)))
 
+    def set_axes_label_format(self, xformat="4.1%f", yformat="4.1%f", zformat="4.1%f"):
+        """
+        Set axis limits.
+
+        Parameters
+        ----------
+
+        xformat : str.
+            default: "4.1%f".
+              is a printf-style format specifier for x-axis
+        yformat : str.
+            default: "4.1%f".
+              is a printf-style format specifier for y-axis
+        zformat : str.
+            default: "4.1%f".
+              is a printf-style format specifier for z-axis
+
+        """
+        _cell = _Cell(self._r, self._c, None, self._cmap)
+        xformat = xformat.encode("ascii")
+        yformat = yformat.encode("ascii")
+        zformat = zformat.encode("ascii")
+        safe_call(backend.get().af_set_axes_label_format(self._wnd,
+                                                         c_char_ptr_t(xformat),
+                                                         c_char_ptr_t(yformat),
+                                                         c_char_ptr_t(zformat),
+                                                         c_pointer(_cell)))
+
     def __getitem__(self, keys):
         """
         Get access to a specific grid location within the window.

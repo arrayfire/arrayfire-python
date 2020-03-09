@@ -97,6 +97,7 @@ class ERR(_Enum):
     # 400-499 Errors for missing hardware features
     NO_DBL         = _Enum_Type(401)
     NO_GFX         = _Enum_Type(402)
+    NO_HALF        = _Enum_Type(403)
 
     # 500-599 Errors specific to the heterogeneous API
     LOAD_LIB       = _Enum_Type(501)
@@ -123,6 +124,7 @@ class Dtype(_Enum):
     u64 = _Enum_Type(9)
     s16 = _Enum_Type(10)
     u16 = _Enum_Type(11)
+    f16 = _Enum_Type(12)
 
 class Source(_Enum):
     """
@@ -152,6 +154,8 @@ class PAD(_Enum):
     """
     ZERO = _Enum_Type(0)
     SYM  = _Enum_Type(1)
+    CLAMP_TO_EDGE  = _Enum_Type(2)
+    PERIODIC = _Enum_Type(3)
 
 class CONNECTIVITY(_Enum):
     """
@@ -174,6 +178,15 @@ class CONV_DOMAIN(_Enum):
     AUTO    = _Enum_Type(0)
     SPATIAL = _Enum_Type(1)
     FREQ    = _Enum_Type(2)
+
+class CONV_GRADIENT(_Enum):
+    """
+    Convolution gradient type
+    """
+    DEFAULT = _Enum_Type(0)
+    FILTER  = _Enum_Type(1)
+    DATA    = _Enum_Type(2)
+    BIAS    = _Enum_Type(3)
 
 class MATCH(_Enum):
     """
@@ -445,6 +458,14 @@ class TOPK(_Enum):
     DEFAULT = _Enum_Type(0)
     MIN     = _Enum_Type(1)
     MAX     = _Enum_Type(2)
+
+class VARIANCE(_Enum):
+    """
+    Variance bias type
+    """
+    DEFAULT    = _Enum_Type(0)
+    SAMPLE     = _Enum_Type(1)
+    POPULATION = _Enum_Type(2)
 
 _VER_MAJOR_PLACEHOLDER = "__VER_MAJOR__"
 

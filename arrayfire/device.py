@@ -150,6 +150,25 @@ def is_dbl_supported(device=None):
     safe_call(backend.get().af_get_dbl_support(c_pointer(res), dev))
     return res.value
 
+def is_half_supported(device=None):
+    """
+    Check if half precision is supported on specified device.
+
+    Parameters
+    -----------
+    device: optional: int. default: None.
+         id of the desired device.
+
+    Returns
+    --------
+        - True if half precision supported.
+        - False if half precision not supported.
+    """
+    dev = device if device is not None else get_device()
+    res = c_bool_t(False)
+    safe_call(backend.get().af_get_half_support(c_pointer(res), dev))
+    return res.value
+
 def sync(device=None):
     """
     Block until all the functions on the device have completed execution.

@@ -72,5 +72,6 @@ def simple_data(verbose=False):
     af.replace(a, a > 0.3, -0.3)
     display_func(a)
 
+    display_func(af.pad(a, (1, 1, 0, 0), (2, 2, 0, 0)))
 
 _util.tests["data"] = simple_data

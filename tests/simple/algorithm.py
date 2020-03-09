@@ -27,6 +27,30 @@ def simple_algorithm(verbose=False):
     display_func(af.sum(a, 0))
     display_func(af.sum(a, 1))
 
+    rk = af.constant(1, 3, dtype=af.Dtype.u32)
+    rk[2] = 0
+    af.eval(rk)
+    display_func(af.sumByKey(rk, a, dim=0))
+    display_func(af.sumByKey(rk, a, dim=1))
+
+    display_func(af.productByKey(rk, a, dim=0))
+    display_func(af.productByKey(rk, a, dim=1))
+
+    display_func(af.minByKey(rk, a, dim=0))
+    display_func(af.minByKey(rk, a, dim=1))
+
+    display_func(af.maxByKey(rk, a, dim=0))
+    display_func(af.maxByKey(rk, a, dim=1))
+
+    display_func(af.anyTrueByKey(rk, a, dim=0))
+    display_func(af.anyTrueByKey(rk, a, dim=1))
+
+    display_func(af.allTrueByKey(rk, a, dim=0))
+    display_func(af.allTrueByKey(rk, a, dim=1))
+
+    display_func(af.countByKey(rk, a, dim=0))
+    display_func(af.countByKey(rk, a, dim=1))
+
     display_func(af.product(a, 0))
     display_func(af.product(a, 1))
 

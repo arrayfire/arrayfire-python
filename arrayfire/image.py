@@ -711,6 +711,49 @@ def regions(image, conn = CONNECTIVITY.FOUR, out_type = Dtype.f32):
                                        conn.value, out_type.value))
     return output
 
+def confidenceCC(image, seedx, seedy, radius, multiplier, iters, segmented_value):
+    """
+    Find the confidence connected components in the image.
+
+    Parameters
+    ----------
+    image : af.Array
+          - A 2 D arrayfire array representing an image.
+            Expects non-integral type
+
+    seedx : af.Array
+          - An array with x-coordinates of seed points
+
+    seedy : af.Array
+          - An array with y-coordinates of seed points
+
+    radius : scalar
+          - The neighborhood region to be considered around
+            each seed point
+
+    multiplier : scalar
+          - Controls the threshold range computed from
+            the mean and variance of seed point neighborhoods
+
+    iters : scalar
+          - is number of iterations
+
+    segmented_value : scalar
+          - the value to which output array valid
+            pixels are set to.
+
+    Returns
+    ---------
+
+    output : af.Array
+           - Output array with resulting connected components
+
+    """
+    output = Array()
+    safe_call(backend.get().af_confidence_cc(c_pointer(output.arr), image.arr, seedx.arr, seedy.arr,
+                c_uint_t(radius), c_uint_t(multiplier), c_int_t(iters), c_double_t(segmented_value)))
+    return output
+
 def sobel_derivatives(image, w_len=3):
     """
     Find the sobel derivatives of the image.

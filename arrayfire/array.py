@@ -783,6 +783,14 @@ class Array(BaseArray):
         safe_call(backend.get().af_is_single(c_pointer(res), self.arr))
         return res.value
 
+    def is_half(self):
+        """
+        Check if the array is of half floating point type (fp16).
+        """
+        res = c_bool_t(False)
+        safe_call(backend.get().af_is_half(c_pointer(res), self.arr))
+        return res.value
+
     def is_real_floating(self):
         """
         Check if the array is real and of floating point type.

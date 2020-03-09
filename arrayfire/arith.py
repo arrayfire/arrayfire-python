@@ -958,6 +958,26 @@ def sqrt(a):
     """
     return _arith_unary_func(a, backend.get().af_sqrt)
 
+def rsqrt(a):
+    """
+    Reciprocal or inverse square root of each element in the array.
+
+    Parameters
+    ----------
+    a : af.Array
+        Multi dimensional arrayfire array.
+
+    Returns
+    --------
+    out : af.Array
+         array containing the inverse square root of each value from `a`.
+
+    Note
+    -------
+    `a` must not be complex.
+    """
+    return _arith_unary_func(a, backend.get().af_rsqrt)
+
 def cbrt(a):
     """
     Cube root of each element in the array.

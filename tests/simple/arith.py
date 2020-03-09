@@ -192,6 +192,7 @@ def simple_arith(verbose=False):
     display_func(af.log10(a))
     display_func(af.log2(a))
     display_func(af.sqrt(a))
+    display_func(af.rsqrt(a))
     display_func(af.cbrt(a))
 
     a = af.round(5 * af.randu(3, 3) - 1)
