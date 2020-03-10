@@ -459,6 +459,21 @@ class TOPK(_Enum):
     MIN     = _Enum_Type(1)
     MAX     = _Enum_Type(2)
 
+class ITERATIVE_DECONV(_Enum):
+    """
+    Iterative deconvolution algorithm
+    """
+    DEFAULT        = _Enum_Type(0)
+    LANDWEBER      = _Enum_Type(1)
+    RICHARDSONLUCY = _Enum_Type(2)
+
+class INVERSE_DECONV(_Enum):
+    """
+    Inverse deconvolution algorithm
+    """
+    DEFAULT       = _Enum_Type(0)
+    TIKHONOV      = _Enum_Type(1)
+
 class VARIANCE(_Enum):
     """
     Variance bias type
