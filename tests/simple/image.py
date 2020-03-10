@@ -88,5 +88,12 @@ def simple_image(verbose=False):
 
     display_func(af.anisotropic_diffusion(a, 0.125, 1.0, 64, af.FLUX.QUADRATIC, af.DIFFUSION.GRAD))
 
+    a = af.randu(10, 10)
+    psf = af.gaussian_kernel(3, 3)
+    cimg = af.convolve(a, psf)
+    display_func(af.iterativeDeconv(cimg, psf, 100, 0.5, af.ITERATIVE_DECONV.LANDWEBER))
+    display_func(af.iterativeDeconv(cimg, psf, 100, 0.5, af.ITERATIVE_DECONV.RICHARDSONLUCY))
+    display_func(af.inverseDeconv(cimg, psf, 1.0, af.INVERSE_DECONV.TIKHONOV))
+
 
 _util.tests["image"] = simple_image

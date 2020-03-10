@@ -1324,6 +1324,78 @@ def anisotropic_diffusion(image, time_step, conductance, iterations, flux_functi
                                        flux_function_type.value, diffusion_kind.value))
     return out
 
+def iterativeDeconv(image, psf, iterations, relax_factor, algo = ITERATIVE_DECONV.DEFAULT):
+    """
+    Iterative deconvolution algorithm.
+
+    Parameters
+    ----------
+    image: af.Array
+        The blurred input image.
+
+    psf: af.Array
+        The kernel(point spread function) known to have caused
+        the blur in the system.
+
+    iterations:
+        Number of times the algorithm will run.
+
+    relax_factor: scalar.
+        is the relaxation factor multiplied with distance
+        of estimate from observed image.
+
+    algo:
+        takes enum value of type af.ITERATIVE_DECONV
+        indicating the iterative deconvolution algorithm to be used
+
+    Returns
+    -------
+    out: af.Array
+        sharp image estimate generated from the blurred input
+
+    Note
+    -------
+    relax_factor argument is ignored when the RICHARDSONLUCY algorithm is used.
+
+    """
+    out = Array()
+    safe_call(backend.get().
+              af_iterative_deconv(c_pointer(out.arr), image.arr, psf.arr,
+                                  c_uint_t(iterations), c_float_t(relax_factor), algo.value))
+    return out
+
+def inverseDeconv(image, psf, gamma, algo = ITERATIVE_DECONV.DEFAULT):
+    """
+    Inverse deconvolution algorithm.
+
+    Parameters
+    ----------
+    image: af.Array
+        The blurred input image.
+
+    psf: af.Array
+        The kernel(point spread function) known to have caused
+        the blur in the system.
+
+    gamma: scalar.
+        is a user defined regularization constant
+
+    algo:
+        takes enum value of type af.INVERSE_DECONV
+        indicating the inverse deconvolution algorithm to be used
+
+    Returns
+    -------
+    out: af.Array
+        sharp image estimate generated from the blurred input
+
+    """
+    out = Array()
+    safe_call(backend.get().
+              af_inverse_deconv(c_pointer(out.arr), image.arr, psf.arr,
+                                  c_float_t(gamma), algo.value))
+    return out
+
 def is_image_io_available():
     """
     Function to check if the arrayfire library was built with Image IO support.
