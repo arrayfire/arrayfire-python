@@ -551,7 +551,10 @@ class _clibrary(object):
     def __libname(self, name, head='af', ver_major=AF_VER_MAJOR):
         post = self.__post.replace(_VER_MAJOR_PLACEHOLDER, ver_major)
         libname = self.__pre + head + name + post
-        libname_full = self.AF_PATH + '/lib/' + libname
+        if os.path.isdir(self.AF_PATH + '/lib64'):
+            libname_full = self.AF_PATH + '/lib64/' + libname
+        else:
+            libname_full = self.AF_PATH + '/lib/' + libname
         return (libname, libname_full)
 
     def set_unsafe(self, name):
