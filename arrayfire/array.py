@@ -1090,9 +1090,8 @@ class Array(BaseArray):
         Return ~self
         """
         out = Array()
-        safe_call(backend.get().af_not(c_pointer(out.arr), self.arr))
-        self = out
-        return self
+        safe_call(backend.get().af_bitnot(c_pointer(out.arr), self.arr))
+        return out
 
     def __nonzero__(self):
         return self != 0
