@@ -569,6 +569,8 @@ def where(a):
          Linear indices for non zero elements.
     """
     out = Array()
+    if(a.dtype() == Dtype.b8): #TODO: fixme, fails on cuda, works in af_where
+        a = a.as_type(Dtype.u8)
     safe_call(backend.get().af_where(c_pointer(out.arr), a.arr))
     return out
 
