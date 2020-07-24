@@ -1093,6 +1093,30 @@ class Array(BaseArray):
         safe_call(backend.get().af_bitnot(c_pointer(out.arr), self.arr))
         return out
 
+    def logical_not(self):
+        """
+        Return ~self
+        """
+        out = Array()
+        safe_call(backend.get().af_not(c_pointer(out.arr), self.arr))
+        return out
+
+    def logical_and(self, other):
+        """
+        Return self && other.
+        """
+        out = Array()
+        safe_call(backend.get().af_and(c_pointer(out.arr), self.arr, other.arr)) #TODO: bcast var?
+        return out
+
+    def logical_or(self, other):
+        """
+        Return self || other.
+        """
+        out = Array()
+        safe_call(backend.get().af_or(c_pointer(out.arr), self.arr, other.arr)) #TODO: bcast var?
+        return out
+
     def __nonzero__(self):
         return self != 0
 
