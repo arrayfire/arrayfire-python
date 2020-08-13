@@ -202,3 +202,109 @@ def dot(lhs, rhs, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE, return_scalar = 
         safe_call(backend.get().af_dot(c_pointer(out.arr), lhs.arr, rhs.arr,
                                        lhs_opts.value, rhs_opts.value))
         return out
+
+def gemm(lhs, rhs, alpha=1.0, beta=0.0, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE, C=None):
+    """
+    BLAS general matrix multiply (GEMM) of two af_array objects.
+
+    This provides a general interface to the BLAS level 3 general matrix multiply (GEMM), which is generally defined as:
+
+    C = α ∗ opA(A) opB(B)+ β∗C
+
+    where α (alpha) and β (beta) are both scalars; A and B are the matrix multiply operands;
+    and opA and opB are noop (if AF_MAT_NONE) or transpose (if AF_MAT_TRANS) operations 
+    on A or B before the actual GEMM operation.
+    Batched GEMM is supported if at least either A or B have more than two dimensions
+    (see af::matmul for more details on broadcasting).
+    However, only one alpha and one beta can be used for all of the batched matrix operands.
+
+    Parameters
+    ----------
+
+    lhs : af.Array
+          A 2 dimensional, real or complex arrayfire array.
+
+    rhs : af.Array
+          A 2 dimensional, real or complex arrayfire array.
+
+    alpha : scalar
+
+    beta : scalar
+
+    lhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.
+              Can be one of
+               - af.MATPROP.NONE   - If no op should be done on `lhs`.
+               - af.MATPROP.TRANS  - If `lhs` has to be transposed before multiplying.
+               - af.MATPROP.CTRANS - If `lhs` has to be hermitian transposed before multiplying.
+
+    rhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.
+              Can be one of
+               - af.MATPROP.NONE   - If no op should be done on `rhs`.
+               - af.MATPROP.TRANS  - If `rhs` has to be transposed before multiplying.
+               - af.MATPROP.CTRANS - If `rhs` has to be hermitian transposed before multiplying.
+
+    Returns
+    -------
+
+    out : af.Array
+          Output of the matrix multiplication on `lhs` and `rhs`.
+
+    Note
+    -----
+
+    - The data types of `lhs` and `rhs` should be the same.
+    - Batches are not supported.
+
+    """
+    if C is None:
+        out = Array()
+    else:
+        out = C
+
+    ltype = lhs.dtype()
+
+    if ltype == Dtype.f32:
+        aptr = c_cast(c_pointer(c_float_t(alpha)),c_void_ptr_t)
+        bptr = c_cast(c_pointer(c_float_t(beta)), c_void_ptr_t)
+    elif ltype == Dtype.c32:
+        if isinstance(alpha, af_cfloat_t):
+            aptr = c_cast(c_pointer(alpha), c_void_ptr_t)
+        elif isinstance(alpha, tuple):
+            aptr = c_cast(c_pointer(af_cfloat_t(alpha[0], alpha[1])), c_void_ptr_t)
+        else:
+            aptr = c_cast(c_pointer(af_cfloat_t(alpha)), c_void_ptr_t)
+
+        if isinstance(beta, af_cfloat_t):
+            bptr = c_cast(c_pointer(beta), c_void_ptr_t)
+        elif isinstance(beta, tuple):
+            bptr = c_cast(c_pointer(af_cfloat_t(beta[0], beta[1])), c_void_ptr_t)
+        else:
+            bptr = c_cast(c_pointer(af_cfloat_t(beta)), c_void_ptr_t)
+
+    elif ltype == Dtype.f64:
+        aptr = c_cast(c_pointer(c_double_t(alpha)),c_void_ptr_t)
+        bptr = c_cast(c_pointer(c_double_t(beta)), c_void_ptr_t)
+    elif ltype == Dtype.c64:
+        if isinstance(alpha, af_cdouble_t):
+            aptr = c_cast(c_pointer(alpha), c_void_ptr_t)
+        elif isinstance(alpha, tuple):
+            aptr = c_cast(c_pointer(af_cdouble_t(alpha[0], alpha[1])), c_void_ptr_t)
+        else:
+            aptr = c_cast(c_pointer(af_cdouble_t(alpha)), c_void_ptr_t)
+
+        if isinstance(beta, af_cdouble_t):
+            bptr = c_cast(c_pointer(beta), c_void_ptr_t)
+        elif isinstance(beta, tuple):
+            bptr = c_cast(c_pointer(af_cdouble_t(beta[0], beta[1])), c_void_ptr_t)
+        else:
+            bptr = c_cast(c_pointer(af_cdouble_t(beta)), c_void_ptr_t)
+    elif ltype == Dtype.f16:
+        raise TypeError("fp16 currently unsupported gemm() input type")
+    else:
+        raise TypeError("unsupported input type")
+
+
+    safe_call(backend.get().af_gemm(c_pointer(out.arr),
+                                    lhs_opts.value, rhs_opts.value,
+                                    aptr, lhs.arr, rhs.arr, bptr))
+    return out

@@ -31,6 +31,13 @@ c_pointer     = ct.pointer
 c_void_ptr_t  = ct.c_void_p
 c_char_ptr_t  = ct.c_char_p
 c_size_t      = ct.c_size_t
+c_cast        = ct.cast
+
+class af_cfloat_t(ct.Structure):
+    _fields_ = [("real", ct.c_float), ("imag", ct.c_float)]
+
+class af_cdouble_t(ct.Structure):
+    _fields_ = [("real", ct.c_double), ("imag", ct.c_double)]
 
 
 AF_VER_MAJOR = '3'
