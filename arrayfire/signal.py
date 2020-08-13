@@ -27,7 +27,7 @@ def _scale_pos_axis1(y_curr, y_orig):
     dy = y_orig[0, 1, 0, 0] - y0
     return((y_curr - y0) / dy)
 
-def approx1(signal, x, method=INTERP.LINEAR, off_grid=0.0, xp = None):
+def approx1(signal, x, method=INTERP.LINEAR, off_grid=0.0, xp = None, output = None):
     """
     Interpolate along a single dimension.Interpolation is performed along axis 0
     of the input array.
@@ -51,6 +51,10 @@ def approx1(signal, x, method=INTERP.LINEAR, off_grid=0.0, xp = None):
     xp : af.Array
          The x-coordinates of the input data points
 
+    output: None or af.Array
+        Optional preallocated output array. If it is a sub-array of an existing af_array,
+        only the corresponding portion of the af_array will be overwritten
+
     Returns
     -------
 
@@ -65,20 +69,86 @@ def approx1(signal, x, method=INTERP.LINEAR, off_grid=0.0, xp = None):
     where N is the length of the first dimension of `signal`.
     """
 
-    output = Array()
+    if output is None:
+        output = Array()
 
-    if(xp is not None):
-        pos0 = _scale_pos_axis0(x, xp)
+        if(xp is not None):
+            pos0 = _scale_pos_axis0(x, xp)
+        else:
+            pos0 = x
+
+        safe_call(backend.get().af_approx1(c_pointer(output.arr), signal.arr, pos0.arr,
+                                           method.value, c_float_t(off_grid)))
+
     else:
-        pos0 = x
-
-    safe_call(backend.get().af_approx1(c_pointer(output.arr), signal.arr, pos0.arr,
-                                       method.value, c_float_t(off_grid)))
+        if(xp is not None):
+            pos0 = _scale_pos_axis0(x, xp)
+        else:
+            pos0 = x
+        safe_call(backend.get().af_approx1_v2(c_pointer(output.arr), signal.arr, pos0.arr,
+                                              method.value, c_float_t(off_grid)))
     return output
 
+
+def approx1_uniform(signal, x, interp_dim, idx_start, idx_step, method=INTERP.LINEAR, off_grid=0.0, output = None):
+    """
+    Interpolation on one dimensional signals along specified dimension.
+
+    af_approx1_uniform() accepts the dimension to perform the interpolation along the input.
+    It also accepts start and step values which define the uniform range of corresponding indices.
+
+    Parameters
+    ----------
+
+    signal: af.Array
+            Input signal array (signal = f(x))
+
+    x: af.Array
+       The x-coordinates of the interpolation points. The interpolation 
+       function is queried at these set of points.
+
+    interp_dim: scalar
+        is the dimension to perform interpolation across.
+
+    idx_start: scalar
+        is the first index value along interp_dim.
+
+    idx_step: scalar
+        is the uniform spacing value between subsequent indices along interp_dim.
+
+    method: optional: af.INTERP. default: af.INTERP.LINEAR.
+            Interpolation method.
+
+    off_grid: optional: scalar. default: 0.0.
+            The value used for positions outside the range.
+
+    output: None or af.Array
+        Optional preallocated output array. If it is a sub-array of an existing af_array,
+        only the corresponding portion of the af_array will be overwritten
+
+    Returns
+    -------
+
+    output: af.Array
+            Values calculated at interpolation points.
+
+    """
+
+    if output is None:
+        output = Array()
+
+        safe_call(backend.get().af_approx1_uniform(c_pointer(output.arr), signal.arr, x.arr,
+                                           c_dim_t(interp_dim), c_double_t(idx_start), c_double_t(idx_step),
+                                           method.value, c_float_t(off_grid)))
+    else:
+        safe_call(backend.get().af_approx1_uniform_v2(c_pointer(output.arr), signal.arr, x.arr,
+                                           c_dim_t(interp_dim), c_double_t(idx_start), c_double_t(idx_step),
+                                           method.value, c_float_t(off_grid)))
+    return output
+
+
 def approx2(signal, x, y,
-            method=INTERP.LINEAR, off_grid=0.0, xp = None, yp = None 
-           ):
+            method=INTERP.LINEAR, off_grid=0.0, xp = None, yp = None, output = None):
     """
     Interpolate along a two dimension.Interpolation is performed along axes 0 and 1
     of the input array.
@@ -112,6 +182,10 @@ def approx2(signal, x, y,
          The y-coordinates of the input data points. The convention followed is that
          the y-coordinates vary along axis 1
 
+    output: None or af.Array
+        Optional preallocated output array. If it is a sub-array of an existing af_array,
+        only the corresponding portion of the af_array will be overwritten
+
     Returns
     -------
 
@@ -127,21 +201,113 @@ def approx2(signal, x, y,
     and N is the length of the second dimension of `signal`.
     """
 
-    output = Array()
-    
-    if(xp is not None):
-        pos0 = _scale_pos_axis0(x, xp)
-    else:
-        pos0 = x
+    if output is None:
+        output = Array()
 
-    if(yp is not None):
-        pos1 = _scale_pos_axis1(y, yp)
-    else:
-        pos1 = y
+        if(xp is not None):
+            pos0 = _scale_pos_axis0(x, xp)
+        else:
+            pos0 = x
 
-    safe_call(backend.get().af_approx2(c_pointer(output.arr), signal.arr,
-                                       pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
+        if(yp is not None):
+            pos1 = _scale_pos_axis1(y, yp)
+        else:
+            pos1 = y
+
+        safe_call(backend.get().af_approx2(c_pointer(output.arr), signal.arr,
+                                           pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
+    else:
+        if(xp is not None):
+            pos0 = _scale_pos_axis0(x, xp)
+        else:
+            pos0 = x
+
+        if(yp is not None):
+            pos1 = _scale_pos_axis1(y, yp)
+        else:
+            pos1 = y
+
+        safe_call(backend.get().af_approx2_v2(c_pointer(output.arr), signal.arr,
+                                              pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
+
     return output
+
+def approx2_uniform(signal, pos0, interp_dim0, idx_start0, idx_step0, pos1, interp_dim1, idx_start1, idx_step1,
+            method=INTERP.LINEAR, off_grid=0.0, output = None):
+    """
+    Interpolate along two uniformly spaced dimensions of the input array.
+    af_approx2_uniform() accepts two dimensions to perform the interpolation along the input.
+    It also accepts start and step values which define the uniform range of corresponding indices.
+
+    Parameters
+    ----------
+
+    signal: af.Array
+            Input signal array (signal = f(x, y))
+
+    pos0 : af.Array
+        positions of the interpolation points along interp_dim0.
+
+    interp_dim0: scalar
+        is the first dimension to perform interpolation across.
+
+    idx_start0: scalar
+        is the first index value along interp_dim0.
+
+    idx_step0: scalar
+        is the uniform spacing value between subsequent indices along interp_dim0.
+
+    pos1 : af.Array
+        positions of the interpolation points along interp_dim1.
+
+    interp_dim1: scalar
+        is the second dimension to perform interpolation across.
+
+    idx_start1: scalar
+        is the first index value along interp_dim1.
+
+    idx_step1: scalar
+        is the uniform spacing value between subsequent indices along interp_dim1.
+
+    method: optional: af.INTERP. default: af.INTERP.LINEAR.
+            Interpolation method.
+
+    off_grid: optional: scalar. default: 0.0.
+            The value used for positions outside the range.
+
+    output: None or af.Array
+        Optional preallocated output array. If it is a sub-array of an existing af_array,
+        only the corresponding portion of the af_array will be overwritten
+
+    Returns
+    -------
+
+    output: af.Array
+            Values calculated at interpolation points.
+
+    Note
+    -----
+    This holds applicable when x_input/y_input isn't provided:
+
+    The initial measurements are assumed to have taken place at equal steps between [(0,0) - [M - 1, N - 1]]
+    where M is the length of the first dimension of `signal`,
+    and N is the length of the second dimension of `signal`.
+    """
+
+    if output is None:
+        output = Array()
+        safe_call(backend.get().af_approx2_uniform(c_pointer(output.arr), signal.arr,
+                                           pos0.arr, c_dim_t(interp_dim0), c_double_t(idx_start0), c_double_t(idx_step0),
+                                           pos1.arr, c_dim_t(interp_dim1), c_double_t(idx_start1), c_double_t(idx_step1),
+                                           method.value, c_float_t(off_grid)))
+    else:
+        safe_call(backend.get().af_approx2_uniform_v2(c_pointer(output.arr), signal.arr,
+                                           pos0.arr, c_dim_t(interp_dim0), c_double_t(idx_start0), c_double_t(idx_step0),
+                                           pos1.arr, c_dim_t(interp_dim1), c_double_t(idx_start1), c_double_t(idx_step1),
+                                           method.value, c_float_t(off_grid)))
+
+    return output
+
 
 def fft(signal, dim0 = None , scale = None):
     """
