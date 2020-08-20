@@ -103,7 +103,9 @@ def simple_signal(verbose=False):
 
     c = af.convolve2NN(a, b)
     display_func(c)
-    g = af.convolve2NN(a, b, c, gradType=af.CONV_GRADIENT.DATA)
+    in_dims = c.dims()
+    incoming_grad = af.constant(1, in_dims[0], in_dims[1]);
+    g = af.convolve2GradientNN(incoming_grad, a, b, c)
     display_func(g)
 
     a = af.randu(5, 5, 3)
