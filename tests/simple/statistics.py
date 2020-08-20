@@ -34,10 +34,10 @@ def simple_statistics(verbose=False):
     print_func(af.var(a, isbiased=True))
     print_func(af.var(a, weights=w))
 
-    mean, var = af.mean_var(a, dim=0)
+    mean, var = af.meanvar(a, dim=0)
     display_func(mean)
     display_func(var)
-    mean, var = af.mean_var(a, weights=w, bias=VARIANCE.SAMPLE, dim=0)
+    mean, var = af.meanvar(a, weights=w, bias=af.VARIANCE.SAMPLE, dim=0)
     display_func(mean)
     display_func(var)
 
