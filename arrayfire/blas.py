@@ -209,10 +209,10 @@ def gemm(lhs, rhs, alpha=1.0, beta=0.0, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.
 
     This provides a general interface to the BLAS level 3 general matrix multiply (GEMM), which is generally defined as:
 
-    C = α ∗ opA(A) opB(B)+ β∗C
+    C = alpha * opA(A) opB(B) + beta * C
 
-    where α (alpha) and β (beta) are both scalars; A and B are the matrix multiply operands;
-    and opA and opB are noop (if AF_MAT_NONE) or transpose (if AF_MAT_TRANS) operations 
+    where alpha and beta are both scalars; A and B are the matrix multiply operands;
+    and opA and opB are noop (if AF_MAT_NONE) or transpose (if AF_MAT_TRANS) operations
     on A or B before the actual GEMM operation.
     Batched GEMM is supported if at least either A or B have more than two dimensions
     (see af::matmul for more details on broadcasting).
