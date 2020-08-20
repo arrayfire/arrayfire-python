@@ -70,7 +70,7 @@ def simple_index(verbose=False):
     rows = af.constant(0, 1, dtype=af.Dtype.s32)
     b = a[:, rows]
     display_func(b)
-    for r in rows:
+    for r in range(rows.elements()):
         display_func(r)
         display_func(b[:, r])
 
