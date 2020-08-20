@@ -58,8 +58,8 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'ArrayFire'
-copyright = '2016, Pavan Yalamanchili'
-author = 'Pavan Yalamanchili'
+copyright = '2020, ArrayFire'
+author = 'Stefan Yurkevitch, Pradeep Garigipati, Umar Arshad'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
