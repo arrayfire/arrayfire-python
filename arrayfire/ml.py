@@ -18,11 +18,14 @@ from .array import *
 
 def convolve2GradientNN(incoming_gradient, original_signal, original_kernel, convolved_output, stride = (1, 1), padding = (0, 0), dilation = (1, 1), gradType = CONV_GRADIENT.DEFAULT):
     """
-    This version of convolution is consistent with the machine learning
-    formulation that will spatially convolve a filter on 2-dimensions against a
-    signal. Multiple signals and filters can be batched against each other.
-    Furthermore, the signals and filters can be multi-dimensional however their
-    dimensions must match.
+    Function for calculating backward pass gradient of 2D convolution.
+
+    This function calculates the gradient with respect to the output of the
+    \ref convolve2NN() function that uses the machine learning formulation
+    for the dimensions of the signals and filters
+
+    Multiple signals and filters can be batched against each other, however
+    their dimensions must match.
 
     Example:
         Signals with dimensions: d0 x d1 x d2 x Ns
@@ -33,11 +36,17 @@ def convolve2GradientNN(incoming_gradient, original_signal, original_kernel, con
     Parameters
     -----------
 
-    signal: af.Array
+    incoming_gradient: af.Array
+            - Gradients to be distributed in backwards pass
+
+    original_signal: af.Array
             - A 2 dimensional signal or batch of 2 dimensional signals.
 
-    kernel: af.Array
+    original_kernel: af.Array
             - A 2 dimensional kernel or batch of 2 dimensional kernels.
+
+    convolved_output: af.Array
+            - output of forward pass of convolution
 
     stride: tuple of ints. default: (1, 1).
             - Specifies how much to stride along each dimension
