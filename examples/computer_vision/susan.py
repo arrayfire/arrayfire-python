@@ -59,7 +59,8 @@ def susan_demo(console):
         x = xs[f]
         y = ys[f]
 
-        img_color = draw_corners(img_color, x, y, draw_len)
+        # TODO fix coord order to x,y after upstream fix
+        img_color = draw_corners(img_color, y, x, draw_len)
 
 
     print("Features found: {}".format(num_features))
