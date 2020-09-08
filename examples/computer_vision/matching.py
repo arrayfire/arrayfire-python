@@ -11,6 +11,7 @@
 
 from time import time
 import arrayfire as af
+import os
 import sys
 
 def normalize(a):
@@ -45,10 +46,13 @@ def draw_rectangle(img, x, y, wx, wy):
 
 def templateMatchingDemo(console):
 
+    root_path = os.path.dirname(os.path.abspath(__file__))
+    file_path = root_path
     if console:
-        img_color = af.load_image("../../assets/examples/images/square.png", True);
+        file_path += "/../../assets/examples/images/square.png"
     else:
-        img_color = af.load_image("../../assets/examples/images/man.jpg", True);
+        file_path += "/../../assets/examples/images/man.jpg"
+    img_color = af.load_image(file_path, True);
 
     # Convert the image from RGB to gray-scale
     img = af.color_space(img_color, af.CSPACE.GRAY, af.CSPACE.RGB)
