@@ -9,6 +9,7 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
+import os
 import sys
 sys.path.insert(0, '../common')
 from idxio import read_idx
@@ -41,8 +42,10 @@ def classify(arr, k, expand_labels):
 
 
 def setup_mnist(frac, expand_labels):
-    idims, idata = read_idx('../../assets/examples/data/mnist/images-subset')
-    ldims, ldata = read_idx('../../assets/examples/data/mnist/labels-subset')
+    root_path = os.path.dirname(os.path.abspath(__file__))
+    file_path = root_path + '/../../assets/examples/data/mnist/'
+    idims, idata = read_idx(file_path + 'images-subset')
+    ldims, ldata = read_idx(file_path + 'labels-subset')
 
     idims.reverse()
     numdims = len(idims)
