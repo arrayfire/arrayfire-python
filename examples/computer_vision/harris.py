@@ -97,7 +97,7 @@ def harris_demo(console):
     print("Corners found: {}".format(good_corners))
     if not console:
         # Previews color image with green crosshairs
-        wnd = af.Window(512, 512, "FAST Feature Detector")
+        wnd = af.Window(512, 512, "Harris Feature Detector")
 
         while not wnd.close():
             wnd.image(img_color)
