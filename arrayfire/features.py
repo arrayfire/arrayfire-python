@@ -1,5 +1,5 @@
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,9 +11,11 @@
 Features class used for Computer Vision algorithms.
 """
 
-from .library import *
-from .array import *
 import numbers
+
+from .array import Array
+from .library import backend, safe_call, c_dim_t, c_pointer, c_void_ptr_t
+
 
 class Features(object):
     """
@@ -29,16 +31,17 @@ class Features(object):
     def __init__(self, num=0):
         self.feat = c_void_ptr_t(0)
         if num is not None:
-            assert(isinstance(num, numbers.Number))
+            assert isinstance(num, numbers.Number)
             safe_call(backend.get().af_create_features(c_pointer(self.feat), c_dim_t(num)))
 
     def __del__(self):
         """
         Release features' memory
         """
-        if self.feat:
-            backend.get().af_release_features(self.feat)
-            self.feat = None
+        if not self.feat:
+            return
+        backend.get().af_release_features(self.feat)
+        self.feat = None
 
     def num_features(self):
         """

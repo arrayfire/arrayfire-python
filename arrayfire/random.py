@@ -1,5 +1,5 @@
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,11 +11,12 @@
 Random engine class and functions to generate random numbers.
 """
 
-from .library import *
-from .array import *
-import numbers
+from .array import Array
+from .library import backend, safe_call, RANDOM_ENGINE, Dtype, c_int_t, c_longlong_t, c_pointer, c_ulonglong_t, c_void_ptr_t
+from .util import dim4
 
-class Random_Engine(object):
+
+class Random_Engine:
     """
     Class to handle random number generator engines.
 
@@ -40,10 +41,11 @@ class Random_Engine(object):
                 - Used a handle created by the C api to create the Random_Engine.
     """
 
-    def __init__(self, engine_type = RANDOM_ENGINE.PHILOX, seed = 0, engine = None):
-        if (engine is None):
-            self.engine  = c_void_ptr_t(0)
-            safe_call(backend.get().af_create_random_engine(c_pointer(self.engine), engine_type.value, c_longlong_t(seed)))
+    def __init__(self, engine_type=RANDOM_ENGINE.PHILOX, seed=0, engine=None):
+        if engine is None:
+            self.engine = c_void_ptr_t(0)
+            safe_call(backend.get().af_create_random_engine(
+                c_pointer(self.engine), engine_type.value, c_longlong_t(seed)))
         else:
             self.engine = engine
 
@@ -60,9 +62,8 @@ class Random_Engine(object):
         """
         Get the type of the random engine.
         """
-        __to_random_engine_type = [RANDOM_ENGINE.PHILOX_4X32_10,
-                                   RANDOM_ENGINE.THREEFRY_2X32_16,
-                                   RANDOM_ENGINE.MERSENNE_GP11213]
+        __to_random_engine_type = [
+            RANDOM_ENGINE.PHILOX_4X32_10, RANDOM_ENGINE.THREEFRY_2X32_16, RANDOM_ENGINE.MERSENNE_GP11213]
         rty = c_int_t(RANDOM_ENGINE.PHILOX.value)
         safe_call(backend.get().af_random_engine_get_type(c_pointer(rty), self.engine))
         return __to_random_engine_type[rty]
@@ -80,6 +81,7 @@ class Random_Engine(object):
         seed = c_longlong_t(0)
         safe_call(backend.get().af_random_engine_get_seed(c_pointer(seed), self.engine))
         return seed.value
+
 
 def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
     """
@@ -125,6 +127,7 @@ def randu(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
 
     return out
 
+
 def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
     """
     Create a multi dimensional array containing values from a normal distribution.
@@ -159,7 +162,6 @@ def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
           - If d1 and d2 are not None and d3 is None, `out` is 3D of size (d0, d1, d2).
           - If d1, d2, d3 are all not None, `out` is 4D of size (d0, d1, d2, d3).
     """
-
     out = Array()
     dims = dim4(d0, d1, d2, d3)
 
@@ -169,6 +171,7 @@ def randn(d0, d1=None, d2=None, d3=None, dtype=Dtype.f32, engine=None):
         safe_call(backend.get().af_random_normal(c_pointer(out.arr), 4, c_pointer(dims), dtype.value, engine.engine))
 
     return out
+
 
 def set_seed(seed=0):
     """
@@ -180,6 +183,7 @@ def set_seed(seed=0):
           Seed for the random number generator
     """
     safe_call(backend.get().af_set_seed(c_ulonglong_t(seed)))
+
 
 def get_seed():
     """
@@ -193,6 +197,7 @@ def get_seed():
     seed = c_ulonglong_t(0)
     safe_call(backend.get().af_get_seed(c_pointer(seed)))
     return seed.value
+
 
 def set_default_random_engine_type(engine_type):
     """
@@ -214,7 +219,9 @@ def set_default_random_engine_type(engine_type):
 
     This only affects randu and randn when a random engine is not specified.
     """
+    # FIXME: not a class method. Remove self
     safe_call(backend.get().af_set_default_random_engine_type(c_pointer(self.engine), engine_type.value))
+
 
 def get_default_random_engine():
     """

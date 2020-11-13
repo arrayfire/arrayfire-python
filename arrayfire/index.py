@@ -1,21 +1,24 @@
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
 # The complete license agreement can be obtained at:
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
+
 """
 Index and Seq classes used in indexing operations.
 """
 
-from .library import *
-from .util import *
-from .util import _is_number
-from .base import *
-from .bcast import _bcast_var
+import ctypes as ct
 import math
+
+from .base import BaseArray
+from .bcast import _bcast_var
+from .library import backend, safe_call, Dtype, c_bool_t, c_double_t, c_pointer, c_void_ptr_t
+from .util import _is_number
+
 
 class Seq(ct.Structure):
     """
@@ -39,45 +42,46 @@ class Seq(ct.Structure):
     S: slice or number.
 
     """
-    _fields_ = [("begin", c_double_t),
-                ("end"  , c_double_t),
-                ("step" , c_double_t)]
+    _fields_ = [
+        ("begin", c_double_t),
+        ("end", c_double_t),
+        ("step", c_double_t)]
 
-    def __init__ (self, S):
-        self.begin = c_double_t( 0)
-        self.end   = c_double_t(-1)
-        self.step  = c_double_t( 1)
+    def __init__(self, S):
+        self.begin = c_double_t(0)
+        self.end = c_double_t(-1)
+        self.step = c_double_t(1)
 
         if _is_number(S):
             self.begin = c_double_t(S)
-            self.end   = c_double_t(S)
+            self.end = c_double_t(S)
         elif isinstance(S, slice):
-            if (S.step is not None):
-                self.step  = c_double_t(S.step)
-                if(S.step < 0):
+            if S.step is not None:
+                self.step = c_double_t(S.step)
+                if S.step < 0:
                     self.begin, self.end = self.end, self.begin
-            if (S.start is not None):
+            if S.start is not None:
                 self.begin = c_double_t(S.start)
-            if (S.stop is not None):
+            if S.stop is not None:
                 self.end = c_double_t(S.stop)
 
             # handle special cases
-            if self.begin >= 0 and self.end >=0 and self.end <= self.begin and self.step >= 0:
+            if self.begin >= 0 and self.end >= 0 and self.end <= self.begin and self.step >= 0:
                 self.begin = 1
-                self.end   = 1
-                self.step  = 1
+                self.end = 1
+                self.step = 1
             elif self.begin < 0 and self.end < 0 and self.end >= self.begin and self.step <= 0:
                 self.begin = -2
-                self.end   = -2
-                self.step  = -1
+                self.end = -2
+                self.step = -1
 
-            if (S.stop is not None):
+            if S.stop is not None:
                 self.end = self.end - math.copysign(1, self.step)
         else:
             raise IndexError("Invalid type while indexing arrayfire.array")
 
-class ParallelRange(Seq):
 
+class ParallelRange(Seq):
     """
     Class used to parallelize for loop.
 
@@ -129,14 +133,14 @@ class ParallelRange(Seq):
         1.4719     0.5282     1.1657
 
     """
-    def __init__(self, start, stop=None, step=None):
 
-        if (stop is None):
+    def __init__(self, start, stop=None, step=None):
+        if stop is None:
             stop = start
             start = 0
 
         self.S = slice(start, stop, step)
-        super(ParallelRange, self).__init__(self.S)
+        super().__init__(self.S)
 
     def __iter__(self):
         return self
@@ -145,12 +149,12 @@ class ParallelRange(Seq):
         """
         Function called by the iterator in Python 2
         """
-        if _bcast_var.get() is True:
+        if _bcast_var.get():
             _bcast_var.toggle()
             raise StopIteration
-        else:
-            _bcast_var.toggle()
-            return self
+
+        _bcast_var.toggle()
+        return self
 
     def __next__(self):
         """
@@ -158,14 +162,18 @@ class ParallelRange(Seq):
         """
         return self.next()
 
+
 class _uidx(ct.Union):
-    _fields_ = [("arr", c_void_ptr_t),
-                ("seq", Seq)]
+    _fields_ = [
+        ("arr", c_void_ptr_t),
+        ("seq", Seq)]
+
 
 class Index(ct.Structure):
-    _fields_ = [("idx", _uidx),
-                ("isSeq", c_bool_t),
-                ("isBatch", c_bool_t)]
+    _fields_ = [
+        ("idx", _uidx),
+        ("isSeq", c_bool_t),
+        ("isBatch", c_bool_t)]
 
     """
     Container for the index class in arrayfire C library
@@ -199,23 +207,23 @@ class Index(ct.Structure):
 
     """
 
-    def __init__ (self, idx):
+    def __init__(self, idx):
 
-        self.idx     = _uidx()
+        self.idx = _uidx()
         self.isBatch = False
-        self.isSeq   = True
+        self.isSeq = True
 
         if isinstance(idx, BaseArray):
 
             arr = c_void_ptr_t(0)
 
-            if (idx.type() == Dtype.b8.value):
+            if idx.type() == Dtype.b8.value:
                 safe_call(backend.get().af_where(c_pointer(arr), idx.arr))
             else:
                 safe_call(backend.get().af_retain_array(c_pointer(arr), idx.arr))
 
             self.idx.arr = arr
-            self.isSeq   = False
+            self.isSeq = False
         elif isinstance(idx, ParallelRange):
             self.idx.seq = idx
             self.isBatch = True
@@ -230,7 +238,10 @@ class Index(ct.Structure):
             arr = c_void_ptr_t(self.idx.arr)
             backend.get().af_release_array(arr)
 
+
 _span = Index(slice(None))
+
+
 class _Index4(object):
     def __init__(self):
         index_vec = Index * 4
@@ -239,6 +250,7 @@ class _Index4(object):
         # no reference to them. Otherwise the destructor
         # is prematurely called
         self.idxs = [_span, _span, _span, _span]
+
     @property
     def pointer(self):
         return c_pointer(self.array)

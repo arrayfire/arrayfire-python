@@ -13,8 +13,9 @@ Machine learning functions
     - Forward and backward convolution passes
 """
 
-from .library import *
-from .array import *
+from .array import Array
+from .library import backend, safe_call, c_pointer, CONV_GRADIENT
+from .util import dim4
 
 def convolve2GradientNN(incoming_gradient, original_signal, original_kernel, convolved_output, stride = (1, 1), padding = (0, 0), dilation = (1, 1), gradType = CONV_GRADIENT.DEFAULT):
     """

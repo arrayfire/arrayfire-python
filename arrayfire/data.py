@@ -1,5 +1,5 @@
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,12 +11,10 @@
 Functions to create and manipulate arrays.
 """
 
-from sys import version_info
-from .library import *
-from .array import *
-from .util import *
-from .util import _is_number
-from .random import randu, randn, set_seed, get_seed
+from .array import Array, constant_array
+from .library import backend, safe_call, Dtype, c_double_t, c_int_t, c_pointer, c_void_ptr_t, PAD
+from .util import _is_number, dim4
+
 
 def constant(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
     """
@@ -52,13 +50,14 @@ def constant(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
           - If d1 and d2 are not None and d3 is None, `out` is 3D of size (d0, d1, d2).
           - If d1, d2, d3 are all not None, `out` is 4D of size (d0, d1, d2, d3).
     """
-
     out = Array()
     out.arr = constant_array(val, d0, d1, d2, d3, dtype.value)
     return out
 
+
 # Store builtin range function to be used later
 _brange = range
+
 
 def range(d0, d1=None, d2=None, d3=None, dim=0, dtype=Dtype.f32):
     """
@@ -122,7 +121,7 @@ def range(d0, d1=None, d2=None, d3=None, dim=0, dtype=Dtype.f32):
     return out
 
 
-def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=Dtype.f32):
+def iota(d0, d1=None, d2=None, d3=None, tile_dims=None, dtype=Dtype.f32):
     """
     Create a multi dimensional array using the number of elements in the array as the range.
 
@@ -175,7 +174,7 @@ def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=Dtype.f32)
     """
     out = Array()
     dims = dim4(d0, d1, d2, d3)
-    td=[1]*4
+    td = [1]*4
 
     if tile_dims is not None:
         for i in _brange(len(tile_dims)):
@@ -183,9 +182,10 @@ def iota(d0, d1=None, d2=None, d3=None, dim=-1, tile_dims=None, dtype=Dtype.f32)
 
     tdims = dim4(td[0], td[1], td[2], td[3])
 
-    safe_call(backend.get().af_iota(c_pointer(out.arr), 4, c_pointer(dims),
-                                    4, c_pointer(tdims), dtype.value))
+    safe_call(backend.get().af_iota(
+        c_pointer(out.arr), 4, c_pointer(dims), 4, c_pointer(tdims), dtype.value))
     return out
+
 
 def identity(d0, d1, d2=None, d3=None, dtype=Dtype.f32):
     """
@@ -217,12 +217,12 @@ def identity(d0, d1, d2=None, d3=None, dtype=Dtype.f32):
           - If d2 is not None and d3 is None, `out` is 3D of size (d0, d1, d2).
           - If d2, d3 are not None, `out` is 4D of size (d0, d1, d2, d3).
     """
-
     out = Array()
     dims = dim4(d0, d1, d2, d3)
 
     safe_call(backend.get().af_identity(c_pointer(out.arr), 4, c_pointer(dims), dtype.value))
     return out
+
 
 def diag(a, num=0, extract=True):
     """
@@ -256,6 +256,7 @@ def diag(a, num=0, extract=True):
     else:
         safe_call(backend.get().af_diag_create(c_pointer(out.arr), a.arr, c_int_t(num)))
     return out
+
 
 def join(dim, first, second, third=None, fourth=None):
     """
@@ -316,7 +317,7 @@ def join(dim, first, second, third=None, fourth=None):
         0.5367     0.8359     0.8719     0.6275     0.0495     0.6591
     """
     out = Array()
-    if (third is None and fourth is None):
+    if third is None and fourth is None:
         safe_call(backend.get().af_join(c_pointer(out.arr), dim, first.arr, second.arr))
     else:
         c_void_p_4 = c_void_ptr_t * 4
@@ -324,10 +325,10 @@ def join(dim, first, second, third=None, fourth=None):
         num = 2
         if third is not None:
             c_array_vec[num] = third.arr
-            num+=1
+            num += 1
         if fourth is not None:
             c_array_vec[num] = fourth.arr
-            num+=1
+            num += 1
 
         safe_call(backend.get().af_join_many(c_pointer(out.arr), dim, num, c_pointer(c_array_vec)))
     return out
@@ -396,6 +397,7 @@ def tile(a, d0, d1=1, d2=1, d3=1):
     out = Array()
     safe_call(backend.get().af_tile(c_pointer(out.arr), a.arr, d0, d1, d2, d3))
     return out
+
 
 def reorder(a, d0=1, d1=0, d2=2, d3=3):
     """
@@ -481,6 +483,7 @@ def reorder(a, d0=1, d1=0, d2=2, d3=3):
     safe_call(backend.get().af_reorder(c_pointer(out.arr), a.arr, d0, d1, d2, d3))
     return out
 
+
 def shift(a, d0, d1=0, d2=0, d3=0):
     """
     Shift the input along each dimension.
@@ -537,6 +540,7 @@ def shift(a, d0, d1=0, d2=0, d3=0):
     safe_call(backend.get().af_shift(c_pointer(out.arr), a.arr, d0, d1, d2, d3))
     return out
 
+
 def moddims(a, d0, d1=1, d2=1, d3=1):
     """
     Modify the shape of the array without changing the data layout.
@@ -571,6 +575,7 @@ def moddims(a, d0, d1=1, d2=1, d3=1):
     safe_call(backend.get().af_moddims(c_pointer(out.arr), a.arr, 4, c_pointer(dims)))
     return out
 
+
 def flat(a):
     """
     Flatten the input array.
@@ -590,6 +595,7 @@ def flat(a):
     out = Array()
     safe_call(backend.get().af_flat(c_pointer(out.arr), a.arr))
     return out
+
 
 def flip(a, dim=0):
     """
@@ -638,6 +644,7 @@ def flip(a, dim=0):
     safe_call(backend.get().af_flip(c_pointer(out.arr), a.arr, c_int_t(dim)))
     return out
 
+
 def lower(a, is_unit_diag=False):
     """
     Extract the lower triangular matrix from the input.
@@ -661,6 +668,7 @@ def lower(a, is_unit_diag=False):
     safe_call(backend.get().af_lower(c_pointer(out.arr), a.arr, is_unit_diag))
     return out
 
+
 def upper(a, is_unit_diag=False):
     """
     Extract the upper triangular matrix from the input.
@@ -683,6 +691,7 @@ def upper(a, is_unit_diag=False):
     out = Array()
     safe_call(backend.get().af_upper(c_pointer(out.arr), a.arr, is_unit_diag))
     return out
+
 
 def select(cond, lhs, rhs):
     """
@@ -741,15 +750,15 @@ def select(cond, lhs, rhs):
     if not (is_left_array or is_right_array):
         raise TypeError("Atleast one input needs to be of type arrayfire.array")
 
-    elif (is_left_array and is_right_array):
+    if is_left_array and is_right_array:
         safe_call(backend.get().af_select(c_pointer(out.arr), cond.arr, lhs.arr, rhs.arr))
-
-    elif (_is_number(rhs)):
+    elif _is_number(rhs):
         safe_call(backend.get().af_select_scalar_r(c_pointer(out.arr), cond.arr, lhs.arr, c_double_t(rhs)))
     else:
         safe_call(backend.get().af_select_scalar_l(c_pointer(out.arr), cond.arr, c_double_t(lhs), rhs.arr))
 
     return out
+
 
 def replace(lhs, cond, rhs):
     """
@@ -794,10 +803,10 @@ def replace(lhs, cond, rhs):
     """
     is_right_array = isinstance(rhs, Array)
 
-    if (is_right_array):
+    if is_right_array:
         safe_call(backend.get().af_replace(lhs.arr, cond.arr, rhs.arr))
-    else:
-        safe_call(backend.get().af_replace_scalar(lhs.arr, cond.arr, c_double_t(rhs)))
+    safe_call(backend.get().af_replace_scalar(lhs.arr, cond.arr, c_double_t(rhs)))
+
 
 def pad(a, beginPadding, endPadding, padFillType = PAD.ZERO):
     """

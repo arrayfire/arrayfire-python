@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -9,17 +9,20 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
-import arrayfire as af
 import sys
 from math import sqrt
+
+import arrayfire as af
 
 width = 400
 height = 400
 
+
 def complex_grid(w, h, zoom, center):
-    x = (af.iota(d0 = 1, d1 = h, tile_dims = (w, 1)) - h/2) / zoom + center[0]
-    y = (af.iota(d0 = w, d1 = 1, tile_dims = (1, h)) - w/2) / zoom + center[1]
+    x = (af.iota(d0=1, d1=h, tile_dims=(w, 1)) - h/2) / zoom + center[0]
+    y = (af.iota(d0=w, d1=1, tile_dims=(1, h)) - w/2) / zoom + center[1]
     return af.cplx(x, y)
+
 
 def mandelbrot(data, it, maxval):
     C = data
@@ -42,13 +45,15 @@ def mandelbrot(data, it, maxval):
 
     return mag / maxval
 
+
 def normalize(a):
     mx = af.max(a)
     mn = af.min(a)
     return (a - mn)/(mx - mn)
 
+
 if __name__ == "__main__":
-    if (len(sys.argv) > 1):
+    if len(sys.argv) > 1:
         af.set_device(int(sys.argv[1]))
 
     af.info()
@@ -62,13 +67,14 @@ if __name__ == "__main__":
 
     for i in range(10, 400):
         zoom = i * i
-        if not (i % 10):
+        if not i % 10:
             print("Iteration: %d zoom: %d" % (i, zoom))
 
         c = complex_grid(width, height, zoom, center)
         it = sqrt(2*sqrt(abs(1-sqrt(5*zoom))))*100
 
-        if (win.close()): break
+        if win.close():
+            break
         mag = mandelbrot(c, int(it), 1000)
 
         win.image(normalize(mag))

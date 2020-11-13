@@ -1,5 +1,5 @@
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,18 +11,18 @@
 Functions to create and manipulate sparse matrices.
 """
 
-from .library import *
-from .array import *
-import numbers
+from .array import Array
+from .library import backend, safe_call, STORAGE, Dtype, c_dim_t, c_int_t, c_pointer
 from .interop import to_array
 
-__to_sparse_enum = [STORAGE.DENSE,
-                    STORAGE.CSR,
-                    STORAGE.CSC,
-                    STORAGE.COO]
+__to_sparse_enum = [
+    STORAGE.DENSE,
+    STORAGE.CSR,
+    STORAGE.CSC,
+    STORAGE.COO]
 
 
-def create_sparse(values, row_idx, col_idx, nrows, ncols, storage = STORAGE.CSR):
+def create_sparse(values, row_idx, col_idx, nrows, ncols, storage=STORAGE.CSR):
     """
     Create a sparse matrix from it's constituent parts.
 
@@ -52,15 +52,16 @@ def create_sparse(values, row_idx, col_idx, nrows, ncols, storage = STORAGE.CSR)
 
     A sparse matrix.
     """
-    assert(isinstance(values, Array))
-    assert(isinstance(row_idx, Array))
-    assert(isinstance(col_idx, Array))
+    assert isinstance(values, Array)
+    assert isinstance(row_idx, Array)
+    assert isinstance(col_idx, Array)
     out = Array()
-    safe_call(backend.get().af_create_sparse_array(c_pointer(out.arr), c_dim_t(nrows), c_dim_t(ncols),
-                                                   values.arr, row_idx.arr, col_idx.arr, storage.value))
+    safe_call(backend.get().af_create_sparse_array(
+        c_pointer(out.arr), c_dim_t(nrows), c_dim_t(ncols), values.arr, row_idx.arr, col_idx.arr, storage.value))
     return out
 
-def create_sparse_from_host(values, row_idx, col_idx, nrows, ncols, storage = STORAGE.CSR):
+
+def create_sparse_from_host(values, row_idx, col_idx, nrows, ncols, storage=STORAGE.CSR):
     """
     Create a sparse matrix from it's constituent parts.
 
@@ -90,12 +91,12 @@ def create_sparse_from_host(values, row_idx, col_idx, nrows, ncols, storage = ST
 
     A sparse matrix.
     """
-    return create_sparse(to_array(values),
-                         to_array(row_idx).as_type(Dtype.s32),
-                         to_array(col_idx).as_type(Dtype.s32),
-                         nrows, ncols, storage)
+    return create_sparse(
+        to_array(values), to_array(row_idx).as_type(Dtype.s32), to_array(col_idx).as_type(Dtype.s32), nrows, ncols,
+        storage)
 
-def create_sparse_from_dense(dense, storage = STORAGE.CSR):
+
+def create_sparse_from_dense(dense, storage=STORAGE.CSR):
     """
     Create a sparse matrix from a dense matrix.
 
@@ -113,10 +114,11 @@ def create_sparse_from_dense(dense, storage = STORAGE.CSR):
 
     A sparse matrix.
     """
-    assert(isinstance(dense, Array))
+    assert isinstance(dense, Array)
     out = Array()
     safe_call(backend.get().af_create_sparse_array_from_dense(c_pointer(out.arr), dense.arr, storage.value))
     return out
+
 
 def convert_sparse_to_dense(sparse):
     """
@@ -136,6 +138,7 @@ def convert_sparse_to_dense(sparse):
     out = Array()
     safe_call(backend.get().af_sparse_to_dense(c_pointer(out.arr), sparse.arr))
     return out
+
 
 def sparse_get_info(sparse):
     """
@@ -159,10 +162,10 @@ def sparse_get_info(sparse):
     row_idx = Array()
     col_idx = Array()
     stype = c_int_t(0)
-    safe_call(backend.get().af_sparse_get_info(c_pointer(values.arr), c_pointer(row_idx.arr),
-                                               c_pointer(col_idx.arr), c_pointer(stype),
-                                               sparse.arr))
+    safe_call(backend.get().af_sparse_get_info(
+        c_pointer(values.arr), c_pointer(row_idx.arr), c_pointer(col_idx.arr), c_pointer(stype), sparse.arr))
     return (values, row_idx, col_idx, __to_sparse_enum[stype.value])
+
 
 def sparse_get_values(sparse):
     """
@@ -183,6 +186,7 @@ def sparse_get_values(sparse):
     safe_call(backend.get().af_sparse_get_values(c_pointer(values.arr), sparse.arr))
     return values
 
+
 def sparse_get_row_idx(sparse):
     """
     Get the row indices from sparse matrix.
@@ -201,6 +205,7 @@ def sparse_get_row_idx(sparse):
     row_idx = Array()
     safe_call(backend.get().af_sparse_get_row_idx(c_pointer(row_idx.arr), sparse.arr))
     return row_idx
+
 
 def sparse_get_col_idx(sparse):
     """
@@ -221,6 +226,7 @@ def sparse_get_col_idx(sparse):
     safe_call(backend.get().af_sparse_get_col_idx(c_pointer(col_idx.arr), sparse.arr))
     return col_idx
 
+
 def sparse_get_nnz(sparse):
     """
     Get the column indices from sparse matrix.
@@ -240,6 +246,7 @@ def sparse_get_nnz(sparse):
     safe_call(backend.get().af_sparse_get_nnz(c_pointer(nnz), sparse.arr))
     return nnz.value
 
+
 def sparse_get_storage(sparse):
     """
     Get the column indices from sparse matrix.
@@ -258,6 +265,7 @@ def sparse_get_storage(sparse):
     storage = c_int_t(0)
     safe_call(backend.get().af_sparse_get_storage(c_pointer(storage), sparse.arr))
     return __to_sparse_enum[storage.value]
+
 
 def convert_sparse(sparse, storage):
     """

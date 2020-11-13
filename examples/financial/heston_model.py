@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 ##############################################################################################
-# Copyright (c) 2015, Michael Nowotny
+# Copyright (c) 2019, Michael Nowotny
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without modification,
@@ -31,12 +31,13 @@
 # SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ###############################################################################################
 
-import arrayfire as af
 import math
 import time
 
-def simulateHestonModel( T, N, R, mu, kappa, vBar, sigmaV, rho, x0, v0 ) :
+import arrayfire as af
 
+
+def simulateHestonModel(T, N, R, mu, kappa, vBar, sigmaV, rho, x0, v0):
     deltaT = T / (float)(N - 1)
 
     x = [af.constant(x0, R, dtype=af.Dtype.f32), af.constant(0, R, dtype=af.Dtype.f32)]
@@ -50,9 +51,9 @@ def simulateHestonModel( T, N, R, mu, kappa, vBar, sigmaV, rho, x0, v0 ) :
     m[1] = sqrtOneMinusRhoSquare
     zeroArray = af.constant(0, R, 1, dtype=af.Dtype.f32)
 
-    for t in range(1, N) :
+    for t in range(1, N):
         tPrevious = (t + 1) % 2
-        tCurrent =  t % 2
+        tCurrent = t % 2
 
         dBt = af.randn(R, 2, dtype=af.Dtype.f32) * sqrtDeltaT
 
@@ -71,21 +72,21 @@ def main():
     R_first = 1000
     R = 5000000
 
-    x0 = 0 # initial log stock price
-    v0 = 0.087**2 # initial volatility
-    r = math.log(1.0319) # risk-free rate
-    rho = -0.82 # instantaneous correlation between Brownian motions
-    sigmaV = 0.14 # variance of volatility
-    kappa = 3.46 # mean reversion speed
-    vBar = 0.008 # mean variance
-    k = math.log(0.95) # strike price
+    x0 = 0  # initial log stock price
+    v0 = 0.087**2  # initial volatility
+    r = math.log(1.0319)  # risk-free rate
+    rho = -0.82  # instantaneous correlation between Brownian motions
+    sigmaV = 0.14  # variance of volatility
+    kappa = 3.46  # mean reversion speed
+    vBar = 0.008  # mean variance
+    k = math.log(0.95)  # strike price
 
     # first run
-    ( x, v ) = simulateHestonModel( T, nT, R_first, r, kappa, vBar, sigmaV, rho, x0, v0 )
+    x, v = simulateHestonModel(T, nT, R_first, r, kappa, vBar, sigmaV, rho, x0, v0)
 
     # Price plain vanilla call option
     tic = time.time()
-    ( x, v ) = simulateHestonModel( T, nT, R, r, kappa, vBar, sigmaV, rho, x0, v0 )
+    x, v = simulateHestonModel(T, nT, R, r, kappa, vBar, sigmaV, rho, x0, v0)
     af.sync()
     toc = time.time() - tic
     K = math.exp(k)

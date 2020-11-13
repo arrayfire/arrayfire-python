@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -9,16 +9,19 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
-import arrayfire as af
-from time import time
 import math
 import sys
+from time import time
+
+import arrayfire as af
 
 sqrt2 = math.sqrt(2.0)
+
 
 def cnd(x):
     temp = (x > 0)
     return temp * (0.5 + af.erf(x/sqrt2)/2) + (1 - temp) * (0.5 - af.erf((-x)/sqrt2)/2)
+
 
 def black_scholes(S, X, R, V, T):
     # S = Underlying stock price
@@ -36,12 +39,13 @@ def black_scholes(S, X, R, V, T):
     cnd_d2 = cnd(d2)
 
     C = S * cnd_d1 - (X * af.exp((-R) * T) * cnd_d2)
-    P = X * af.exp((-R) * T) * (1 - cnd_d2) - (S * (1 -cnd_d1))
+    P = X * af.exp((-R) * T) * (1 - cnd_d2) - (S * (1 - cnd_d1))
 
     return (C, P)
 
+
 if __name__ == "__main__":
-    if (len(sys.argv) > 1):
+    if len(sys.argv) > 1:
         af.set_device(int(sys.argv[1]))
     af.info()
 
@@ -53,7 +57,7 @@ if __name__ == "__main__":
     V = af.randu(M, 1)
     T = af.randu(M, 1)
 
-    (C, P) = black_scholes(S, X, R, V, T)
+    C, P = black_scholes(S, X, R, V, T)
     af.eval(C)
     af.eval(P)
     af.sync()
@@ -71,7 +75,7 @@ if __name__ == "__main__":
 
         start = time()
         for i in range(num_iter):
-            (C, P) = black_scholes(S, X, R, V, T)
+            C, P = black_scholes(S, X, R, V, T)
             af.eval(C)
             af.eval(P)
         af.sync()

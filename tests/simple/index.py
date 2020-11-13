@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -12,7 +12,6 @@
 import array as host
 
 import arrayfire as af
-from arrayfire import ParallelRange
 
 from . import _util
 
@@ -57,12 +56,12 @@ def simple_index(verbose=False):
     b = af.randu(5, 1)
     display_func(a)
     display_func(b)
-    for ii in ParallelRange(1, 3):
+    for ii in af.ParallelRange(1, 3):
         a[ii] = b[ii]
 
     display_func(a)
 
-    for ii in ParallelRange(2, 5):
+    for ii in af.ParallelRange(2, 5):
         b[ii] = 2
     display_func(b)
 

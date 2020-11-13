@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -9,9 +9,9 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
-
 import sys
 from time import time
+
 import arrayfire as af
 
 try:
@@ -25,8 +25,8 @@ def calc_arrayfire(n):
     af.sync()
 
     def run(iters):
-        for t in range(iters):
-            B = af.fft2(A)
+        for _ in range(iters):
+            B = af.fft2(A)  # FIXME: 'B' is assigned, but not used.
 
         af.sync()
 
@@ -38,8 +38,8 @@ def calc_numpy(n):
     A = np.random.rand(n, n).astype(np.float32)
 
     def run(iters):
-        for t in range(iters):
-            B = np.fft.fft2(A)
+        for _ in range(iters):
+            B = np.fft.fft2(A)  # FIXME: 'B' is assigned, but not used.
 
     return run
 
@@ -59,8 +59,7 @@ def bench(calc, iters=100, upto=13):
 
 
 if __name__ == "__main__":
-
-    if (len(sys.argv) > 1):
+    if len(sys.argv) > 1:
         af.set_device(int(sys.argv[1]))
 
     af.info()

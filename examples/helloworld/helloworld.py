@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -27,33 +27,33 @@ try:
     B[0:3, 1] = B[0:3, 1] * -1
     af.display(B)
 
-    print("Fourier transform the result\n");
-    C = af.fft(B);
-    af.display(C);
+    print("Fourier transform the result\n")
+    C = af.fft(B)
+    af.display(C)
 
-    print("Grab last row\n");
-    c = C[-1,:];
-    af.display(c);
+    print("Grab last row\n")
+    c = C[-1, :]
+    af.display(c)
 
-    print("Scan Test\n");
-    r = af.constant(2, 16, 4, 1, 1);
-    af.display(r);
+    print("Scan Test\n")
+    r = af.constant(2, 16, 4, 1, 1)
+    af.display(r)
 
-    print("Scan\n");
-    S = af.scan(r, 0, af.BINARYOP.MUL);
-    af.display(S);
+    print("Scan\n")
+    S = af.scan(r, 0, af.BINARYOP.MUL)
+    af.display(S)
 
-    print("Create 2-by-3 matrix from host data\n");
-    d = [ 1, 2, 3, 4, 5, 6 ]
+    print("Create 2-by-3 matrix from host data\n")
+    d = [1, 2, 3, 4, 5, 6]
     D = af.Array(d, (2, 3))
     af.display(D)
 
-    print("Copy last column onto first\n");
-    D[:,0] = D[:, -1]
-    af.display(D);
+    print("Copy last column onto first\n")
+    D[:, 0] = D[:, -1]
+    af.display(D)
 
-    print("Sort A and print sorted array and corresponding indices\n");
-    [sorted_vals, sorted_idxs] = af.sort_index(A);
+    print("Sort A and print sorted array and corresponding indices\n")
+    sorted_vals, sorted_idxs = af.sort_index(A)
     af.display(A)
     af.display(sorted_vals)
     af.display(sorted_idxs)

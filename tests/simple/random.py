@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -25,7 +25,7 @@ def simple_random(verbose=False):
     display_func(af.randn(3, 3, dtype=af.Dtype.c32))
 
     af.set_seed(1024)
-    assert(af.get_seed() == 1024)
+    assert af.get_seed() == 1024
 
     engine = af.Random_Engine(af.RANDOM_ENGINE.MERSENNE_GP11213, 100)
 
@@ -35,7 +35,7 @@ def simple_random(verbose=False):
 
     display_func(af.randn(3, 3, engine=engine))
     engine.set_seed(100)
-    assert(engine.get_seed() == 100)
+    assert engine.get_seed() == 100
 
 
 _util.tests["random"] = simple_random

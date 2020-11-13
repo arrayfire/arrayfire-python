@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -78,27 +78,25 @@ def simple_arith(verbose=False):
 
     display_func(a < b)
     display_func(a < 0.5)
-    display_func(0.5 < a)
+    display_func(a > 0.5)
 
     display_func(a <= b)
     display_func(a <= 0.5)
-    display_func(0.5 <= a)
+    display_func(a >= 0.5)
 
     display_func(a > b)
     display_func(a > 0.5)
-    display_func(0.5 > a)
+    display_func(a < 0.5)
 
     display_func(a >= b)
     display_func(a >= 0.5)
-    display_func(0.5 >= a)
+    display_func(a <= 0.5)
 
     display_func(a != b)
     display_func(a != 0.5)
-    display_func(0.5 != a)
 
     display_func(a == b)
     display_func(a == 0.5)
-    display_func(0.5 == a)
 
     a = af.randu(3, 3, dtype=af.Dtype.u32)
     b = af.constant(4, 3, 3, dtype=af.Dtype.u32)
