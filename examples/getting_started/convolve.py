@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -9,25 +9,27 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
-import arrayfire as af
 import sys
 from array import array
 
+import arrayfire as af
+
+
 def af_assert(left, right, eps=1E-6):
-    if (af.max(af.abs(left -right)) > eps):
+    if af.max(af.abs(left - right)) > eps:
         raise ValueError("Arrays not within dictated precision")
-    return
+
 
 if __name__ == "__main__":
-    if (len(sys.argv) > 1):
+    if len(sys.argv) > 1:
         af.set_device(int(sys.argv[1]))
     af.info()
 
-    h_dx = array('f', (1.0/12, -8.0/12, 0, 8.0/12, 1.0/12))
-    h_spread = array('f', (1.0/5, 1.0/5, 1.0/5, 1.0/5, 1.0/5))
+    h_dx = array("f", (1.0/12, -8.0/12, 0, 8.0/12, 1.0/12))
+    h_spread = array("f", (1.0/5, 1.0/5, 1.0/5, 1.0/5, 1.0/5))
 
     img = af.randu(640, 480)
-    dx = af.Array(h_dx, (5,1))
+    dx = af.Array(h_dx, (5, 1))
     spread = af.Array(h_spread, (1, 5))
     kernel = af.matmul(dx, spread)
 

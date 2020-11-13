@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -58,7 +58,7 @@ def simple_statistics(verbose=False):
     k = 3
     dim = 0
     order = af.TOPK.DEFAULT  # defaults to af.TOPK.MAX
-    assert(dim == 0)  # topk currently supports first dim only
+    assert dim == 0  # topk currently supports first dim only
     values, indices = af.topk(data, k, dim, order)
     display_func(values)
     display_func(indices)

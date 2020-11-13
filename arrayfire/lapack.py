@@ -1,5 +1,5 @@
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,8 +11,9 @@
 Dense Linear Algebra functions (solve, inverse, etc).
 """
 
-from .library import *
-from .array import *
+from .array import Array
+from .library import backend, safe_call, MATPROP, NORM, c_bool_t, c_double_t, c_int_t, c_pointer, c_uint_t
+
 
 def lu(A):
     """
@@ -42,7 +43,8 @@ def lu(A):
     U = Array()
     P = Array()
     safe_call(backend.get().af_lu(c_pointer(L.arr), c_pointer(U.arr), c_pointer(P.arr), A.arr))
-    return L,U,P
+    return L, U, P
+
 
 def lu_inplace(A, pivot="lapack"):
     """
@@ -67,9 +69,10 @@ def lu_inplace(A, pivot="lapack"):
 
     """
     P = Array()
-    is_pivot_lapack = False if (pivot == "full") else True
+    is_pivot_lapack = bool(pivot != "full")
     safe_call(backend.get().af_lu_inplace(c_pointer(P.arr), A.arr, is_pivot_lapack))
     return P
+
 
 def qr(A):
     """
@@ -99,7 +102,8 @@ def qr(A):
     R = Array()
     T = Array()
     safe_call(backend.get().af_qr(c_pointer(Q.arr), c_pointer(R.arr), c_pointer(T.arr), A.arr))
-    return Q,R,T
+    return Q, R, T
+
 
 def qr_inplace(A):
     """
@@ -124,6 +128,7 @@ def qr_inplace(A):
     T = Array()
     safe_call(backend.get().af_qr_inplace(c_pointer(T.arr), A.arr))
     return T
+
 
 def cholesky(A, is_upper=True):
     """
@@ -156,6 +161,7 @@ def cholesky(A, is_upper=True):
     safe_call(backend.get().af_cholesky(c_pointer(R.arr), c_pointer(info), A.arr, is_upper))
     return R, info.value
 
+
 def cholesky_inplace(A, is_upper=True):
     """
     In place Cholesky decomposition.
@@ -178,6 +184,7 @@ def cholesky_inplace(A, is_upper=True):
     info = c_int_t(0)
     safe_call(backend.get().af_cholesky_inplace(c_pointer(info), A.arr, is_upper))
     return info.value
+
 
 def solve(A, B, options=MATPROP.NONE):
     """
@@ -206,6 +213,7 @@ def solve(A, B, options=MATPROP.NONE):
     safe_call(backend.get().af_solve(c_pointer(X.arr), A.arr, B.arr, options.value))
     return X
 
+
 def solve_lu(A, P, B, options=MATPROP.NONE):
     """
     Solve a system of linear equations, using LU decomposition.
@@ -233,6 +241,7 @@ def solve_lu(A, P, B, options=MATPROP.NONE):
     X = Array()
     safe_call(backend.get().af_solve_lu(c_pointer(X.arr), A.arr, P.arr, B.arr, options.value))
     return X
+
 
 def inverse(A, options=MATPROP.NONE):
     """
@@ -263,6 +272,7 @@ def inverse(A, options=MATPROP.NONE):
     AI = Array()
     safe_call(backend.get().af_inverse(c_pointer(AI.arr), A.arr, options.value))
     return AI
+
 
 def pinverse(A, tol=1E-6, options=MATPROP.NONE):
     """
@@ -297,6 +307,7 @@ def pinverse(A, tol=1E-6, options=MATPROP.NONE):
     safe_call(backend.get().af_pinverse(c_pointer(AI.arr), A.arr, c_double_t(tol), options.value))
     return AI
 
+
 def rank(A, tol=1E-5):
     """
     Rank of a matrix.
@@ -320,6 +331,7 @@ def rank(A, tol=1E-5):
     safe_call(backend.get().af_rank(c_pointer(r), A.arr, c_double_t(tol)))
     return r.value
 
+
 def det(A):
     """
     Determinant of a matrix.
@@ -341,7 +353,8 @@ def det(A):
     safe_call(backend.get().af_det(c_pointer(re), c_pointer(im), A.arr))
     re = re.value
     im = im.value
-    return re if (im == 0) else re + im * 1j
+    return re if im == 0 else re + im * 1j
+
 
 def norm(A, norm_type=NORM.EUCLID, p=1.0, q=1.0):
     """
@@ -370,9 +383,9 @@ def norm(A, norm_type=NORM.EUCLID, p=1.0, q=1.0):
 
     """
     res = c_double_t(0)
-    safe_call(backend.get().af_norm(c_pointer(res), A.arr, norm_type.value,
-                                    c_double_t(p), c_double_t(q)))
+    safe_call(backend.get().af_norm(c_pointer(res), A.arr, norm_type.value, c_double_t(p), c_double_t(q)))
     return res.value
+
 
 def svd(A):
     """
@@ -408,6 +421,7 @@ def svd(A):
     safe_call(backend.get().af_svd(c_pointer(U.arr), c_pointer(S.arr), c_pointer(Vt.arr), A.arr))
     return U, S, Vt
 
+
 def svd_inplace(A):
     """
     Singular Value Decomposition
@@ -439,9 +453,9 @@ def svd_inplace(A):
     U = Array()
     S = Array()
     Vt = Array()
-    safe_call(backend.get().af_svd_inplace(c_pointer(U.arr), c_pointer(S.arr), c_pointer(Vt.arr),
-                                           A.arr))
+    safe_call(backend.get().af_svd_inplace(c_pointer(U.arr), c_pointer(S.arr), c_pointer(Vt.arr), A.arr))
     return U, S, Vt
+
 
 def is_lapack_available():
     """

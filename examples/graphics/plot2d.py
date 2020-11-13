@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -9,8 +9,9 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
-import arrayfire as af
 import math
+
+import arrayfire as af
 
 POINTS = 10000
 PRECISION = 1.0 / float(POINTS)
@@ -28,7 +29,7 @@ while not win.close():
     X += PRECISION * sign
     val += PRECISION * sign
 
-    if (val > math.pi):
+    if val > math.pi:
         sign = -1.0
-    elif (val < -math.pi):
+    elif val < -math.pi:
         sign = 1.0

@@ -1,5 +1,5 @@
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,8 +11,9 @@
 Statistical algorithms (mean, var, stdev, etc).
 """
 
-from .library import *
-from .array import *
+from .array import Array
+from .library import TOPK, VARIANCE, c_double_t, c_int_t, c_pointer, backend, safe_call
+
 
 def mean(a, weights=None, dim=None):
     """
@@ -45,19 +46,20 @@ def mean(a, weights=None, dim=None):
             safe_call(backend.get().af_mean_weighted(c_pointer(out.arr), a.arr, weights.arr, c_int_t(dim)))
 
         return out
+
+    real = c_double_t(0)
+    imag = c_double_t(0)
+
+    if weights is None:
+        safe_call(backend.get().af_mean_all(c_pointer(real), c_pointer(imag), a.arr))
     else:
-        real = c_double_t(0)
-        imag = c_double_t(0)
+        safe_call(backend.get().af_mean_all_weighted(c_pointer(real), c_pointer(imag), a.arr, weights.arr))
 
-        if weights is None:
-            safe_call(backend.get().af_mean_all(c_pointer(real), c_pointer(imag), a.arr))
-        else:
-            safe_call(backend.get().af_mean_all_weighted(c_pointer(real), c_pointer(imag), a.arr, weights.arr))
+    real = real.value
+    imag = imag.value
 
-        real = real.value
-        imag = imag.value
+    return real if imag == 0 else real + imag * 1j
 
-        return real if imag == 0 else real + imag * 1j
 
 def var(a, isbiased=False, weights=None, dim=None):
     """
@@ -94,19 +96,20 @@ def var(a, isbiased=False, weights=None, dim=None):
             safe_call(backend.get().af_var_weighted(c_pointer(out.arr), a.arr, weights.arr, c_int_t(dim)))
 
         return out
+
+    real = c_double_t(0)
+    imag = c_double_t(0)
+
+    if weights is None:
+        safe_call(backend.get().af_var_all(c_pointer(real), c_pointer(imag), a.arr, isbiased))
     else:
-        real = c_double_t(0)
-        imag = c_double_t(0)
+        safe_call(backend.get().af_var_all_weighted(c_pointer(real), c_pointer(imag), a.arr, weights.arr))
 
-        if weights is None:
-            safe_call(backend.get().af_var_all(c_pointer(real), c_pointer(imag), a.arr, isbiased))
-        else:
-            safe_call(backend.get().af_var_all_weighted(c_pointer(real), c_pointer(imag), a.arr, weights.arr))
+    real = real.value
+    imag = imag.value
 
-        real = real.value
-        imag = imag.value
+    return real if imag == 0 else real + imag * 1j
 
-        return real if imag == 0 else real + imag * 1j
 
 def meanvar(a, weights=None, bias=VARIANCE.DEFAULT, dim=-1):
     """
@@ -173,13 +176,14 @@ def stdev(a, dim=None):
         out = Array()
         safe_call(backend.get().af_stdev(c_pointer(out.arr), a.arr, c_int_t(dim)))
         return out
-    else:
-        real = c_double_t(0)
-        imag = c_double_t(0)
-        safe_call(backend.get().af_stdev_all(c_pointer(real), c_pointer(imag), a.arr))
-        real = real.value
-        imag = imag.value
-        return real if imag == 0 else real + imag * 1j
+
+    real = c_double_t(0)
+    imag = c_double_t(0)
+    safe_call(backend.get().af_stdev_all(c_pointer(real), c_pointer(imag), a.arr))
+    real = real.value
+    imag = imag.value
+    return real if imag == 0 else real + imag * 1j
+
 
 def cov(a, isbiased=False, dim=None):
     """
@@ -206,13 +210,14 @@ def cov(a, isbiased=False, dim=None):
         out = Array()
         safe_call(backend.get().af_cov(c_pointer(out.arr), a.arr, isbiased, c_int_t(dim)))
         return out
-    else:
-        real = c_double_t(0)
-        imag = c_double_t(0)
-        safe_call(backend.get().af_cov_all(c_pointer(real), c_pointer(imag), a.arr, isbiased))
-        real = real.value
-        imag = imag.value
-        return real if imag == 0 else real + imag * 1j
+
+    real = c_double_t(0)
+    imag = c_double_t(0)
+    safe_call(backend.get().af_cov_all(c_pointer(real), c_pointer(imag), a.arr, isbiased))
+    real = real.value
+    imag = imag.value
+    return real if imag == 0 else real + imag * 1j
+
 
 def median(a, dim=None):
     """
@@ -236,13 +241,14 @@ def median(a, dim=None):
         out = Array()
         safe_call(backend.get().af_median(c_pointer(out.arr), a.arr, c_int_t(dim)))
         return out
-    else:
-        real = c_double_t(0)
-        imag = c_double_t(0)
-        safe_call(backend.get().af_median_all(c_pointer(real), c_pointer(imag), a.arr))
-        real = real.value
-        imag = imag.value
-        return real if imag == 0 else real + imag * 1j
+
+    real = c_double_t(0)
+    imag = c_double_t(0)
+    safe_call(backend.get().af_median_all(c_pointer(real), c_pointer(imag), a.arr))
+    real = real.value
+    imag = imag.value
+    return real if imag == 0 else real + imag * 1j
+
 
 def corrcoef(x, y):
     """
@@ -267,6 +273,7 @@ def corrcoef(x, y):
     real = real.value
     imag = imag.value
     return real if imag == 0 else real + imag * 1j
+
 
 def topk(data, k, dim=0, order=TOPK.DEFAULT):
     """
@@ -297,10 +304,10 @@ def topk(data, k, dim=0, order=TOPK.DEFAULT):
     indices: af.Array
              Corresponding index array to top k elements.
     """
-
     values = Array()
     indices = Array()
 
-    safe_call(backend.get().af_topk(c_pointer(values.arr), c_pointer(indices.arr), data.arr, k, c_int_t(dim), order.value))
+    safe_call(
+        backend.get().af_topk(c_pointer(values.arr), c_pointer(indices.arr), data.arr, k, c_int_t(dim), order.value))
 
-    return values,indices
+    return values, indices

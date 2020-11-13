@@ -1,5 +1,5 @@
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,8 +11,10 @@
 Function to perform broadcasting operations.
 """
 
-class _bcast(object):
+
+class _bcast:
     _flag = False
+
     def get(self):
         return _bcast._flag
 
@@ -22,7 +24,9 @@ class _bcast(object):
     def toggle(self):
         _bcast._flag ^= True
 
+
 _bcast_var = _bcast()
+
 
 def broadcast(func, *args):
     """
@@ -83,14 +87,13 @@ def broadcast(func, *args):
         1.5328     0.8898     0.7185
 
     """
-
     def wrapper(*func_args):
         _bcast_var.toggle()
         res = func(*func_args)
         _bcast_var.toggle()
         return res
 
-    if len(args) == 0:
+    if not args:
         return wrapper
-    else:
-        return wrapper(*args)
+
+    return wrapper(*args)

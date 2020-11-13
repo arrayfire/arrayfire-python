@@ -1,5 +1,6 @@
+
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,10 +12,11 @@
 Math functions (sin, sqrt, exp, etc).
 """
 
-from .library import *
-from .array import *
+from .array import Array, constant_array
 from .bcast import _bcast_var
-from .util import _is_number
+from .library import backend, safe_call, c_pointer
+from .util import _is_number, dim4_to_tuple, implicit_dtype
+
 
 def _arith_binary_func(lhs, rhs, c_func):
     out = Array()
@@ -25,10 +27,10 @@ def _arith_binary_func(lhs, rhs, c_func):
     if not (is_left_array or is_right_array):
         raise TypeError("Atleast one input needs to be of type arrayfire.array")
 
-    elif (is_left_array and is_right_array):
+    if is_left_array and is_right_array:
         safe_call(c_func(c_pointer(out.arr), lhs.arr, rhs.arr, _bcast_var.get()))
 
-    elif (_is_number(rhs)):
+    elif _is_number(rhs):
         ldims = dim4_to_tuple(lhs.dims())
         rty = implicit_dtype(rhs, lhs.type())
         other = Array()
@@ -44,15 +46,16 @@ def _arith_binary_func(lhs, rhs, c_func):
 
     return out
 
+
 def _arith_unary_func(a, c_func):
     out = Array()
     safe_call(c_func(c_pointer(out.arr), a.arr))
     return out
 
+
 def cast(a, dtype):
     """
     Cast an array to a specified type
-
     Parameters
     ----------
     a    : af.Array
@@ -78,6 +81,7 @@ def cast(a, dtype):
     safe_call(backend.get().af_cast(c_pointer(out.arr), a.arr, dtype.value))
     return out
 
+
 def minof(lhs, rhs):
     """
     Find the minimum value of two inputs at each location.
@@ -102,6 +106,7 @@ def minof(lhs, rhs):
     """
     return _arith_binary_func(lhs, rhs, backend.get().af_minof)
 
+
 def maxof(lhs, rhs):
     """
     Find the maximum value of two inputs at each location.
@@ -125,6 +130,7 @@ def maxof(lhs, rhs):
     - If `lhs` and `rhs` are both af.Array, they must be of same size.
     """
     return _arith_binary_func(lhs, rhs, backend.get().af_maxof)
+
 
 def clamp(val, low, high):
     """
@@ -164,6 +170,7 @@ def clamp(val, low, high):
 
     return out
 
+
 def mod(lhs, rhs):
     """
     Find the modulus.
@@ -183,6 +190,7 @@ def mod(lhs, rhs):
     - If `lhs` and `rhs` are both af.Array, they must be of same size.
     """
     return _arith_binary_func(lhs, rhs, backend.get().af_mod)
+
 
 def rem(lhs, rhs):
     """
@@ -208,6 +216,7 @@ def rem(lhs, rhs):
     """
     return _arith_binary_func(lhs, rhs, backend.get().af_rem)
 
+
 def abs(a):
     """
     Find the absolute values.
@@ -223,6 +232,7 @@ def abs(a):
          Contains the absolute values of the inputs.
     """
     return _arith_unary_func(a, backend.get().af_abs)
+
 
 def arg(a):
     """
@@ -240,6 +250,7 @@ def arg(a):
     """
     return _arith_unary_func(a, backend.get().af_arg)
 
+
 def sign(a):
     """
     Find the sign of the inputs.
@@ -255,6 +266,7 @@ def sign(a):
          array containing 1 for negative values, 0 otherwise.
     """
     return _arith_unary_func(a, backend.get().af_sign)
+
 
 def round(a):
     """
@@ -272,6 +284,7 @@ def round(a):
     """
     return _arith_unary_func(a, backend.get().af_round)
 
+
 def trunc(a):
     """
     Round the values towards zero.
@@ -287,6 +300,7 @@ def trunc(a):
          array containing the truncated values.
     """
     return _arith_unary_func(a, backend.get().af_trunc)
+
 
 def floor(a):
     """
@@ -304,6 +318,7 @@ def floor(a):
     """
     return _arith_unary_func(a, backend.get().af_floor)
 
+
 def ceil(a):
     """
     Round the values towards a bigger integer.
@@ -319,6 +334,7 @@ def ceil(a):
          array containing the ceiled values.
     """
     return _arith_unary_func(a, backend.get().af_ceil)
+
 
 def hypot(lhs, rhs):
     """
@@ -344,6 +360,7 @@ def hypot(lhs, rhs):
     """
     return _arith_binary_func(lhs, rhs, backend.get().af_hypot)
 
+
 def sin(a):
     """
     Sine of each element in the array.
@@ -363,6 +380,7 @@ def sin(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_sin)
+
 
 def cos(a):
     """
@@ -384,6 +402,7 @@ def cos(a):
     """
     return _arith_unary_func(a, backend.get().af_cos)
 
+
 def tan(a):
     """
     Tangent of each element in the array.
@@ -403,6 +422,7 @@ def tan(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_tan)
+
 
 def asin(a):
     """
@@ -424,6 +444,7 @@ def asin(a):
     """
     return _arith_unary_func(a, backend.get().af_asin)
 
+
 def acos(a):
     """
     Arc Cosine of each element in the array.
@@ -444,6 +465,7 @@ def acos(a):
     """
     return _arith_unary_func(a, backend.get().af_acos)
 
+
 def atan(a):
     """
     Arc Tangent of each element in the array.
@@ -463,6 +485,7 @@ def atan(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_atan)
+
 
 def atan2(lhs, rhs):
     """
@@ -490,6 +513,7 @@ def atan2(lhs, rhs):
     """
     return _arith_binary_func(lhs, rhs, backend.get().af_atan2)
 
+
 def cplx(lhs, rhs=None):
     """
     Create a complex array from real inputs.
@@ -516,8 +540,8 @@ def cplx(lhs, rhs=None):
     """
     if rhs is None:
         return _arith_unary_func(lhs, backend.get().af_cplx)
-    else:
-        return _arith_binary_func(lhs, rhs, backend.get().af_cplx2)
+    return _arith_binary_func(lhs, rhs, backend.get().af_cplx2)
+
 
 def real(a):
     """
@@ -536,6 +560,7 @@ def real(a):
     """
     return _arith_unary_func(a, backend.get().af_real)
 
+
 def imag(a):
     """
     Find the imaginary values of the input.
@@ -552,6 +577,7 @@ def imag(a):
     """
     return _arith_unary_func(a, backend.get().af_imag)
 
+
 def conjg(a):
     """
     Find the complex conjugate values of the input.
@@ -567,6 +593,7 @@ def conjg(a):
          array containing copmplex conjugate values from `a`.
     """
     return _arith_unary_func(a, backend.get().af_conjg)
+
 
 def sinh(a):
     """
@@ -588,6 +615,7 @@ def sinh(a):
     """
     return _arith_unary_func(a, backend.get().af_sinh)
 
+
 def cosh(a):
     """
     Hyperbolic Cosine of each element in the array.
@@ -607,6 +635,7 @@ def cosh(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_cosh)
+
 
 def tanh(a):
     """
@@ -628,6 +657,7 @@ def tanh(a):
     """
     return _arith_unary_func(a, backend.get().af_tanh)
 
+
 def asinh(a):
     """
     Arc Hyperbolic Sine of each element in the array.
@@ -647,6 +677,7 @@ def asinh(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_asinh)
+
 
 def acosh(a):
     """
@@ -668,6 +699,7 @@ def acosh(a):
     """
     return _arith_unary_func(a, backend.get().af_acosh)
 
+
 def atanh(a):
     """
     Arc Hyperbolic Tangent of each element in the array.
@@ -687,6 +719,7 @@ def atanh(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_atanh)
+
 
 def root(lhs, rhs):
     """
@@ -712,6 +745,7 @@ def root(lhs, rhs):
     """
     return _arith_binary_func(lhs, rhs, backend.get().af_root)
 
+
 def pow(lhs, rhs):
     """
     Find the power of two inputs at each location.
@@ -736,6 +770,7 @@ def pow(lhs, rhs):
     """
     return _arith_binary_func(lhs, rhs, backend.get().af_pow)
 
+
 def pow2(a):
     """
     Raise 2 to the power of each element in input.
@@ -755,6 +790,7 @@ def pow2(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_pow2)
+
 
 def sigmoid(a):
     """
@@ -776,6 +812,7 @@ def sigmoid(a):
     """
     return _arith_unary_func(a, backend.get().af_sigmoid)
 
+
 def exp(a):
     """
     Exponential of each element in the array.
@@ -795,6 +832,7 @@ def exp(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_exp)
+
 
 def expm1(a):
     """
@@ -817,6 +855,7 @@ def expm1(a):
     """
     return _arith_unary_func(a, backend.get().af_expm1)
 
+
 def erf(a):
     """
     Error function of each element in the array.
@@ -836,6 +875,7 @@ def erf(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_erf)
+
 
 def erfc(a):
     """
@@ -857,6 +897,7 @@ def erfc(a):
     """
     return _arith_unary_func(a, backend.get().af_erfc)
 
+
 def log(a):
     """
     Natural logarithm of each element in the array.
@@ -876,6 +917,7 @@ def log(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_log)
+
 
 def log1p(a):
     """
@@ -898,6 +940,7 @@ def log1p(a):
     """
     return _arith_unary_func(a, backend.get().af_log1p)
 
+
 def log10(a):
     """
     Logarithm base 10 of each element in the array.
@@ -918,6 +961,7 @@ def log10(a):
     """
     return _arith_unary_func(a, backend.get().af_log10)
 
+
 def log2(a):
     """
     Logarithm base 2 of each element in the array.
@@ -937,6 +981,7 @@ def log2(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_log2)
+
 
 def sqrt(a):
     """
@@ -978,6 +1023,7 @@ def rsqrt(a):
     """
     return _arith_unary_func(a, backend.get().af_rsqrt)
 
+
 def cbrt(a):
     """
     Cube root of each element in the array.
@@ -997,6 +1043,7 @@ def cbrt(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_cbrt)
+
 
 def factorial(a):
     """
@@ -1018,6 +1065,7 @@ def factorial(a):
     """
     return _arith_unary_func(a, backend.get().af_factorial)
 
+
 def tgamma(a):
     """
     Performs the gamma function for each element in the array.
@@ -1037,6 +1085,7 @@ def tgamma(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_tgamma)
+
 
 def lgamma(a):
     """
@@ -1058,6 +1107,7 @@ def lgamma(a):
     """
     return _arith_unary_func(a, backend.get().af_lgamma)
 
+
 def iszero(a):
     """
     Check if each element of the input is zero.
@@ -1078,6 +1128,7 @@ def iszero(a):
     """
     return _arith_unary_func(a, backend.get().af_iszero)
 
+
 def isinf(a):
     """
     Check if each element of the input is infinity.
@@ -1097,6 +1148,7 @@ def isinf(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_isinf)
+
 
 def isnan(a):
     """

@@ -1,17 +1,20 @@
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
 # The complete license agreement can be obtained at:
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
+
 """
 Functions to handle the available devices in the backend.
 """
 
-from .library import *
-from .util import (safe_call, to_str, get_version)
+from .array import Array
+from .library import backend, safe_call, c_bool_t, c_char_t, c_dim_t, c_int_t, c_pointer, c_size_t, c_void_ptr_t
+from .util import to_str
+
 
 def init():
     """
@@ -20,6 +23,7 @@ def init():
     This function may need to be called when interoperating with other libraries
     """
     safe_call(backend.get().af_init())
+
 
 def info():
     """
@@ -30,6 +34,7 @@ def info():
         - The current device being used.
     """
     safe_call(backend.get().af_info())
+
 
 def device_info():
     """
@@ -45,8 +50,8 @@ def device_info():
     toolkit = c_char_256()
     compute = c_char_256()
 
-    safe_call(backend.get().af_device_info(c_pointer(device_name), c_pointer(backend_name),
-                                           c_pointer(toolkit), c_pointer(compute)))
+    safe_call(backend.get().af_device_info(
+        c_pointer(device_name), c_pointer(backend_name), c_pointer(toolkit), c_pointer(compute)))
     dev_info = {}
     dev_info['device'] = to_str(device_name)
     dev_info['backend'] = to_str(backend_name)
@@ -54,6 +59,7 @@ def device_info():
     dev_info['compute'] = to_str(compute)
 
     return dev_info
+
 
 def get_device_count():
     """
@@ -63,6 +69,7 @@ def get_device_count():
     safe_call(backend.get().af_get_device_count(c_pointer(c_num)))
     return c_num.value
 
+
 def get_device():
     """
     Returns the id of the current device.
@@ -70,6 +77,7 @@ def get_device():
     c_dev = c_int_t(0)
     safe_call(backend.get().af_get_device(c_pointer(c_dev)))
     return c_dev.value
+
 
 def set_device(num):
     """
@@ -82,7 +90,8 @@ def set_device(num):
     """
     safe_call(backend.get().af_set_device(num))
 
-def info_str(verbose = False):
+
+def info_str():
     """
     Returns information about the following as a string:
         - ArrayFire version number.
@@ -90,6 +99,7 @@ def info_str(verbose = False):
         - The names of the devices.
         - The current device being used.
     """
+    # FIXME: import inside of a function
     import platform
     res_str = 'ArrayFire'
 
@@ -105,31 +115,32 @@ def info_str(verbose = False):
 
     for n in range(num_devices):
         # To suppress warnings on CPU
-        if (n != curr_device_id):
+        if n != curr_device_id:
             set_device(n)
 
-        if (n == curr_device_id):
+        if n == curr_device_id:
             res_str += '[%d] ' % n
         else:
             res_str += '-%d- ' % n
 
         dev_info = device_info()
 
-        if (backend_str.lower() == 'opencl'):
+        if backend_str.lower() == 'opencl':
             res_str += dev_info['toolkit']
 
         res_str += ': ' + dev_info['device']
 
-        if (backend_str.lower() != 'cpu'):
+        if backend_str.lower() != 'cpu':
             res_str += ' (Compute ' + dev_info['compute'] + ')'
 
         res_str += '\n'
 
     # To suppress warnings on CPU
-    if (curr_device_id != get_device()):
+    if curr_device_id != get_device():
         set_device(curr_device_id)
 
     return res_str
+
 
 def is_dbl_supported(device=None):
     """
@@ -149,6 +160,7 @@ def is_dbl_supported(device=None):
     res = c_bool_t(False)
     safe_call(backend.get().af_get_dbl_support(c_pointer(res), dev))
     return res.value
+
 
 def is_half_supported(device=None):
     """
@@ -181,17 +193,18 @@ def sync(device=None):
     dev = device if device is not None else get_device()
     safe_call(backend.get().af_sync(dev))
 
+
 def __eval(*args):
     nargs = len(args)
-    if (nargs == 1):
+    if nargs == 1:
         safe_call(backend.get().af_eval(args[0].arr))
-    else:
-        c_void_p_n = c_void_ptr_t * nargs
-        arrs = c_void_p_n()
-        for n in range(nargs):
-            arrs[n] = args[n].arr
-        safe_call(backend.get().af_eval_multiple(c_int_t(nargs), c_pointer(arrs)))
-    return
+
+    c_void_p_n = c_void_ptr_t * nargs
+    arrs = c_void_p_n()
+    for n in range(nargs):
+        arrs[n] = args[n].arr
+    safe_call(backend.get().af_eval_multiple(c_int_t(nargs), c_pointer(arrs)))
+
 
 def eval(*args):
     """
@@ -236,6 +249,7 @@ def eval(*args):
 
     __eval(*args)
 
+
 def set_manual_eval_flag(flag):
     """
     Tells the backend JIT engine to disable heuristics for determining when to evaluate a JIT tree.
@@ -252,6 +266,7 @@ def set_manual_eval_flag(flag):
     """
     safe_call(backend.get().af_set_manual_eval_flag(flag))
 
+
 def get_manual_eval_flag():
     """
     Query the backend JIT engine to see if the user disabled heuristic evaluation of the JIT tree.
@@ -263,6 +278,7 @@ def get_manual_eval_flag():
     res = c_bool_t(False)
     safe_call(backend.get().af_get_manual_eval_flag(c_pointer(res)))
     return res.value
+
 
 def device_mem_info():
     """
@@ -285,14 +301,15 @@ def device_mem_info():
     alloc_buffers = c_size_t(0)
     lock_bytes = c_size_t(0)
     lock_buffers = c_size_t(0)
-    safe_call(backend.get().af_device_mem_info(c_pointer(alloc_bytes), c_pointer(alloc_buffers),
-                                               c_pointer(lock_bytes), c_pointer(lock_buffers)))
+    safe_call(backend.get().af_device_mem_info(
+        c_pointer(alloc_bytes), c_pointer(alloc_buffers), c_pointer(lock_bytes), c_pointer(lock_buffers)))
     mem_info = {}
-    mem_info['alloc'] = {'buffers' : alloc_buffers.value, 'bytes' : alloc_bytes.value}
-    mem_info['lock'] = {'buffers' : lock_buffers.value, 'bytes' : lock_bytes.value}
+    mem_info['alloc'] = {'buffers': alloc_buffers.value, 'bytes': alloc_bytes.value}
+    mem_info['lock'] = {'buffers': lock_buffers.value, 'bytes': lock_bytes.value}
     return mem_info
 
-def print_mem_info(title = "Memory Info", device_id = None):
+
+def print_mem_info(title="Memory Info", device_id=None):
     """
     Prints the memory used for the specified device.
 
@@ -338,11 +355,13 @@ def print_mem_info(title = "Memory Info", device_id = None):
     device_id = device_id if device_id else get_device()
     safe_call(backend.get().af_print_mem_info(title.encode('utf-8'), device_id))
 
+
 def device_gc():
     """
     Ask the garbage collector to free all unlocked memory
     """
     safe_call(backend.get().af_device_gc())
+
 
 def get_device_ptr(a):
     """
@@ -367,13 +386,16 @@ def get_device_ptr(a):
     safe_call(backend.get().af_get_device_ptr(c_pointer(ptr), a.arr))
     return ptr
 
+
 def lock_device_ptr(a):
     """
     This functions is deprecated. Please use lock_array instead.
     """
+    # FIXME: import inside of a function
     import warnings
     warnings.warn("This function is deprecated. Use lock_array instead.", DeprecationWarning)
     lock_array(a)
+
 
 def lock_array(a):
     """
@@ -389,6 +411,7 @@ def lock_array(a):
         - The device pointer of `a` is not freed by memory manager until `unlock_array()` is called.
     """
     safe_call(backend.get().af_lock_array(a.arr))
+
 
 def is_locked_array(a):
     """
@@ -407,13 +430,16 @@ def is_locked_array(a):
     safe_call(backend.get().af_is_locked_array(c_pointer(res), a.arr))
     return res.value
 
+
 def unlock_device_ptr(a):
     """
     This functions is deprecated. Please use unlock_array instead.
     """
+    # FIXME: import inside of a function
     import warnings
     warnings.warn("This function is deprecated. Use unlock_array instead.", DeprecationWarning)
     unlock_array(a)
+
 
 def unlock_array(a):
     """
@@ -427,6 +453,7 @@ def unlock_array(a):
     """
     safe_call(backend.get().af_unlock_array(a.arr))
 
+
 def alloc_device(num_bytes):
     """
     Allocate a buffer on the device with specified number of bytes.
@@ -435,6 +462,7 @@ def alloc_device(num_bytes):
     c_num_bytes = c_dim_t(num_bytes)
     safe_call(backend.get().af_alloc_device(c_pointer(ptr), c_num_bytes))
     return ptr.value
+
 
 def alloc_host(num_bytes):
     """
@@ -445,6 +473,7 @@ def alloc_host(num_bytes):
     safe_call(backend.get().af_alloc_host(c_pointer(ptr), c_num_bytes))
     return ptr.value
 
+
 def alloc_pinned(num_bytes):
     """
     Allocate a buffer on the host using pinned memory with specified number of bytes.
@@ -454,12 +483,14 @@ def alloc_pinned(num_bytes):
     safe_call(backend.get().af_alloc_pinned(c_pointer(ptr), c_num_bytes))
     return ptr.value
 
+
 def free_device(ptr):
     """
     Free the device memory allocated by alloc_device
     """
     cptr = c_void_ptr_t(ptr)
     safe_call(backend.get().af_free_device(cptr))
+
 
 def free_host(ptr):
     """
@@ -468,6 +499,7 @@ def free_host(ptr):
     cptr = c_void_ptr_t(ptr)
     safe_call(backend.get().af_free_host(cptr))
 
+
 def free_pinned(ptr):
     """
     Free the pinned memory allocated by alloc_pinned
@@ -475,4 +507,3 @@ def free_pinned(ptr):
     cptr = c_void_ptr_t(ptr)
     safe_call(backend.get().af_free_pinned(cptr))
 
-from .array import Array

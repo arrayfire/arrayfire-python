@@ -1,5 +1,5 @@
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,12 +11,13 @@
 Implementation of BaseArray class.
 """
 
-from .library import *
-from .util import *
+from .library import c_void_ptr_t
 
-class BaseArray(object):
+
+class BaseArray:
     """
     Base array class for arrayfire. For internal use only.
     """
+
     def __init__(self):
         self.arr = c_void_ptr_t(0)

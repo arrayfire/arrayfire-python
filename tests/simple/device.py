@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2015, ArrayFire
+# Copyright (c) 2019, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -27,7 +27,7 @@ def simple_device(verbose=False):
     for k in range(af.get_device_count()):
         af.set_device(k)
         dev = af.get_device()
-        assert(k == dev)
+        assert k == dev
 
         print_func(af.is_dbl_supported(k))
 
@@ -38,8 +38,8 @@ def simple_device(verbose=False):
         a = af.randu(100, 100)
         af.sync(dev)
         mem_info = af.device_mem_info()
-        assert(mem_info["alloc"]["buffers"] == 1 + mem_info_old["alloc"]["buffers"])
-        assert(mem_info["lock"]["buffers"] == 1 + mem_info_old["lock"]["buffers"])
+        assert mem_info["alloc"]["buffers"] == 1 + mem_info_old["alloc"]["buffers"]
+        assert mem_info["lock"]["buffers"] == 1 + mem_info_old["lock"]["buffers"]
 
     af.set_device(curr_dev)
 
@@ -67,9 +67,9 @@ def simple_device(verbose=False):
     print_func(d)
 
     print_func(af.set_manual_eval_flag(True))
-    assert(af.get_manual_eval_flag())
+    assert af.get_manual_eval_flag()
     print_func(af.set_manual_eval_flag(False))
-    assert(not af.get_manual_eval_flag())
+    assert not af.get_manual_eval_flag()
 
     display_func(af.is_locked_array(a))
 
