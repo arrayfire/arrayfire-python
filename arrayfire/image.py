@@ -1368,9 +1368,8 @@ def iterativeDeconv(image, psf, iterations, relax_factor, algo = ITERATIVE_DECON
 
     """
     out = Array()
-    safe_call(backend.get().
-              af_iterative_deconv(c_pointer(out.arr), image.arr, psf.arr,
-                                  c_uint_t(iterations), c_float_t(relax_factor), algo.value))
+    safe_call(backend.get().af_iterative_deconv(
+        c_pointer(out.arr), image.arr, psf.arr, c_uint_t(iterations), c_float_t(relax_factor), algo.value))
     return out
 
 def inverseDeconv(image, psf, gamma, algo = ITERATIVE_DECONV.DEFAULT):

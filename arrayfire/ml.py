@@ -17,7 +17,10 @@ from .array import Array
 from .library import backend, safe_call, c_pointer, CONV_GRADIENT
 from .util import dim4
 
-def convolve2GradientNN(incoming_gradient, original_signal, original_kernel, convolved_output, stride = (1, 1), padding = (0, 0), dilation = (1, 1), gradType = CONV_GRADIENT.DEFAULT):
+
+def convolve2GradientNN(
+        incoming_gradient, original_signal, original_kernel, convolved_output, stride=(1, 1), padding=(0, 0),
+        dilation=(1, 1), gradType=CONV_GRADIENT.DEFAULT):
     """
     Function for calculating backward pass gradient of 2D convolution.
 
@@ -66,19 +69,11 @@ def convolve2GradientNN(incoming_gradient, original_signal, original_kernel, con
 
     """
     output = Array()
-    stride_dim   = dim4(stride[0],   stride[1])
-    padding_dim  = dim4(padding[0],  padding[1])
+    stride_dim = dim4(stride[0],   stride[1])
+    padding_dim = dim4(padding[0],  padding[1])
     dilation_dim = dim4(dilation[0], dilation[1])
 
     safe_call(backend.get().af_convolve2_gradient_nn(
-                                            c_pointer(output.arr),
-                                            incoming_gradient.arr,
-                                            original_signal.arr,
-                                            original_kernel.arr,
-                                            convolved_output.arr,
-                                            2, c_pointer(stride_dim),
-                                            2, c_pointer(padding_dim),
-                                            2, c_pointer(dilation_dim),
-                                            gradType.value))
+        c_pointer(output.arr), incoming_gradient.arr, original_signal.arr, original_kernel.arr, convolved_output.arr,
+        2, c_pointer(stride_dim), 2, c_pointer(padding_dim), 2, c_pointer(dilation_dim), gradType.value))
     return output
-
