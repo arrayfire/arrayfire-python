@@ -19,8 +19,12 @@
 #
 import os
 import sys
+from configparser import ConfigParser
 
-from __af_version__ import full_version
+
+config = ConfigParser()
+config.read(os.path.abspath("setup.cfg"))
+full_version = config.get("metadata", "version")
 
 sys.path.insert(0, os.path.abspath('..'))
 
