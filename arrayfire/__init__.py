@@ -348,6 +348,7 @@ from .library import get_device_id  # noqa : E401
 from .library import get_size_of  # noqa : E401
 from .library import safe_call  # noqa : E401
 from .library import set_backend  # noqa : E401
+from .library import to_str  # noqa : E401
 # =============================================================================
 # Machine Learning (ML) module
 # =============================================================================
@@ -445,7 +446,6 @@ from .util import implicit_dtype  # noqa : E401
 from .util import number_dtype  # noqa : E401
 from .util import to_c_type  # noqa : E401
 from .util import to_dtype  # noqa : E401
-from .util import to_str  # noqa : E401
 from .util import to_typecode  # noqa : E401
 
 try:

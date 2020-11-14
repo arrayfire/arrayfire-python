@@ -12,31 +12,32 @@ Functions specific to OpenCL backend.
 
 This module provides interoperability with other OpenCL libraries.
 """
+from enum import Enum
 
-from .library import _Enum, _Enum_Type, c_int_t, c_pointer, c_void_ptr_t
+from .library import c_int_t, c_pointer, c_void_ptr_t
 
 
-class DEVICE_TYPE(_Enum):
+class DEVICE_TYPE(Enum):
     """
     ArrayFire wrapper for CL_DEVICE_TYPE
     """
-    CPU = _Enum_Type(1 << 1)
-    GPU = _Enum_Type(1 << 2)
-    ACC = _Enum_Type(1 << 3)
-    UNKNOWN = _Enum_Type(-1)
+    CPU = 1 << 1
+    GPU = 1 << 2
+    ACC = 1 << 3
+    UNKNOWN = -1
 
 
-class PLATFORM(_Enum):
+class PLATFORM(Enum):
     """
     ArrayFire enum for common platforms
     """
-    AMD = _Enum_Type(0)
-    APPLE = _Enum_Type(1)
-    INTEL = _Enum_Type(2)
-    NVIDIA = _Enum_Type(3)
-    BEIGNET = _Enum_Type(4)
-    POCL = _Enum_Type(5)
-    UNKNOWN = _Enum_Type(-1)
+    AMD = 0
+    APPLE = 1
+    INTEL = 2
+    NVIDIA = 3
+    BEIGNET = 4
+    POCL = 5
+    UNKNOWN = -1
 
 
 def get_context(retain=False):

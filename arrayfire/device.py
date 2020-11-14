@@ -12,8 +12,8 @@ Functions to handle the available devices in the backend.
 """
 
 from .array import Array
-from .library import backend, safe_call, c_bool_t, c_char_t, c_dim_t, c_int_t, c_pointer, c_size_t, c_void_ptr_t
-from .util import to_str
+from .library import (
+    backend, c_bool_t, c_char_t, c_dim_t, c_int_t, c_pointer, c_size_t, c_void_ptr_t, safe_call, to_str)
 
 
 def init():
@@ -506,4 +506,3 @@ def free_pinned(ptr):
     """
     cptr = c_void_ptr_t(ptr)
     safe_call(backend.get().af_free_pinned(cptr))
-
