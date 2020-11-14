@@ -20,9 +20,9 @@ from .index import Index, ParallelRange, _Index4
 from .library import backend, safe_call
 from .library import (
     Dtype, Source, c_bool_t, c_char_ptr_t, c_dim_t, c_double_t, c_int_t, c_longlong_t, c_pointer, c_size_t, c_uint_t,
-    c_ulonglong_t, c_void_ptr_t)
+    c_ulonglong_t, c_void_ptr_t, to_str)
 from .util import (
-    _is_number, dim4, dim4_to_tuple, implicit_dtype, to_c_type, to_dtype, to_str, to_typecode, to_typename)
+    _is_number, dim4, dim4_to_tuple, implicit_dtype, to_c_type, to_dtype, to_typecode, to_typename)
 
 _is_running_in_py_charm = "PYCHARM_HOSTED" in os.environ
 
@@ -1490,5 +1490,3 @@ def read_array(filename, index=None, key=None):
     elif key is not None:
         safe_call(backend.get().af_read_array_key(c_pointer(out.arr), filename.encode('utf-8'), key.encode('utf-8')))
     return out
-
-

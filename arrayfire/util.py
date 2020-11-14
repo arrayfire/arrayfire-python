@@ -15,7 +15,7 @@ import numbers
 
 from .library import (
     Dtype, c_char_t, c_dim_t, c_double_t, c_float_t, c_int_t, c_longlong_t, c_short_t, c_uchar_t, c_uint_t,
-    c_ulonglong_t, c_ushort_t)
+    c_ulonglong_t, c_ushort_t, to_str)
 
 
 def dim4(d0=1, d1=1, d2=1, d3=1):
@@ -77,10 +77,6 @@ def dim4_to_tuple(dims, default=1):
         out[i] = dim
 
     return tuple(out)
-
-
-def to_str(c_str):
-    return str(c_str.value.decode('utf-8'))
 
 
 def get_version():
