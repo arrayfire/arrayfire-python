@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2019, ArrayFire
+# Copyright (c) 2020, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,20 +11,14 @@
 
 import arrayfire as af
 
-from . import _util
 
-
-def simple_blas(verbose=False):
-    display_func = _util.display_func(verbose)
+def test_simple_blas() -> None:
     a = af.randu(5, 5)
     b = af.randu(5, 5)
 
-    display_func(af.matmul(a, b))
-    display_func(af.matmul(a, b, af.MATPROP.TRANS))
-    display_func(af.matmul(a, b, af.MATPROP.NONE, af.MATPROP.TRANS))
+    assert af.matmul(a, b)
+    assert af.matmul(a, b, af.MATPROP.TRANS)
+    assert af.matmul(a, b, af.MATPROP.NONE, af.MATPROP.TRANS)
 
     b = af.randu(5, 1)
-    display_func(af.dot(b, b))
-
-
-_util.tests["blas"] = simple_blas
+    assert af.dot(b, b)

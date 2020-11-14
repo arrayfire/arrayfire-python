@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2019, ArrayFire
+# Copyright (c) 2020, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -13,72 +13,65 @@ import array as host
 
 import arrayfire as af
 
-from . import _util
 
-
-def simple_index(verbose=False):
-    display_func = _util.display_func(verbose)
+def test_simple_index() -> None:
     a = af.randu(5, 5)
-    display_func(a)
+    assert a
     b = af.Array(a)
-    display_func(b)
+    assert b
 
     c = a.copy()
-    display_func(c)
-    display_func(a[0, 0])
-    display_func(a[0])
-    display_func(a[:])
-    display_func(a[:, :])
-    display_func(a[0:3, ])
-    display_func(a[-2:-1, -1])
-    display_func(a[0:5])
-    display_func(a[0:5:2])
+    assert c
+    assert a[0, 0]
+    assert a[0]
+    assert a[:]
+    assert a[:, :]
+    assert a[0:3, ]
+    assert a[-2:-1, -1]
+    assert a[0:5]
+    assert a[0:5:2]
 
     idx = af.Array(host.array("i", [0, 3, 2]))
-    display_func(idx)
+    assert idx
     aa = a[idx]
-    display_func(aa)
+    assert aa
 
     a[0] = 1
-    display_func(a)
+    assert a
     a[0] = af.randu(1, 5)
-    display_func(a)
+    assert a
     a[:] = af.randu(5, 5)
-    display_func(a)
+    assert a
     a[:, -1] = af.randu(5, 1)
-    display_func(a)
+    assert a
     a[0:5:2] = af.randu(3, 5)
-    display_func(a)
+    assert a
     a[idx, idx] = af.randu(3, 3)
-    display_func(a)
+    assert a
 
     a = af.randu(5, 1)
     b = af.randu(5, 1)
-    display_func(a)
-    display_func(b)
+    assert a
+    assert b
     for ii in af.ParallelRange(1, 3):
         a[ii] = b[ii]
 
-    display_func(a)
+    assert a
 
     for ii in af.ParallelRange(2, 5):
         b[ii] = 2
-    display_func(b)
+    assert b
 
     a = af.randu(3, 2)
     rows = af.constant(0, 1, dtype=af.Dtype.s32)
     b = a[:, rows]
-    display_func(b)
+    assert b
     for r in range(rows.elements()):
-        display_func(r)
-        display_func(b[:, r])
+        assert b[:, r]
 
     a = af.randu(3)
     c = af.randu(3)
     b = af.constant(1, 3, dtype=af.Dtype.b8)
-    display_func(a)
+    assert a
     a[b] = c
-    display_func(a)
-
-
-_util.tests["index"] = simple_index
+    assert a

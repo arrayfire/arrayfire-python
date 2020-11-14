@@ -34,3 +34,10 @@ venv
 # IDEs
 .vscode
 .idea
+
+# Test coverage
+.coverage
+
+# Cache
+.pytest_cache
+.mypy_cache
