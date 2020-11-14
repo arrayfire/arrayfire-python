@@ -12,7 +12,9 @@ BLAS functions (matmul, dot, etc)
 """
 
 from .array import Array
-from .library import backend, safe_call, MATPROP, c_double_t, c_pointer
+from .library import (
+    MATPROP, Dtype, af_cdouble_t, af_cfloat_t, backend, c_cast, c_double_t, c_float_t, c_pointer, c_void_ptr_t,
+    safe_call, get_complex_number)
 
 
 def matmul(lhs, rhs, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE):
@@ -54,8 +56,7 @@ def matmul(lhs, rhs, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE):
 
     """
     out = Array()
-    safe_call(backend.get().af_matmul(
-        c_pointer(out.arr), lhs.arr, rhs.arr, lhs_opts.value, rhs_opts.value))
+    safe_call(backend.get().af_matmul(c_pointer(out.arr), lhs.arr, rhs.arr, lhs_opts.value, rhs_opts.value))
     return out
 
 
@@ -86,8 +87,7 @@ def matmulTN(lhs, rhs):
 
     """
     out = Array()
-    safe_call(backend.get().af_matmul(
-        c_pointer(out.arr), lhs.arr, rhs.arr, MATPROP.TRANS.value, MATPROP.NONE.value))
+    safe_call(backend.get().af_matmul(c_pointer(out.arr), lhs.arr, rhs.arr, MATPROP.TRANS.value, MATPROP.NONE.value))
     return out
 
 
@@ -118,8 +118,7 @@ def matmulNT(lhs, rhs):
 
     """
     out = Array()
-    safe_call(backend.get().af_matmul(
-        c_pointer(out.arr), lhs.arr, rhs.arr, MATPROP.NONE.value, MATPROP.TRANS.value))
+    safe_call(backend.get().af_matmul(c_pointer(out.arr), lhs.arr, rhs.arr, MATPROP.NONE.value, MATPROP.TRANS.value))
     return out
 
 
@@ -150,8 +149,7 @@ def matmulTT(lhs, rhs):
 
     """
     out = Array()
-    safe_call(backend.get().af_matmul(
-        c_pointer(out.arr), lhs.arr, rhs.arr, MATPROP.TRANS.value, MATPROP.TRANS.value))
+    safe_call(backend.get().af_matmul(c_pointer(out.arr), lhs.arr, rhs.arr, MATPROP.TRANS.value, MATPROP.TRANS.value))
     return out
 
 
@@ -199,21 +197,19 @@ def dot(lhs, rhs, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE, return_scalar=Fa
         imag = c_double_t(0)
         safe_call(backend.get().af_dot_all(
             c_pointer(real), c_pointer(imag), lhs.arr, rhs.arr, lhs_opts.value, rhs_opts.value))
-        real = real.value
-        imag = imag.value
-        return real if imag == 0 else real + imag * 1j
-    else:
-        out = Array()
-        safe_call(backend.get().af_dot(c_pointer(out.arr), lhs.arr, rhs.arr,
-                                       lhs_opts.value, rhs_opts.value))
-        return out
+        return get_complex_number(real, imag)
+
+    out = Array()
+    safe_call(backend.get().af_dot(c_pointer(out.arr), lhs.arr, rhs.arr, lhs_opts.value, rhs_opts.value))
+    return out
 
 
 def gemm(lhs, rhs, alpha=1.0, beta=0.0, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.NONE, C=None):
     """
     BLAS general matrix multiply (GEMM) of two af_array objects.
 
-    This provides a general interface to the BLAS level 3 general matrix multiply (GEMM), which is generally defined as:
+    This provides a general interface to the BLAS level 3 general matrix multiply (GEMM),
+    which is generally defined as:
 
     C = alpha * opA(A) opB(B) + beta * C
 
@@ -262,15 +258,12 @@ def gemm(lhs, rhs, alpha=1.0, beta=0.0, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.
     - Batches are not supported.
 
     """
-    if C is None:
-        out = Array()
-    else:
-        out = C
+    out = Array() if C is None else C
 
     ltype = lhs.dtype()
 
     if ltype == Dtype.f32:
-        aptr = c_cast(c_pointer(c_float_t(alpha)),c_void_ptr_t)
+        aptr = c_cast(c_pointer(c_float_t(alpha)), c_void_ptr_t)
         bptr = c_cast(c_pointer(c_float_t(beta)), c_void_ptr_t)
     elif ltype == Dtype.c32:
         if isinstance(alpha, af_cfloat_t):
@@ -288,7 +281,7 @@ def gemm(lhs, rhs, alpha=1.0, beta=0.0, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.
             bptr = c_cast(c_pointer(af_cfloat_t(beta)), c_void_ptr_t)
 
     elif ltype == Dtype.f64:
-        aptr = c_cast(c_pointer(c_double_t(alpha)),c_void_ptr_t)
+        aptr = c_cast(c_pointer(c_double_t(alpha)), c_void_ptr_t)
         bptr = c_cast(c_pointer(c_double_t(beta)), c_void_ptr_t)
     elif ltype == Dtype.c64:
         if isinstance(alpha, af_cdouble_t):
@@ -309,8 +302,6 @@ def gemm(lhs, rhs, alpha=1.0, beta=0.0, lhs_opts=MATPROP.NONE, rhs_opts=MATPROP.
     else:
         raise TypeError("unsupported input type")
 
-
-    safe_call(backend.get().af_gemm(c_pointer(out.arr),
-                                    lhs_opts.value, rhs_opts.value,
-                                    aptr, lhs.arr, rhs.arr, bptr))
+    safe_call(backend.get().af_gemm(
+        c_pointer(out.arr), lhs_opts.value, rhs_opts.value, aptr, lhs.arr, rhs.arr, bptr))
     return out

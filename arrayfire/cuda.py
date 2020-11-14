@@ -13,7 +13,8 @@ Functions specific to CUDA backend.
 This module provides interoperability with other CUDA libraries.
 """
 
-from .library import c_int_t, c_pointer, c_void_ptr_t
+from .library import backend, c_int_t, c_pointer, c_void_ptr_t
+from .util import safe_call
 
 
 def get_stream(idx):
@@ -30,14 +31,7 @@ def get_stream(idx):
     -----------
     stream : integer denoting the stream id.
     """
-    # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call
-    from .library import backend
-
-    if backend.name() != "cuda":
-        raise RuntimeError("Invalid backend loaded")
-
+    _check_backend()
     stream = c_void_ptr_t(0)
     safe_call(backend.get().afcu_get_stream(c_pointer(stream), idx))
     return stream.value
@@ -57,14 +51,7 @@ def get_native_id(idx):
     -----------
     native_idx : integer denoting the native cuda id.
     """
-    # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call
-    from .library import backend
-
-    if backend.name() != "cuda":
-        raise RuntimeError("Invalid backend loaded")
-
+    _check_backend()
     native = c_int_t(0)
     safe_call(backend.get().afcu_get_native_id(c_pointer(native), idx))
     return native.value
@@ -80,12 +67,10 @@ def set_native_id(idx):
     idx : int.
         Specifies the (unsorted) native index of the device.
     """
-    # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call
-    from .library import backend
+    _check_backend()
+    safe_call(backend.get().afcu_set_native_id(idx))
 
+
+def _check_backend():
     if backend.name() != "cuda":
         raise RuntimeError("Invalid backend loaded")
-
-    safe_call(backend.get().afcu_set_native_id(idx))

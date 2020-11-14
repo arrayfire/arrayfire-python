@@ -13,8 +13,9 @@ Signal processing functions (fft, convolve, etc).
 
 from .array import Array
 from .bcast import broadcast
-from .library import backend, safe_call, CONV_DOMAIN, CONV_MODE, INTERP, PAD, c_dim_t, c_double_t, c_float_t, c_pointer, c_size_t
-from .util import dim4, dim4_to_tuple
+from .library import (
+    backend, safe_call, CONV_DOMAIN, CONV_MODE, INTERP, PAD, c_dim_t, c_double_t, c_float_t, c_pointer, c_size_t)
+from .util import dim4
 
 
 @broadcast
@@ -31,7 +32,7 @@ def _scale_pos_axis1(y_curr, y_orig):
     return (y_curr - y0) / dy
 
 
-def approx1(signal, x, method=INTERP.LINEAR, off_grid=0.0, xp = None, output = None):
+def approx1(signal, x, method=INTERP.LINEAR, off_grid=0.0, xp=None, output=None):
     """
     Interpolate along a single dimension.Interpolation is performed along axis 0
     of the input array.
@@ -40,20 +41,19 @@ def approx1(signal, x, method=INTERP.LINEAR, off_grid=0.0, xp = None, output = N
     ----------
 
     signal: af.Array
-            Input signal array (signal = f(x))
+        Input signal array (signal = f(x))
 
     x: af.Array
-       The x-coordinates of the interpolation points. The interpolation
-       function is queried at these set of points.
+        The x-coordinates of the interpolation points. The interpolation function is queried at these set of points.
 
     method: optional: af.INTERP. default: af.INTERP.LINEAR.
-            Interpolation method.
+        Interpolation method.
 
     off_grid: optional: scalar. default: 0.0.
-            The value used for positions outside the range.
+        The value used for positions outside the range.
 
     xp : af.Array
-         The x-coordinates of the input data points
+        The x-coordinates of the input data points
 
     output: None or af.Array
         Optional preallocated output array. If it is a sub-array of an existing af_array,
@@ -63,7 +63,7 @@ def approx1(signal, x, method=INTERP.LINEAR, off_grid=0.0, xp = None, output = N
     -------
 
     output: af.Array
-            Values calculated at interpolation points.
+        Values calculated at interpolation points.
 
 
     Note
@@ -72,29 +72,19 @@ def approx1(signal, x, method=INTERP.LINEAR, off_grid=0.0, xp = None, output = N
     The initial measurements are assumed to have taken place at equal steps between [0, N - 1],
     where N is the length of the first dimension of `signal`.
     """
+    pos0 = _scale_pos_axis0(x, xp) if xp is not None else x
 
     if output is None:
         output = Array()
-
-        if(xp is not None):
-            pos0 = _scale_pos_axis0(x, xp)
-        else:
-            pos0 = x
-
-        safe_call(backend.get().af_approx1(c_pointer(output.arr), signal.arr, pos0.arr,
-                                           method.value, c_float_t(off_grid)))
-
+        safe_call(backend.get().af_approx1(
+            c_pointer(output.arr), signal.arr, pos0.arr, method.value, c_float_t(off_grid)))
     else:
-        if(xp is not None):
-            pos0 = _scale_pos_axis0(x, xp)
-        else:
-            pos0 = x
-        safe_call(backend.get().af_approx1_v2(c_pointer(output.arr), signal.arr, pos0.arr,
-                                              method.value, c_float_t(off_grid)))
+        safe_call(backend.get().af_approx1_v2(
+            c_pointer(output.arr), signal.arr, pos0.arr, method.value, c_float_t(off_grid)))
     return output
 
 
-def approx1_uniform(signal, x, interp_dim, idx_start, idx_step, method=INTERP.LINEAR, off_grid=0.0, output = None):
+def approx1_uniform(signal, x, interp_dim, idx_start, idx_step, method=INTERP.LINEAR, off_grid=0.0, output=None):
     """
     Interpolation on one dimensional signals along specified dimension.
 
@@ -105,11 +95,10 @@ def approx1_uniform(signal, x, interp_dim, idx_start, idx_step, method=INTERP.LI
     ----------
 
     signal: af.Array
-            Input signal array (signal = f(x))
+        Input signal array (signal = f(x))
 
     x: af.Array
-       The x-coordinates of the interpolation points. The interpolation 
-       function is queried at these set of points.
+        The x-coordinates of the interpolation points. The interpolation function is queried at these set of points.
 
     interp_dim: scalar
         is the dimension to perform interpolation across.
@@ -121,10 +110,10 @@ def approx1_uniform(signal, x, interp_dim, idx_start, idx_step, method=INTERP.LI
         is the uniform spacing value between subsequent indices along interp_dim.
 
     method: optional: af.INTERP. default: af.INTERP.LINEAR.
-            Interpolation method.
+        Interpolation method.
 
     off_grid: optional: scalar. default: 0.0.
-            The value used for positions outside the range.
+        The value used for positions outside the range.
 
     output: None or af.Array
         Optional preallocated output array. If it is a sub-array of an existing af_array,
@@ -134,25 +123,23 @@ def approx1_uniform(signal, x, interp_dim, idx_start, idx_step, method=INTERP.LI
     -------
 
     output: af.Array
-            Values calculated at interpolation points.
+        Values calculated at interpolation points.
 
     """
 
     if output is None:
         output = Array()
-
-        safe_call(backend.get().af_approx1_uniform(c_pointer(output.arr), signal.arr, x.arr,
-                                           c_dim_t(interp_dim), c_double_t(idx_start), c_double_t(idx_step),
-                                           method.value, c_float_t(off_grid)))
+        safe_call(backend.get().af_approx1_uniform(
+            c_pointer(output.arr), signal.arr, x.arr, c_dim_t(interp_dim), c_double_t(idx_start), c_double_t(idx_step),
+            method.value, c_float_t(off_grid)))
     else:
-        safe_call(backend.get().af_approx1_uniform_v2(c_pointer(output.arr), signal.arr, x.arr,
-                                           c_dim_t(interp_dim), c_double_t(idx_start), c_double_t(idx_step),
-                                           method.value, c_float_t(off_grid)))
+        safe_call(backend.get().af_approx1_uniform_v2(
+            c_pointer(output.arr), signal.arr, x.arr, c_dim_t(interp_dim), c_double_t(idx_start), c_double_t(idx_step),
+            method.value, c_float_t(off_grid)))
     return output
 
 
-def approx2(signal, x, y,
-            method=INTERP.LINEAR, off_grid=0.0, xp = None, yp = None, output = None):
+def approx2(signal, x, y, method=INTERP.LINEAR, off_grid=0.0, xp=None, yp=None, output=None):
     """
     Interpolate along a two dimension.Interpolation is performed along axes 0 and 1
     of the input array.
@@ -204,41 +191,23 @@ def approx2(signal, x, y,
     where M is the length of the first dimension of `signal`,
     and N is the length of the second dimension of `signal`.
     """
+    pos0 = _scale_pos_axis0(x, xp) if xp is not None else x
+    pos1 = _scale_pos_axis1(y, yp) if yp is not None else y
 
     if output is None:
         output = Array()
-
-        if(xp is not None):
-            pos0 = _scale_pos_axis0(x, xp)
-        else:
-            pos0 = x
-
-        if(yp is not None):
-            pos1 = _scale_pos_axis1(y, yp)
-        else:
-            pos1 = y
-
-        safe_call(backend.get().af_approx2(c_pointer(output.arr), signal.arr,
-                                           pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
+        safe_call(backend.get().af_approx2(
+            c_pointer(output.arr), signal.arr, pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
     else:
-        if(xp is not None):
-            pos0 = _scale_pos_axis0(x, xp)
-        else:
-            pos0 = x
-
-        if(yp is not None):
-            pos1 = _scale_pos_axis1(y, yp)
-        else:
-            pos1 = y
-
-        safe_call(backend.get().af_approx2_v2(c_pointer(output.arr), signal.arr,
-                                              pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
+        safe_call(backend.get().af_approx2_v2(
+            c_pointer(output.arr), signal.arr, pos0.arr, pos1.arr, method.value, c_float_t(off_grid)))
 
     return output
 
 
-def approx2_uniform(signal, pos0, interp_dim0, idx_start0, idx_step0, pos1, interp_dim1, idx_start1, idx_step1,
-            method=INTERP.LINEAR, off_grid=0.0, output = None):
+def approx2_uniform(
+        signal, pos0, interp_dim0, idx_start0, idx_step0, pos1, interp_dim1, idx_start1, idx_step1,
+        method=INTERP.LINEAR, off_grid=0.0, output=None):
     """
     Interpolate along two uniformly spaced dimensions of the input array.
     af_approx2_uniform() accepts two dimensions to perform the interpolation along the input.
@@ -298,23 +267,21 @@ def approx2_uniform(signal, pos0, interp_dim0, idx_start0, idx_step0, pos1, inte
     where M is the length of the first dimension of `signal`,
     and N is the length of the second dimension of `signal`.
     """
-
-    if output is None:
+    if not output:
         output = Array()
-        safe_call(backend.get().af_approx2_uniform(c_pointer(output.arr), signal.arr,
-                                           pos0.arr, c_dim_t(interp_dim0), c_double_t(idx_start0), c_double_t(idx_step0),
-                                           pos1.arr, c_dim_t(interp_dim1), c_double_t(idx_start1), c_double_t(idx_step1),
-                                           method.value, c_float_t(off_grid)))
+        safe_call(backend.get().af_approx2_uniform(
+            c_pointer(output.arr), signal.arr, pos0.arr, c_dim_t(interp_dim0), c_double_t(idx_start0),
+            c_double_t(idx_step0), pos1.arr, c_dim_t(interp_dim1), c_double_t(idx_start1), c_double_t(idx_step1),
+            method.value, c_float_t(off_grid)))
     else:
-        safe_call(backend.get().af_approx2_uniform_v2(c_pointer(output.arr), signal.arr,
-                                           pos0.arr, c_dim_t(interp_dim0), c_double_t(idx_start0), c_double_t(idx_step0),
-                                           pos1.arr, c_dim_t(interp_dim1), c_double_t(idx_start1), c_double_t(idx_step1),
-                                           method.value, c_float_t(off_grid)))
+        safe_call(backend.get().af_approx2_uniform_v2(
+            c_pointer(output.arr), signal.arr, pos0.arr, c_dim_t(interp_dim0), c_double_t(idx_start0),
+            c_double_t(idx_step0), pos1.arr, c_dim_t(interp_dim1), c_double_t(idx_start1), c_double_t(idx_step1),
+            method.value, c_float_t(off_grid)))
     return output
 
 
-
-def fft(signal, dim0 = None , scale = None):
+def fft(signal, dim0=None, scale=None):
     """
     Fast Fourier Transform: 1D
 
@@ -654,8 +621,6 @@ def fft3_inplace(signal, scale=None):
     if scale is None:
         scale = 1.0
 
-    # FIXME: output is assigned, but not used in function
-    output = Array()
     safe_call(backend.get().af_fft3_inplace(signal.arr, c_double_t(scale)))
 
 
@@ -995,9 +960,6 @@ def dft(signal, odims=(None, None, None, None), scale=None):
            - A complex array that is the ouput of n-dimensional fourier transform.
 
     """
-    # FIXME: odims4 is assigned, but not used in function
-    odims4 = dim4_to_tuple(odims, default=None)
-
     dims = signal.dims()
     ndims = len(dims)
 
@@ -1039,9 +1001,6 @@ def idft(signal, scale=None, odims=(None, None, None, None)):
     the output is always complex.
 
     """
-    # FIXME: odims4 is assigned, but not used in function
-    odims4 = dim4_to_tuple(odims, default=None)
-
     dims = signal.dims()
     ndims = len(dims)
 
@@ -1151,7 +1110,8 @@ def convolve2(signal, kernel, conv_mode=CONV_MODE.DEFAULT, conv_domain=CONV_DOMA
         c_pointer(output.arr), signal.arr, kernel.arr, conv_mode.value, conv_domain.value))
     return output
 
-def convolve2NN(signal, kernel, stride = (1, 1), padding = (0, 0), dilation = (1, 1)):
+
+def convolve2NN(signal, kernel, stride=(1, 1), padding=(0, 0), dilation=(1, 1)):
     """
     This version of convolution is consistent with the machine learning
     formulation that will spatially convolve a filter on 2-dimensions against a
@@ -1191,17 +1151,17 @@ def convolve2NN(signal, kernel, stride = (1, 1), padding = (0, 0), dilation = (1
 
     """
     output = Array()
-    stride_dim   = dim4(stride[0],   stride[1])
-    padding_dim  = dim4(padding[0],  padding[1])
+    stride_dim = dim4(stride[0], stride[1])
+    padding_dim = dim4(padding[0], padding[1])
     dilation_dim = dim4(dilation[0], dilation[1])
 
-    safe_call(backend.get().af_convolve2_nn(c_pointer(output.arr), signal.arr, kernel.arr,
-                                            2, c_pointer(stride_dim),
-                                            2, c_pointer(padding_dim),
-                                            2, c_pointer(dilation_dim)))
+    safe_call(backend.get().af_convolve2_nn(
+        c_pointer(output.arr), signal.arr, kernel.arr, 2, c_pointer(stride_dim), 2, c_pointer(padding_dim),
+        2, c_pointer(dilation_dim)))
     return output
 
-def convolve2_separable(col_kernel, row_kernel, signal, conv_mode = CONV_MODE.DEFAULT):
+
+def convolve2_separable(col_kernel, row_kernel, signal, conv_mode=CONV_MODE.DEFAULT):
     """
     Convolution: 2D separable convolution
 

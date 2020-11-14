@@ -12,7 +12,8 @@ Random engine class and functions to generate random numbers.
 """
 
 from .array import Array
-from .library import backend, safe_call, RANDOM_ENGINE, Dtype, c_int_t, c_longlong_t, c_pointer, c_ulonglong_t, c_void_ptr_t
+from .library import (
+    RANDOM_ENGINE, Dtype, backend, c_int_t, c_longlong_t, c_pointer, c_ulonglong_t, c_void_ptr_t, safe_call)
 from .util import dim4
 
 

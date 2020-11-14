@@ -16,8 +16,8 @@ import os
 from .array import Array
 from .data import constant
 from .library import (
-    CANNY_THRESHOLD, CONNECTIVITY, DIFFUSION, FLUX, INTERP, ITERATIVE_DECONV, MOMENT, PAD, YCC_STD, Dtype, c_bool_t, c_char_ptr_t,
-    c_dim_t, c_double_t, c_float_t, c_int_t, c_pointer, c_uint_t)
+    CANNY_THRESHOLD, CONNECTIVITY, DIFFUSION, FLUX, INTERP, ITERATIVE_DECONV, MOMENT, PAD, YCC_STD, Dtype, c_bool_t,
+    c_char_ptr_t, c_dim_t, c_double_t, c_float_t, c_int_t, c_pointer, c_uint_t)
 from .library import backend, safe_call
 
 
@@ -64,8 +64,7 @@ def load_image(file_name, is_color=False):
     """
     assert os.path.isfile(file_name)
     image = Array()
-    safe_call(
-        backend.get().af_load_image(c_pointer(image.arr), c_char_ptr_t(file_name.encode('ascii')), is_color))
+    safe_call(backend.get().af_load_image(c_pointer(image.arr), c_char_ptr_t(file_name.encode('ascii')), is_color))
     return image
 
 
@@ -103,8 +102,7 @@ def load_image_native(file_name):
     """
     assert os.path.isfile(file_name)
     image = Array()
-    safe_call(
-        backend.get().af_load_image_native(c_pointer(image.arr), c_char_ptr_t(file_name.encode('ascii'))))
+    safe_call(backend.get().af_load_image_native(c_pointer(image.arr), c_char_ptr_t(file_name.encode('ascii'))))
     return image
 
 
@@ -756,8 +754,9 @@ def confidenceCC(image, seedx, seedy, radius, multiplier, iters, segmented_value
 
     """
     output = Array()
-    safe_call(backend.get().af_confidence_cc(c_pointer(output.arr), image.arr, seedx.arr, seedy.arr,
-                c_uint_t(radius), c_uint_t(multiplier), c_int_t(iters), c_double_t(segmented_value)))
+    safe_call(backend.get().af_confidence_cc(
+        c_pointer(output.arr), image.arr, seedx.arr, seedy.arr, c_uint_t(radius), c_uint_t(multiplier),
+        c_int_t(iters), c_double_t(segmented_value)))
     return output
 
 
@@ -1333,7 +1332,7 @@ def anisotropic_diffusion(
     return out
 
 
-def iterativeDeconv(image, psf, iterations, relax_factor, algo = ITERATIVE_DECONV.DEFAULT):
+def iterativeDeconv(image, psf, iterations, relax_factor, algo=ITERATIVE_DECONV.DEFAULT):
     """
     Iterative deconvolution algorithm.
 
@@ -1372,7 +1371,8 @@ def iterativeDeconv(image, psf, iterations, relax_factor, algo = ITERATIVE_DECON
         c_pointer(out.arr), image.arr, psf.arr, c_uint_t(iterations), c_float_t(relax_factor), algo.value))
     return out
 
-def inverseDeconv(image, psf, gamma, algo = ITERATIVE_DECONV.DEFAULT):
+
+def inverseDeconv(image, psf, gamma, algo=ITERATIVE_DECONV.DEFAULT):
     """
     Inverse deconvolution algorithm.
 
@@ -1399,9 +1399,7 @@ def inverseDeconv(image, psf, gamma, algo = ITERATIVE_DECONV.DEFAULT):
 
     """
     out = Array()
-    safe_call(backend.get().
-              af_inverse_deconv(c_pointer(out.arr), image.arr, psf.arr,
-                                  c_float_t(gamma), algo.value))
+    safe_call(backend.get().af_inverse_deconv(c_pointer(out.arr), image.arr, psf.arr, c_float_t(gamma), algo.value))
     return out
 
 

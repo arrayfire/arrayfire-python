@@ -77,7 +77,7 @@ def cast(a, dtype):
     out  : af.Array
            array containing the values from `a` after converting to `dtype`.
     """
-    out=Array()
+    out = Array()
     safe_call(backend.get().af_cast(c_pointer(out.arr), a.arr, dtype.value))
     return out
 
@@ -156,15 +156,8 @@ def clamp(val, low, high):
     vdims = dim4_to_tuple(val.dims())
     vty = val.type()
 
-    if not is_low_array:
-        low_arr = constant_array(low, vdims[0], vdims[1], vdims[2], vdims[3], vty)
-    else:
-        low_arr = low.arr
-
-    if not is_high_array:
-        high_arr = constant_array(high, vdims[0], vdims[1], vdims[2], vdims[3], vty)
-    else:
-        high_arr = high.arr
+    low_arr = low.arr if is_low_array else constant_array(low, vdims[0], vdims[1], vdims[2], vdims[3], vty)
+    high_arr = high.arr if is_high_array else constant_array(high, vdims[0], vdims[1], vdims[2], vdims[3], vty)
 
     safe_call(backend.get().af_clamp(c_pointer(out.arr), val.arr, low_arr, high_arr, _bcast_var.get()))
 
@@ -1002,6 +995,7 @@ def sqrt(a):
     `a` must not be complex.
     """
     return _arith_unary_func(a, backend.get().af_sqrt)
+
 
 def rsqrt(a):
     """

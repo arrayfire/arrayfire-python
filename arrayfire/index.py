@@ -56,13 +56,13 @@ class Seq(ct.Structure):
             self.begin = c_double_t(S)
             self.end = c_double_t(S)
         elif isinstance(S, slice):
-            if S.step is not None:
+            if S.step:
                 self.step = c_double_t(S.step)
                 if S.step < 0:
                     self.begin, self.end = self.end, self.begin
-            if S.start is not None:
+            if S.start:
                 self.begin = c_double_t(S.start)
-            if S.stop is not None:
+            if S.stop:
                 self.end = c_double_t(S.stop)
 
             # handle special cases
@@ -75,7 +75,7 @@ class Seq(ct.Structure):
                 self.end = -2
                 self.step = -1
 
-            if S.stop is not None:
+            if S.stop:
                 self.end = self.end - math.copysign(1, self.step)
         else:
             raise IndexError("Invalid type while indexing arrayfire.array")

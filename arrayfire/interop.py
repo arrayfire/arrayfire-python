@@ -67,14 +67,10 @@ _nptype_to_aftype = {
     'c16': Dtype.c64}
 
 try:
-    # FIXME: numpy imported but unused
-    import numpy as np
+    from numpy import ndarray as NumpyArray
+    AF_NUMPY_FOUND = True
 except ImportError:
     AF_NUMPY_FOUND = False
-else:
-    from numpy import ndarray as NumpyArray
-
-    AF_NUMPY_FOUND = True
 
     def np_to_af_array(np_arr, copy=True):
         """
@@ -109,13 +105,10 @@ else:
     from_ndarray = np_to_af_array
 
 try:
-    # FIXME: pycuda imported but unused
-    import pycuda.gpuarray
-except ImportError:
-    AF_PYCUDA_FOUND = False
-else:
     from pycuda.gpuarray import GPUArray as CudaArray
     AF_PYCUDA_FOUND = True
+except ImportError:
+    AF_PYCUDA_FOUND = False
 
     def pycuda_to_af_array(pycu_arr, copy=True):
         """
@@ -141,7 +134,7 @@ else:
         in_shape = pycu_arr.shape
         in_dtype = pycu_arr.dtype.char
 
-        if not copy and not pycu_arr.flags.f_contiguous:
+        if not (copy or pycu_arr.flags.f_contiguous):
             raise RuntimeError("Copy can only be False when arr.flags.f_contiguous is True")
 
         if pycu_arr.flags.f_contiguous:
@@ -195,7 +188,7 @@ else:
             if dev_idx == dev and ctx_idx == ctx:
                 break
 
-        if (dev_idx is None or ctx_idx is None or dev_idx != dev or ctx_idx != ctx):
+        if (not dev_idx or not ctx_idx or dev_idx != dev or ctx_idx != ctx):
             print("Adding context and queue")
             _add_device_context(dev, ctx, que)
             _set_device_context(dev, ctx)
@@ -205,7 +198,7 @@ else:
         in_shape = pycl_arr.shape
         in_dtype = pycl_arr.dtype.char
 
-        if not copy and not pycl_arr.flags.f_contiguous:
+        if not (copy or pycl_arr.flags.f_contiguous):
             raise RuntimeError("Copy can only be False when arr.flags.f_contiguous is True")
 
         print("Copying array")
@@ -218,14 +211,11 @@ else:
         return pyopencl_to_af_array(pycl_arr.copy())
 
 try:
-    # FIXME: numba imported but unused
-    import numba
-except ImportError:
-    AF_NUMBA_FOUND = False
-else:
     from numba import cuda
     NumbaCudaArray = cuda.cudadrv.devicearray.DeviceNDArray
     AF_NUMBA_FOUND = True
+except ImportError:
+    AF_NUMBA_FOUND = False
 
     def numba_to_af_array(nb_arr, copy=True):
         """
@@ -251,7 +241,7 @@ else:
         in_shape = nb_arr.shape
         in_dtype = _nptype_to_aftype[nb_arr.dtype.str[1:]]
 
-        if not copy and not nb_arr.flags.f_contiguous:
+        if not (copy or nb_arr.flags.f_contiguous):
             raise RuntimeError("Copy can only be False when arr.flags.f_contiguous is True")
 
         if nb_arr.is_f_contiguous():

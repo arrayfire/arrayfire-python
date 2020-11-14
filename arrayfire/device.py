@@ -12,8 +12,9 @@ Functions to handle the available devices in the backend.
 """
 
 from .array import Array
-from .library import backend, safe_call, c_bool_t, c_char_t, c_dim_t, c_int_t, c_pointer, c_size_t, c_void_ptr_t
-from .util import to_str
+from .library import (
+    backend, c_bool_t, c_char_t, c_dim_t, c_int_t, c_pointer, c_size_t, c_void_ptr_t, safe_call, to_str)
+from .util import get_version
 
 
 def init():
@@ -180,6 +181,7 @@ def is_half_supported(device=None):
     res = c_bool_t(False)
     safe_call(backend.get().af_get_half_support(c_pointer(res), dev))
     return res.value
+
 
 def sync(device=None):
     """
@@ -506,4 +508,3 @@ def free_pinned(ptr):
     """
     cptr = c_void_ptr_t(ptr)
     safe_call(backend.get().af_free_pinned(cptr))
-

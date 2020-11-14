@@ -13,7 +13,9 @@ Graphics functions (plot, image, etc).
 
 import ctypes as ct
 
-from .library import backend, safe_call, COLORMAP, MARKER, c_bool_t, c_char_ptr_t, c_double_t, c_float_t, c_int_t, c_pointer, c_void_ptr_t
+from .library import (
+    backend, safe_call, COLORMAP, MARKER, c_bool_t, c_char_ptr_t, c_double_t, c_float_t, c_int_t, c_pointer,
+    c_void_ptr_t)
 from .util import _is_number
 
 
@@ -378,8 +380,7 @@ class Window:
              Title used for the plot.
         """
         _cell = _Cell(self._r, self._c, title, self._cmap)
-        safe_call(backend.get().af_draw_surface(
-            self._wnd, x_vals.arr, y_vals.arr, z_vals.arr, c_pointer(_cell)))
+        safe_call(backend.get().af_draw_surface(self._wnd, x_vals.arr, y_vals.arr, z_vals.arr, c_pointer(_cell)))
 
     def hist(self, X, min_val, max_val, title=None):
         """
@@ -511,11 +512,8 @@ class Window:
         xformat = xformat.encode("ascii")
         yformat = yformat.encode("ascii")
         zformat = zformat.encode("ascii")
-        safe_call(backend.get().af_set_axes_label_format(self._wnd,
-                                                         c_char_ptr_t(xformat),
-                                                         c_char_ptr_t(yformat),
-                                                         c_char_ptr_t(zformat),
-                                                         c_pointer(_cell)))
+        safe_call(backend.get().af_set_axes_label_format(
+            self._wnd, c_char_ptr_t(xformat), c_char_ptr_t(yformat), c_char_ptr_t(zformat), c_pointer(_cell)))
 
     def __getitem__(self, keys):
         """
@@ -538,6 +536,7 @@ class Window:
             raise IndexError("Window expects indexing along two dimensions only")
         if not (_is_number(keys[0]) and _is_number(keys[1])):
             raise IndexError("Window expects the indices to be numbers")
+
         self._r = keys[0]
         self._c = keys[1]
 

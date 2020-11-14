@@ -13,7 +13,9 @@ Functions specific to OpenCL backend.
 This module provides interoperability with other OpenCL libraries.
 """
 
-from .library import _Enum, _Enum_Type, c_int_t, c_pointer, c_void_ptr_t
+# FIXME: import private variables
+from .library import _Enum, _Enum_Type, backend, c_int_t, c_pointer, c_void_ptr_t
+from .util import safe_call as safe_call
 
 
 class DEVICE_TYPE(_Enum):
@@ -53,14 +55,7 @@ def get_context(retain=False):
     -----------
     context : integer denoting the context id.
     """
-    # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call as safe_call
-    from .library import backend
-
-    if backend.name() != "opencl":
-        raise RuntimeError("Invalid backend loaded")
-
+    _check_backend()
     context = c_void_ptr_t(0)
     safe_call(backend.get().afcl_get_context(c_pointer(context), retain))
     return context.value
@@ -80,14 +75,7 @@ def get_queue(retain):
     -----------
     queue : integer denoting the queue id.
     """
-    # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call as safe_call
-    from .library import backend
-
-    if backend.name() != "opencl":
-        raise RuntimeError("Invalid backend loaded")
-
+    _check_backend()
     queue = c_int_t(0)
     safe_call(backend.get().afcl_get_queue(c_pointer(queue), retain))
     return queue.value
@@ -103,14 +91,7 @@ def get_device_id():
     idx : int.
         Specifies the `cl_device_id` of the device.
     """
-    # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call as safe_call
-    from .library import backend
-
-    if backend.name() != "opencl":
-        raise RuntimeError("Invalid backend loaded")
-
+    _check_backend()
     idx = c_int_t(0)
     safe_call(backend.get().afcl_get_device_id(c_pointer(idx)))
     return idx.value
@@ -126,14 +107,7 @@ def set_device_id(idx):
     idx : int.
         Specifies the `cl_device_id` of the device.
     """
-    # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call as safe_call
-    from .library import backend
-
-    if backend.name() != "opencl":
-        raise RuntimeError("Invalid backend loaded")
-
+    _check_backend()
     safe_call(backend.get().afcl_set_device_id(idx))
     return
 
@@ -152,14 +126,7 @@ def add_device_context(dev, ctx, que):
     que : cl_command_queue
 
     """
-    # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call as safe_call
-    from .library import backend
-
-    if backend.name() != "opencl":
-        raise RuntimeError("Invalid backend loaded")
-
+    _check_backend()
     safe_call(backend.get().afcl_add_device_context(dev, ctx, que))
 
 
@@ -176,13 +143,7 @@ def set_device_context(dev, ctx):
 
     """
     # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call as safe_call
-    from .library import backend
-
-    if backend.name() != "opencl":
-        raise RuntimeError("Invalid backend loaded")
-
+    _check_backend()
     safe_call(backend.get().afcl_set_device_context(dev, ctx))
 
 
@@ -198,14 +159,7 @@ def delete_device_context(dev, ctx):
     ctx  : cl_context
 
     """
-    # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call as safe_call
-    from .library import backend
-
-    if backend.name() != "opencl":
-        raise RuntimeError("Invalid backend loaded")
-
+    _check_backend()
     safe_call(backend.get().afcl_delete_device_context(dev, ctx))
 
 
@@ -229,14 +183,7 @@ def get_device_type():
     """
     Get opencl device type
     """
-    # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call as safe_call
-    from .library import backend
-
-    if backend.name() != "opencl":
-        raise RuntimeError("Invalid backend loaded")
-
+    _check_backend()
     res = c_int_t(DEVICE_TYPE.UNKNOWN.value)
     safe_call(backend.get().afcl_get_device_type(c_pointer(res)))
     return _to_device_type[res.value]
@@ -246,14 +193,12 @@ def get_platform():
     """
     Get opencl platform
     """
-    # FIXME: ctypes imported but unused
-    import ctypes as ct
-    from .util import safe_call as safe_call
-    from .library import backend
-
-    if backend.name() != "opencl":
-        raise RuntimeError("Invalid backend loaded")
-
+    _check_backend()
     res = c_int_t(PLATFORM.UNKNOWN.value)
     safe_call(backend.get().afcl_get_platform(c_pointer(res)))
     return _to_platform[res.value]
+
+
+def _check_backend():
+    if backend.name() != "opencl":
+        raise RuntimeError("Invalid backend loaded")

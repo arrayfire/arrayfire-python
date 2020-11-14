@@ -12,7 +12,7 @@ Statistical algorithms (mean, var, stdev, etc).
 """
 
 from .array import Array
-from .library import TOPK, VARIANCE, c_double_t, c_int_t, c_pointer, backend, safe_call
+from .library import TOPK, VARIANCE, c_double_t, c_int_t, c_pointer, backend, safe_call, get_complex_number
 
 
 def mean(a, weights=None, dim=None):
@@ -55,10 +55,7 @@ def mean(a, weights=None, dim=None):
     else:
         safe_call(backend.get().af_mean_all_weighted(c_pointer(real), c_pointer(imag), a.arr, weights.arr))
 
-    real = real.value
-    imag = imag.value
-
-    return real if imag == 0 else real + imag * 1j
+    return get_complex_number(real, imag)
 
 
 def var(a, isbiased=False, weights=None, dim=None):
@@ -105,10 +102,7 @@ def var(a, isbiased=False, weights=None, dim=None):
     else:
         safe_call(backend.get().af_var_all_weighted(c_pointer(real), c_pointer(imag), a.arr, weights.arr))
 
-    real = real.value
-    imag = imag.value
-
-    return real if imag == 0 else real + imag * 1j
+    return get_complex_number(real, imag)
 
 
 def meanvar(a, weights=None, bias=VARIANCE.DEFAULT, dim=-1):
@@ -142,13 +136,13 @@ def meanvar(a, weights=None, bias=VARIANCE.DEFAULT, dim=-1):
     """
 
     mean_out = Array()
-    var_out  = Array()
+    var_out = Array()
 
     if weights is None:
-        weights  = Array()
+        weights = Array()
 
-    safe_call(backend.get().af_meanvar(c_pointer(mean_out.arr), c_pointer(var_out.arr),
-                                       a.arr, weights.arr, bias.value, c_int_t(dim)))
+    safe_call(backend.get().af_meanvar(
+        c_pointer(mean_out.arr), c_pointer(var_out.arr), a.arr, weights.arr, bias.value, c_int_t(dim)))
 
     return mean_out, var_out
 
@@ -180,9 +174,7 @@ def stdev(a, dim=None):
     real = c_double_t(0)
     imag = c_double_t(0)
     safe_call(backend.get().af_stdev_all(c_pointer(real), c_pointer(imag), a.arr))
-    real = real.value
-    imag = imag.value
-    return real if imag == 0 else real + imag * 1j
+    return get_complex_number(real, imag)
 
 
 def cov(a, isbiased=False, dim=None):
@@ -214,9 +206,7 @@ def cov(a, isbiased=False, dim=None):
     real = c_double_t(0)
     imag = c_double_t(0)
     safe_call(backend.get().af_cov_all(c_pointer(real), c_pointer(imag), a.arr, isbiased))
-    real = real.value
-    imag = imag.value
-    return real if imag == 0 else real + imag * 1j
+    return get_complex_number(real, imag)
 
 
 def median(a, dim=None):
@@ -245,9 +235,7 @@ def median(a, dim=None):
     real = c_double_t(0)
     imag = c_double_t(0)
     safe_call(backend.get().af_median_all(c_pointer(real), c_pointer(imag), a.arr))
-    real = real.value
-    imag = imag.value
-    return real if imag == 0 else real + imag * 1j
+    return get_complex_number(real, imag)
 
 
 def corrcoef(x, y):
@@ -270,9 +258,7 @@ def corrcoef(x, y):
     real = c_double_t(0)
     imag = c_double_t(0)
     safe_call(backend.get().af_corrcoef(c_pointer(real), c_pointer(imag), x.arr, y.arr))
-    real = real.value
-    imag = imag.value
-    return real if imag == 0 else real + imag * 1j
+    return get_complex_number(real, imag)
 
 
 def topk(data, k, dim=0, order=TOPK.DEFAULT):
@@ -307,7 +293,7 @@ def topk(data, k, dim=0, order=TOPK.DEFAULT):
     values = Array()
     indices = Array()
 
-    safe_call(
-        backend.get().af_topk(c_pointer(values.arr), c_pointer(indices.arr), data.arr, k, c_int_t(dim), order.value))
+    safe_call(backend.get().af_topk(
+        c_pointer(values.arr), c_pointer(indices.arr), data.arr, k, c_int_t(dim), order.value))
 
     return values, indices

@@ -1,5 +1,5 @@
 #######################################################
-# Copyright (c) 2019, ArrayFire
+# Copyright (c) 2020, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -14,10 +14,12 @@ Vector algorithms (sum, min, sort, etc).
 from .array import Array
 from .library import backend, safe_call, BINARYOP, c_bool_t, c_double_t, c_int_t, c_pointer, c_uint_t
 
+
 def _parallel_dim(a, dim, c_func):
     out = Array()
     safe_call(c_func(c_pointer(out.arr), a.arr, c_int_t(dim)))
     return out
+
 
 def _reduce_all(a, c_func):
     real = c_double_t(0)
@@ -29,10 +31,12 @@ def _reduce_all(a, c_func):
     imag = imag.value
     return real if imag == 0 else real + imag * 1j
 
+
 def _nan_parallel_dim(a, dim, c_func, nan_val):
     out = Array()
     safe_call(c_func(c_pointer(out.arr), a.arr, c_int_t(dim), c_double_t(nan_val)))
     return out
+
 
 def _nan_reduce_all(a, c_func, nan_val):
     real = c_double_t(0)
@@ -43,6 +47,7 @@ def _nan_reduce_all(a, c_func, nan_val):
     real = real.value
     imag = imag.value
     return real if imag == 0 else real + imag * 1j
+
 
 def _FNSD(dim, dims):
     if dim >= 0:
@@ -55,6 +60,7 @@ def _FNSD(dim, dims):
             break
     return int(fnsd)
 
+
 def _rbk_dim(keys, vals, dim, c_func):
     keys_out = Array()
     vals_out = Array()
@@ -62,12 +68,17 @@ def _rbk_dim(keys, vals, dim, c_func):
     safe_call(c_func(c_pointer(keys_out.arr), c_pointer(vals_out.arr), keys.arr, vals.arr, c_int_t(rdim)))
     return keys_out, vals_out
 
+
 def _nan_rbk_dim(a, dim, c_func, nan_val):
     keys_out = Array()
     vals_out = Array()
+    # FIXME: vals is undefined
     rdim = _FNSD(dim, vals.dims())
-    safe_call(c_func(c_pointer(keys_out.arr), c_pointer(vals_out.arr), keys.arr, vals.arr, c_int_t(rdim), c_double_t(nan_val)))
+    # FIXME: keys is undefined
+    safe_call(c_func(
+        c_pointer(keys_out.arr), c_pointer(vals_out.arr), keys.arr, vals.arr, c_int_t(rdim), c_double_t(nan_val)))
     return keys_out, vals_out
+
 
 def sum(a, dim=None, nan_val=None):
     """
@@ -98,8 +109,6 @@ def sum(a, dim=None, nan_val=None):
     return _reduce_all(a, backend.get().af_sum_all)
 
 
-
-
 def sumByKey(keys, vals, dim=-1, nan_val=None):
     """
     Calculate the sum of elements along a specified dimension according to a key.
@@ -122,10 +131,10 @@ def sumByKey(keys, vals, dim=-1, nan_val=None):
     values: af.Array or scalar number
          The sum of all elements in `vals` along dimension `dim` according to keys
     """
-    if (nan_val is not None):
+    if nan_val is not None:
         return _nan_rbk_dim(keys, vals, dim, backend.get().af_sum_by_key_nan, nan_val)
-    else:
-        return _rbk_dim(keys, vals, dim, backend.get().af_sum_by_key)
+    return _rbk_dim(keys, vals, dim, backend.get().af_sum_by_key)
+
 
 def product(a, dim=None, nan_val=None):
     """
@@ -178,10 +187,10 @@ def productByKey(keys, vals, dim=-1, nan_val=None):
     values: af.Array or scalar number
          The product of all elements in `vals` along dimension `dim` according to keys
     """
-    if (nan_val is not None):
+    if nan_val is not None:
         return _nan_rbk_dim(keys, vals, dim, backend.get().af_product_by_key_nan, nan_val)
-    else:
-        return _rbk_dim(keys, vals, dim, backend.get().af_product_by_key)
+    return _rbk_dim(keys, vals, dim, backend.get().af_product_by_key)
+
 
 def min(a, dim=None):
     """
@@ -227,6 +236,7 @@ def minByKey(keys, vals, dim=-1):
     """
     return _rbk_dim(keys, vals, dim, backend.get().af_min_by_key)
 
+
 def max(a, dim=None):
     """
     Find the maximum value of all the elements along a specified dimension.
@@ -270,6 +280,7 @@ def maxByKey(keys, vals, dim=-1):
          The max of all elements in `vals` along dimension `dim` according to keys.
     """
     return _rbk_dim(keys, vals, dim, backend.get().af_max_by_key)
+
 
 def all_true(a, dim=None):
     """
@@ -315,6 +326,7 @@ def allTrueByKey(keys, vals, dim=-1):
     """
     return _rbk_dim(keys, vals, dim, backend.get().af_all_true_by_key)
 
+
 def any_true(a, dim=None):
     """
     Check if any the elements along a specified dimension are true.
@@ -334,8 +346,8 @@ def any_true(a, dim=None):
     """
     if dim is not None:
         return _parallel_dim(a, dim, backend.get().af_any_true)
-    else:
-        return _reduce_all(a, backend.get().af_any_true_all)
+    return _reduce_all(a, backend.get().af_any_true_all)
+
 
 def anyTrueByKey(keys, vals, dim=-1):
     """
@@ -359,6 +371,7 @@ def anyTrueByKey(keys, vals, dim=-1):
     """
     return _rbk_dim(keys, vals, dim, backend.get().af_any_true_by_key)
 
+
 def count(a, dim=None):
     """
     Count the number of non zero elements in an array along a specified dimension.
@@ -378,8 +391,7 @@ def count(a, dim=None):
     """
     if dim is not None:
         return _parallel_dim(a, dim, backend.get().af_count)
-    else:
-        return _reduce_all(a, backend.get().af_count_all)
+    return _reduce_all(a, backend.get().af_count_all)
 
 
 def countByKey(keys, vals, dim=-1):
@@ -403,6 +415,7 @@ def countByKey(keys, vals, dim=-1):
          Count of non-zero elements in `vals` along dimension `dim` according to keys.
     """
     return _rbk_dim(keys, vals, dim, backend.get().af_count_by_key)
+
 
 def imin(a, dim=None):
     """

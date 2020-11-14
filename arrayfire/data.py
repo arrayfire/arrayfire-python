@@ -176,14 +176,13 @@ def iota(d0, d1=None, d2=None, d3=None, tile_dims=None, dtype=Dtype.f32):
     dims = dim4(d0, d1, d2, d3)
     td = [1]*4
 
-    if tile_dims is not None:
+    if tile_dims:
         for i in _brange(len(tile_dims)):
             td[i] = tile_dims[i]
 
     tdims = dim4(td[0], td[1], td[2], td[3])
 
-    safe_call(backend.get().af_iota(
-        c_pointer(out.arr), 4, c_pointer(dims), 4, c_pointer(tdims), dtype.value))
+    safe_call(backend.get().af_iota(c_pointer(out.arr), 4, c_pointer(dims), 4, c_pointer(tdims), dtype.value))
     return out
 
 
@@ -808,7 +807,7 @@ def replace(lhs, cond, rhs):
     safe_call(backend.get().af_replace_scalar(lhs.arr, cond.arr, c_double_t(rhs)))
 
 
-def pad(a, beginPadding, endPadding, padFillType = PAD.ZERO):
+def pad(a, beginPadding, endPadding, padFillType=PAD.ZERO):
     """
     Pad an array
 
@@ -854,9 +853,10 @@ def pad(a, beginPadding, endPadding, padFillType = PAD.ZERO):
     """
     out = Array()
     begin_dims = dim4(beginPadding[0], beginPadding[1], beginPadding[2], beginPadding[3])
-    end_dims   = dim4(endPadding[0], endPadding[1], endPadding[2], endPadding[3])
+    end_dims = dim4(endPadding[0], endPadding[1], endPadding[2], endPadding[3])
 
-    safe_call(backend.get().af_pad(c_pointer(out.arr), a.arr, 4, c_pointer(begin_dims), 4, c_pointer(end_dims), padFillType.value))
+    safe_call(backend.get().af_pad(
+        c_pointer(out.arr), a.arr, 4, c_pointer(begin_dims), 4, c_pointer(end_dims), padFillType.value))
     return out
 
 

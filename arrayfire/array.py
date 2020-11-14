@@ -20,9 +20,9 @@ from .index import Index, ParallelRange, _Index4
 from .library import backend, safe_call
 from .library import (
     Dtype, Source, c_bool_t, c_char_ptr_t, c_dim_t, c_double_t, c_int_t, c_longlong_t, c_pointer, c_size_t, c_uint_t,
-    c_ulonglong_t, c_void_ptr_t)
+    c_ulonglong_t, c_void_ptr_t, to_str)
 from .util import (
-    _is_number, dim4, dim4_to_tuple, implicit_dtype, to_c_type, to_dtype, to_str, to_typecode, to_typename)
+    _is_number, dim4, dim4_to_tuple, implicit_dtype, to_c_type, to_dtype, to_typecode, to_typename)
 
 _is_running_in_py_charm = "PYCHARM_HOSTED" in os.environ
 
@@ -76,7 +76,8 @@ def get_display_dims_limit():
 def _in_display_dims_limit(dims):
     if _is_running_in_py_charm:
         return False
-    if _display_dims_limit is not None:
+
+    if _display_dims_limit:
         limit_len = len(_display_dims_limit)
         dim_len = len(dims)
         if dim_len > limit_len:
@@ -84,6 +85,7 @@ def _in_display_dims_limit(dims):
         for i in range(dim_len):
             if dims[i] > _display_dims_limit[i]:
                 return False
+
     return True
 
 
@@ -102,18 +104,21 @@ def _create_array(buf, numdims, idims, dtype, is_device):
 def _create_strided_array(buf, numdims, idims, dtype, is_device, offset, strides):
     out_arr = c_void_ptr_t(0)
     c_dims = dim4(idims[0], idims[1], idims[2], idims[3])
-    if offset is None:
+
+    if not offset:
         offset = 0
+
     offset = c_dim_t(offset)
-    if strides is None:
+
+    if not strides:
         strides = (1, idims[0], idims[0]*idims[1], idims[0]*idims[1]*idims[2])
+
     while len(strides) < 4:
         strides = strides + (strides[-1],)
+
     strides = dim4(strides[0], strides[1], strides[2], strides[3])
-    if is_device:
-        location = Source.device
-    else:
-        location = Source.host
+    location = Source.device if is_device else Source.host
+
     safe_call(backend.get().af_create_strided_array(
         c_pointer(out_arr), c_void_ptr_t(buf), offset, numdims, c_pointer(c_dims), c_pointer(strides), dtype.value,
         location.value))
@@ -147,12 +152,11 @@ def constant_array(val, d0, d1=None, d2=None, d3=None, dtype=Dtype.f32):
     dims = dim4(d0, d1, d2, d3)
 
     if isinstance(val, complex):
-        c_real = c_double_t(val.real)
-        c_imag = c_double_t(val.imag)
-
         if dtype.value != Dtype.c32.value and dtype.value != Dtype.c64.value:
             dtype = Dtype.c32.value
 
+        c_real = c_double_t(val.real)
+        c_imag = c_double_t(val.imag)
         safe_call(backend.get().af_constant_complex(c_pointer(out), c_real, c_imag, 4, c_pointer(dims), dtype))
     elif dtype.value == Dtype.s64.value:
         c_val = c_longlong_t(val.real)
@@ -216,17 +220,17 @@ def _ctype_to_lists(ctype_arr, dim, shape, offset=0):
 def _slice_to_length(key, dim):
     tkey = [key.start, key.stop, key.step]
 
-    if tkey[0] is None:
+    if not tkey[0]:
         tkey[0] = 0
     elif tkey[0] < 0:
         tkey[0] = dim - tkey[0]
 
-    if tkey[1] is None:
+    if not tkey[1]:
         tkey[1] = dim
     elif tkey[1] < 0:
         tkey[1] = dim - tkey[1]
 
-    if tkey[2] is None:
+    if not tkey[2]:
         tkey[2] = 1
 
     return int(((tkey[1] - tkey[0] - 1) / tkey[2]) + 1)
@@ -280,10 +284,7 @@ def _get_assign_dims(key, idims):
         return dims
     if isinstance(key, BaseArray):
         # If the array is boolean take only the number of nonzeros
-        if key.dtype() is Dtype.b8:
-            dims[0] = int(sum(key))
-        else:
-            dims[0] = key.elements()
+        dims[0] = int(sum(key)) if key.dtype() is Dtype.b8 else key.elements()
         return dims
     if not isinstance(key, tuple):
         raise IndexError("Invalid type while assigning to arrayfire.array")
@@ -295,10 +296,7 @@ def _get_assign_dims(key, idims):
             dims[n] = 1
         elif isinstance(key[n], BaseArray):
             # If the array is boolean take only the number of nonzeros
-            if key[n].dtype() is Dtype.b8:
-                dims[n] = int(sum(key[n]))
-            else:
-                dims[n] = key[n].elements()
+            dims[n] = int(sum(key[n])) if key[n].dtype() is Dtype.b8 else key[n].elements()
         elif isinstance(key[n], slice):
             dims[n] = _slice_to_length(key[n], idims[n])
         elif isinstance(key[n], ParallelRange):
@@ -464,12 +462,7 @@ class Array(BaseArray):
         buf_len = 0
 
         if dtype is not None:
-            if isinstance(dtype, str):
-                type_char = dtype
-            else:
-                type_char = to_typecode[dtype.value]
-        else:
-            type_char = None
+            type_char = dtype if isinstance(dtype, str) else to_typecode[dtype.value]
 
         _type_char = 'f'
 
@@ -502,7 +495,7 @@ class Array(BaseArray):
                 if elements == 0:
                     raise RuntimeError("Expected dims when src is data pointer")
 
-                if type_char is None:
+                if dtype is None:
                     raise TypeError("Expected type_char when src is data pointer")
 
                 _type_char = type_char
@@ -510,14 +503,14 @@ class Array(BaseArray):
             else:
                 raise TypeError("src is an object of unsupported class")
 
-            if type_char is not None and type_char != _type_char:
+            if dtype is not None and type_char != _type_char:
                 raise TypeError("Can not create array of requested type from input data type")
-            if offset is None and strides is None:
+            if not (offset or strides):
                 self.arr = _create_array(buf, numdims, idims, to_dtype[_type_char], is_device)
             else:
                 self.arr = _create_strided_array(buf, numdims, idims, to_dtype[_type_char], is_device, offset, strides)
         else:
-            if type_char is None:
+            if dtype is None:
                 type_char = 'f'
 
             numdims = len(dims) if dims else 0
@@ -1117,7 +1110,7 @@ class Array(BaseArray):
         Return self && other.
         """
         out = Array()
-        safe_call(backend.get().af_and(c_pointer(out.arr), self.arr, other.arr)) #TODO: bcast var?
+        safe_call(backend.get().af_and(c_pointer(out.arr), self.arr, other.arr))  # TODO: bcast var?
         return out
 
     def logical_or(self, other):
@@ -1125,7 +1118,7 @@ class Array(BaseArray):
         Return self || other.
         """
         out = Array()
-        safe_call(backend.get().af_or(c_pointer(out.arr), self.arr, other.arr)) #TODO: bcast var?
+        safe_call(backend.get().af_or(c_pointer(out.arr), self.arr, other.arr))  # TODO: bcast var?
         return out
 
     def __nonzero__(self):
@@ -1240,7 +1233,7 @@ class Array(BaseArray):
             (res, dims): tuple of the ctypes array and the shape of the array
 
         """
-        if self.arr.value == 0:
+        if not self.arr.value:
             raise RuntimeError("Can not call to_ctype on empty array")
 
         ctype_type = to_c_type[self.type()] * self.elements()
@@ -1274,7 +1267,7 @@ class Array(BaseArray):
             (res, dims): array.array and the shape of the array
 
         """
-        if self.arr.value == 0:
+        if not self.arr.value:
             raise RuntimeError("Can not call to_array on empty array")
 
         res = self.to_ctype(row_major, return_shape)
@@ -1316,7 +1309,7 @@ class Array(BaseArray):
         """
         Return the first element of the array
         """
-        if self.arr.value == 0:
+        if not self.arr.value:
             raise RuntimeError("Can not call to_ctype on empty array")
 
         ctype_type = to_c_type[self.type()]
@@ -1355,6 +1348,7 @@ class Array(BaseArray):
         arr_str = c_char_ptr_t(0)
         be = backend.get()
         safe_call(be.af_array_to_string(c_pointer(arr_str), "", self.arr, 4, True))
+        # FIXME: not intuitive transformation and return
         py_str = to_str(arr_str)
         safe_call(be.af_free_host(arr_str))
         return py_str
@@ -1365,6 +1359,7 @@ class Array(BaseArray):
         """
         # FIXME: import insdie of a function
         import numpy as np
+        # FIXME: not intuitive transformation and return
         res = np.empty(self.dims(), dtype=np.dtype(to_typecode[self.type()]), order='F')
         safe_call(backend.get().af_get_data_ptr(c_void_ptr_t(res.ctypes.data), self.arr))
         return res
@@ -1423,7 +1418,7 @@ def display(a, precision=4):
     name = ""
 
     try:
-        if expr is not None:
+        if expr:
             st = expr[0].find('(') + 1
             en = expr[0].rfind(')')
             name = expr[0][st:en]
@@ -1483,12 +1478,9 @@ def read_array(filename, index=None, key=None):
     Returns
     ---------
     """
-    assert((index is not None) or (key is not None))
     out = Array()
     if index is not None:
         safe_call(backend.get().af_read_array_index(c_pointer(out.arr), filename.encode('utf-8'), index))
     elif key is not None:
         safe_call(backend.get().af_read_array_key(c_pointer(out.arr), filename.encode('utf-8'), key.encode('utf-8')))
     return out
-
-

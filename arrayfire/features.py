@@ -30,7 +30,7 @@ class Features(object):
 
     def __init__(self, num=0):
         self.feat = c_void_ptr_t(0)
-        if num is not None:
+        if num:
             assert isinstance(num, numbers.Number)
             safe_call(backend.get().af_create_features(c_pointer(self.feat), c_dim_t(num)))
 
