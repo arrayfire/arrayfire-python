@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2019, ArrayFire
+# Copyright (c) 2020, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,12 +11,10 @@
 
 import arrayfire as af
 
-from . import _util
-
 # BUG: module 'arrayfire' has no 'to_array' member.
 
 
-def simple_interop(*args):
+def test_simple_interop(*args):
     if af.AF_NUMPY_FOUND:
         import numpy as np
         n = np.random.random((5,))
@@ -137,6 +135,3 @@ def simple_interop(*args):
         a = af.to_array(c)
         n2 = np.array(a)
         assert (n == n2).all()
-
-
-_util.tests["interop"] = simple_interop

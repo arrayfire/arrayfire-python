@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 #######################################################
-# Copyright (c) 2019, ArrayFire
+# Copyright (c) 2020, ArrayFire
 # All rights reserved.
 #
 # This file is distributed under 3-clause BSD license.
@@ -11,25 +11,20 @@
 
 import arrayfire as af
 
-from . import _util
 
-
-def simple_device(verbose=False):
-    display_func = _util.display_func(verbose)
-    print_func = _util.print_func(verbose)
-    print_func(af.device_info())
-    print_func(af.get_device_count())
-    print_func(af.is_dbl_supported())
+def test_simple_device() -> None:
+    assert af.device_info()
+    assert af.get_device_count()
+    assert af.is_dbl_supported()
     af.sync()
 
     curr_dev = af.get_device()
-    print_func(curr_dev)
     for k in range(af.get_device_count()):
         af.set_device(k)
         dev = af.get_device()
         assert k == dev
 
-        print_func(af.is_dbl_supported(k))
+        assert af.is_dbl_supported(k)
 
         af.device_gc()
 
@@ -44,11 +39,11 @@ def simple_device(verbose=False):
     af.set_device(curr_dev)
 
     a = af.randu(10, 10)
-    display_func(a)
+    assert a
     dev_ptr = af.get_device_ptr(a)
-    print_func(dev_ptr)
+    assert dev_ptr
     b = af.Array(src=dev_ptr, dims=a.dims(), dtype=a.dtype(), is_device=True)
-    display_func(b)
+    assert b
 
     c = af.randu(10, 10)
     af.lock_array(c)
@@ -58,20 +53,17 @@ def simple_device(verbose=False):
     b = af.constant(2, 3, 3)
     af.eval(a)
     af.eval(b)
-    print_func(a)
-    print_func(b)
+    assert a
+    assert b
     c = a + b
     d = a - b
     af.eval(c, d)
-    print_func(c)
-    print_func(d)
+    assert c
+    assert d
 
-    print_func(af.set_manual_eval_flag(True))
+    assert not af.set_manual_eval_flag(True)
     assert af.get_manual_eval_flag()
-    print_func(af.set_manual_eval_flag(False))
+    assert not af.set_manual_eval_flag(False)
     assert not af.get_manual_eval_flag()
 
-    display_func(af.is_locked_array(a))
-
-
-_util.tests["device"] = simple_device
+    assert not af.is_locked_array(a)

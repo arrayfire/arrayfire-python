@@ -22,8 +22,7 @@ def calc_pi_device(samples):
     return 4 * af.count(within_unit_circle) / samples
 ```
 
-
-Choosing a particular backend can be done using `af.set_backend(name)`  where name is either "_cuda_", "_opencl_", or "_cpu_". The default device is chosen in the same order of preference.
+Choosing a particular backend can be done using `af.set_backend(name)` where name is either "_cuda_", "_opencl_", or "_cpu_". The default device is chosen in the same order of preference.
 
 ## Requirements
 
@@ -41,19 +40,19 @@ Please check the following links for dependencies.
 
 **Install the last stable version:**
 
-```
+```bash
 pip install arrayfire
 ```
 
 **Install the development version:**
 
-```
+```bash
 pip install git+git://github.com/arrayfire/arrayfire-python.git@devel
 ```
 
 **Installing offline:**
 
-```
+```bash
 cd path/to/arrayfire-python
 python setup.py install
 ```
@@ -62,16 +61,16 @@ python setup.py install
 
 Please follow [these instructions](https://github.com/arrayfire/arrayfire-python/wiki) to ensure the arrayfire-python can find the arrayfire libraries.
 
-To run arrayfire tests, you can run the following command from command line.
+To run arrayfire smoke tests, you can run the following command from command line.
 
-```
-python -m arrayfire.tests
+```bash
+python setup.py test
 ```
 
 ## Communication
 
-* [Slack Chat](https://join.slack.com/t/arrayfire-org/shared_invite/MjI4MjIzMDMzMTczLTE1MDI5ODg4NzYtN2QwNGE3ODA5OQ)
-* [Google Groups](https://groups.google.com/forum/#!forum/arrayfire-users)
+- [Slack Chat](https://join.slack.com/t/arrayfire-org/shared_invite/MjI4MjIzMDMzMTczLTE1MDI5ODg4NzYtN2QwNGE3ODA5OQ)
+- [Google Groups](https://groups.google.com/forum/#!forum/arrayfire-users)
 
 ## Acknowledgements
 
