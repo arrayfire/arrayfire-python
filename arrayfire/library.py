@@ -493,8 +493,11 @@ _VER_MAJOR_PLACEHOLDER = "__VER_MAJOR__"
 
 def _setup():
     import platform
-
     platform_name = platform.system()
+
+    # prefer locally packaged arrayfire libraries if they exist
+    af_module = __import__(__name__)
+    af_module_path = af_module.__path__[0] if af_module.__path__ else None
 
     try:
         AF_PATH = os.environ['AF_PATH']
@@ -527,7 +530,10 @@ def _setup():
             ct.windll.kernel32.SetErrorMode(0x0001 | 0x0002)
 
         if AF_SEARCH_PATH is None:
-            AF_SEARCH_PATH="C:/Program Files/ArrayFire/v" + AF_VER_MAJOR +"/"
+            if af_module_path and os.path.exists(af_module_path + '/lib/'):
+                AF_SEARCH_PATH = af_module_path
+            else:
+                AF_SEARCH_PATH = "C:/Program Files/ArrayFire/v" + AF_VER_MAJOR +"/"
 
         if CUDA_PATH is not None:
             CUDA_FOUND = os.path.isdir(CUDA_PATH + '/bin') and os.path.isdir(CUDA_PATH + '/nvvm/bin/')
@@ -539,7 +545,9 @@ def _setup():
         post = '.' + _VER_MAJOR_PLACEHOLDER + '.dylib'
 
         if AF_SEARCH_PATH is None:
-            if os.path.exists('/opt/arrayfire'):
+            if af_module_path and os.path.exists(af_module_path + '/lib/'):
+                AF_SEARCH_PATH = af_module_path
+            elif os.path.exists('/opt/arrayfire'):
                 AF_SEARCH_PATH = '/opt/arrayfire/'
             else:
                 AF_SEARCH_PATH = '/usr/local/'
@@ -554,7 +562,10 @@ def _setup():
         post = '.so.' + _VER_MAJOR_PLACEHOLDER
 
         if AF_SEARCH_PATH is None:
-            AF_SEARCH_PATH='/opt/arrayfire-' + AF_VER_MAJOR + '/'
+            if af_module_path and os.path.exists(af_module_path + '/lib/'):
+                AF_SEARCH_PATH = af_module_path
+            else:
+                AF_SEARCH_PATH = '/opt/arrayfire-' + AF_VER_MAJOR + '/'
 
         if CUDA_PATH is None:
             CUDA_PATH='/usr/local/cuda/'
@@ -618,7 +629,7 @@ class _clibrary(object):
                                    'opencl'  : 4}
 
         # Try to pre-load forge library if it exists
-        libnames = self.__libname('forge', head='', ver_major=FORGE_VER_MAJOR)
+        libnames = reversed(self.__libname('forge', head='', ver_major=FORGE_VER_MAJOR))
 
         try:
             VERBOSE_LOADS = os.environ['AF_VERBOSE_LOADS'] == '1'
@@ -644,7 +655,7 @@ class _clibrary(object):
 
         # Iterate in reverse order of preference
         for name in ('cpu', 'opencl', 'cuda', ''):
-            libnames = self.__libname(name)
+            libnames = reversed(self.__libname(name))
             for libname in libnames:
                 try:
                     ct.cdll.LoadLibrary(libname)
