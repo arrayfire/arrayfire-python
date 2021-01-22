@@ -50,6 +50,14 @@ if AF_BUILD_LOCAL_LIBS:
             or name.endswith('.cmake')
             or name.endswith('jpg')
             or name.endswith('png')
+            or name.endswith('libaf.so') #avoids duplicates due to symlinks
+            or name.endswith('libaf.so.3')
+            or name.endswith('libafcpu.so')
+            or name.endswith('libafcpu.so.3')
+            or name.endswith('libafcuda.so')
+            or name.endswith('libafcuda.so.3')
+            or name.endswith('libafopencl.so')
+            or name.endswith('libafopencl.so.3')
             or 'examples' in name), cmake_manifest))
         return cmake_manifest
 
@@ -67,11 +75,17 @@ if AF_BUILD_LOCAL_LIBS:
                     AF_BUILD_CUDA_CMAKE_STR,
                     AF_BUILD_OPENCL_CMAKE_STR,
                     AF_BUILD_UNIFIED_CMAKE_STR,
-                    '-DCUDA_architecture_build_targets:STRING=All' # todo: pass from environ
+                    '-DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo"',
+                    '-DFG_USE_STATIC_CPPFLAGS:BOOL=ON',
+                    '-DFG_WITH_FREEIMAGE:BOOL=OFF',
+                    '-DCUDA_architecture_build_targets:STRING=All', # todo: pass from environ
                     '-DAF_BUILD_DOCS:BOOL=OFF',
                     '-DAF_BUILD_EXAMPLES:BOOL=OFF',
                     '-DAF_INSTALL_STANDALONE:BOOL=ON',
+                    '-DAF_WITH_IMAGEIO:BOOL=ON',
+                    '-DAF_WITH_LOGGING:BOOL=ON',
                     '-DBUILD_TESTING:BOOL=OFF',
+                    '-DAF_BUILD_FORGE:BOOL=ON',
                     ]
     )
 
