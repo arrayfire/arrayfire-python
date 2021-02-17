@@ -15,6 +15,7 @@ import platform
 import ctypes as ct
 import traceback
 import os
+import sys
 
 c_float_t     = ct.c_float
 c_double_t    = ct.c_double
@@ -495,10 +496,6 @@ def _setup():
     import platform
     platform_name = platform.system()
 
-    # prefer locally packaged arrayfire libraries if they exist
-    af_module = __import__(__name__)
-    af_module_path = af_module.__path__[0] if af_module.__path__ else None
-
     try:
         AF_PATH = os.environ['AF_PATH']
     except KeyError:
@@ -530,10 +527,7 @@ def _setup():
             ct.windll.kernel32.SetErrorMode(0x0001 | 0x0002)
 
         if AF_SEARCH_PATH is None:
-            if af_module_path and os.path.exists(af_module_path + '/lib/'):
-                AF_SEARCH_PATH = af_module_path
-            else:
-                AF_SEARCH_PATH = "C:/Program Files/ArrayFire/v" + AF_VER_MAJOR +"/"
+            AF_SEARCH_PATH = "C:/Program Files/ArrayFire/v" + AF_VER_MAJOR +"/"
 
         if CUDA_PATH is not None:
             CUDA_FOUND = os.path.isdir(CUDA_PATH + '/bin') and os.path.isdir(CUDA_PATH + '/nvvm/bin/')
@@ -545,9 +539,7 @@ def _setup():
         post = '.' + _VER_MAJOR_PLACEHOLDER + '.dylib'
 
         if AF_SEARCH_PATH is None:
-            if af_module_path and os.path.exists(af_module_path + '/lib/'):
-                AF_SEARCH_PATH = af_module_path
-            elif os.path.exists('/opt/arrayfire'):
+            if os.path.exists('/opt/arrayfire'):
                 AF_SEARCH_PATH = '/opt/arrayfire/'
             else:
                 AF_SEARCH_PATH = '/usr/local/'
@@ -562,10 +554,12 @@ def _setup():
         post = '.so.' + _VER_MAJOR_PLACEHOLDER
 
         if AF_SEARCH_PATH is None:
-            if af_module_path and os.path.exists(af_module_path + '/lib/'):
-                AF_SEARCH_PATH = af_module_path
-            else:
+            if os.path.exists('/opt/arrayfire-' + AF_VER_MAJOR + '/'):
                 AF_SEARCH_PATH = '/opt/arrayfire-' + AF_VER_MAJOR + '/'
+            elif os.path.exists('/opt/arrayfire/'):
+                AF_SEARCH_PATH = '/opt/arrayfire/'
+            else:
+                AF_SEARCH_PATH = '/usr/local/'
 
         if CUDA_PATH is None:
             CUDA_PATH='/usr/local/cuda/'
@@ -587,11 +581,19 @@ class _clibrary(object):
     def __libname(self, name, head='af', ver_major=AF_VER_MAJOR):
         post = self.__post.replace(_VER_MAJOR_PLACEHOLDER, ver_major)
         libname = self.__pre + head + name + post
+
         if os.path.isdir(self.AF_PATH + '/lib64'):
             libname_full = self.AF_PATH + '/lib64/' + libname
         else:
             libname_full = self.AF_PATH + '/lib/' + libname
-        return (libname, libname_full)
+
+        if platform.architecture()[0][:2] == '64':
+            libname_site  = sys.prefix + '/lib64/' + libname
+        else:
+            libname_site  = sys.prefix + '/lib/' + libname
+
+        libname_local = self.AF_PYMODULE_PATH + libname
+        return (libname, libname_full, libname_site, libname_local)
 
     def set_unsafe(self, name):
         lib = self.__clibs[name]
@@ -609,6 +611,11 @@ class _clibrary(object):
         self.__post = post
         self.AF_PATH = AF_PATH
         self.CUDA_FOUND = CUDA_FOUND
+
+        # prefer locally packaged arrayfire libraries if they exist
+        af_module = __import__(__name__)
+        self.AF_PYMODULE_PATH = af_module.__path__[0] + '/' if af_module.__path__ else None
+
 
         self.__name = None
 
