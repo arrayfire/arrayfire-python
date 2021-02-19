@@ -578,22 +578,32 @@ def _setup():
 
 class _clibrary(object):
 
+    def __find_nvrtc_builtins_libname(self, search_path):
+        filelist = os.listdir(search_path)
+        for f in filelist:
+            if 'nvrtc-builtins' in f:
+                return f
+        return None
+
     def __libname(self, name, head='af', ver_major=AF_VER_MAJOR):
         post = self.__post.replace(_VER_MAJOR_PLACEHOLDER, ver_major)
         libname = self.__pre + head + name + post
 
         if os.path.isdir(self.AF_PATH + '/lib64'):
-            libname_full = self.AF_PATH + '/lib64/' + libname
+            path_search = self.AF_PATH + '/lib64/'
         else:
-            libname_full = self.AF_PATH + '/lib/' + libname
+            path_search = self.AF_PATH + '/lib/'
 
         if platform.architecture()[0][:2] == '64':
-            libname_site  = sys.prefix + '/lib64/' + libname
+            path_site  = sys.prefix + '/lib64/'
         else:
-            libname_site  = sys.prefix + '/lib/' + libname
+            path_site  = sys.prefix + '/lib/'
 
-        libname_local = self.AF_PYMODULE_PATH + libname
-        return (libname, libname_full, libname_site, libname_local)
+        path_local = self.AF_PYMODULE_PATH
+        return [('', libname),
+                (path_search, libname),
+                (path_site, libname),
+                (path_local,libname)]
 
     def set_unsafe(self, name):
         lib = self.__clibs[name]
@@ -646,14 +656,15 @@ class _clibrary(object):
 
         for libname in libnames:
             try:
-                ct.cdll.LoadLibrary(libname)
+                full_libname = libname[0] + libname[1]
+                ct.cdll.LoadLibrary(full_libname)
                 if VERBOSE_LOADS:
-                    print('Loaded ' + libname)
+                    print('Loaded ' + full_libname)
                 break
             except OSError:
                 if VERBOSE_LOADS:
                     traceback.print_exc()
-                    print('Unable to load ' + libname)
+                    print('Unable to load ' + full_libname)
                 pass
 
         c_dim4 = c_dim_t*4
@@ -665,21 +676,36 @@ class _clibrary(object):
             libnames = reversed(self.__libname(name))
             for libname in libnames:
                 try:
-                    ct.cdll.LoadLibrary(libname)
+                    full_libname = libname[0] + libname[1]
+
+                    ct.cdll.LoadLibrary(full_libname)
                     __name = 'unified' if name == '' else name
-                    clib = ct.CDLL(libname)
+                    clib = ct.CDLL(full_libname)
                     self.__clibs[__name] = clib
                     err = clib.af_randu(c_pointer(out), 4, c_pointer(dims), Dtype.f32.value)
                     if (err == ERR.NONE.value):
                         self.__name = __name
                         clib.af_release_array(out)
                         if VERBOSE_LOADS:
-                            print('Loaded ' + libname)
+                            print('Loaded ' + full_libname)
+
+                        # load nvrtc-builtins library if using cuda
+                        if name == 'cuda':
+                            nvrtc_name = self.__find_nvrtc_builtins_libname(libname[0])
+                            if nvrtc_name:
+                                ct.cdll.LoadLibrary(libname[0] + nvrtc_name)
+
+                                if VERBOSE_LOADS:
+                                    print('Loaded ' + libname[0] + nvrtc_name)
+                            else:
+                                if VERBOSE_LOADS:
+                                    print('Could not find local nvrtc-builtins libarary')
+
                         break;
                 except OSError:
                     if VERBOSE_LOADS:
                         traceback.print_exc()
-                        print('Unable to load ' + libname)
+                        print('Unable to load ' + full_libname)
                     pass
 
         if (self.__name is None):
@@ -706,6 +732,7 @@ class _clibrary(object):
             if (value & res):
                 lst.append(key)
         return tuple(lst)
+
 
 backend = _clibrary()
 
