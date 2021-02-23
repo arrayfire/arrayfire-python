@@ -571,10 +571,7 @@ def _setup():
     else:
         raise OSError(platform_name + ' not supported')
 
-    if AF_PATH is None:
-        os.environ['AF_PATH'] = AF_SEARCH_PATH
-
-    return pre, post, AF_SEARCH_PATH, CUDA_FOUND
+    return pre, post, AF_PATH, AF_SEARCH_PATH, CUDA_FOUND
 
 class _clibrary(object):
 
@@ -589,10 +586,16 @@ class _clibrary(object):
         post = self.__post.replace(_VER_MAJOR_PLACEHOLDER, ver_major)
         libname = self.__pre + head + name + post
 
-        if os.path.isdir(self.AF_PATH + '/lib64'):
-            path_search = self.AF_PATH + '/lib64/'
+        if self.AF_PATH:
+            if os.path.isdir(self.AF_PATH + '/lib64'):
+                path_search = self.AF_PATH + '/lib64/'
+            else:
+                path_search = self.AF_PATH + '/lib/'
         else:
-            path_search = self.AF_PATH + '/lib/'
+            if os.path.isdir(self.AF_SEARCH_PATH + '/lib64'):
+                path_search = self.AF_SEARCH_PATH + '/lib64/'
+            else:
+                path_search = self.AF_SEARCH_PATH + '/lib/'
 
         if platform.architecture()[0][:2] == '64':
             path_site  = sys.prefix + '/lib64/'
@@ -600,10 +603,14 @@ class _clibrary(object):
             path_site  = sys.prefix + '/lib/'
 
         path_local = self.AF_PYMODULE_PATH
-        return [('', libname),
-                (path_search, libname),
-                (path_site, libname),
-                (path_local,libname)]
+        libpaths = [('', libname),
+                    (path_site, libname),
+                    (path_local,libname)]
+        if self.AF_PATH: #prefer specified AF_PATH if exists
+            libpaths.append((path_search, libname))
+        else:
+            libpaths.insert(2, (path_search, libname))
+        return libpaths
 
     def set_unsafe(self, name):
         lib = self.__clibs[name]
@@ -615,11 +622,12 @@ class _clibrary(object):
 
         more_info_str = "Please look at https://github.com/arrayfire/arrayfire-python/wiki for more information."
 
-        pre, post, AF_PATH, CUDA_FOUND = _setup()
+        pre, post, AF_PATH, AF_SEARCH_PATH, CUDA_FOUND = _setup()
 
         self.__pre = pre
         self.__post = post
         self.AF_PATH = AF_PATH
+        self.AF_SEARCH_PATH = AF_SEARCH_PATH
         self.CUDA_FOUND = CUDA_FOUND
 
         # prefer locally packaged arrayfire libraries if they exist

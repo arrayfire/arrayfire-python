@@ -62,7 +62,6 @@ if AF_BUILD_LOCAL_LIBS:
             or name.endswith('libforge.so')
             or re.match('.*libforge\.so\.1\..*', name) is not None
             or 'examples' in name), cmake_manifest))
-        print(cmake_manifest)
         return cmake_manifest
 
     print('Building CMAKE with following configurable variables: ')
@@ -94,7 +93,9 @@ if AF_BUILD_LOCAL_LIBS:
                     '-DBUILD_TESTING:BOOL=OFF',
                     '-DAF_BUILD_FORGE:BOOL=ON',
                     '-DAF_INSTALL_LIB_DIR:STRING=arrayfire',
+                    '-DAF_INSTALL_BIN_DIR:STRING=arrayfire',
                     '-DFG_INSTALL_LIB_DIR:STRING=arrayfire',
+                    '-DAF_WITH_STATIC_MKL=ON',
                     ]
     )
 
