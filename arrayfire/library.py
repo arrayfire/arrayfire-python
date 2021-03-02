@@ -493,7 +493,6 @@ class VARIANCE(_Enum):
 _VER_MAJOR_PLACEHOLDER = "__VER_MAJOR__"
 
 def _setup():
-    import platform
     platform_name = platform.system()
 
     try:
