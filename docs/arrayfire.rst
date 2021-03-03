@@ -26,6 +26,7 @@ Submodules
    arrayfire.interop
    arrayfire.lapack
    arrayfire.library
+   arrayfire.ml
    arrayfire.opencl
    arrayfire.random
    arrayfire.sparse
