@@ -1,21 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>arrayfire.interop module &#8212; ArrayFire Python documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -30,6 +28,8 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-arrayfire.interop">
@@ -38,117 +38,87 @@
 <p>This module provides helper functions to copy data to arrayfire from the following modules:</p>
 <blockquote>
 <div><ol class="arabic simple">
-<li>numpy - numpy.ndarray</li>
-<li>pycuda - pycuda.gpuarray</li>
-<li>pyopencl - pyopencl.array</li>
-<li>numba - numba.cuda.cudadrv.devicearray.DeviceNDArray</li>
+<li><p>numpy - numpy.ndarray</p></li>
+<li><p>pycuda - pycuda.gpuarray</p></li>
+<li><p>pyopencl - pyopencl.array</p></li>
+<li><p>numba - numba.cuda.cudadrv.devicearray.DeviceNDArray</p></li>
 </ol>
 </div></blockquote>
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.interop.from_ndarray">
-<code class="descclassname">arrayfire.interop.</code><code class="descname">from_ndarray</code><span class="sig-paren">(</span><em>np_arr</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="headerlink" href="#arrayfire.interop.from_ndarray" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.interop.</span></code><code class="sig-name descname"><span class="pre">from_ndarray</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">np_arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#arrayfire.interop.from_ndarray" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert numpy.ndarray to arrayfire.Array.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>np_arr</strong> : numpy.ndarray()</p>
-<p><strong>copy</strong> : Bool specifying if array is to be copied.</p>
-<blockquote>
-<div><p>Default is true.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>np_arr</strong><span class="classifier">numpy.ndarray()</span></dt><dd></dd>
+<dt><strong>copy</strong><span class="classifier">Bool specifying if array is to be copied.</span></dt><dd><p>Default is true.
 Can only be False if array is fortran contiguous.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>af_arr</strong> : arrayfire.Array()</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>af_arr</strong><span class="classifier">arrayfire.Array()</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.interop.np_to_af_array">
-<code class="descclassname">arrayfire.interop.</code><code class="descname">np_to_af_array</code><span class="sig-paren">(</span><em>np_arr</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/interop.html#np_to_af_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.interop.np_to_af_array" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.interop.</span></code><code class="sig-name descname"><span class="pre">np_to_af_array</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">np_arr</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/interop.html#np_to_af_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.interop.np_to_af_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert numpy.ndarray to arrayfire.Array.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>np_arr</strong> : numpy.ndarray()</p>
-<p><strong>copy</strong> : Bool specifying if array is to be copied.</p>
-<blockquote>
-<div><p>Default is true.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>np_arr</strong><span class="classifier">numpy.ndarray()</span></dt><dd></dd>
+<dt><strong>copy</strong><span class="classifier">Bool specifying if array is to be copied.</span></dt><dd><p>Default is true.
 Can only be False if array is fortran contiguous.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>af_arr</strong> : arrayfire.Array()</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>af_arr</strong><span class="classifier">arrayfire.Array()</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
-<dt id="arrayfire.interop.numba_to_af_array">
-<code class="descclassname">arrayfire.interop.</code><code class="descname">numba_to_af_array</code><span class="sig-paren">(</span><em>nb_arr</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/interop.html#numba_to_af_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.interop.numba_to_af_array" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert numba.gpuarray to arrayfire.Array</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nb_arr</strong> : numba.cuda.cudadrv.devicearray.DeviceNDArray()</p>
-<p><strong>copy</strong> : Bool specifying if array is to be copied.</p>
-<blockquote>
-<div><p>Default is true.
-Can only be False if array is fortran contiguous.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>af_arr</strong> : arrayfire.Array()</p>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.interop.to_array">
-<code class="descclassname">arrayfire.interop.</code><code class="descname">to_array</code><span class="sig-paren">(</span><em>in_array</em>, <em>copy=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/interop.html#to_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.interop.to_array" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.interop.</span></code><code class="sig-name descname"><span class="pre">to_array</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">in_array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">copy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/interop.html#to_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.interop.to_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper function to convert input from a different module to af.Array</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>in_array</strong> : array like object</p>
-<blockquote>
-<div><p>Can be one of the following:
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>in_array</strong><span class="classifier">array like object</span></dt><dd><p>Can be one of the following:
 - numpy.ndarray
 - pycuda.GPUArray
 - pyopencl.Array
 - numba.cuda.cudadrv.devicearray.DeviceNDArray
 - array.array
 - list</p>
-</div></blockquote>
-<p><strong>copy</strong> : Bool specifying if array is to be copied.</p>
-<blockquote>
-<div><p>Default is true.
+</dd>
+<dt><strong>copy</strong><span class="classifier">Bool specifying if array is to be copied.</span></dt><dd><p>Default is true.
 Can only be False if array is fortran contiguous.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">af.Array of same dimensions as input after copying the data from the input</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>af.Array of same dimensions as input after copying the data from the input</dt><dd></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -175,27 +145,33 @@ Can only be False if array is fortran contiguous.</p>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Pavan Yalamanchili.
+      &copy;2020, ArrayFire.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/arrayfire.interop.rst.txt"

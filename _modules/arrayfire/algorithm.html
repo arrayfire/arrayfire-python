@@ -1,21 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>arrayfire.algorithm &#8212; ArrayFire Python documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -30,6 +28,8 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <h1>Source code for arrayfire.algorithm</h1><div class="highlight"><pre>
@@ -46,8 +46,8 @@
 <span class="sd">Vector algorithms (sum, min, sort, etc).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="k">def</span> <span class="nf">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">c_func</span><span class="p">):</span>
     <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
@@ -79,6 +79,31 @@
     <span class="n">imag</span> <span class="o">=</span> <span class="n">imag</span><span class="o">.</span><span class="n">value</span>
     <span class="k">return</span> <span class="n">real</span> <span class="k">if</span> <span class="n">imag</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">real</span> <span class="o">+</span> <span class="n">imag</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span>
 
+<span class="k">def</span> <span class="nf">_FNSD</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">dims</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+
+    <span class="n">fnsd</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dims</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">d</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">fnsd</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="k">break</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">fnsd</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">_rbk_dim</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">c_func</span><span class="p">):</span>
+    <span class="n">keys_out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">vals_out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">rdim</span> <span class="o">=</span> <span class="n">_FNSD</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">vals</span><span class="o">.</span><span class="n">dims</span><span class="p">())</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">keys_out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">vals_out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">keys</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">vals</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">rdim</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">keys_out</span><span class="p">,</span> <span class="n">vals_out</span>
+
+<span class="k">def</span> <span class="nf">_nan_rbk_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">c_func</span><span class="p">,</span> <span class="n">nan_val</span><span class="p">):</span>
+    <span class="n">keys_out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">vals_out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">rdim</span> <span class="o">=</span> <span class="n">_FNSD</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">vals</span><span class="o">.</span><span class="n">dims</span><span class="p">())</span>
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">c_func</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">keys_out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">vals_out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">keys</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">vals</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">rdim</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">nan_val</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">keys_out</span><span class="p">,</span> <span class="n">vals_out</span>
+
 <div class="viewcode-block" id="sum"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.sum">[docs]</a><span class="k">def</span> <span class="nf">sum</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nan_val</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Calculate the sum of all the elements along a specified dimension.</span>
@@ -108,6 +133,34 @@
             <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sum</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sum_all</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="sumByKey"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.sumByKey">[docs]</a><span class="k">def</span> <span class="nf">sumByKey</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nan_val</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the sum of elements along a specified dimension according to a key.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keys  : af.Array</span>
+<span class="sd">         One dimensional arrayfire array with reduction keys.</span>
+<span class="sd">    vals  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array that will be reduced.</span>
+<span class="sd">    dim: optional: int. default: -1</span>
+<span class="sd">         Dimension along which the sum will occur.</span>
+<span class="sd">    nan_val: optional: scalar. default: None</span>
+<span class="sd">         The value that replaces NaN in the array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    keys: af.Array or scalar number</span>
+<span class="sd">         The reduced keys of all elements in `vals` along dimension `dim`.</span>
+<span class="sd">    values: af.Array or scalar number</span>
+<span class="sd">         The sum of all elements in `vals` along dimension `dim` according to keys</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nan_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_nan_rbk_dim</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sum_by_key_nan</span><span class="p">,</span> <span class="n">nan_val</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_rbk_dim</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_sum_by_key</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="product"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.product">[docs]</a><span class="k">def</span> <span class="nf">product</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">nan_val</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -139,6 +192,33 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_product_all</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="productByKey"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.productByKey">[docs]</a><span class="k">def</span> <span class="nf">productByKey</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">nan_val</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the product of elements along a specified dimension according to a key.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keys  : af.Array</span>
+<span class="sd">         One dimensional arrayfire array with reduction keys.</span>
+<span class="sd">    vals  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array that will be reduced.</span>
+<span class="sd">    dim: optional: int. default: -1</span>
+<span class="sd">         Dimension along which the product will occur.</span>
+<span class="sd">    nan_val: optional: scalar. default: None</span>
+<span class="sd">         The value that replaces NaN in the array</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    keys: af.Array or scalar number</span>
+<span class="sd">         The reduced keys of all elements in `vals` along dimension `dim`.</span>
+<span class="sd">    values: af.Array or scalar number</span>
+<span class="sd">         The product of all elements in `vals` along dimension `dim` according to keys</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">nan_val</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_nan_rbk_dim</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_product_by_key_nan</span><span class="p">,</span> <span class="n">nan_val</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_rbk_dim</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_product_by_key</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="min"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.min">[docs]</a><span class="k">def</span> <span class="nf">min</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Find the minimum value of all the elements along a specified dimension.</span>
@@ -160,6 +240,28 @@
         <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_min</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_min_all</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="minByKey"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.minByKey">[docs]</a><span class="k">def</span> <span class="nf">minByKey</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the min of elements along a specified dimension according to a key.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keys  : af.Array</span>
+<span class="sd">         One dimensional arrayfire array with reduction keys.</span>
+<span class="sd">    vals  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array that will be reduced.</span>
+<span class="sd">    dim: optional: int. default: -1</span>
+<span class="sd">         Dimension along which the min will occur.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    keys: af.Array or scalar number</span>
+<span class="sd">         The reduced keys of all elements in `vals` along dimension `dim`.</span>
+<span class="sd">    values: af.Array or scalar number</span>
+<span class="sd">         The min of all elements in `vals` along dimension `dim` according to keys</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_rbk_dim</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_min_by_key</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="max"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.max">[docs]</a><span class="k">def</span> <span class="nf">max</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -183,6 +285,28 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_max_all</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="maxByKey"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.maxByKey">[docs]</a><span class="k">def</span> <span class="nf">maxByKey</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate the max of elements along a specified dimension according to a key.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keys  : af.Array</span>
+<span class="sd">         One dimensional arrayfire array with reduction keys.</span>
+<span class="sd">    vals  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array that will be reduced.</span>
+<span class="sd">    dim: optional: int. default: -1</span>
+<span class="sd">         Dimension along which the max will occur.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    keys: af.Array or scalar number</span>
+<span class="sd">         The reduced keys of all elements in `vals` along dimension `dim`.</span>
+<span class="sd">    values: af.Array or scalar number</span>
+<span class="sd">         The max of all elements in `vals` along dimension `dim` according to keys.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_rbk_dim</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_max_by_key</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="all_true"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.all_true">[docs]</a><span class="k">def</span> <span class="nf">all_true</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Check if all the elements along a specified dimension are true.</span>
@@ -204,6 +328,28 @@
         <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_all_true</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_all_true_all</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="allTrueByKey"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.allTrueByKey">[docs]</a><span class="k">def</span> <span class="nf">allTrueByKey</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate if all elements are true along a specified dimension according to a key.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keys  : af.Array</span>
+<span class="sd">         One dimensional arrayfire array with reduction keys.</span>
+<span class="sd">    vals  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array that will be reduced.</span>
+<span class="sd">    dim: optional: int. default: -1</span>
+<span class="sd">         Dimension along which the all true check will occur.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    keys: af.Array or scalar number</span>
+<span class="sd">         The reduced keys of all true check in `vals` along dimension `dim`.</span>
+<span class="sd">    values: af.Array or scalar number</span>
+<span class="sd">         Booleans denoting if all elements are true in `vals` along dimension `dim` according to keys</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_rbk_dim</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_all_true_by_key</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="any_true"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.any_true">[docs]</a><span class="k">def</span> <span class="nf">any_true</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -227,6 +373,28 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_any_true_all</span><span class="p">)</span></div>
 
+<div class="viewcode-block" id="anyTrueByKey"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.anyTrueByKey">[docs]</a><span class="k">def</span> <span class="nf">anyTrueByKey</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate if any elements are true along a specified dimension according to a key.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keys  : af.Array</span>
+<span class="sd">         One dimensional arrayfire array with reduction keys.</span>
+<span class="sd">    vals  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array that will be reduced.</span>
+<span class="sd">    dim: optional: int. default: -1</span>
+<span class="sd">         Dimension along which the any true check will occur.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    keys: af.Array or scalar number</span>
+<span class="sd">         The reduced keys of any true check in `vals` along dimension `dim`.</span>
+<span class="sd">    values: af.Array or scalar number</span>
+<span class="sd">         Booleans denoting if any elements are true in `vals` along dimension `dim` according to keys.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_rbk_dim</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_any_true_by_key</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="count"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.count">[docs]</a><span class="k">def</span> <span class="nf">count</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Count the number of non zero elements in an array along a specified dimension.</span>
@@ -248,6 +416,28 @@
         <span class="k">return</span> <span class="n">_parallel_dim</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_count</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">_reduce_all</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_count_all</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="countByKey"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.countByKey">[docs]</a><span class="k">def</span> <span class="nf">countByKey</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Counts non-zero elements along a specified dimension according to a key.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    keys  : af.Array</span>
+<span class="sd">         One dimensional arrayfire array with reduction keys.</span>
+<span class="sd">    vals  : af.Array</span>
+<span class="sd">         Multi dimensional arrayfire array that will be reduced.</span>
+<span class="sd">    dim: optional: int. default: -1</span>
+<span class="sd">         Dimension along which to count elements.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    keys: af.Array or scalar number</span>
+<span class="sd">         The reduced keys of count in `vals` along dimension `dim`.</span>
+<span class="sd">    values: af.Array or scalar number</span>
+<span class="sd">         Count of non-zero elements in `vals` along dimension `dim` according to keys.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_rbk_dim</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">vals</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_count_by_key</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="imin"><a class="viewcode-back" href="../../arrayfire.algorithm.html#arrayfire.algorithm.imin">[docs]</a><span class="k">def</span> <span class="nf">imin</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -605,6 +795,7 @@
 </pre></div>
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -633,27 +824,33 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Pavan Yalamanchili.
+      &copy;2020, ArrayFire.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

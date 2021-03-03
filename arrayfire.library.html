@@ -1,21 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>arrayfire.library module &#8212; ArrayFire Python documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -30,1104 +28,1255 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-arrayfire.library">
 <span id="arrayfire-library-module"></span><h1>arrayfire.library module<a class="headerlink" href="#module-arrayfire.library" title="Permalink to this headline">¶</a></h1>
 <p>Module containing enums and other constants.</p>
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.BACKEND">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">BACKEND</code><a class="reference internal" href="_modules/arrayfire/library.html#BACKEND"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.BACKEND" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">BACKEND</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#BACKEND"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.BACKEND" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Backend libraries</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.BACKEND.CPU">
-<code class="descname">CPU</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.BACKEND.CPU" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">CPU</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.BACKEND.CPU" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.BACKEND.CUDA">
-<code class="descname">CUDA</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.BACKEND.CUDA" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">CUDA</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.BACKEND.CUDA" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.BACKEND.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.BACKEND.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DEFAULT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.BACKEND.DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.BACKEND.OPENCL">
-<code class="descname">OPENCL</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.BACKEND.OPENCL" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">OPENCL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#arrayfire.library.BACKEND.OPENCL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.BINARYOP">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">BINARYOP</code><a class="reference internal" href="_modules/arrayfire/library.html#BINARYOP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.BINARYOP" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">BINARYOP</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#BINARYOP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.BINARYOP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Binary Operators</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.BINARYOP.ADD">
-<code class="descname">ADD</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.BINARYOP.ADD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">ADD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.BINARYOP.ADD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.BINARYOP.MAX">
-<code class="descname">MAX</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MAX" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MAX</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.BINARYOP.MAX" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.BINARYOP.MIN">
-<code class="descname">MIN</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MIN" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MIN</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.BINARYOP.MIN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.BINARYOP.MUL">
-<code class="descname">MUL</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.BINARYOP.MUL" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MUL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.BINARYOP.MUL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.CANNY_THRESHOLD">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CANNY_THRESHOLD</code><a class="reference internal" href="_modules/arrayfire/library.html#CANNY_THRESHOLD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CANNY_THRESHOLD" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">CANNY_THRESHOLD</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#CANNY_THRESHOLD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.CANNY_THRESHOLD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Canny Edge Threshold types</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CANNY_THRESHOLD.AUTO_OTSU">
-<code class="descname">AUTO_OTSU</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.CANNY_THRESHOLD.AUTO_OTSU" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">AUTO_OTSU</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.CANNY_THRESHOLD.AUTO_OTSU" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CANNY_THRESHOLD.MANUAL">
-<code class="descname">MANUAL</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.CANNY_THRESHOLD.MANUAL" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MANUAL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.CANNY_THRESHOLD.MANUAL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.COLORMAP">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">COLORMAP</code><a class="reference internal" href="_modules/arrayfire/library.html#COLORMAP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.COLORMAP" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">COLORMAP</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#COLORMAP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.COLORMAP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Colormaps</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.COLORMAP.BLUE">
-<code class="descname">BLUE</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.COLORMAP.BLUE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">BLUE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">6</span></em><a class="headerlink" href="#arrayfire.library.COLORMAP.BLUE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.COLORMAP.COLORS">
-<code class="descname">COLORS</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.COLORMAP.COLORS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">COLORS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.COLORMAP.COLORS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.COLORMAP.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.COLORMAP.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DEFAULT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.COLORMAP.DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.COLORMAP.HEAT">
-<code class="descname">HEAT</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.COLORMAP.HEAT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">HEAT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">5</span></em><a class="headerlink" href="#arrayfire.library.COLORMAP.HEAT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.COLORMAP.MOOD">
-<code class="descname">MOOD</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.COLORMAP.MOOD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MOOD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#arrayfire.library.COLORMAP.MOOD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.COLORMAP.RED">
-<code class="descname">RED</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.COLORMAP.RED" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">RED</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.COLORMAP.RED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.COLORMAP.SPECTRUM">
-<code class="descname">SPECTRUM</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.COLORMAP.SPECTRUM" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">SPECTRUM</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.COLORMAP.SPECTRUM" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.CONNECTIVITY">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CONNECTIVITY</code><a class="reference internal" href="_modules/arrayfire/library.html#CONNECTIVITY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CONNECTIVITY" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">CONNECTIVITY</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#CONNECTIVITY"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.CONNECTIVITY" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Neighborhood connectivity</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CONNECTIVITY.EIGHT">
-<code class="descname">EIGHT</code><em class="property"> = 8</em><a class="headerlink" href="#arrayfire.library.CONNECTIVITY.EIGHT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">EIGHT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">8</span></em><a class="headerlink" href="#arrayfire.library.CONNECTIVITY.EIGHT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CONNECTIVITY.FOUR">
-<code class="descname">FOUR</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.CONNECTIVITY.FOUR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">FOUR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#arrayfire.library.CONNECTIVITY.FOUR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.CONV_DOMAIN">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CONV_DOMAIN</code><a class="reference internal" href="_modules/arrayfire/library.html#CONV_DOMAIN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">CONV_DOMAIN</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#CONV_DOMAIN"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Convolution domain</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CONV_DOMAIN.AUTO">
-<code class="descname">AUTO</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.AUTO" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">AUTO</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.AUTO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CONV_DOMAIN.FREQ">
-<code class="descname">FREQ</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.FREQ" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">FREQ</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.FREQ" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CONV_DOMAIN.SPATIAL">
-<code class="descname">SPATIAL</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.SPATIAL" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">SPATIAL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.CONV_DOMAIN.SPATIAL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
+<dt id="arrayfire.library.CONV_GRADIENT">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">CONV_GRADIENT</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#CONV_GRADIENT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.CONV_GRADIENT" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Convolution gradient type</p>
+<dl class="py attribute">
+<dt id="arrayfire.library.CONV_GRADIENT.BIAS">
+<code class="sig-name descname"><span class="pre">BIAS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.CONV_GRADIENT.BIAS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="arrayfire.library.CONV_GRADIENT.DATA">
+<code class="sig-name descname"><span class="pre">DATA</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.CONV_GRADIENT.DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="arrayfire.library.CONV_GRADIENT.DEFAULT">
+<code class="sig-name descname"><span class="pre">DEFAULT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.CONV_GRADIENT.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="arrayfire.library.CONV_GRADIENT.FILTER">
+<code class="sig-name descname"><span class="pre">FILTER</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.CONV_GRADIENT.FILTER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt id="arrayfire.library.CONV_MODE">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CONV_MODE</code><a class="reference internal" href="_modules/arrayfire/library.html#CONV_MODE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CONV_MODE" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">CONV_MODE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#CONV_MODE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.CONV_MODE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Convolution mode</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CONV_MODE.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.CONV_MODE.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DEFAULT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.CONV_MODE.DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CONV_MODE.EXPAND">
-<code class="descname">EXPAND</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.CONV_MODE.EXPAND" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">EXPAND</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.CONV_MODE.EXPAND" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.CSPACE">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">CSPACE</code><a class="reference internal" href="_modules/arrayfire/library.html#CSPACE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.CSPACE" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">CSPACE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#CSPACE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.CSPACE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Colorspace formats</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CSPACE.GRAY">
-<code class="descname">GRAY</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.CSPACE.GRAY" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">GRAY</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.CSPACE.GRAY" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CSPACE.HSV">
-<code class="descname">HSV</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.CSPACE.HSV" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">HSV</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.CSPACE.HSV" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CSPACE.RGB">
-<code class="descname">RGB</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.CSPACE.RGB" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">RGB</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.CSPACE.RGB" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.CSPACE.YCbCr">
-<code class="descname">YCbCr</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.CSPACE.YCbCr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">YCbCr</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.CSPACE.YCbCr" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.DIFFUSION">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">DIFFUSION</code><a class="reference internal" href="_modules/arrayfire/library.html#DIFFUSION"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.DIFFUSION" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">DIFFUSION</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#DIFFUSION"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.DIFFUSION" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Diffusion equations</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.DIFFUSION.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.DIFFUSION.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DEFAULT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.DIFFUSION.DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.DIFFUSION.GRAD">
-<code class="descname">GRAD</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.DIFFUSION.GRAD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">GRAD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.DIFFUSION.GRAD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.DIFFUSION.MCDE">
-<code class="descname">MCDE</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.DIFFUSION.MCDE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MCDE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.DIFFUSION.MCDE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.Dtype">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">Dtype</code><a class="reference internal" href="_modules/arrayfire/library.html#Dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.Dtype" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">Dtype</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#Dtype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.Dtype" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Error values. For internal use only.</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.b8">
-<code class="descname">b8</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.Dtype.b8" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">b8</span></code><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#arrayfire.library.Dtype.b8" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.c32">
-<code class="descname">c32</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.Dtype.c32" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">c32</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.Dtype.c32" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.c64">
-<code class="descname">c64</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.Dtype.c64" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">c64</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.Dtype.c64" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
+<dt id="arrayfire.library.Dtype.f16">
+<code class="sig-name descname"><span class="pre">f16</span></code><em class="property"> <span class="pre">=</span> <span class="pre">12</span></em><a class="headerlink" href="#arrayfire.library.Dtype.f16" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.f32">
-<code class="descname">f32</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.Dtype.f32" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">f32</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.Dtype.f32" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.f64">
-<code class="descname">f64</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.Dtype.f64" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">f64</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.Dtype.f64" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.s16">
-<code class="descname">s16</code><em class="property"> = 10</em><a class="headerlink" href="#arrayfire.library.Dtype.s16" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">s16</span></code><em class="property"> <span class="pre">=</span> <span class="pre">10</span></em><a class="headerlink" href="#arrayfire.library.Dtype.s16" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.s32">
-<code class="descname">s32</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.Dtype.s32" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">s32</span></code><em class="property"> <span class="pre">=</span> <span class="pre">5</span></em><a class="headerlink" href="#arrayfire.library.Dtype.s32" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.s64">
-<code class="descname">s64</code><em class="property"> = 8</em><a class="headerlink" href="#arrayfire.library.Dtype.s64" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">s64</span></code><em class="property"> <span class="pre">=</span> <span class="pre">8</span></em><a class="headerlink" href="#arrayfire.library.Dtype.s64" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.u16">
-<code class="descname">u16</code><em class="property"> = 11</em><a class="headerlink" href="#arrayfire.library.Dtype.u16" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">u16</span></code><em class="property"> <span class="pre">=</span> <span class="pre">11</span></em><a class="headerlink" href="#arrayfire.library.Dtype.u16" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.u32">
-<code class="descname">u32</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.Dtype.u32" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">u32</span></code><em class="property"> <span class="pre">=</span> <span class="pre">6</span></em><a class="headerlink" href="#arrayfire.library.Dtype.u32" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.u64">
-<code class="descname">u64</code><em class="property"> = 9</em><a class="headerlink" href="#arrayfire.library.Dtype.u64" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">u64</span></code><em class="property"> <span class="pre">=</span> <span class="pre">9</span></em><a class="headerlink" href="#arrayfire.library.Dtype.u64" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Dtype.u8">
-<code class="descname">u8</code><em class="property"> = 7</em><a class="headerlink" href="#arrayfire.library.Dtype.u8" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">u8</span></code><em class="property"> <span class="pre">=</span> <span class="pre">7</span></em><a class="headerlink" href="#arrayfire.library.Dtype.u8" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.ERR">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">ERR</code><a class="reference internal" href="_modules/arrayfire/library.html#ERR"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.ERR" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">ERR</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#ERR"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.ERR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Error values. For internal use only.</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.ARG">
-<code class="descname">ARG</code><em class="property"> = 202</em><a class="headerlink" href="#arrayfire.library.ERR.ARG" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">ARG</span></code><em class="property"> <span class="pre">=</span> <span class="pre">202</span></em><a class="headerlink" href="#arrayfire.library.ERR.ARG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.ARR_BKND_MISMATCH">
-<code class="descname">ARR_BKND_MISMATCH</code><em class="property"> = 503</em><a class="headerlink" href="#arrayfire.library.ERR.ARR_BKND_MISMATCH" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">ARR_BKND_MISMATCH</span></code><em class="property"> <span class="pre">=</span> <span class="pre">503</span></em><a class="headerlink" href="#arrayfire.library.ERR.ARR_BKND_MISMATCH" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.BATCH">
-<code class="descname">BATCH</code><em class="property"> = 207</em><a class="headerlink" href="#arrayfire.library.ERR.BATCH" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">BATCH</span></code><em class="property"> <span class="pre">=</span> <span class="pre">207</span></em><a class="headerlink" href="#arrayfire.library.ERR.BATCH" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.DEVICE">
-<code class="descname">DEVICE</code><em class="property"> = 208</em><a class="headerlink" href="#arrayfire.library.ERR.DEVICE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DEVICE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">208</span></em><a class="headerlink" href="#arrayfire.library.ERR.DEVICE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.DIFF_TYPE">
-<code class="descname">DIFF_TYPE</code><em class="property"> = 205</em><a class="headerlink" href="#arrayfire.library.ERR.DIFF_TYPE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DIFF_TYPE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">205</span></em><a class="headerlink" href="#arrayfire.library.ERR.DIFF_TYPE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.DRIVER">
-<code class="descname">DRIVER</code><em class="property"> = 102</em><a class="headerlink" href="#arrayfire.library.ERR.DRIVER" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DRIVER</span></code><em class="property"> <span class="pre">=</span> <span class="pre">102</span></em><a class="headerlink" href="#arrayfire.library.ERR.DRIVER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.INTERNAL">
-<code class="descname">INTERNAL</code><em class="property"> = 998</em><a class="headerlink" href="#arrayfire.library.ERR.INTERNAL" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">INTERNAL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">998</span></em><a class="headerlink" href="#arrayfire.library.ERR.INTERNAL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.INVALID_ARRAY">
-<code class="descname">INVALID_ARRAY</code><em class="property"> = 201</em><a class="headerlink" href="#arrayfire.library.ERR.INVALID_ARRAY" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">INVALID_ARRAY</span></code><em class="property"> <span class="pre">=</span> <span class="pre">201</span></em><a class="headerlink" href="#arrayfire.library.ERR.INVALID_ARRAY" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.LOAD_LIB">
-<code class="descname">LOAD_LIB</code><em class="property"> = 501</em><a class="headerlink" href="#arrayfire.library.ERR.LOAD_LIB" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">LOAD_LIB</span></code><em class="property"> <span class="pre">=</span> <span class="pre">501</span></em><a class="headerlink" href="#arrayfire.library.ERR.LOAD_LIB" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.LOAD_SYM">
-<code class="descname">LOAD_SYM</code><em class="property"> = 502</em><a class="headerlink" href="#arrayfire.library.ERR.LOAD_SYM" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">LOAD_SYM</span></code><em class="property"> <span class="pre">=</span> <span class="pre">502</span></em><a class="headerlink" href="#arrayfire.library.ERR.LOAD_SYM" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.NONE">
-<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.ERR.NONE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">NONE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.ERR.NONE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.NONFREE">
-<code class="descname">NONFREE</code><em class="property"> = 303</em><a class="headerlink" href="#arrayfire.library.ERR.NONFREE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">NONFREE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">303</span></em><a class="headerlink" href="#arrayfire.library.ERR.NONFREE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.NOT_CONFIGURED">
-<code class="descname">NOT_CONFIGURED</code><em class="property"> = 302</em><a class="headerlink" href="#arrayfire.library.ERR.NOT_CONFIGURED" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">NOT_CONFIGURED</span></code><em class="property"> <span class="pre">=</span> <span class="pre">302</span></em><a class="headerlink" href="#arrayfire.library.ERR.NOT_CONFIGURED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.NOT_SUPPORTED">
-<code class="descname">NOT_SUPPORTED</code><em class="property"> = 301</em><a class="headerlink" href="#arrayfire.library.ERR.NOT_SUPPORTED" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">NOT_SUPPORTED</span></code><em class="property"> <span class="pre">=</span> <span class="pre">301</span></em><a class="headerlink" href="#arrayfire.library.ERR.NOT_SUPPORTED" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.NO_DBL">
-<code class="descname">NO_DBL</code><em class="property"> = 401</em><a class="headerlink" href="#arrayfire.library.ERR.NO_DBL" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">NO_DBL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">401</span></em><a class="headerlink" href="#arrayfire.library.ERR.NO_DBL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.NO_GFX">
-<code class="descname">NO_GFX</code><em class="property"> = 402</em><a class="headerlink" href="#arrayfire.library.ERR.NO_GFX" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">NO_GFX</span></code><em class="property"> <span class="pre">=</span> <span class="pre">402</span></em><a class="headerlink" href="#arrayfire.library.ERR.NO_GFX" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
+<dt id="arrayfire.library.ERR.NO_HALF">
+<code class="sig-name descname"><span class="pre">NO_HALF</span></code><em class="property"> <span class="pre">=</span> <span class="pre">403</span></em><a class="headerlink" href="#arrayfire.library.ERR.NO_HALF" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.NO_MEM">
-<code class="descname">NO_MEM</code><em class="property"> = 101</em><a class="headerlink" href="#arrayfire.library.ERR.NO_MEM" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">NO_MEM</span></code><em class="property"> <span class="pre">=</span> <span class="pre">101</span></em><a class="headerlink" href="#arrayfire.library.ERR.NO_MEM" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.RUNTIME">
-<code class="descname">RUNTIME</code><em class="property"> = 103</em><a class="headerlink" href="#arrayfire.library.ERR.RUNTIME" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">RUNTIME</span></code><em class="property"> <span class="pre">=</span> <span class="pre">103</span></em><a class="headerlink" href="#arrayfire.library.ERR.RUNTIME" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.SIZE">
-<code class="descname">SIZE</code><em class="property"> = 203</em><a class="headerlink" href="#arrayfire.library.ERR.SIZE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">SIZE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">203</span></em><a class="headerlink" href="#arrayfire.library.ERR.SIZE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.TYPE">
-<code class="descname">TYPE</code><em class="property"> = 204</em><a class="headerlink" href="#arrayfire.library.ERR.TYPE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">TYPE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">204</span></em><a class="headerlink" href="#arrayfire.library.ERR.TYPE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.ERR.UNKNOWN">
-<code class="descname">UNKNOWN</code><em class="property"> = 999</em><a class="headerlink" href="#arrayfire.library.ERR.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">UNKNOWN</span></code><em class="property"> <span class="pre">=</span> <span class="pre">999</span></em><a class="headerlink" href="#arrayfire.library.ERR.UNKNOWN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.FLUX">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">FLUX</code><a class="reference internal" href="_modules/arrayfire/library.html#FLUX"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.FLUX" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">FLUX</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#FLUX"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.FLUX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Flux functions</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.FLUX.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.FLUX.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DEFAULT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.FLUX.DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.FLUX.EXPONENTIAL">
-<code class="descname">EXPONENTIAL</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.FLUX.EXPONENTIAL" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">EXPONENTIAL</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.FLUX.EXPONENTIAL" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.FLUX.QUADRATIC">
-<code class="descname">QUADRATIC</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.FLUX.QUADRATIC" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">QUADRATIC</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.FLUX.QUADRATIC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.HOMOGRAPHY">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">HOMOGRAPHY</code><a class="reference internal" href="_modules/arrayfire/library.html#HOMOGRAPHY"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">HOMOGRAPHY</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#HOMOGRAPHY"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Homography Types</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.HOMOGRAPHY.LMEDS">
-<code class="descname">LMEDS</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY.LMEDS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">LMEDS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY.LMEDS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.HOMOGRAPHY.RANSAC">
-<code class="descname">RANSAC</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY.RANSAC" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">RANSAC</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.HOMOGRAPHY.RANSAC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.IMAGE_FORMAT">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">IMAGE_FORMAT</code><a class="reference internal" href="_modules/arrayfire/library.html#IMAGE_FORMAT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">IMAGE_FORMAT</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#IMAGE_FORMAT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Image Formats</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.BMP">
-<code class="descname">BMP</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.BMP" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">BMP</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.BMP" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.EXR">
-<code class="descname">EXR</code><em class="property"> = 29</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.EXR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">EXR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">29</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.EXR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.HDR">
-<code class="descname">HDR</code><em class="property"> = 26</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.HDR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">HDR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">26</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.HDR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.ICO">
-<code class="descname">ICO</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.ICO" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">ICO</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.ICO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.JNG">
-<code class="descname">JNG</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JNG" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">JNG</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JNG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.JP2">
-<code class="descname">JP2</code><em class="property"> = 31</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JP2" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">JP2</span></code><em class="property"> <span class="pre">=</span> <span class="pre">31</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JP2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.JPEG">
-<code class="descname">JPEG</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JPEG" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">JPEG</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.JPEG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.PNG">
-<code class="descname">PNG</code><em class="property"> = 13</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PNG" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">PNG</span></code><em class="property"> <span class="pre">=</span> <span class="pre">13</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PNG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.PPM">
-<code class="descname">PPM</code><em class="property"> = 14</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PPM" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">PPM</span></code><em class="property"> <span class="pre">=</span> <span class="pre">14</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PPM" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.PPMRAW">
-<code class="descname">PPMRAW</code><em class="property"> = 15</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PPMRAW" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">PPMRAW</span></code><em class="property"> <span class="pre">=</span> <span class="pre">15</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PPMRAW" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.PSD">
-<code class="descname">PSD</code><em class="property"> = 20</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PSD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">PSD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">20</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.PSD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.RAW">
-<code class="descname">RAW</code><em class="property"> = 34</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.RAW" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">RAW</span></code><em class="property"> <span class="pre">=</span> <span class="pre">34</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.RAW" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.IMAGE_FORMAT.TIFF">
-<code class="descname">TIFF</code><em class="property"> = 18</em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.TIFF" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">TIFF</span></code><em class="property"> <span class="pre">=</span> <span class="pre">18</span></em><a class="headerlink" href="#arrayfire.library.IMAGE_FORMAT.TIFF" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.INTERP">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">INTERP</code><a class="reference internal" href="_modules/arrayfire/library.html#INTERP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.INTERP" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">INTERP</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#INTERP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.INTERP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Interpolation method</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.INTERP.BICUBIC">
-<code class="descname">BICUBIC</code><em class="property"> = 7</em><a class="headerlink" href="#arrayfire.library.INTERP.BICUBIC" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">BICUBIC</span></code><em class="property"> <span class="pre">=</span> <span class="pre">7</span></em><a class="headerlink" href="#arrayfire.library.INTERP.BICUBIC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.INTERP.BICUBIC_SPLINE">
-<code class="descname">BICUBIC_SPLINE</code><em class="property"> = 9</em><a class="headerlink" href="#arrayfire.library.INTERP.BICUBIC_SPLINE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">BICUBIC_SPLINE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">9</span></em><a class="headerlink" href="#arrayfire.library.INTERP.BICUBIC_SPLINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.INTERP.BILINEAR">
-<code class="descname">BILINEAR</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.INTERP.BILINEAR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">BILINEAR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.INTERP.BILINEAR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.INTERP.BILINEAR_COSINE">
-<code class="descname">BILINEAR_COSINE</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.INTERP.BILINEAR_COSINE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">BILINEAR_COSINE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">6</span></em><a class="headerlink" href="#arrayfire.library.INTERP.BILINEAR_COSINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.INTERP.CUBIC">
-<code class="descname">CUBIC</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.INTERP.CUBIC" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">CUBIC</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.INTERP.CUBIC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.INTERP.CUBIC_SPLINE">
-<code class="descname">CUBIC_SPLINE</code><em class="property"> = 8</em><a class="headerlink" href="#arrayfire.library.INTERP.CUBIC_SPLINE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">CUBIC_SPLINE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">8</span></em><a class="headerlink" href="#arrayfire.library.INTERP.CUBIC_SPLINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.INTERP.LINEAR">
-<code class="descname">LINEAR</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.INTERP.LINEAR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">LINEAR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.INTERP.LINEAR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.INTERP.LINEAR_COSINE">
-<code class="descname">LINEAR_COSINE</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.INTERP.LINEAR_COSINE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">LINEAR_COSINE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">5</span></em><a class="headerlink" href="#arrayfire.library.INTERP.LINEAR_COSINE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.INTERP.LOWER">
-<code class="descname">LOWER</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.INTERP.LOWER" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">LOWER</span></code><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#arrayfire.library.INTERP.LOWER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.INTERP.NEAREST">
-<code class="descname">NEAREST</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.INTERP.NEAREST" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">NEAREST</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.INTERP.NEAREST" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
+<dt id="arrayfire.library.INVERSE_DECONV">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">INVERSE_DECONV</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#INVERSE_DECONV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.INVERSE_DECONV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Inverse deconvolution algorithm</p>
+<dl class="py attribute">
+<dt id="arrayfire.library.INVERSE_DECONV.DEFAULT">
+<code class="sig-name descname"><span class="pre">DEFAULT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.INVERSE_DECONV.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="arrayfire.library.INVERSE_DECONV.TIKHONOV">
+<code class="sig-name descname"><span class="pre">TIKHONOV</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.INVERSE_DECONV.TIKHONOV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="arrayfire.library.ITERATIVE_DECONV">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">ITERATIVE_DECONV</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#ITERATIVE_DECONV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.ITERATIVE_DECONV" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Iterative deconvolution algorithm</p>
+<dl class="py attribute">
+<dt id="arrayfire.library.ITERATIVE_DECONV.DEFAULT">
+<code class="sig-name descname"><span class="pre">DEFAULT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.ITERATIVE_DECONV.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="arrayfire.library.ITERATIVE_DECONV.LANDWEBER">
+<code class="sig-name descname"><span class="pre">LANDWEBER</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.ITERATIVE_DECONV.LANDWEBER" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="arrayfire.library.ITERATIVE_DECONV.RICHARDSONLUCY">
+<code class="sig-name descname"><span class="pre">RICHARDSONLUCY</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.ITERATIVE_DECONV.RICHARDSONLUCY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt id="arrayfire.library.MARKER">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MARKER</code><a class="reference internal" href="_modules/arrayfire/library.html#MARKER"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MARKER" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">MARKER</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#MARKER"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.MARKER" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Markers used for different points in graphics plots</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MARKER.CIRCLE">
-<code class="descname">CIRCLE</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.MARKER.CIRCLE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">CIRCLE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.MARKER.CIRCLE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MARKER.CROSS">
-<code class="descname">CROSS</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.MARKER.CROSS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">CROSS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">5</span></em><a class="headerlink" href="#arrayfire.library.MARKER.CROSS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MARKER.NONE">
-<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.MARKER.NONE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">NONE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.MARKER.NONE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MARKER.PLUS">
-<code class="descname">PLUS</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.MARKER.PLUS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">PLUS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">6</span></em><a class="headerlink" href="#arrayfire.library.MARKER.PLUS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MARKER.POINT">
-<code class="descname">POINT</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.MARKER.POINT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">POINT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.MARKER.POINT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MARKER.SQUARE">
-<code class="descname">SQUARE</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.MARKER.SQUARE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">SQUARE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.MARKER.SQUARE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MARKER.STAR">
-<code class="descname">STAR</code><em class="property"> = 7</em><a class="headerlink" href="#arrayfire.library.MARKER.STAR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">STAR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">7</span></em><a class="headerlink" href="#arrayfire.library.MARKER.STAR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MARKER.TRIANGE">
-<code class="descname">TRIANGE</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.MARKER.TRIANGE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">TRIANGE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#arrayfire.library.MARKER.TRIANGE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.MATCH">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MATCH</code><a class="reference internal" href="_modules/arrayfire/library.html#MATCH"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MATCH" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">MATCH</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#MATCH"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.MATCH" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Match type</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATCH.LSAD">
-<code class="descname">LSAD</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.MATCH.LSAD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">LSAD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.MATCH.LSAD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sum of squared differences</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATCH.LSSD">
-<code class="descname">LSSD</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.MATCH.LSSD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">LSSD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">5</span></em><a class="headerlink" href="#arrayfire.library.MATCH.LSSD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Normalized cross correlation</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATCH.NCC">
-<code class="descname">NCC</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.MATCH.NCC" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">NCC</span></code><em class="property"> <span class="pre">=</span> <span class="pre">6</span></em><a class="headerlink" href="#arrayfire.library.MATCH.NCC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Zero mean NCC</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATCH.SAD">
-<code class="descname">SAD</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.MATCH.SAD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">SAD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.MATCH.SAD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Zero mean SAD</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATCH.SHD">
-<code class="descname">SHD</code><em class="property"> = 8</em><a class="headerlink" href="#arrayfire.library.MATCH.SHD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">SHD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">8</span></em><a class="headerlink" href="#arrayfire.library.MATCH.SHD" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATCH.SSD">
-<code class="descname">SSD</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.MATCH.SSD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">SSD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.MATCH.SSD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Zero mean SSD</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATCH.ZNCC">
-<code class="descname">ZNCC</code><em class="property"> = 7</em><a class="headerlink" href="#arrayfire.library.MATCH.ZNCC" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">ZNCC</span></code><em class="property"> <span class="pre">=</span> <span class="pre">7</span></em><a class="headerlink" href="#arrayfire.library.MATCH.ZNCC" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sum of hamming distances</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATCH.ZSAD">
-<code class="descname">ZSAD</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.MATCH.ZSAD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">ZSAD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.MATCH.ZSAD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Locally scaled SAD</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATCH.ZSSD">
-<code class="descname">ZSSD</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.MATCH.ZSSD" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">ZSSD</span></code><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#arrayfire.library.MATCH.ZSSD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Locally scaled SSD</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.MATPROP">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MATPROP</code><a class="reference internal" href="_modules/arrayfire/library.html#MATPROP"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MATPROP" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">MATPROP</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#MATPROP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.MATPROP" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Matrix properties</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATPROP.BLOCK_DIAG">
-<code class="descname">BLOCK_DIAG</code><em class="property"> = 8192</em><a class="headerlink" href="#arrayfire.library.MATPROP.BLOCK_DIAG" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">BLOCK_DIAG</span></code><em class="property"> <span class="pre">=</span> <span class="pre">8192</span></em><a class="headerlink" href="#arrayfire.library.MATPROP.BLOCK_DIAG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATPROP.CTRANS">
-<code class="descname">CTRANS</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.MATPROP.CTRANS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">CTRANS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.MATPROP.CTRANS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upper triangular matrix.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATPROP.DIAG_UNIT">
-<code class="descname">DIAG_UNIT</code><em class="property"> = 128</em><a class="headerlink" href="#arrayfire.library.MATPROP.DIAG_UNIT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DIAG_UNIT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">128</span></em><a class="headerlink" href="#arrayfire.library.MATPROP.DIAG_UNIT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Symmetric matrix.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATPROP.LOWER">
-<code class="descname">LOWER</code><em class="property"> = 64</em><a class="headerlink" href="#arrayfire.library.MATPROP.LOWER" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">LOWER</span></code><em class="property"> <span class="pre">=</span> <span class="pre">64</span></em><a class="headerlink" href="#arrayfire.library.MATPROP.LOWER" title="Permalink to this definition">¶</a></dt>
 <dd><p>Treat diagonal as units.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATPROP.NONE">
-<code class="descname">NONE</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.MATPROP.NONE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">NONE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.MATPROP.NONE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Transposed.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATPROP.ORTHOG">
-<code class="descname">ORTHOG</code><em class="property"> = 2048</em><a class="headerlink" href="#arrayfire.library.MATPROP.ORTHOG" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">ORTHOG</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2048</span></em><a class="headerlink" href="#arrayfire.library.MATPROP.ORTHOG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tri diagonal matrix.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATPROP.POSDEF">
-<code class="descname">POSDEF</code><em class="property"> = 1024</em><a class="headerlink" href="#arrayfire.library.MATPROP.POSDEF" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">POSDEF</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1024</span></em><a class="headerlink" href="#arrayfire.library.MATPROP.POSDEF" title="Permalink to this definition">¶</a></dt>
 <dd><p>Orthogonal matrix.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATPROP.SYM">
-<code class="descname">SYM</code><em class="property"> = 512</em><a class="headerlink" href="#arrayfire.library.MATPROP.SYM" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">SYM</span></code><em class="property"> <span class="pre">=</span> <span class="pre">512</span></em><a class="headerlink" href="#arrayfire.library.MATPROP.SYM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Positive definite matrix.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATPROP.TRANS">
-<code class="descname">TRANS</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.MATPROP.TRANS" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">TRANS</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.MATPROP.TRANS" title="Permalink to this definition">¶</a></dt>
 <dd><p>Conjugate transposed.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATPROP.TRI_DIAG">
-<code class="descname">TRI_DIAG</code><em class="property"> = 4096</em><a class="headerlink" href="#arrayfire.library.MATPROP.TRI_DIAG" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">TRI_DIAG</span></code><em class="property"> <span class="pre">=</span> <span class="pre">4096</span></em><a class="headerlink" href="#arrayfire.library.MATPROP.TRI_DIAG" title="Permalink to this definition">¶</a></dt>
 <dd><p>Block diagonal matrix.</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MATPROP.UPPER">
-<code class="descname">UPPER</code><em class="property"> = 32</em><a class="headerlink" href="#arrayfire.library.MATPROP.UPPER" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">UPPER</span></code><em class="property"> <span class="pre">=</span> <span class="pre">32</span></em><a class="headerlink" href="#arrayfire.library.MATPROP.UPPER" title="Permalink to this definition">¶</a></dt>
 <dd><p>Lower triangular matrix.</p>
 </dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.MOMENT">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">MOMENT</code><a class="reference internal" href="_modules/arrayfire/library.html#MOMENT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.MOMENT" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">MOMENT</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#MOMENT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.MOMENT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Image Moments types</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MOMENT.FIRST_ORDER">
-<code class="descname">FIRST_ORDER</code><em class="property"> = 15</em><a class="headerlink" href="#arrayfire.library.MOMENT.FIRST_ORDER" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">FIRST_ORDER</span></code><em class="property"> <span class="pre">=</span> <span class="pre">15</span></em><a class="headerlink" href="#arrayfire.library.MOMENT.FIRST_ORDER" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MOMENT.M00">
-<code class="descname">M00</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.MOMENT.M00" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">M00</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.MOMENT.M00" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MOMENT.M01">
-<code class="descname">M01</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.MOMENT.M01" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">M01</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.MOMENT.M01" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MOMENT.M10">
-<code class="descname">M10</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.MOMENT.M10" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">M10</span></code><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#arrayfire.library.MOMENT.M10" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.MOMENT.M11">
-<code class="descname">M11</code><em class="property"> = 8</em><a class="headerlink" href="#arrayfire.library.MOMENT.M11" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">M11</span></code><em class="property"> <span class="pre">=</span> <span class="pre">8</span></em><a class="headerlink" href="#arrayfire.library.MOMENT.M11" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.NORM">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">NORM</code><a class="reference internal" href="_modules/arrayfire/library.html#NORM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.NORM" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">NORM</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#NORM"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.NORM" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Norm types</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.NORM.EUCLID">
-<code class="descname">EUCLID</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.NORM.EUCLID" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">EUCLID</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.NORM.EUCLID" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.NORM.MATRIX_1">
-<code class="descname">MATRIX_1</code><em class="property"> = 4</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_1" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MATRIX_1</span></code><em class="property"> <span class="pre">=</span> <span class="pre">4</span></em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.NORM.MATRIX_2">
-<code class="descname">MATRIX_2</code><em class="property"> = 6</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_2" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MATRIX_2</span></code><em class="property"> <span class="pre">=</span> <span class="pre">6</span></em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.NORM.MATRIX_INF">
-<code class="descname">MATRIX_INF</code><em class="property"> = 5</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_INF" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MATRIX_INF</span></code><em class="property"> <span class="pre">=</span> <span class="pre">5</span></em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_INF" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.NORM.MATRIX_L_PQ">
-<code class="descname">MATRIX_L_PQ</code><em class="property"> = 7</em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_L_PQ" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MATRIX_L_PQ</span></code><em class="property"> <span class="pre">=</span> <span class="pre">7</span></em><a class="headerlink" href="#arrayfire.library.NORM.MATRIX_L_PQ" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.NORM.VECTOR_1">
-<code class="descname">VECTOR_1</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_1" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">VECTOR_1</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_1" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.NORM.VECTOR_2">
-<code class="descname">VECTOR_2</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_2" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">VECTOR_2</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_2" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.NORM.VECTOR_INF">
-<code class="descname">VECTOR_INF</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_INF" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">VECTOR_INF</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_INF" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.NORM.VECTOR_P">
-<code class="descname">VECTOR_P</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_P" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">VECTOR_P</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.NORM.VECTOR_P" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.PAD">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">PAD</code><a class="reference internal" href="_modules/arrayfire/library.html#PAD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.PAD" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">PAD</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#PAD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.PAD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Edge padding types</p>
-<dl class="attribute">
-<dt id="arrayfire.library.PAD.SYM">
-<code class="descname">SYM</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.PAD.SYM" title="Permalink to this definition">¶</a></dt>
+<dl class="py attribute">
+<dt id="arrayfire.library.PAD.CLAMP_TO_EDGE">
+<code class="sig-name descname"><span class="pre">CLAMP_TO_EDGE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.PAD.CLAMP_TO_EDGE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
+<dt id="arrayfire.library.PAD.PERIODIC">
+<code class="sig-name descname"><span class="pre">PERIODIC</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.PAD.PERIODIC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="arrayfire.library.PAD.SYM">
+<code class="sig-name descname"><span class="pre">SYM</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.PAD.SYM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt id="arrayfire.library.PAD.ZERO">
-<code class="descname">ZERO</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.PAD.ZERO" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">ZERO</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.PAD.ZERO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.RANDOM_ENGINE">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">RANDOM_ENGINE</code><a class="reference internal" href="_modules/arrayfire/library.html#RANDOM_ENGINE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">RANDOM_ENGINE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#RANDOM_ENGINE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Random engine types</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = 100</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DEFAULT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">100</span></em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.MERSENNE_GP11213">
-<code class="descname">MERSENNE_GP11213</code><em class="property"> = 300</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.MERSENNE_GP11213" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MERSENNE_GP11213</span></code><em class="property"> <span class="pre">=</span> <span class="pre">300</span></em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.MERSENNE_GP11213" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.PHILOX">
-<code class="descname">PHILOX</code><em class="property"> = 100</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.PHILOX" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">PHILOX</span></code><em class="property"> <span class="pre">=</span> <span class="pre">100</span></em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.PHILOX" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.PHILOX_4X32_10">
-<code class="descname">PHILOX_4X32_10</code><em class="property"> = 100</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.PHILOX_4X32_10" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">PHILOX_4X32_10</span></code><em class="property"> <span class="pre">=</span> <span class="pre">100</span></em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.PHILOX_4X32_10" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.THREEFRY">
-<code class="descname">THREEFRY</code><em class="property"> = 200</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.THREEFRY" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">THREEFRY</span></code><em class="property"> <span class="pre">=</span> <span class="pre">200</span></em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.THREEFRY" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.RANDOM_ENGINE.THREEFRY_2X32_16">
-<code class="descname">THREEFRY_2X32_16</code><em class="property"> = 200</em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.THREEFRY_2X32_16" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">THREEFRY_2X32_16</span></code><em class="property"> <span class="pre">=</span> <span class="pre">200</span></em><a class="headerlink" href="#arrayfire.library.RANDOM_ENGINE.THREEFRY_2X32_16" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.STORAGE">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">STORAGE</code><a class="reference internal" href="_modules/arrayfire/library.html#STORAGE"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.STORAGE" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">STORAGE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#STORAGE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.STORAGE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Matrix Storage types</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.STORAGE.COO">
-<code class="descname">COO</code><em class="property"> = 3</em><a class="headerlink" href="#arrayfire.library.STORAGE.COO" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">COO</span></code><em class="property"> <span class="pre">=</span> <span class="pre">3</span></em><a class="headerlink" href="#arrayfire.library.STORAGE.COO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.STORAGE.CSC">
-<code class="descname">CSC</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.STORAGE.CSC" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">CSC</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.STORAGE.CSC" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.STORAGE.CSR">
-<code class="descname">CSR</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.STORAGE.CSR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">CSR</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.STORAGE.CSR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.STORAGE.DENSE">
-<code class="descname">DENSE</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.STORAGE.DENSE" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DENSE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.STORAGE.DENSE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.Source">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">Source</code><a class="reference internal" href="_modules/arrayfire/library.html#Source"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.Source" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">Source</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#Source"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.Source" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Source of the pointer</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Source.device">
-<code class="descname">device</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.Source.device" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">device</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.Source.device" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.Source.host">
-<code class="descname">host</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.Source.host" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">host</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.Source.host" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.library.TOPK">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">TOPK</code><a class="reference internal" href="_modules/arrayfire/library.html#TOPK"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.TOPK" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">TOPK</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#TOPK"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.TOPK" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>Top-K ordering</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.TOPK.DEFAULT">
-<code class="descname">DEFAULT</code><em class="property"> = 0</em><a class="headerlink" href="#arrayfire.library.TOPK.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">DEFAULT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.TOPK.DEFAULT" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.TOPK.MAX">
-<code class="descname">MAX</code><em class="property"> = 2</em><a class="headerlink" href="#arrayfire.library.TOPK.MAX" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MAX</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.TOPK.MAX" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.TOPK.MIN">
-<code class="descname">MIN</code><em class="property"> = 1</em><a class="headerlink" href="#arrayfire.library.TOPK.MIN" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">MIN</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.TOPK.MIN" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
+<dt id="arrayfire.library.VARIANCE">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">VARIANCE</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#VARIANCE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.VARIANCE" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
+<p>Variance bias type</p>
+<dl class="py attribute">
+<dt id="arrayfire.library.VARIANCE.DEFAULT">
+<code class="sig-name descname"><span class="pre">DEFAULT</span></code><em class="property"> <span class="pre">=</span> <span class="pre">0</span></em><a class="headerlink" href="#arrayfire.library.VARIANCE.DEFAULT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="arrayfire.library.VARIANCE.POPULATION">
+<code class="sig-name descname"><span class="pre">POPULATION</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2</span></em><a class="headerlink" href="#arrayfire.library.VARIANCE.POPULATION" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="arrayfire.library.VARIANCE.SAMPLE">
+<code class="sig-name descname"><span class="pre">SAMPLE</span></code><em class="property"> <span class="pre">=</span> <span class="pre">1</span></em><a class="headerlink" href="#arrayfire.library.VARIANCE.SAMPLE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt id="arrayfire.library.YCC_STD">
-<em class="property">class </em><code class="descclassname">arrayfire.library.</code><code class="descname">YCC_STD</code><a class="reference internal" href="_modules/arrayfire/library.html#YCC_STD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.YCC_STD" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">YCC_STD</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#YCC_STD"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.YCC_STD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">enum.Enum</span></code></p>
 <p>YCC Standard formats</p>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.YCC_STD.BT_2020">
-<code class="descname">BT_2020</code><em class="property"> = 2020</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_2020" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">BT_2020</span></code><em class="property"> <span class="pre">=</span> <span class="pre">2020</span></em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_2020" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.YCC_STD.BT_601">
-<code class="descname">BT_601</code><em class="property"> = 601</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_601" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">BT_601</span></code><em class="property"> <span class="pre">=</span> <span class="pre">601</span></em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_601" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="arrayfire.library.YCC_STD.BT_709">
-<code class="descname">BT_709</code><em class="property"> = 709</em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_709" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">BT_709</span></code><em class="property"> <span class="pre">=</span> <span class="pre">709</span></em><a class="headerlink" href="#arrayfire.library.YCC_STD.BT_709" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py class">
+<dt id="arrayfire.library.af_cdouble_t">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">af_cdouble_t</span></code><a class="reference internal" href="_modules/arrayfire/library.html#af_cdouble_t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.af_cdouble_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ctypes.Structure</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>imag</strong></dt><dd><p>Structure/Union member</p>
+</dd>
+<dt><strong>real</strong></dt><dd><p>Structure/Union member</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="arrayfire.library.af_cdouble_t.imag">
+<code class="sig-name descname"><span class="pre">imag</span></code><a class="headerlink" href="#arrayfire.library.af_cdouble_t.imag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arrayfire.library.af_cdouble_t.real">
+<code class="sig-name descname"><span class="pre">real</span></code><a class="headerlink" href="#arrayfire.library.af_cdouble_t.real" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="arrayfire.library.af_cfloat_t">
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">af_cfloat_t</span></code><a class="reference internal" href="_modules/arrayfire/library.html#af_cfloat_t"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.af_cfloat_t" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_ctypes.Structure</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Attributes</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>imag</strong></dt><dd><p>Structure/Union member</p>
+</dd>
+<dt><strong>real</strong></dt><dd><p>Structure/Union member</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="arrayfire.library.af_cfloat_t.imag">
+<code class="sig-name descname"><span class="pre">imag</span></code><a class="headerlink" href="#arrayfire.library.af_cfloat_t.imag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="arrayfire.library.af_cfloat_t.real">
+<code class="sig-name descname"><span class="pre">real</span></code><a class="headerlink" href="#arrayfire.library.af_cfloat_t.real" title="Permalink to this definition">¶</a></dt>
+<dd><p>Structure/Union member</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
 <dt id="arrayfire.library.get_active_backend">
-<code class="descclassname">arrayfire.library.</code><code class="descname">get_active_backend</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_active_backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_active_backend" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">get_active_backend</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_active_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.get_active_backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the current active backend</p>
-<dl class="docutils">
-<dt>name <span class="classifier-delimiter">:</span> <span class="classifier">str.</span></dt>
-<dd>Backend name</dd>
+<dl class="simple">
+<dt>name<span class="classifier">str.</span></dt><dd><p>Backend name</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.library.get_available_backends">
-<code class="descclassname">arrayfire.library.</code><code class="descname">get_available_backends</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_available_backends"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_available_backends" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">get_available_backends</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_available_backends"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.get_available_backends" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get names of available backends</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>names</strong> : tuple of strings</p>
-<blockquote class="last">
-<div><p>Names of available backends</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>names</strong><span class="classifier">tuple of strings</span></dt><dd><p>Names of available backends</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.library.get_backend">
-<code class="descclassname">arrayfire.library.</code><code class="descname">get_backend</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_backend" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">get_backend</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.get_backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return the name of the backend</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.library.get_backend_count">
-<code class="descclassname">arrayfire.library.</code><code class="descname">get_backend_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_backend_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_backend_count" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">get_backend_count</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_backend_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.get_backend_count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get number of available backends</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>count</strong> : int</p>
-<blockquote class="last">
-<div><p>Number of available backends</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>count</strong><span class="classifier">int</span></dt><dd><p>Number of available backends</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.library.get_backend_id">
-<code class="descclassname">arrayfire.library.</code><code class="descname">get_backend_id</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_backend_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_backend_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">get_backend_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_backend_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.get_backend_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get backend name of an array</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A</strong> : af.Array</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>name</strong> : str.</p>
-<blockquote class="last">
-<div><p>Backend name</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A</strong><span class="classifier">af.Array</span></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str.</span></dt><dd><p>Backend name</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.library.get_device_id">
-<code class="descclassname">arrayfire.library.</code><code class="descname">get_device_id</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_device_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_device_id" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">get_device_id</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_device_id"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.get_device_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the device id of the array</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A</strong> : af.Array</p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>dev</strong> : Integer</p>
-<blockquote class="last">
-<div><p>id of the device array was created on</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A</strong><span class="classifier">af.Array</span></dt><dd></dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>dev</strong><span class="classifier">Integer</span></dt><dd><p>id of the device array was created on</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.library.get_size_of">
-<code class="descclassname">arrayfire.library.</code><code class="descname">get_size_of</code><span class="sig-paren">(</span><em>dtype</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_size_of"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.get_size_of" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">get_size_of</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dtype</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#get_size_of"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.get_size_of" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the size of the type represented by arrayfire.Dtype</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.library.set_backend">
-<code class="descclassname">arrayfire.library.</code><code class="descname">set_backend</code><span class="sig-paren">(</span><em>name</em>, <em>unsafe=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#set_backend"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.library.set_backend" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.library.</span></code><code class="sig-name descname"><span class="pre">set_backend</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">unsafe</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/library.html#set_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.library.set_backend" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set a specific backend by name</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>name</strong> : str.</p>
-<p><strong>unsafe</strong> : optional: bool. Default: False.</p>
-<blockquote class="last">
-<div><p>If False, does not switch backend if current backend is not unified backend.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>name</strong><span class="classifier">str.</span></dt><dd></dd>
+<dt><strong>unsafe</strong><span class="classifier">optional: bool. Default: False.</span></dt><dd><p>If False, does not switch backend if current backend is not unified backend.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -1154,27 +1303,33 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Pavan Yalamanchili.
+      &copy;2020, ArrayFire.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/arrayfire.library.rst.txt"

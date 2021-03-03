@@ -1,21 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>arrayfire.lapack module &#8212; ArrayFire Python documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -30,470 +28,428 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-arrayfire.lapack">
 <span id="arrayfire-lapack-module"></span><h1>arrayfire.lapack module<a class="headerlink" href="#module-arrayfire.lapack" title="Permalink to this headline">¶</a></h1>
 <p>Dense Linear Algebra functions (solve, inverse, etc).</p>
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.cholesky">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">cholesky</code><span class="sig-paren">(</span><em>A</em>, <em>is_upper=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#cholesky"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.cholesky" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">cholesky</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_upper</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#cholesky"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.cholesky" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cholesky decomposition</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><p>A 2 dimensional, symmetric, positive definite matrix.</p>
-</div></blockquote>
-<p><strong>is_upper: optional: bool. default: True</strong></p>
-<blockquote>
-<div><p>Specifies if output <cite>R</cite> is upper triangular (if True) or lower triangular (if False).</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(R,info): tuple of af.Array, int.</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>R - triangular matrix.</li>
-<li>info - 0 if decomposition sucessful.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><p>A 2 dimensional, symmetric, positive definite matrix.</p>
+</dd>
+<dt><strong>is_upper: optional: bool. default: True</strong></dt><dd><p>Specifies if output <cite>R</cite> is upper triangular (if True) or lower triangular (if False).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>(R,info): tuple of af.Array, int.</dt><dd><ul class="simple">
+<li><p>R - triangular matrix.</p></li>
+<li><p>info - 0 if decomposition sucessful.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.cholesky_inplace">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">cholesky_inplace</code><span class="sig-paren">(</span><em>A</em>, <em>is_upper=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#cholesky_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.cholesky_inplace" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">cholesky_inplace</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_upper</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#cholesky_inplace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.cholesky_inplace" title="Permalink to this definition">¶</a></dt>
 <dd><p>In place Cholesky decomposition.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>a 2 dimensional, symmetric, positive definite matrix.</li>
-<li>Trinangular matrix on exit.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><ul class="simple">
+<li><p>a 2 dimensional, symmetric, positive definite matrix.</p></li>
+<li><p>Trinangular matrix on exit.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>is_upper: optional: bool. default: True.</strong></p>
-<blockquote>
-<div><p>Specifies if output <cite>R</cite> is upper triangular (if True) or lower triangular (if False).</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>info</strong> : int.</p>
-<blockquote class="last">
-<div><p>0 if decomposition sucessful.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt><strong>is_upper: optional: bool. default: True.</strong></dt><dd><p>Specifies if output <cite>R</cite> is upper triangular (if True) or lower triangular (if False).</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>info</strong><span class="classifier">int.</span></dt><dd><p>0 if decomposition sucessful.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.det">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">det</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#det"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.det" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">det</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#det"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.det" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determinant of a matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 2 dimensional arrayfire array</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><ul class="simple">
+<li><p>A 2 dimensional arrayfire array</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">res: scalar</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>Determinant of the matrix.</li>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>res: scalar</dt><dd><ul class="simple">
+<li><p>Determinant of the matrix.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.inverse">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">inverse</code><span class="sig-paren">(</span><em>A</em>, <em>options=&lt;MATPROP.NONE: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#inverse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.inverse" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">inverse</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">A</span></em>, <em class="sig-param"><span class="pre">options=&lt;MATPROP.NONE:</span> <span class="pre">0&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.inverse" title="Permalink to this definition">¶</a></dt>
 <dd><p>Invert a matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 2 dimensional arrayfire array</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><ul class="simple">
+<li><p>A 2 dimensional arrayfire array</p></li>
 </ul>
-</div></blockquote>
-<p><strong>options: optional: af.MATPROP. default: af.MATPROP.NONE.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>Additional options to speed up computations.</li>
-<li>Currently needs to be one of <cite>af.MATPROP.NONE</cite>.</li>
+</dd>
+<dt><strong>options: optional: af.MATPROP. default: af.MATPROP.NONE.</strong></dt><dd><ul class="simple">
+<li><p>Additional options to speed up computations.</p></li>
+<li><p>Currently needs to be one of <cite>af.MATPROP.NONE</cite>.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">AI: af.Array</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>A 2 dimensional array that is the inverse of <cite>A</cite></li>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>AI: af.Array</dt><dd><ul class="simple">
+<li><p>A 2 dimensional array that is the inverse of <cite>A</cite></p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.is_lapack_available">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">is_lapack_available</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#is_lapack_available"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.is_lapack_available" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">is_lapack_available</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#is_lapack_available"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.is_lapack_available" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to check if the arrayfire library was built with lapack support.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.lu">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">lu</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#lu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.lu" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">lu</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#lu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.lu" title="Permalink to this definition">¶</a></dt>
 <dd><p>LU decomposition.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><p>A 2 dimensional arrayfire array.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(L,U,P): tuple of af.Arrays</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>L - Lower triangular matrix.</li>
-<li>U - Upper triangular matrix.</li>
-<li>P - Permutation array.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><p>A 2 dimensional arrayfire array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>(L,U,P): tuple of af.Arrays</dt><dd><ul class="simple">
+<li><p>L - Lower triangular matrix.</p></li>
+<li><p>U - Upper triangular matrix.</p></li>
+<li><p>P - Permutation array.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.lu_inplace">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">lu_inplace</code><span class="sig-paren">(</span><em>A</em>, <em>pivot='lapack'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#lu_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.lu_inplace" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">lu_inplace</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pivot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'lapack'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#lu_inplace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.lu_inplace" title="Permalink to this definition">¶</a></dt>
 <dd><p>In place LU decomposition.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>a 2 dimensional arrayfire array on entry.</li>
-<li>Contains L in the lower triangle on exit.</li>
-<li>Contains U in the upper triangle on exit.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><ul class="simple">
+<li><p>a 2 dimensional arrayfire array on entry.</p></li>
+<li><p>Contains L in the lower triangle on exit.</p></li>
+<li><p>Contains U in the upper triangle on exit.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">P: af.Array</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>Permutation array.</li>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>P: af.Array</dt><dd><ul class="simple">
+<li><p>Permutation array.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.norm">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">norm</code><span class="sig-paren">(</span><em>A</em>, <em>norm_type=&lt;NORM.VECTOR_2: 2&gt;</em>, <em>p=1.0</em>, <em>q=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.norm" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">norm</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">A</span></em>, <em class="sig-param"><span class="pre">norm_type=&lt;NORM.VECTOR_2:</span> <span class="pre">2&gt;</span></em>, <em class="sig-param"><span class="pre">p=1.0</span></em>, <em class="sig-param"><span class="pre">q=1.0</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#norm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.norm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Norm of an array or a matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 1 or 2 dimensional arrayfire array</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><ul class="simple">
+<li><p>A 1 or 2 dimensional arrayfire array</p></li>
 </ul>
-</div></blockquote>
-<p><strong>norm_type: optional: af.NORM. default: af.NORM.EUCLID.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>Type of norm to be calculated.</li>
+</dd>
+<dt><strong>norm_type: optional: af.NORM. default: af.NORM.EUCLID.</strong></dt><dd><ul class="simple">
+<li><p>Type of norm to be calculated.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>p: scalar. default 1.0.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>Used only if <cite>norm_type</cite> is one of <cite>af.NORM.VECTOR_P</cite>, <cite>af.NORM_MATRIX_L_PQ</cite></li>
+</dd>
+<dt><strong>p: scalar. default 1.0.</strong></dt><dd><ul class="simple">
+<li><p>Used only if <cite>norm_type</cite> is one of <cite>af.NORM.VECTOR_P</cite>, <cite>af.NORM_MATRIX_L_PQ</cite></p></li>
 </ul>
-</div></blockquote>
-<p><strong>q: scalar. default 1.0.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>Used only if <cite>norm_type</cite> is <cite>af.NORM_MATRIX_L_PQ</cite></li>
+</dd>
+<dt><strong>q: scalar. default 1.0.</strong></dt><dd><ul class="simple">
+<li><p>Used only if <cite>norm_type</cite> is <cite>af.NORM_MATRIX_L_PQ</cite></p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">res: scalar</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>norm of the input</li>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>res: scalar</dt><dd><ul class="simple">
+<li><p>norm of the input</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
+<dt id="arrayfire.lapack.pinverse">
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">pinverse</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">A</span></em>, <em class="sig-param"><span class="pre">tol=1e-06</span></em>, <em class="sig-param"><span class="pre">options=&lt;MATPROP.NONE:</span> <span class="pre">0&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#pinverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.pinverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find pseudo-inverse(Moore-Penrose) of a matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><ul class="simple">
+<li><p>A 2 dimensional arrayfire input matrix array</p></li>
+</ul>
+</dd>
+<dt><strong>tol: optional: scalar. default: 1E-6.</strong></dt><dd><ul class="simple">
+<li><p>Tolerance for calculating rank</p></li>
+</ul>
+</dd>
+<dt><strong>options: optional: af.MATPROP. default: af.MATPROP.NONE.</strong></dt><dd><ul class="simple">
+<li><p>Currently needs to be <cite>af.MATPROP.NONE</cite>.</p></li>
+<li><p>Additional options may speed up computation in the future</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>AI: af.Array</dt><dd><ul class="simple">
+<li><p>A 2 dimensional array that is the pseudo-inverse of <cite>A</cite></p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="arrayfire.lapack.qr">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">qr</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#qr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.qr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">qr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#qr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.qr" title="Permalink to this definition">¶</a></dt>
 <dd><p>QR decomposition.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><p>A 2 dimensional arrayfire array.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(Q,R,T): tuple of af.Arrays</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>Q - Orthogonal matrix.</li>
-<li>R - Upper triangular matrix.</li>
-<li>T - Vector containing additional information to solve a least squares problem.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><p>A 2 dimensional arrayfire array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>(Q,R,T): tuple of af.Arrays</dt><dd><ul class="simple">
+<li><p>Q - Orthogonal matrix.</p></li>
+<li><p>R - Upper triangular matrix.</p></li>
+<li><p>T - Vector containing additional information to solve a least squares problem.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.qr_inplace">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">qr_inplace</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#qr_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.qr_inplace" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">qr_inplace</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#qr_inplace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.qr_inplace" title="Permalink to this definition">¶</a></dt>
 <dd><p>In place QR decomposition.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>a 2 dimensional arrayfire array on entry.</li>
-<li>Packed Q and R matrices on exit.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><ul class="simple">
+<li><p>a 2 dimensional arrayfire array on entry.</p></li>
+<li><p>Packed Q and R matrices on exit.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">T: af.Array</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>Vector containing additional information to solve a least squares problem.</li>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>T: af.Array</dt><dd><ul class="simple">
+<li><p>Vector containing additional information to solve a least squares problem.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.rank">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">rank</code><span class="sig-paren">(</span><em>A</em>, <em>tol=1e-05</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#rank"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.rank" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">rank</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tol</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1e-05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#rank"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.rank" title="Permalink to this definition">¶</a></dt>
 <dd><p>Rank of a matrix.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 2 dimensional arrayfire array</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><ul class="simple">
+<li><p>A 2 dimensional arrayfire array</p></li>
 </ul>
-</div></blockquote>
-<p><strong>tol: optional: scalar. default: 1E-5.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>Tolerance for calculating rank</li>
+</dd>
+<dt><strong>tol: optional: scalar. default: 1E-5.</strong></dt><dd><ul class="simple">
+<li><p>Tolerance for calculating rank</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">r: int</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>Rank of <cite>A</cite> within the given tolerance</li>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>r: int</dt><dd><ul class="simple">
+<li><p>Rank of <cite>A</cite> within the given tolerance</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.solve">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">solve</code><span class="sig-paren">(</span><em>A</em>, <em>B</em>, <em>options=&lt;MATPROP.NONE: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#solve"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.solve" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">solve</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">A</span></em>, <em class="sig-param"><span class="pre">B</span></em>, <em class="sig-param"><span class="pre">options=&lt;MATPROP.NONE:</span> <span class="pre">0&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#solve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.solve" title="Permalink to this definition">¶</a></dt>
 <dd><p>Solve a system of linear equations.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><p>A 2 dimensional arrayfire array representing the coefficients of the system.</p>
-</div></blockquote>
-<p><strong>B: af.Array</strong></p>
-<blockquote>
-<div><p>A 1 or 2 dimensional arrayfire array representing the constants of the system.</p>
-</div></blockquote>
-<p><strong>options: optional: af.MATPROP. default: af.MATPROP.NONE.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>Additional options to speed up computations.</li>
-<li>Currently needs to be one of <cite>af.MATPROP.NONE</cite>, <cite>af.MATPROP.LOWER</cite>, <cite>af.MATPROP.UPPER</cite>.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><p>A 2 dimensional arrayfire array representing the coefficients of the system.</p>
+</dd>
+<dt><strong>B: af.Array</strong></dt><dd><p>A 1 or 2 dimensional arrayfire array representing the constants of the system.</p>
+</dd>
+<dt><strong>options: optional: af.MATPROP. default: af.MATPROP.NONE.</strong></dt><dd><ul class="simple">
+<li><p>Additional options to speed up computations.</p></li>
+<li><p>Currently needs to be one of <cite>af.MATPROP.NONE</cite>, <cite>af.MATPROP.LOWER</cite>, <cite>af.MATPROP.UPPER</cite>.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">X: af.Array</p>
-<blockquote class="last">
-<div><p>A 1 or 2 dimensional arrayfire array representing the unknowns in the system.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>X: af.Array</dt><dd><p>A 1 or 2 dimensional arrayfire array representing the unknowns in the system.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.solve_lu">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">solve_lu</code><span class="sig-paren">(</span><em>A</em>, <em>P</em>, <em>B</em>, <em>options=&lt;MATPROP.NONE: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#solve_lu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.solve_lu" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">solve_lu</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">A</span></em>, <em class="sig-param"><span class="pre">P</span></em>, <em class="sig-param"><span class="pre">B</span></em>, <em class="sig-param"><span class="pre">options=&lt;MATPROP.NONE:</span> <span class="pre">0&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#solve_lu"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.solve_lu" title="Permalink to this definition">¶</a></dt>
 <dd><p>Solve a system of linear equations, using LU decomposition.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 2 dimensional arrayfire array representing the coefficients of the system.</li>
-<li>This matrix should be decomposed previously using <cite>lu_inplace(A)</cite>.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><ul class="simple">
+<li><p>A 2 dimensional arrayfire array representing the coefficients of the system.</p></li>
+<li><p>This matrix should be decomposed previously using <cite>lu_inplace(A)</cite>.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>P: af.Array</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>Permutation array.</li>
-<li>This array is the output of an earlier call to <cite>lu_inplace(A)</cite></li>
+</dd>
+<dt><strong>P: af.Array</strong></dt><dd><ul class="simple">
+<li><p>Permutation array.</p></li>
+<li><p>This array is the output of an earlier call to <cite>lu_inplace(A)</cite></p></li>
 </ul>
-</div></blockquote>
-<p><strong>B: af.Array</strong></p>
-<blockquote>
-<div><p>A 1 or 2 dimensional arrayfire array representing the constants of the system.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">X: af.Array</p>
-<blockquote class="last">
-<div><p>A 1 or 2 dimensional arrayfire array representing the unknowns in the system.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt><strong>B: af.Array</strong></dt><dd><p>A 1 or 2 dimensional arrayfire array representing the constants of the system.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>X: af.Array</dt><dd><p>A 1 or 2 dimensional arrayfire array representing the unknowns in the system.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.svd">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">svd</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#svd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.svd" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">svd</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#svd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.svd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Singular Value Decomposition</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><p>A 2 dimensional arrayfire array.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(U,S,Vt): tuple of af.Arrays</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>U - A unitary matrix</li>
-<li>S - An array containing the elements of diagonal matrix</li>
-<li>Vt - A unitary matrix</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><p>A 2 dimensional arrayfire array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>(U,S,Vt): tuple of af.Arrays</dt><dd><ul class="simple">
+<li><p>U - A unitary matrix</p></li>
+<li><p>S - An array containing the elements of diagonal matrix</p></li>
+<li><p>Vt - A unitary matrix</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.lapack.svd_inplace">
-<code class="descclassname">arrayfire.lapack.</code><code class="descname">svd_inplace</code><span class="sig-paren">(</span><em>A</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#svd_inplace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.lapack.svd_inplace" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.lapack.</span></code><code class="sig-name descname"><span class="pre">svd_inplace</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">A</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/lapack.html#svd_inplace"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.lapack.svd_inplace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Singular Value Decomposition</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>A: af.Array</strong></p>
-<blockquote>
-<div><p>A 2 dimensional arrayfire array.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(U,S,Vt): tuple of af.Arrays</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>U - A unitary matrix</li>
-<li>S - An array containing the elements of diagonal matrix</li>
-<li>Vt - A unitary matrix</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>A: af.Array</strong></dt><dd><p>A 2 dimensional arrayfire array.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>(U,S,Vt): tuple of af.Arrays</dt><dd><ul class="simple">
+<li><p>U - A unitary matrix</p></li>
+<li><p>S - An array containing the elements of diagonal matrix</p></li>
+<li><p>Vt - A unitary matrix</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -520,27 +476,33 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Pavan Yalamanchili.
+      &copy;2020, ArrayFire.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/arrayfire.lapack.rst.txt"

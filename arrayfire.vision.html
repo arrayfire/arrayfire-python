@@ -1,21 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>arrayfire.vision module &#8212; ArrayFire Python documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -30,497 +28,355 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-arrayfire.vision">
 <span id="arrayfire-vision-module"></span><h1>arrayfire.vision module<a class="headerlink" href="#module-arrayfire.vision" title="Permalink to this headline">¶</a></h1>
 <p>Computer vision functions (FAST, ORB, etc)</p>
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.vision.dog">
-<code class="descclassname">arrayfire.vision.</code><code class="descname">dog</code><span class="sig-paren">(</span><em>image</em>, <em>radius1</em>, <em>radius2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#dog"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.vision.dog" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.vision.</span></code><code class="sig-name descname"><span class="pre">dog</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#dog"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.vision.dog" title="Permalink to this definition">¶</a></dt>
 <dd><p>Difference of gaussians.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
-<blockquote>
-<div><p>A 2D array specifying an image.</p>
-</div></blockquote>
-<p><strong>radius1</strong> : scalar.</p>
-<blockquote>
-<div><p>The radius of first gaussian kernel.</p>
-</div></blockquote>
-<p><strong>radius2</strong> : scalar.</p>
-<blockquote>
-<div><p>The radius of second gaussian kernel.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
-<blockquote class="last">
-<div><p>A multi dimensional array containing the difference of gaussians.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">af.Array</span></dt><dd><p>A 2D array specifying an image.</p>
+</dd>
+<dt><strong>radius1</strong><span class="classifier">scalar.</span></dt><dd><p>The radius of first gaussian kernel.</p>
+</dd>
+<dt><strong>radius2</strong><span class="classifier">scalar.</span></dt><dd><p>The radius of second gaussian kernel.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">af.Array</span></dt><dd><p>A multi dimensional array containing the difference of gaussians.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.vision.fast">
-<code class="descclassname">arrayfire.vision.</code><code class="descname">fast</code><span class="sig-paren">(</span><em>image</em>, <em>threshold=20.0</em>, <em>arc_length=9</em>, <em>non_max=True</em>, <em>feature_ratio=0.05</em>, <em>edge=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#fast"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.vision.fast" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.vision.</span></code><code class="sig-name descname"><span class="pre">fast</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arc_length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">9</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">non_max</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#fast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.vision.fast" title="Permalink to this definition">¶</a></dt>
 <dd><p>FAST feature detector.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
-<blockquote>
-<div><p>A 2D array representing an image.</p>
-</div></blockquote>
-<p><strong>threshold</strong> : scalar. optional. default: 20.0.</p>
-<blockquote>
-<div><p>FAST threshold for which a pixel of the circle around a central pixel is consdered.</p>
-</div></blockquote>
-<p><strong>arc_length</strong> : scalar. optional. default: 9</p>
-<blockquote>
-<div><p>The minimum length of arc length to be considered. Max length should be 16.</p>
-</div></blockquote>
-<p><strong>non_max</strong> : Boolean. optional. default: True</p>
-<blockquote>
-<div><p>A boolean flag specifying if non max suppression has to be performed.</p>
-</div></blockquote>
-<p><strong>feature_ratio</strong> : scalar. optional. default: 0.05 (5%)</p>
-<blockquote>
-<div><p>Specifies the maximum ratio of features to pixels in the image.</p>
-</div></blockquote>
-<p><strong>edge</strong> : scalar. optional. default: 3.</p>
-<blockquote>
-<div><p>Specifies the number of edge rows and columns to be ignored.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>features</strong> : af.Features()</p>
-<blockquote class="last">
-<div><p>Contains the location and score. Orientation and size are not computed.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">af.Array</span></dt><dd><p>A 2D array representing an image.</p>
+</dd>
+<dt><strong>threshold</strong><span class="classifier">scalar. optional. default: 20.0.</span></dt><dd><p>FAST threshold for which a pixel of the circle around a central pixel is consdered.</p>
+</dd>
+<dt><strong>arc_length</strong><span class="classifier">scalar. optional. default: 9</span></dt><dd><p>The minimum length of arc length to be considered. Max length should be 16.</p>
+</dd>
+<dt><strong>non_max</strong><span class="classifier">Boolean. optional. default: True</span></dt><dd><p>A boolean flag specifying if non max suppression has to be performed.</p>
+</dd>
+<dt><strong>feature_ratio</strong><span class="classifier">scalar. optional. default: 0.05 (5%)</span></dt><dd><p>Specifies the maximum ratio of features to pixels in the image.</p>
+</dd>
+<dt><strong>edge</strong><span class="classifier">scalar. optional. default: 3.</span></dt><dd><p>Specifies the number of edge rows and columns to be ignored.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>features</strong><span class="classifier">af.Features()</span></dt><dd><p>Contains the location and score. Orientation and size are not computed.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.vision.gloh">
-<code class="descclassname">arrayfire.vision.</code><code class="descname">gloh</code><span class="sig-paren">(</span><em>image</em>, <em>num_layers=3</em>, <em>contrast_threshold=0.04</em>, <em>edge_threshold=10.0</em>, <em>initial_sigma=1.6</em>, <em>double_input=True</em>, <em>intensity_scale=0.00390625</em>, <em>feature_ratio=0.05</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#gloh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.vision.gloh" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.vision.</span></code><code class="sig-name descname"><span class="pre">gloh</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contrast_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.04</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">double_input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.00390625</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#gloh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.vision.gloh" title="Permalink to this definition">¶</a></dt>
 <dd><p>GLOH feature detector and descriptor.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
-<blockquote>
-<div><p>A 2D array representing an image</p>
-</div></blockquote>
-<p><strong>num_layers</strong> : optional: integer. Default: 3</p>
-<blockquote>
-<div><p>Number of layers per octave. The number of octaves is calculated internally.</p>
-</div></blockquote>
-<p><strong>contrast_threshold</strong> : optional: float. Default: 0.04</p>
-<blockquote>
-<div><p>Threshold used to filter out features that have low contrast.</p>
-</div></blockquote>
-<p><strong>edge_threshold</strong> : optional: float. Default: 10.0</p>
-<blockquote>
-<div><p>Threshold used to filter out features that are too edge-like.</p>
-</div></blockquote>
-<p><strong>initial_sigma</strong> : optional: float. Default: 1.6</p>
-<blockquote>
-<div><p>The sigma value used to filter the input image at the first octave.</p>
-</div></blockquote>
-<p><strong>double_input</strong> : optional: bool. Default: True</p>
-<blockquote>
-<div><p>If True, the input image will be scaled to double the size for the first octave.</p>
-</div></blockquote>
-<p><strong>intensity_scale</strong> : optional: float. Default: 1.0/255</p>
-<blockquote>
-<div><p>The inverse of the difference between maximum and minimum intensity values.</p>
-</div></blockquote>
-<p><strong>feature_ratio</strong> : optional: float. Default: 0.05</p>
-<blockquote>
-<div><p>Specifies the maximum number of features to detect as a ratio of image pixels.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(features, descriptor)</strong> : tuple of (af.Features(), af.Array)</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>descriptor is an af.Array of size N x 272</li>
-</ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="arrayfire.vision.hamming_matcher">
-<code class="descclassname">arrayfire.vision.</code><code class="descname">hamming_matcher</code><span class="sig-paren">(</span><em>query</em>, <em>database</em>, <em>dim=0</em>, <em>num_nearest=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#hamming_matcher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.vision.hamming_matcher" title="Permalink to this definition">¶</a></dt>
-<dd><p>Hamming distance matcher.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>query</strong> : af.Array</p>
-<blockquote>
-<div><p>A query feature descriptor</p>
-</div></blockquote>
-<p><strong>database</strong> : af.Array</p>
-<blockquote>
-<div><p>A multi dimensional array containing the feature descriptor database.</p>
-</div></blockquote>
-<p><strong>dim</strong> : scalar. optional. default: 0.</p>
-<blockquote>
-<div><p>Specifies the dimension along which feature descriptor lies.</p>
-</div></blockquote>
-<p><strong>num_nearest: scalar. optional. default: 1.</strong></p>
-<blockquote>
-<div><p>Specifies the number of nearest neighbors to find.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(location, distance): tuple of af.Array</p>
-<blockquote class="last">
-<div><p>location and distances of closest matches.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="arrayfire.vision.harris">
-<code class="descclassname">arrayfire.vision.</code><code class="descname">harris</code><span class="sig-paren">(</span><em>image</em>, <em>max_corners=500</em>, <em>min_response=100000.0</em>, <em>sigma=1.0</em>, <em>block_size=0</em>, <em>k_thr=0.04</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#harris"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.vision.harris" title="Permalink to this definition">¶</a></dt>
-<dd><p>Harris corner detector.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
-<blockquote>
-<div><p>A 2D array specifying an image.</p>
-</div></blockquote>
-<p><strong>max_corners</strong> : scalar. optional. default: 500.</p>
-<blockquote>
-<div><p>Specifies the maximum number of corners to be calculated.</p>
-</div></blockquote>
-<p><strong>min_response</strong> : scalar. optional. default: 1E5</p>
-<blockquote>
-<div><p>Specifies the cutoff score for a corner to be considered</p>
-</div></blockquote>
-<p><strong>sigma</strong> : scalar. optional. default: 1.0</p>
-<blockquote>
-<div><ul class="simple">
-<li>Specifies the standard deviation of a circular window.</li>
-<li>Only used when block_size == 0. Must be &gt;= 0.5 and &lt;= 5.0.</li>
-</ul>
-</div></blockquote>
-<p><strong>block_size</strong> : scalar. optional. default: 0</p>
-<blockquote>
-<div><p>Specifies the window size.</p>
-</div></blockquote>
-<p><strong>k_thr</strong> : scalar. optional. default: 0.04</p>
-<blockquote>
-<div><p>Harris constant. must be &gt;= 0.01</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>features</strong> : af.Features()</p>
-<blockquote class="last">
-<div><p>Contains the location and score. Orientation and size are not computed.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="function">
-<dt id="arrayfire.vision.homography">
-<code class="descclassname">arrayfire.vision.</code><code class="descname">homography</code><span class="sig-paren">(</span><em>x_src</em>, <em>y_src</em>, <em>x_dst</em>, <em>y_dst</em>, <em>htype=&lt;HOMOGRAPHY.RANSAC: 0&gt;</em>, <em>ransac_threshold=3.0</em>, <em>iters=1000</em>, <em>out_type=&lt;Dtype.f32: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#homography"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.vision.homography" title="Permalink to this definition">¶</a></dt>
-<dd><p>Homography estimation</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x_src</strong> :  af.Array</p>
-<blockquote>
-<div><p>A list of x co-ordinates of the source points.</p>
-</div></blockquote>
-<p><strong>y_src</strong> :  af.Array</p>
-<blockquote>
-<div><p>A list of y co-ordinates of the source points.</p>
-</div></blockquote>
-<p><strong>x_dst</strong> :  af.Array</p>
-<blockquote>
-<div><p>A list of x co-ordinates of the destination points.</p>
-</div></blockquote>
-<p><strong>y_dst</strong> :  af.Array</p>
-<blockquote>
-<div><p>A list of y co-ordinates of the destination points.</p>
-</div></blockquote>
-<p><strong>htype</strong> : optional: af.HOMOGRAPHY. Default: HOMOGRAPHY.RANSAC</p>
-<blockquote>
-<div><dl class="docutils">
-<dt>htype can be one of</dt>
-<dd><ul class="first last simple">
-<li>HOMOGRAPHY.RANSAC: RANdom SAmple Consensus will be used to evaluate quality.</li>
-<li>HOMOGRAPHY.LMEDS : Least MEDian of Squares is used to evaluate quality.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">af.Array</span></dt><dd><p>A 2D array representing an image</p>
+</dd>
+<dt><strong>num_layers</strong><span class="classifier">optional: integer. Default: 3</span></dt><dd><p>Number of layers per octave. The number of octaves is calculated internally.</p>
+</dd>
+<dt><strong>contrast_threshold</strong><span class="classifier">optional: float. Default: 0.04</span></dt><dd><p>Threshold used to filter out features that have low contrast.</p>
+</dd>
+<dt><strong>edge_threshold</strong><span class="classifier">optional: float. Default: 10.0</span></dt><dd><p>Threshold used to filter out features that are too edge-like.</p>
+</dd>
+<dt><strong>initial_sigma</strong><span class="classifier">optional: float. Default: 1.6</span></dt><dd><p>The sigma value used to filter the input image at the first octave.</p>
+</dd>
+<dt><strong>double_input</strong><span class="classifier">optional: bool. Default: True</span></dt><dd><p>If True, the input image will be scaled to double the size for the first octave.</p>
+</dd>
+<dt><strong>intensity_scale</strong><span class="classifier">optional: float. Default: 1.0/255</span></dt><dd><p>The inverse of the difference between maximum and minimum intensity values.</p>
+</dd>
+<dt><strong>feature_ratio</strong><span class="classifier">optional: float. Default: 0.05</span></dt><dd><p>Specifies the maximum number of features to detect as a ratio of image pixels.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>(features, descriptor)</strong><span class="classifier">tuple of (af.Features(), af.Array)</span></dt><dd><ul class="simple">
+<li><p>descriptor is an af.Array of size N x 272</p></li>
 </ul>
 </dd>
 </dl>
-</div></blockquote>
-<p><strong>ransac_threshold</strong> : optional: scalar. Default: 3.0</p>
-<blockquote>
-<div><p>If <cite>htype</cite> is HOMOGRAPHY.RANSAC, it specifies the L2-distance threshold for inliers.</p>
-</div></blockquote>
-<p><strong>out_type</strong> : optional. af.Dtype. Default: Dtype.f32.</p>
-<blockquote>
-<div><p>Specifies the output data type.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>(H, inliers)</strong> : A tuple of (af.Array, integer)</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
+<dt id="arrayfire.vision.hamming_matcher">
+<code class="sig-prename descclassname"><span class="pre">arrayfire.vision.</span></code><code class="sig-name descname"><span class="pre">hamming_matcher</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">query</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">database</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dim</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_nearest</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#hamming_matcher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.vision.hamming_matcher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Hamming distance matcher.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>query</strong><span class="classifier">af.Array</span></dt><dd><p>A query feature descriptor</p>
+</dd>
+<dt><strong>database</strong><span class="classifier">af.Array</span></dt><dd><p>A multi dimensional array containing the feature descriptor database.</p>
+</dd>
+<dt><strong>dim</strong><span class="classifier">scalar. optional. default: 0.</span></dt><dd><p>Specifies the dimension along which feature descriptor lies.</p>
+</dd>
+<dt><strong>num_nearest: scalar. optional. default: 1.</strong></dt><dd><p>Specifies the number of nearest neighbors to find.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>(location, distance): tuple of af.Array</dt><dd><p>location and distances of closest matches.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="arrayfire.vision.harris">
+<code class="sig-prename descclassname"><span class="pre">arrayfire.vision.</span></code><code class="sig-name descname"><span class="pre">harris</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_corners</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">500</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_response</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100000.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.04</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#harris"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.vision.harris" title="Permalink to this definition">¶</a></dt>
+<dd><p>Harris corner detector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">af.Array</span></dt><dd><p>A 2D array specifying an image.</p>
+</dd>
+<dt><strong>max_corners</strong><span class="classifier">scalar. optional. default: 500.</span></dt><dd><p>Specifies the maximum number of corners to be calculated.</p>
+</dd>
+<dt><strong>min_response</strong><span class="classifier">scalar. optional. default: 1E5</span></dt><dd><p>Specifies the cutoff score for a corner to be considered</p>
+</dd>
+<dt><strong>sigma</strong><span class="classifier">scalar. optional. default: 1.0</span></dt><dd><ul class="simple">
+<li><p>Specifies the standard deviation of a circular window.</p></li>
+<li><p>Only used when block_size == 0. Must be &gt;= 0.5 and &lt;= 5.0.</p></li>
+</ul>
+</dd>
+<dt><strong>block_size</strong><span class="classifier">scalar. optional. default: 0</span></dt><dd><p>Specifies the window size.</p>
+</dd>
+<dt><strong>k_thr</strong><span class="classifier">scalar. optional. default: 0.04</span></dt><dd><p>Harris constant. must be &gt;= 0.01</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>features</strong><span class="classifier">af.Features()</span></dt><dd><p>Contains the location and score. Orientation and size are not computed.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="arrayfire.vision.homography">
+<code class="sig-prename descclassname"><span class="pre">arrayfire.vision.</span></code><code class="sig-name descname"><span class="pre">homography</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">x_src</span></em>, <em class="sig-param"><span class="pre">y_src</span></em>, <em class="sig-param"><span class="pre">x_dst</span></em>, <em class="sig-param"><span class="pre">y_dst</span></em>, <em class="sig-param"><span class="pre">htype=&lt;HOMOGRAPHY.RANSAC:</span> <span class="pre">0&gt;</span></em>, <em class="sig-param"><span class="pre">ransac_threshold=3.0</span></em>, <em class="sig-param"><span class="pre">iters=1000</span></em>, <em class="sig-param"><span class="pre">out_type=&lt;Dtype.f32:</span> <span class="pre">0&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#homography"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.vision.homography" title="Permalink to this definition">¶</a></dt>
+<dd><p>Homography estimation</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x_src</strong><span class="classifier">af.Array</span></dt><dd><p>A list of x co-ordinates of the source points.</p>
+</dd>
+<dt><strong>y_src</strong><span class="classifier">af.Array</span></dt><dd><p>A list of y co-ordinates of the source points.</p>
+</dd>
+<dt><strong>x_dst</strong><span class="classifier">af.Array</span></dt><dd><p>A list of x co-ordinates of the destination points.</p>
+</dd>
+<dt><strong>y_dst</strong><span class="classifier">af.Array</span></dt><dd><p>A list of y co-ordinates of the destination points.</p>
+</dd>
+<dt><strong>htype</strong><span class="classifier">optional: af.HOMOGRAPHY. Default: HOMOGRAPHY.RANSAC</span></dt><dd><dl class="simple">
+<dt>htype can be one of</dt><dd><ul class="simple">
+<li><p>HOMOGRAPHY.RANSAC: RANdom SAmple Consensus will be used to evaluate quality.</p></li>
+<li><p>HOMOGRAPHY.LMEDS : Least MEDian of Squares is used to evaluate quality.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>ransac_threshold</strong><span class="classifier">optional: scalar. Default: 3.0</span></dt><dd><p>If <cite>htype</cite> is HOMOGRAPHY.RANSAC, it specifies the L2-distance threshold for inliers.</p>
+</dd>
+<dt><strong>out_type</strong><span class="classifier">optional. af.Dtype. Default: Dtype.f32.</span></dt><dd><p>Specifies the output data type.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>(H, inliers)</strong><span class="classifier">A tuple of (af.Array, integer)</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="arrayfire.vision.match_template">
-<code class="descclassname">arrayfire.vision.</code><code class="descname">match_template</code><span class="sig-paren">(</span><em>image</em>, <em>template</em>, <em>match_type=&lt;MATCH.SAD: 0&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#match_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.vision.match_template" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.vision.</span></code><code class="sig-name descname"><span class="pre">match_template</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">image</span></em>, <em class="sig-param"><span class="pre">template</span></em>, <em class="sig-param"><span class="pre">match_type=&lt;MATCH.SAD:</span> <span class="pre">0&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#match_template"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.vision.match_template" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the closest match of a template in an image.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
-<blockquote>
-<div><p>A multi dimensional array specifying an image or batch of images.</p>
-</div></blockquote>
-<p><strong>template</strong> : af.Array</p>
-<blockquote>
-<div><p>A multi dimensional array specifying a template or batch of templates.</p>
-</div></blockquote>
-<p><strong>match_type: optional: af.MATCH. default: af.MATCH.SAD</strong></p>
-<blockquote>
-<div><p>Specifies the match function metric.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>out</strong> : af.Array</p>
-<blockquote class="last">
-<div><p>An array containing the score of the match at each pixel.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">af.Array</span></dt><dd><p>A multi dimensional array specifying an image or batch of images.</p>
+</dd>
+<dt><strong>template</strong><span class="classifier">af.Array</span></dt><dd><p>A multi dimensional array specifying a template or batch of templates.</p>
+</dd>
+<dt><strong>match_type: optional: af.MATCH. default: af.MATCH.SAD</strong></dt><dd><p>Specifies the match function metric.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>out</strong><span class="classifier">af.Array</span></dt><dd><p>An array containing the score of the match at each pixel.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.vision.nearest_neighbour">
-<code class="descclassname">arrayfire.vision.</code><code class="descname">nearest_neighbour</code><span class="sig-paren">(</span><em>query</em>, <em>database</em>, <em>dim=0</em>, <em>num_nearest=1</em>, <em>match_type=&lt;MATCH.SSD: 3&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#nearest_neighbour"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.vision.nearest_neighbour" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.vision.</span></code><code class="sig-name descname"><span class="pre">nearest_neighbour</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">query</span></em>, <em class="sig-param"><span class="pre">database</span></em>, <em class="sig-param"><span class="pre">dim=0</span></em>, <em class="sig-param"><span class="pre">num_nearest=1</span></em>, <em class="sig-param"><span class="pre">match_type=&lt;MATCH.SSD:</span> <span class="pre">3&gt;</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#nearest_neighbour"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.vision.nearest_neighbour" title="Permalink to this definition">¶</a></dt>
 <dd><p>Nearest Neighbour matcher.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>query</strong> : af.Array</p>
-<blockquote>
-<div><p>A query feature descriptor</p>
-</div></blockquote>
-<p><strong>database</strong> : af.Array</p>
-<blockquote>
-<div><p>A multi dimensional array containing the feature descriptor database.</p>
-</div></blockquote>
-<p><strong>dim</strong> : scalar. optional. default: 0.</p>
-<blockquote>
-<div><p>Specifies the dimension along which feature descriptor lies.</p>
-</div></blockquote>
-<p><strong>num_nearest: scalar. optional. default: 1.</strong></p>
-<blockquote>
-<div><p>Specifies the number of nearest neighbors to find.</p>
-</div></blockquote>
-<p><strong>match_type: optional: af.MATCH. default: af.MATCH.SSD</strong></p>
-<blockquote>
-<div><p>Specifies the match function metric.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">(location, distance): tuple of af.Array</p>
-<blockquote class="last">
-<div><p>location and distances of closest matches.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>query</strong><span class="classifier">af.Array</span></dt><dd><p>A query feature descriptor</p>
+</dd>
+<dt><strong>database</strong><span class="classifier">af.Array</span></dt><dd><p>A multi dimensional array containing the feature descriptor database.</p>
+</dd>
+<dt><strong>dim</strong><span class="classifier">scalar. optional. default: 0.</span></dt><dd><p>Specifies the dimension along which feature descriptor lies.</p>
+</dd>
+<dt><strong>num_nearest: scalar. optional. default: 1.</strong></dt><dd><p>Specifies the number of nearest neighbors to find.</p>
+</dd>
+<dt><strong>match_type: optional: af.MATCH. default: af.MATCH.SSD</strong></dt><dd><p>Specifies the match function metric.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>(location, distance): tuple of af.Array</dt><dd><p>location and distances of closest matches.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.vision.orb">
-<code class="descclassname">arrayfire.vision.</code><code class="descname">orb</code><span class="sig-paren">(</span><em>image</em>, <em>threshold=20.0</em>, <em>max_features=400</em>, <em>scale=1.5</em>, <em>num_levels=4</em>, <em>blur_image=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#orb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.vision.orb" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.vision.</span></code><code class="sig-name descname"><span class="pre">orb</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">20.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_features</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_levels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">blur_image</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#orb"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.vision.orb" title="Permalink to this definition">¶</a></dt>
 <dd><p>ORB Feature descriptor.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
-<blockquote>
-<div><p>A 2D array representing an image.</p>
-</div></blockquote>
-<p><strong>threshold</strong> : scalar. optional. default: 20.0.</p>
-<blockquote>
-<div><p>FAST threshold for which a pixel of the circle around a central pixel is consdered.</p>
-</div></blockquote>
-<p><strong>max_features</strong> : scalar. optional. default: 400.</p>
-<blockquote>
-<div><p>Specifies the maximum number of features to be considered.</p>
-</div></blockquote>
-<p><strong>scale</strong> : scalar. optional. default: 1.5.</p>
-<blockquote>
-<div><p>Specifies the factor by which images are down scaled at each level.</p>
-</div></blockquote>
-<p><strong>num_levles</strong> : scalar. optional. default: 4.</p>
-<blockquote>
-<div><p>Specifies the number of levels used in the image pyramid.</p>
-</div></blockquote>
-<p><strong>blur_image</strong> : Boolean. optional. default: False.</p>
-<blockquote>
-<div><p>Flag specifying if the input has to be blurred before computing descriptors.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">af.Array</span></dt><dd><p>A 2D array representing an image.</p>
+</dd>
+<dt><strong>threshold</strong><span class="classifier">scalar. optional. default: 20.0.</span></dt><dd><p>FAST threshold for which a pixel of the circle around a central pixel is consdered.</p>
+</dd>
+<dt><strong>max_features</strong><span class="classifier">scalar. optional. default: 400.</span></dt><dd><p>Specifies the maximum number of features to be considered.</p>
+</dd>
+<dt><strong>scale</strong><span class="classifier">scalar. optional. default: 1.5.</span></dt><dd><p>Specifies the factor by which images are down scaled at each level.</p>
+</dd>
+<dt><strong>num_levles</strong><span class="classifier">scalar. optional. default: 4.</span></dt><dd><p>Specifies the number of levels used in the image pyramid.</p>
+</dd>
+<dt><strong>blur_image</strong><span class="classifier">Boolean. optional. default: False.</span></dt><dd><p>Flag specifying if the input has to be blurred before computing descriptors.
 A gaussian filter with sigma = 2 is applied if True.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(features, descriptor)</strong> : tuple of (af.Features(), af.Array)</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>descriptor is an af.Array of size N x 8</li>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>(features, descriptor)</strong><span class="classifier">tuple of (af.Features(), af.Array)</span></dt><dd><ul class="simple">
+<li><p>descriptor is an af.Array of size N x 8</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.vision.sift">
-<code class="descclassname">arrayfire.vision.</code><code class="descname">sift</code><span class="sig-paren">(</span><em>image</em>, <em>num_layers=3</em>, <em>contrast_threshold=0.04</em>, <em>edge_threshold=10.0</em>, <em>initial_sigma=1.6</em>, <em>double_input=True</em>, <em>intensity_scale=0.00390625</em>, <em>feature_ratio=0.05</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#sift"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.vision.sift" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.vision.</span></code><code class="sig-name descname"><span class="pre">sift</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_layers</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contrast_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.04</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial_sigma</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1.6</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">double_input</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">intensity_scale</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.00390625</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#sift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.vision.sift" title="Permalink to this definition">¶</a></dt>
 <dd><p>SIFT feature detector and descriptor.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
-<blockquote>
-<div><p>A 2D array representing an image</p>
-</div></blockquote>
-<p><strong>num_layers</strong> : optional: integer. Default: 3</p>
-<blockquote>
-<div><p>Number of layers per octave. The number of octaves is calculated internally.</p>
-</div></blockquote>
-<p><strong>contrast_threshold</strong> : optional: float. Default: 0.04</p>
-<blockquote>
-<div><p>Threshold used to filter out features that have low contrast.</p>
-</div></blockquote>
-<p><strong>edge_threshold</strong> : optional: float. Default: 10.0</p>
-<blockquote>
-<div><p>Threshold used to filter out features that are too edge-like.</p>
-</div></blockquote>
-<p><strong>initial_sigma</strong> : optional: float. Default: 1.6</p>
-<blockquote>
-<div><p>The sigma value used to filter the input image at the first octave.</p>
-</div></blockquote>
-<p><strong>double_input</strong> : optional: bool. Default: True</p>
-<blockquote>
-<div><p>If True, the input image will be scaled to double the size for the first octave.</p>
-</div></blockquote>
-<p><strong>intensity_scale</strong> : optional: float. Default: 1.0/255</p>
-<blockquote>
-<div><p>The inverse of the difference between maximum and minimum intensity values.</p>
-</div></blockquote>
-<p><strong>feature_ratio</strong> : optional: float. Default: 0.05</p>
-<blockquote>
-<div><p>Specifies the maximum number of features to detect as a ratio of image pixels.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>(features, descriptor)</strong> : tuple of (af.Features(), af.Array)</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>descriptor is an af.Array of size N x 128</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">af.Array</span></dt><dd><p>A 2D array representing an image</p>
+</dd>
+<dt><strong>num_layers</strong><span class="classifier">optional: integer. Default: 3</span></dt><dd><p>Number of layers per octave. The number of octaves is calculated internally.</p>
+</dd>
+<dt><strong>contrast_threshold</strong><span class="classifier">optional: float. Default: 0.04</span></dt><dd><p>Threshold used to filter out features that have low contrast.</p>
+</dd>
+<dt><strong>edge_threshold</strong><span class="classifier">optional: float. Default: 10.0</span></dt><dd><p>Threshold used to filter out features that are too edge-like.</p>
+</dd>
+<dt><strong>initial_sigma</strong><span class="classifier">optional: float. Default: 1.6</span></dt><dd><p>The sigma value used to filter the input image at the first octave.</p>
+</dd>
+<dt><strong>double_input</strong><span class="classifier">optional: bool. Default: True</span></dt><dd><p>If True, the input image will be scaled to double the size for the first octave.</p>
+</dd>
+<dt><strong>intensity_scale</strong><span class="classifier">optional: float. Default: 1.0/255</span></dt><dd><p>The inverse of the difference between maximum and minimum intensity values.</p>
+</dd>
+<dt><strong>feature_ratio</strong><span class="classifier">optional: float. Default: 0.05</span></dt><dd><p>Specifies the maximum number of features to detect as a ratio of image pixels.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>(features, descriptor)</strong><span class="classifier">tuple of (af.Features(), af.Array)</span></dt><dd><ul class="simple">
+<li><p>descriptor is an af.Array of size N x 128</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.vision.susan">
-<code class="descclassname">arrayfire.vision.</code><code class="descname">susan</code><span class="sig-paren">(</span><em>image</em>, <em>radius=3</em>, <em>diff_thr=32</em>, <em>geom_thr=10</em>, <em>feature_ratio=0.05</em>, <em>edge=3</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#susan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.vision.susan" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.vision.</span></code><code class="sig-name descname"><span class="pre">susan</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">image</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diff_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">32</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geom_thr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">10</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">feature_ratio</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.05</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edge</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">3</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/vision.html#susan"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.vision.susan" title="Permalink to this definition">¶</a></dt>
 <dd><p>SUSAN corner detector.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>image</strong> : af.Array</p>
-<blockquote>
-<div><p>A 2D array specifying an image.</p>
-</div></blockquote>
-<p><strong>radius</strong> : scalar. optional. default: 500.</p>
-<blockquote>
-<div><p>Specifies the radius of each pixel neighborhood.</p>
-</div></blockquote>
-<p><strong>diff_thr</strong> : scalar. optional. default: 1E5</p>
-<blockquote>
-<div><p>Specifies the intensity difference threshold.</p>
-</div></blockquote>
-<p><strong>geom_thr</strong> : scalar. optional. default: 1.0</p>
-<blockquote>
-<div><p>Specifies the geometric threshold.</p>
-</div></blockquote>
-<p><strong>feature_ratio</strong> : scalar. optional. default: 0.05 (5%)</p>
-<blockquote>
-<div><p>Specifies the ratio of corners found to number of pixels.</p>
-</div></blockquote>
-<p><strong>edge</strong> : scalar. optional. default: 3</p>
-<blockquote>
-<div><p>Specifies the number of edge rows and columns that are ignored.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>features</strong> : af.Features()</p>
-<blockquote class="last">
-<div><p>Contains the location and score. Orientation and size are not computed.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>image</strong><span class="classifier">af.Array</span></dt><dd><p>A 2D array specifying an image.</p>
+</dd>
+<dt><strong>radius</strong><span class="classifier">scalar. optional. default: 500.</span></dt><dd><p>Specifies the radius of each pixel neighborhood.</p>
+</dd>
+<dt><strong>diff_thr</strong><span class="classifier">scalar. optional. default: 1E5</span></dt><dd><p>Specifies the intensity difference threshold.</p>
+</dd>
+<dt><strong>geom_thr</strong><span class="classifier">scalar. optional. default: 1.0</span></dt><dd><p>Specifies the geometric threshold.</p>
+</dd>
+<dt><strong>feature_ratio</strong><span class="classifier">scalar. optional. default: 0.05 (5%)</span></dt><dd><p>Specifies the ratio of corners found to number of pixels.</p>
+</dd>
+<dt><strong>edge</strong><span class="classifier">scalar. optional. default: 3</span></dt><dd><p>Specifies the number of edge rows and columns that are ignored.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt><strong>features</strong><span class="classifier">af.Features()</span></dt><dd><p>Contains the location and score. Orientation and size are not computed.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -547,27 +403,33 @@ A gaussian filter with sigma = 2 is applied if True.</p>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Pavan Yalamanchili.
+      &copy;2020, ArrayFire.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/arrayfire.vision.rst.txt"
