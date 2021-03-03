@@ -250,6 +250,34 @@ def max(a, dim=None):
     else:
         return _reduce_all(a, backend.get().af_max_all)
 
+def maxRagged(vals, lens, dim):
+    """
+    Find the maximum value of a subset of elements along a specified dimension.
+
+    The size of the subset of elements along the given dimension are decided based on the lengths
+    provided in the `lens` array.
+
+    Parameters
+    ----------
+    vals  : af.Array
+         Multi dimensional arrayfire array.
+    lens  : af.Array
+         Multi dimensional arrayfire array containing number of elements to reduce along given `dim`
+    dim: optional: int. default: None
+         Dimension along which the maximum value is required.
+
+    Returns
+    -------
+    (values, indices): A tuple of af.Array(s)
+         `values` af.Array will have the maximum values along given dimension for
+         subsets determined by lengths provided in `lens`
+         `idx` contains the locations of the maximum values as per the lengths provided in `lens`
+    """
+    out_vals = Array()
+    out_idx = Array()
+    safe_call(backend().get().af_max_ragged(c_pointer(out_vals.arr), c_pointer(out_idx.arr), c_pointer(vals.arr), c_pointer(lens.arr), c_int_t(dim)))
+    return out_vals, out_idx
+
 def maxByKey(keys, vals, dim=-1):
     """
     Calculate the max of elements along a specified dimension according to a key.

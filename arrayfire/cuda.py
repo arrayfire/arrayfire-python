@@ -85,3 +85,10 @@ def set_native_id(idx):
 
     safe_call(backend.get().afcu_set_native_id(idx))
     return
+
+def set_cublas_mode(mode=CUBLAS_MATH_MODE.DEFAULT):
+    """
+    Set's cuBLAS math mode for CUDA backend. In other backends, this has no effect.
+    """
+    safe_call(backend().get().afcu_cublasSetMathMode(mode.value))
+    return

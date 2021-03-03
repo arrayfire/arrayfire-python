@@ -28,10 +28,10 @@ def simple_statistics(verbose=False):
     print_func(af.mean(a, weights=w))
 
     display_func(af.var(a, dim=0))
-    display_func(af.var(a, isbiased=True, dim=0))
+    display_func(af.var(a, bias=af.VARIANCE.SAMPLE, dim=0))
     display_func(af.var(a, weights=w, dim=0))
     print_func(af.var(a))
-    print_func(af.var(a, isbiased=True))
+    print_func(af.var(a, bias=af.VARIANCE.SAMPLE))
     print_func(af.var(a, weights=w))
 
     mean, var = af.meanvar(a, dim=0)
@@ -45,9 +45,9 @@ def simple_statistics(verbose=False):
     print_func(af.stdev(a))
 
     display_func(af.var(a, dim=0))
-    display_func(af.var(a, isbiased=True, dim=0))
+    display_func(af.var(a, bias=af.VARIANCE.SAMPLE, dim=0))
     print_func(af.var(a))
-    print_func(af.var(a, isbiased=True))
+    print_func(af.var(a, bias=af.VARIANCE.SAMPLE))
 
     display_func(af.median(a, dim=0))
     print_func(af.median(w))

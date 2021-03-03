@@ -490,6 +490,13 @@ class VARIANCE(_Enum):
     SAMPLE     = _Enum_Type(1)
     POPULATION = _Enum_Type(2)
 
+class CUBLAS_MATH_MODE(_Enum):
+    """
+    Enable Tensor Core usage if available on CUDA backend GPUs
+    """
+    DEFAULT   = _Enum_Type(0)
+    TENSOR_OP = _Enum_Type(1)
+
 _VER_MAJOR_PLACEHOLDER = "__VER_MAJOR__"
 
 def _setup():
