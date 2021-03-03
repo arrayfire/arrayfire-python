@@ -15,6 +15,7 @@ import platform
 import ctypes as ct
 import traceback
 import os
+import sys
 
 c_float_t     = ct.c_float
 c_double_t    = ct.c_double
@@ -492,8 +493,6 @@ class VARIANCE(_Enum):
 _VER_MAJOR_PLACEHOLDER = "__VER_MAJOR__"
 
 def _setup():
-    import platform
-
     platform_name = platform.system()
 
     try:
@@ -527,7 +526,7 @@ def _setup():
             ct.windll.kernel32.SetErrorMode(0x0001 | 0x0002)
 
         if AF_SEARCH_PATH is None:
-            AF_SEARCH_PATH="C:/Program Files/ArrayFire/v" + AF_VER_MAJOR +"/"
+            AF_SEARCH_PATH = "C:/Program Files/ArrayFire/v" + AF_VER_MAJOR +"/"
 
         if CUDA_PATH is not None:
             CUDA_FOUND = os.path.isdir(CUDA_PATH + '/bin') and os.path.isdir(CUDA_PATH + '/nvvm/bin/')
@@ -554,7 +553,12 @@ def _setup():
         post = '.so.' + _VER_MAJOR_PLACEHOLDER
 
         if AF_SEARCH_PATH is None:
-            AF_SEARCH_PATH='/opt/arrayfire-' + AF_VER_MAJOR + '/'
+            if os.path.exists('/opt/arrayfire-' + AF_VER_MAJOR + '/'):
+                AF_SEARCH_PATH = '/opt/arrayfire-' + AF_VER_MAJOR + '/'
+            elif os.path.exists('/opt/arrayfire/'):
+                AF_SEARCH_PATH = '/opt/arrayfire/'
+            else:
+                AF_SEARCH_PATH = '/usr/local/'
 
         if CUDA_PATH is None:
             CUDA_PATH='/usr/local/cuda/'
@@ -566,21 +570,46 @@ def _setup():
     else:
         raise OSError(platform_name + ' not supported')
 
-    if AF_PATH is None:
-        os.environ['AF_PATH'] = AF_SEARCH_PATH
-
-    return pre, post, AF_SEARCH_PATH, CUDA_FOUND
+    return pre, post, AF_PATH, AF_SEARCH_PATH, CUDA_FOUND
 
 class _clibrary(object):
+
+    def __find_nvrtc_builtins_libname(self, search_path):
+        filelist = os.listdir(search_path)
+        for f in filelist:
+            if 'nvrtc-builtins' in f:
+                return f
+        return None
 
     def __libname(self, name, head='af', ver_major=AF_VER_MAJOR):
         post = self.__post.replace(_VER_MAJOR_PLACEHOLDER, ver_major)
         libname = self.__pre + head + name + post
-        if os.path.isdir(self.AF_PATH + '/lib64'):
-            libname_full = self.AF_PATH + '/lib64/' + libname
+
+        if self.AF_PATH:
+            if os.path.isdir(self.AF_PATH + '/lib64'):
+                path_search = self.AF_PATH + '/lib64/'
+            else:
+                path_search = self.AF_PATH + '/lib/'
         else:
-            libname_full = self.AF_PATH + '/lib/' + libname
-        return (libname, libname_full)
+            if os.path.isdir(self.AF_SEARCH_PATH + '/lib64'):
+                path_search = self.AF_SEARCH_PATH + '/lib64/'
+            else:
+                path_search = self.AF_SEARCH_PATH + '/lib/'
+
+        if platform.architecture()[0][:2] == '64':
+            path_site  = sys.prefix + '/lib64/'
+        else:
+            path_site  = sys.prefix + '/lib/'
+
+        path_local = self.AF_PYMODULE_PATH
+        libpaths = [('', libname),
+                    (path_site, libname),
+                    (path_local,libname)]
+        if self.AF_PATH: #prefer specified AF_PATH if exists
+            libpaths.append((path_search, libname))
+        else:
+            libpaths.insert(2, (path_search, libname))
+        return libpaths
 
     def set_unsafe(self, name):
         lib = self.__clibs[name]
@@ -592,12 +621,18 @@ class _clibrary(object):
 
         more_info_str = "Please look at https://github.com/arrayfire/arrayfire-python/wiki for more information."
 
-        pre, post, AF_PATH, CUDA_FOUND = _setup()
+        pre, post, AF_PATH, AF_SEARCH_PATH, CUDA_FOUND = _setup()
 
         self.__pre = pre
         self.__post = post
         self.AF_PATH = AF_PATH
+        self.AF_SEARCH_PATH = AF_SEARCH_PATH
         self.CUDA_FOUND = CUDA_FOUND
+
+        # prefer locally packaged arrayfire libraries if they exist
+        af_module = __import__(__name__)
+        self.AF_PYMODULE_PATH = af_module.__path__[0] + '/' if af_module.__path__ else None
+
 
         self.__name = None
 
@@ -618,7 +653,7 @@ class _clibrary(object):
                                    'opencl'  : 4}
 
         # Try to pre-load forge library if it exists
-        libnames = self.__libname('forge', head='', ver_major=FORGE_VER_MAJOR)
+        libnames = reversed(self.__libname('forge', head='', ver_major=FORGE_VER_MAJOR))
 
         try:
             VERBOSE_LOADS = os.environ['AF_VERBOSE_LOADS'] == '1'
@@ -628,14 +663,15 @@ class _clibrary(object):
 
         for libname in libnames:
             try:
-                ct.cdll.LoadLibrary(libname)
+                full_libname = libname[0] + libname[1]
+                ct.cdll.LoadLibrary(full_libname)
                 if VERBOSE_LOADS:
-                    print('Loaded ' + libname)
+                    print('Loaded ' + full_libname)
                 break
             except OSError:
                 if VERBOSE_LOADS:
                     traceback.print_exc()
-                    print('Unable to load ' + libname)
+                    print('Unable to load ' + full_libname)
                 pass
 
         c_dim4 = c_dim_t*4
@@ -644,24 +680,39 @@ class _clibrary(object):
 
         # Iterate in reverse order of preference
         for name in ('cpu', 'opencl', 'cuda', ''):
-            libnames = self.__libname(name)
+            libnames = reversed(self.__libname(name))
             for libname in libnames:
                 try:
-                    ct.cdll.LoadLibrary(libname)
+                    full_libname = libname[0] + libname[1]
+
+                    ct.cdll.LoadLibrary(full_libname)
                     __name = 'unified' if name == '' else name
-                    clib = ct.CDLL(libname)
+                    clib = ct.CDLL(full_libname)
                     self.__clibs[__name] = clib
                     err = clib.af_randu(c_pointer(out), 4, c_pointer(dims), Dtype.f32.value)
                     if (err == ERR.NONE.value):
                         self.__name = __name
                         clib.af_release_array(out)
                         if VERBOSE_LOADS:
-                            print('Loaded ' + libname)
+                            print('Loaded ' + full_libname)
+
+                        # load nvrtc-builtins library if using cuda
+                        if name == 'cuda':
+                            nvrtc_name = self.__find_nvrtc_builtins_libname(libname[0])
+                            if nvrtc_name:
+                                ct.cdll.LoadLibrary(libname[0] + nvrtc_name)
+
+                                if VERBOSE_LOADS:
+                                    print('Loaded ' + libname[0] + nvrtc_name)
+                            else:
+                                if VERBOSE_LOADS:
+                                    print('Could not find local nvrtc-builtins libarary')
+
                         break;
                 except OSError:
                     if VERBOSE_LOADS:
                         traceback.print_exc()
-                        print('Unable to load ' + libname)
+                        print('Unable to load ' + full_libname)
                     pass
 
         if (self.__name is None):
@@ -688,6 +739,7 @@ class _clibrary(object):
             if (value & res):
                 lst.append(key)
         return tuple(lst)
+
 
 backend = _clibrary()
 

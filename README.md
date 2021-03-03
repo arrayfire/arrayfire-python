@@ -25,30 +25,29 @@ def calc_pi_device(samples):
 
 Choosing a particular backend can be done using `af.set_backend(name)`  where name is either "_cuda_", "_opencl_", or "_cpu_". The default device is chosen in the same order of preference.
 
-## Requirements
-
-Currently, this project is tested only on Linux and OSX. You also need to have the ArrayFire C/C++ library installed on your machine. You can get it from the following sources.
+## Getting started
+ArrayFire can be installed from a variety of sources. [Pre-built wheels](https://repo.arrayfire.com/python/wheels/3.8.0/) are available for a number of systems and toolkits. Wheels for some systems are available on PyPI. Unsupported systems will require separate installation of the ArrayFire C/C++ libraries and only the python wrapper will be installed in that case. 
+You can get the ArrayFire C/C++ library from the following sources:
 
 - [Download and install binaries](https://arrayfire.com/download)
 - [Build and install from source](https://github.com/arrayfire/arrayfire)
 
-Please check the following links for dependencies.
 
-- [Linux dependencies](http://www.arrayfire.com/docs/using_on_linux.htm)
-- [OSX dependencies](http://www.arrayfire.com/docs/using_on_osx.htm)
-
-## Getting started
-
-**Install the last stable version:**
-
+**Install the last stable version:**  
 ```
 pip install arrayfire
 ```
 
-**Install the development version:**
+**Install a pre-built wheel for a specific CUDA toolkit version:**
+```
+pip install arrayfire==3.8.0+cu112 -f https://repo.arrayfire.com/python/wheels/3.8.0/
+# Replace the +cu112 local version with the desired toolkit
+```
+
+**Install the development source distribution:**
 
 ```
-pip install git+git://github.com/arrayfire/arrayfire-python.git@devel
+pip install git+git://github.com/arrayfire/arrayfire-python.git@master
 ```
 
 **Installing offline:**
@@ -57,10 +56,11 @@ pip install git+git://github.com/arrayfire/arrayfire-python.git@devel
 cd path/to/arrayfire-python
 python setup.py install
 ```
+Rather than installing and building ArrayFire elsewhere in the system, you can also build directly through python by first setting the `AF_BUILD_LOCAL_LIBS=1` environment variable. Additional setup will be required to build ArrayFire, including satisfying dependencies and further CMake configuration. Details on how to pass additional arguments to the build systems can be found in the [scikit-build documentation.](https://scikit-build.readthedocs.io/en/latest/)
 
 **Post Installation:**
 
-Please follow [these instructions](https://github.com/arrayfire/arrayfire-python/wiki) to ensure the arrayfire-python can find the arrayfire libraries.
+If you are not using one of the pre-built wheels, you may need to ensure arrayfire-python can find the installed arrayfire libraries. Please follow [these instructions](https://github.com/arrayfire/arrayfire-python/wiki) to ensure that arrayfire-python can find the arrayfire libraries.
 
 To run arrayfire tests, you can run the following command from command line.
 
