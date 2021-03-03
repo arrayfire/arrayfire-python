@@ -9,6 +9,6 @@
 # http://arrayfire.com/licenses/BSD-3-Clause
 ########################################################
 
-version = "3.7"
-release = "20200213"
+version = "3.8"
+release = "20210303"
 full_version = version + "." + release
