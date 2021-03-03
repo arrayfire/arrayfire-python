@@ -1,21 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>arrayfire.blas &#8212; ArrayFire Python documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -30,6 +28,8 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <h1>Source code for arrayfire.blas</h1><div class="highlight"><pre>
@@ -46,8 +46,8 @@
 <span class="sd">BLAS functions (matmul, dot, etc)</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="matmul"><a class="viewcode-back" href="../../arrayfire.blas.html#arrayfire.blas.matmul">[docs]</a><span class="k">def</span> <span class="nf">matmul</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">lhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -237,9 +237,116 @@
         <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_dot</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
                                        <span class="n">lhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">out</span></div>
+
+<div class="viewcode-block" id="gemm"><a class="viewcode-back" href="../../arrayfire.blas.html#arrayfire.blas.gemm">[docs]</a><span class="k">def</span> <span class="nf">gemm</span><span class="p">(</span><span class="n">lhs</span><span class="p">,</span> <span class="n">rhs</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">lhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">=</span><span class="n">MATPROP</span><span class="o">.</span><span class="n">NONE</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    BLAS general matrix multiply (GEMM) of two af_array objects.</span>
+
+<span class="sd">    This provides a general interface to the BLAS level 3 general matrix multiply (GEMM), which is generally defined as:</span>
+
+<span class="sd">    C = alpha * opA(A) opB(B) + beta * C</span>
+
+<span class="sd">    where alpha and beta are both scalars; A and B are the matrix multiply operands;</span>
+<span class="sd">    and opA and opB are noop (if AF_MAT_NONE) or transpose (if AF_MAT_TRANS) operations</span>
+<span class="sd">    on A or B before the actual GEMM operation.</span>
+<span class="sd">    Batched GEMM is supported if at least either A or B have more than two dimensions</span>
+<span class="sd">    (see af::matmul for more details on broadcasting).</span>
+<span class="sd">    However, only one alpha and one beta can be used for all of the batched matrix operands.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    lhs : af.Array</span>
+<span class="sd">          A 2 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    rhs : af.Array</span>
+<span class="sd">          A 2 dimensional, real or complex arrayfire array.</span>
+
+<span class="sd">    alpha : scalar</span>
+
+<span class="sd">    beta : scalar</span>
+
+<span class="sd">    lhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.</span>
+<span class="sd">              Can be one of</span>
+<span class="sd">               - af.MATPROP.NONE   - If no op should be done on `lhs`.</span>
+<span class="sd">               - af.MATPROP.TRANS  - If `lhs` has to be transposed before multiplying.</span>
+<span class="sd">               - af.MATPROP.CTRANS - If `lhs` has to be hermitian transposed before multiplying.</span>
+
+<span class="sd">    rhs_opts: optional: af.MATPROP. default: af.MATPROP.NONE.</span>
+<span class="sd">              Can be one of</span>
+<span class="sd">               - af.MATPROP.NONE   - If no op should be done on `rhs`.</span>
+<span class="sd">               - af.MATPROP.TRANS  - If `rhs` has to be transposed before multiplying.</span>
+<span class="sd">               - af.MATPROP.CTRANS - If `rhs` has to be hermitian transposed before multiplying.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    out : af.Array</span>
+<span class="sd">          Output of the matrix multiplication on `lhs` and `rhs`.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+
+<span class="sd">    - The data types of `lhs` and `rhs` should be the same.</span>
+<span class="sd">    - Batches are not supported.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">C</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="n">C</span>
+
+    <span class="n">ltype</span> <span class="o">=</span> <span class="n">lhs</span><span class="o">.</span><span class="n">dtype</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">ltype</span> <span class="o">==</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="p">:</span>
+        <span class="n">aptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">c_float_t</span><span class="p">(</span><span class="n">alpha</span><span class="p">)),</span><span class="n">c_void_ptr_t</span><span class="p">)</span>
+        <span class="n">bptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">c_float_t</span><span class="p">(</span><span class="n">beta</span><span class="p">)),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">ltype</span> <span class="o">==</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">af_cfloat_t</span><span class="p">):</span>
+            <span class="n">aptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">aptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">af_cfloat_t</span><span class="p">(</span><span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">aptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">af_cfloat_t</span><span class="p">(</span><span class="n">alpha</span><span class="p">)),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">af_cfloat_t</span><span class="p">):</span>
+            <span class="n">bptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">beta</span><span class="p">),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">bptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">af_cfloat_t</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">af_cfloat_t</span><span class="p">(</span><span class="n">beta</span><span class="p">)),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+
+    <span class="k">elif</span> <span class="n">ltype</span> <span class="o">==</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="p">:</span>
+        <span class="n">aptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">c_double_t</span><span class="p">(</span><span class="n">alpha</span><span class="p">)),</span><span class="n">c_void_ptr_t</span><span class="p">)</span>
+        <span class="n">bptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">c_double_t</span><span class="p">(</span><span class="n">beta</span><span class="p">)),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">ltype</span> <span class="o">==</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="n">af_cdouble_t</span><span class="p">):</span>
+            <span class="n">aptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">alpha</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">aptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">af_cdouble_t</span><span class="p">(</span><span class="n">alpha</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">alpha</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">aptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">af_cdouble_t</span><span class="p">(</span><span class="n">alpha</span><span class="p">)),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">af_cdouble_t</span><span class="p">):</span>
+            <span class="n">bptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">beta</span><span class="p">),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">bptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">af_cdouble_t</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">bptr</span> <span class="o">=</span> <span class="n">c_cast</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">af_cdouble_t</span><span class="p">(</span><span class="n">beta</span><span class="p">)),</span> <span class="n">c_void_ptr_t</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">ltype</span> <span class="o">==</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f16</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;fp16 currently unsupported gemm() input type&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;unsupported input type&quot;</span><span class="p">)</span>
+
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_gemm</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                    <span class="n">lhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">rhs_opts</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                    <span class="n">aptr</span><span class="p">,</span> <span class="n">lhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">rhs</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">bptr</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">out</span></div>
 </pre></div>
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -268,27 +375,33 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Pavan Yalamanchili.
+      &copy;2020, ArrayFire.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

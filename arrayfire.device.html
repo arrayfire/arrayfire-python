@@ -1,21 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>arrayfire.device module &#8212; ArrayFire Python documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -30,70 +28,68 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-arrayfire.device">
 <span id="arrayfire-device-module"></span><h1>arrayfire.device module<a class="headerlink" href="#module-arrayfire.device" title="Permalink to this headline">¶</a></h1>
 <p>Functions to handle the available devices in the backend.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.alloc_device">
-<code class="descclassname">arrayfire.device.</code><code class="descname">alloc_device</code><span class="sig-paren">(</span><em>num_bytes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#alloc_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.alloc_device" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">alloc_device</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_bytes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#alloc_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.alloc_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allocate a buffer on the device with specified number of bytes.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.alloc_host">
-<code class="descclassname">arrayfire.device.</code><code class="descname">alloc_host</code><span class="sig-paren">(</span><em>num_bytes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#alloc_host"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.alloc_host" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">alloc_host</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_bytes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#alloc_host"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.alloc_host" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allocate a buffer on the host with specified number of bytes.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.alloc_pinned">
-<code class="descclassname">arrayfire.device.</code><code class="descname">alloc_pinned</code><span class="sig-paren">(</span><em>num_bytes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#alloc_pinned"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.alloc_pinned" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">alloc_pinned</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num_bytes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#alloc_pinned"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.alloc_pinned" title="Permalink to this definition">¶</a></dt>
 <dd><p>Allocate a buffer on the host using pinned memory with specified number of bytes.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.device_gc">
-<code class="descclassname">arrayfire.device.</code><code class="descname">device_gc</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#device_gc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.device_gc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">device_gc</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#device_gc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.device_gc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ask the garbage collector to free all unlocked memory</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.device_info">
-<code class="descclassname">arrayfire.device.</code><code class="descname">device_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#device_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.device_info" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Returns a map with the following fields:</dt>
-<dd><ul class="first last simple">
-<li>‘device’: Name of the current device.</li>
-<li>‘backend’: The current backend being used.</li>
-<li>‘toolkit’: The toolkit version for the backend.</li>
-<li>‘compute’: The compute version of the device.</li>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">device_info</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#device_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.device_info" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Returns a map with the following fields:</dt><dd><ul class="simple">
+<li><p>‘device’: Name of the current device.</p></li>
+<li><p>‘backend’: The current backend being used.</p></li>
+<li><p>‘toolkit’: The toolkit version for the backend.</p></li>
+<li><p>‘compute’: The compute version of the device.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.device_mem_info">
-<code class="descclassname">arrayfire.device.</code><code class="descname">device_mem_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#device_mem_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.device_mem_info" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Returns a map with the following fields:</dt>
-<dd><ul class="first last simple">
-<li><dl class="first docutils">
-<dt>‘alloc’: Contains the map of the following</dt>
-<dd><ul class="first last">
-<li>‘buffers’ : Total number of buffers allocated by memory manager.</li>
-<li>‘bytes’   : Total number of bytes allocated by memory manager.</li>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">device_mem_info</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#device_mem_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.device_mem_info" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Returns a map with the following fields:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>‘alloc’: Contains the map of the following</dt><dd><ul>
+<li><p>‘buffers’ : Total number of buffers allocated by memory manager.</p></li>
+<li><p>‘bytes’   : Total number of bytes allocated by memory manager.</p></li>
 </ul>
 </dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>‘lock’: Contains the map of the following</dt>
-<dd><ul class="first last">
-<li>‘buffers’ : Total number of buffers currently in scope.</li>
-<li>‘bytes’   : Total number of bytes currently in scope.</li>
+<li><dl class="simple">
+<dt>‘lock’: Contains the map of the following</dt><dd><ul>
+<li><p>‘buffers’ : Total number of buffers currently in scope.</p></li>
+<li><p>‘bytes’   : Total number of bytes currently in scope.</p></li>
 </ul>
 </dd>
 </dl>
@@ -103,20 +99,19 @@
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.eval">
-<code class="descclassname">arrayfire.device.</code><code class="descname">eval</code><span class="sig-paren">(</span><em>*args</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#eval"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.eval" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">eval</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#eval"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.eval" title="Permalink to this definition">¶</a></dt>
 <dd><p>Evaluate one or more inputs together</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>args</strong> : arguments to be evaluated</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>args</strong><span class="classifier">arguments to be evaluated</span></dt><dd></dd>
+</dl>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">c</span> <span class="o">=</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">a</span> <span class="o">-</span> <span class="n">b</span>
@@ -130,7 +125,7 @@
 <span class="go">3.0000     3.0000     3.0000</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span>
 <span class="go">arrayfire.Array()</span>
 <span class="go">Type: float</span>
 <span class="go">[3 3 1 1]</span>
@@ -141,207 +136,213 @@
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.free_device">
-<code class="descclassname">arrayfire.device.</code><code class="descname">free_device</code><span class="sig-paren">(</span><em>ptr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#free_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.free_device" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">free_device</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ptr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#free_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.free_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Free the device memory allocated by alloc_device</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.free_host">
-<code class="descclassname">arrayfire.device.</code><code class="descname">free_host</code><span class="sig-paren">(</span><em>ptr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#free_host"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.free_host" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">free_host</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ptr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#free_host"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.free_host" title="Permalink to this definition">¶</a></dt>
 <dd><p>Free the host memory allocated by alloc_host</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.free_pinned">
-<code class="descclassname">arrayfire.device.</code><code class="descname">free_pinned</code><span class="sig-paren">(</span><em>ptr</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#free_pinned"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.free_pinned" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">free_pinned</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ptr</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#free_pinned"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.free_pinned" title="Permalink to this definition">¶</a></dt>
 <dd><p>Free the pinned memory allocated by alloc_pinned</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.get_device">
-<code class="descclassname">arrayfire.device.</code><code class="descname">get_device</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#get_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.get_device" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">get_device</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#get_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.get_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the id of the current device.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.get_device_count">
-<code class="descclassname">arrayfire.device.</code><code class="descname">get_device_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#get_device_count"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.get_device_count" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">get_device_count</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#get_device_count"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.get_device_count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the number of devices available.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.get_device_ptr">
-<code class="descclassname">arrayfire.device.</code><code class="descname">get_device_ptr</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#get_device_ptr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.get_device_ptr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">get_device_ptr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#get_device_ptr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.get_device_ptr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the raw device pointer of an array</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A multi dimensional arrayfire array.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>a: af.Array</strong></dt><dd><ul class="simple">
+<li><p>A multi dimensional arrayfire array.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="first last simple">
-<li>internal device pointer held by a</li>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>internal device pointer held by a</dt><dd></dd>
+</dl>
+</li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.get_manual_eval_flag">
-<code class="descclassname">arrayfire.device.</code><code class="descname">get_manual_eval_flag</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#get_manual_eval_flag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.get_manual_eval_flag" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">get_manual_eval_flag</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#get_manual_eval_flag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.get_manual_eval_flag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Query the backend JIT engine to see if the user disabled heuristic evaluation of the JIT tree.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.info">
-<code class="descclassname">arrayfire.device.</code><code class="descname">info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.info" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Displays the information about the following:</dt>
-<dd><ul class="first last simple">
-<li>ArrayFire build and version number.</li>
-<li>The number of devices available.</li>
-<li>The names of the devices.</li>
-<li>The current device being used.</li>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">info</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.info" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Displays the information about the following:</dt><dd><ul class="simple">
+<li><p>ArrayFire build and version number.</p></li>
+<li><p>The number of devices available.</p></li>
+<li><p>The names of the devices.</p></li>
+<li><p>The current device being used.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.info_str">
-<code class="descclassname">arrayfire.device.</code><code class="descname">info_str</code><span class="sig-paren">(</span><em>verbose=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#info_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.info_str" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Returns information about the following as a string:</dt>
-<dd><ul class="first last simple">
-<li>ArrayFire version number.</li>
-<li>The number of devices available.</li>
-<li>The names of the devices.</li>
-<li>The current device being used.</li>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">info_str</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#info_str"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.info_str" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Returns information about the following as a string:</dt><dd><ul class="simple">
+<li><p>ArrayFire version number.</p></li>
+<li><p>The number of devices available.</p></li>
+<li><p>The names of the devices.</p></li>
+<li><p>The current device being used.</p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.init">
-<code class="descclassname">arrayfire.device.</code><code class="descname">init</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.init" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">init</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.init" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.is_dbl_supported">
-<code class="descclassname">arrayfire.device.</code><code class="descname">is_dbl_supported</code><span class="sig-paren">(</span><em>device=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#is_dbl_supported"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.is_dbl_supported" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">is_dbl_supported</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#is_dbl_supported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.is_dbl_supported" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if double precision is supported on specified device.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>device: optional: int. default: None.</strong></p>
-<blockquote>
-<div><p>id of the desired device.</p>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="first last">
-<li><p class="first">True if double precision supported.</p>
-<blockquote>
-<div><ul class="simple">
-<li>False if double precision not supported.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>device: optional: int. default: None.</strong></dt><dd><p>id of the desired device.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>True if double precision supported.</dt><dd><ul>
+<li><p>False if double precision not supported.</p></li>
 </ul>
-</div></blockquote>
+</dd>
+</dl>
 </li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
+<dt id="arrayfire.device.is_half_supported">
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">is_half_supported</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#is_half_supported"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.is_half_supported" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if half precision is supported on specified device.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>device: optional: int. default: None.</strong></dt><dd><p>id of the desired device.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><ul class="simple">
+<li><dl class="simple">
+<dt>True if half precision supported.</dt><dd><ul>
+<li><p>False if half precision not supported.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="arrayfire.device.is_locked_array">
-<code class="descclassname">arrayfire.device.</code><code class="descname">is_locked_array</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#is_locked_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.is_locked_array" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">is_locked_array</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#is_locked_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.is_locked_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if the input array is locked by the user.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A multi dimensional arrayfire array.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>a: af.Array</strong></dt><dd><ul class="simple">
+<li><p>A multi dimensional arrayfire array.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A bool specifying if the input array is locked.</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><dl class="simple">
+<dt>A bool specifying if the input array is locked.</dt><dd></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.lock_array">
-<code class="descclassname">arrayfire.device.</code><code class="descname">lock_array</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#lock_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.lock_array" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">lock_array</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#lock_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.lock_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ask arrayfire to not perform garbage collection on raw data held by an array.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>A multi dimensional arrayfire array.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>a: af.Array</strong></dt><dd><ul class="simple">
+<li><p>A multi dimensional arrayfire array.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.lock_device_ptr">
-<code class="descclassname">arrayfire.device.</code><code class="descname">lock_device_ptr</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#lock_device_ptr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.lock_device_ptr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">lock_device_ptr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#lock_device_ptr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.lock_device_ptr" title="Permalink to this definition">¶</a></dt>
 <dd><p>This functions is deprecated. Please use lock_array instead.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.print_mem_info">
-<code class="descclassname">arrayfire.device.</code><code class="descname">print_mem_info</code><span class="sig-paren">(</span><em>title='Memory Info'</em>, <em>device_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#print_mem_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.print_mem_info" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">print_mem_info</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Memory</span> <span class="pre">Info'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">device_id</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#print_mem_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.print_mem_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prints the memory used for the specified device.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>title: optional. Default: “Memory Info”</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>Title to display before printing the memory info.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>title: optional. Default: “Memory Info”</strong></dt><dd><ul class="simple">
+<li><p>Title to display before printing the memory info.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>device_id: optional. Default: None</strong></p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>Specifies the device for which the memory info should be displayed.</li>
-<li>If None, uses the current device.</li>
+</dd>
+<dt><strong>device_id: optional. Default: None</strong></dt><dd><ul class="simple">
+<li><p>Specifies the device for which the memory info should be displayed.</p></li>
+<li><p>If None, uses the current device.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 <p class="rubric">Examples</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">af</span><span class="o">.</span><span class="n">randu</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">af</span><span class="o">.</span><span class="n">print_mem_info</span><span class="p">()</span>
 <span class="go">Memory Info</span>
 <span class="go">---------------------------------------------------------</span>
@@ -372,85 +373,69 @@
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.set_device">
-<code class="descclassname">arrayfire.device.</code><code class="descname">set_device</code><span class="sig-paren">(</span><em>num</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#set_device"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.set_device" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">set_device</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">num</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#set_device"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.set_device" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change the active device to the specified id.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>num: int.</strong></p>
-<blockquote class="last">
-<div><p>id of the desired device.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>num: int.</strong></dt><dd><p>id of the desired device.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.set_manual_eval_flag">
-<code class="descclassname">arrayfire.device.</code><code class="descname">set_manual_eval_flag</code><span class="sig-paren">(</span><em>flag</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#set_manual_eval_flag"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.set_manual_eval_flag" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">set_manual_eval_flag</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#set_manual_eval_flag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.set_manual_eval_flag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tells the backend JIT engine to disable heuristics for determining when to evaluate a JIT tree.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>flag</strong> : optional: bool.</p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>Specifies if the heuristic evaluation of the JIT tree needs to be disabled.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>flag</strong><span class="classifier">optional: bool.</span></dt><dd><ul class="simple">
+<li><p>Specifies if the heuristic evaluation of the JIT tree needs to be disabled.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.sync">
-<code class="descclassname">arrayfire.device.</code><code class="descname">sync</code><span class="sig-paren">(</span><em>device=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#sync"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.sync" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">sync</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">device</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#sync"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.sync" title="Permalink to this definition">¶</a></dt>
 <dd><p>Block until all the functions on the device have completed execution.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>device: optional: int. default: None.</strong></p>
-<blockquote class="last">
-<div><p>id of the desired device.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>device: optional: int. default: None.</strong></dt><dd><p>id of the desired device.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.unlock_array">
-<code class="descclassname">arrayfire.device.</code><code class="descname">unlock_array</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#unlock_array"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.unlock_array" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">unlock_array</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#unlock_array"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.unlock_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Tell arrayfire to resume garbage collection on raw data held by an array.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>a: af.Array</strong></p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>A multi dimensional arrayfire array.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>a: af.Array</strong></dt><dd><ul class="simple">
+<li><p>A multi dimensional arrayfire array.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="arrayfire.device.unlock_device_ptr">
-<code class="descclassname">arrayfire.device.</code><code class="descname">unlock_device_ptr</code><span class="sig-paren">(</span><em>a</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#unlock_device_ptr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.device.unlock_device_ptr" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname"><span class="pre">arrayfire.device.</span></code><code class="sig-name descname"><span class="pre">unlock_device_ptr</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/device.html#unlock_device_ptr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.device.unlock_device_ptr" title="Permalink to this definition">¶</a></dt>
 <dd><p>This functions is deprecated. Please use unlock_array instead.</p>
 </dd></dl>
 
@@ -458,6 +443,7 @@
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -484,27 +470,33 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Pavan Yalamanchili.
+      &copy;2020, ArrayFire.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/arrayfire.device.rst.txt"

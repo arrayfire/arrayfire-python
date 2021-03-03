@@ -1,21 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>arrayfire.statistics &#8212; ArrayFire Python documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -30,6 +28,8 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <h1>Source code for arrayfire.statistics</h1><div class="highlight"><pre>
@@ -46,8 +46,8 @@
 <span class="sd">Statistical algorithms (mean, var, stdev, etc).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
 
 <div class="viewcode-block" id="mean"><a class="viewcode-back" href="../../arrayfire.statistics.html#arrayfire.statistics.mean">[docs]</a><span class="k">def</span> <span class="nf">mean</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -142,6 +142,48 @@
         <span class="n">imag</span> <span class="o">=</span> <span class="n">imag</span><span class="o">.</span><span class="n">value</span>
 
         <span class="k">return</span> <span class="n">real</span> <span class="k">if</span> <span class="n">imag</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">real</span> <span class="o">+</span> <span class="n">imag</span> <span class="o">*</span> <span class="mi">1</span><span class="n">j</span></div>
+
+<div class="viewcode-block" id="meanvar"><a class="viewcode-back" href="../../arrayfire.statistics.html#arrayfire.statistics.meanvar">[docs]</a><span class="k">def</span> <span class="nf">meanvar</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="n">VARIANCE</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Calculate mean and variance along a given dimension.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    a: af.Array</span>
+<span class="sd">        The input array.</span>
+
+<span class="sd">    weights: optional: af.Array. default: None.</span>
+<span class="sd">        Array to calculate for the weighted mean. Must match size of</span>
+<span class="sd">        the input array.</span>
+
+<span class="sd">    bias: optional: af.VARIANCE. default: DEFAULT.</span>
+<span class="sd">        population variance(VARIANCE.POPULATION) or</span>
+<span class="sd">        sample variance(VARIANCE.SAMPLE).</span>
+
+<span class="sd">    dim: optional: int. default: -1.</span>
+<span class="sd">        The dimension for which to obtain the variance from input data.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mean: af.Array</span>
+<span class="sd">        Array containing the mean of the input array along a given</span>
+<span class="sd">        dimension.</span>
+<span class="sd">    variance: af.Array</span>
+<span class="sd">        Array containing the variance of the input array along a given</span>
+<span class="sd">        dimension.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">mean_out</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">var_out</span>  <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">weights</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">weights</span>  <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_meanvar</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">mean_out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">var_out</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span>
+                                       <span class="n">a</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">weights</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">bias</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_int_t</span><span class="p">(</span><span class="n">dim</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">mean_out</span><span class="p">,</span> <span class="n">var_out</span></div>
+
 
 <div class="viewcode-block" id="stdev"><a class="viewcode-back" href="../../arrayfire.statistics.html#arrayfire.statistics.stdev">[docs]</a><span class="k">def</span> <span class="nf">stdev</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -300,6 +342,7 @@
 </pre></div>
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -328,27 +371,33 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Pavan Yalamanchili.
+      &copy;2020, ArrayFire.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

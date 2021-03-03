@@ -1,21 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>arrayfire.graphics module &#8212; ArrayFire Python documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="_static/style.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
    
@@ -30,636 +28,517 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="module-arrayfire.graphics">
 <span id="arrayfire-graphics-module"></span><h1>arrayfire.graphics module<a class="headerlink" href="#module-arrayfire.graphics" title="Permalink to this headline">¶</a></h1>
 <p>Graphics functions (plot, image, etc).</p>
-<dl class="class">
+<dl class="py class">
 <dt id="arrayfire.graphics.Window">
-<em class="property">class </em><code class="descclassname">arrayfire.graphics.</code><code class="descname">Window</code><span class="sig-paren">(</span><em>width=1280</em>, <em>height=720</em>, <em>title='ArrayFire'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">arrayfire.graphics.</span></code><code class="sig-name descname"><span class="pre">Window</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1280</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">height</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">720</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'ArrayFire'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Class to create the Window object.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>width: optional: int. default: 1280.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>Specifies the width of the window in pixels.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>width: optional: int. default: 1280.</strong></dt><dd><ul class="simple">
+<li><p>Specifies the width of the window in pixels.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>height: optional: int. default: 720.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>Specifies the height of the window in pixels.</li>
+</dd>
+<dt><strong>height: optional: int. default: 720.</strong></dt><dd><ul class="simple">
+<li><p>Specifies the height of the window in pixels.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>title: optional: str. default: “ArrayFire”.</strong></p>
-<blockquote class="last">
-<div><ul class="simple">
-<li>Specifies the title used for the window.</li>
+</dd>
+<dt><strong>title: optional: str. default: “ArrayFire”.</strong></dt><dd><ul class="simple">
+<li><p>Specifies the title used for the window.</p></li>
 </ul>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
+</dd>
+</dl>
 <p class="rubric">Methods</p>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.close" title="arrayfire.graphics.Window.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</td>
-<td>Close the window.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.close" title="arrayfire.graphics.Window.close"><code class="xref py py-obj docutils literal notranslate"><span class="pre">close</span></code></a>()</p></td>
+<td><p>Close the window.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.grid" title="arrayfire.graphics.Window.grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grid</span></code></a>(rows,&nbsp;cols)</td>
-<td>Create a grid for sub plotting within the window.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.grid" title="arrayfire.graphics.Window.grid"><code class="xref py py-obj docutils literal notranslate"><span class="pre">grid</span></code></a>(rows, cols)</p></td>
+<td><p>Create a grid for sub plotting within the window.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.hist" title="arrayfire.graphics.Window.hist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hist</span></code></a>(X,&nbsp;min_val,&nbsp;max_val[,&nbsp;title])</td>
-<td>Display a histogram Plot.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.hist" title="arrayfire.graphics.Window.hist"><code class="xref py py-obj docutils literal notranslate"><span class="pre">hist</span></code></a>(X, min_val, max_val[, title])</p></td>
+<td><p>Display a histogram Plot.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.image" title="arrayfire.graphics.Window.image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code></a>(img[,&nbsp;title])</td>
-<td>Display an arrayfire array as an image.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.image" title="arrayfire.graphics.Window.image"><code class="xref py py-obj docutils literal notranslate"><span class="pre">image</span></code></a>(img[, title])</p></td>
+<td><p>Display an arrayfire array as an image.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.plot" title="arrayfire.graphics.Window.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(X,&nbsp;Y[,&nbsp;Z,&nbsp;line,&nbsp;title])</td>
-<td>Display a 2D or 3D Plot.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.plot" title="arrayfire.graphics.Window.plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot</span></code></a>(X, Y[, Z, line, title])</p></td>
+<td><p>Display a 2D or 3D Plot.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.plot2" title="arrayfire.graphics.Window.plot2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot2</span></code></a>(line[,&nbsp;title])</td>
-<td>Display a 2D Plot.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.plot2" title="arrayfire.graphics.Window.plot2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot2</span></code></a>(line[, title])</p></td>
+<td><p>Display a 2D Plot.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.plot3" title="arrayfire.graphics.Window.plot3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot3</span></code></a>([X,&nbsp;Y,&nbsp;Z,&nbsp;line,&nbsp;title])</td>
-<td>Display a 3D Plot.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.plot3" title="arrayfire.graphics.Window.plot3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">plot3</span></code></a>([X, Y, Z, line, title])</p></td>
+<td><p>Display a 3D Plot.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.scatter" title="arrayfire.graphics.Window.scatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scatter</span></code></a>(X,&nbsp;Y[,&nbsp;Z,&nbsp;points,&nbsp;marker,&nbsp;title])</td>
-<td>Renders input arrays as 2D or 3D scatter plot.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.scatter" title="arrayfire.graphics.Window.scatter"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scatter</span></code></a>(X, Y[, Z, points, marker, title])</p></td>
+<td><p>Renders input arrays as 2D or 3D scatter plot.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.scatter2" title="arrayfire.graphics.Window.scatter2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scatter2</span></code></a>(points[,&nbsp;marker,&nbsp;title])</td>
-<td>Renders the input array as a 2D Scatter plot.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.scatter2" title="arrayfire.graphics.Window.scatter2"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scatter2</span></code></a>(points[, marker, title])</p></td>
+<td><p>Renders the input array as a 2D Scatter plot.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.scatter3" title="arrayfire.graphics.Window.scatter3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scatter3</span></code></a>(points[,&nbsp;marker,&nbsp;title])</td>
-<td>Renders the input array as a 3D Scatter plot.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.scatter3" title="arrayfire.graphics.Window.scatter3"><code class="xref py py-obj docutils literal notranslate"><span class="pre">scatter3</span></code></a>(points[, marker, title])</p></td>
+<td><p>Renders the input array as a 3D Scatter plot.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_axes_limits" title="arrayfire.graphics.Window.set_axes_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_axes_limits</span></code></a>(xmin,&nbsp;xmax,&nbsp;ymin,&nbsp;ymax[,&nbsp;…])</td>
-<td>Set axis limits.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.set_axes_label_format" title="arrayfire.graphics.Window.set_axes_label_format"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_axes_label_format</span></code></a>([xformat, yformat, …])</p></td>
+<td><p>Set axis limits.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_colormap" title="arrayfire.graphics.Window.set_colormap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_colormap</span></code></a>(cmap)</td>
-<td>Set the colormap for the window.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.set_axes_limits" title="arrayfire.graphics.Window.set_axes_limits"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_axes_limits</span></code></a>(xmin, xmax, ymin, ymax[, …])</p></td>
+<td><p>Set axis limits.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_pos" title="arrayfire.graphics.Window.set_pos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_pos</span></code></a>(x,&nbsp;y)</td>
-<td>Set the position of window on the screen.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.set_colormap" title="arrayfire.graphics.Window.set_colormap"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_colormap</span></code></a>(cmap)</p></td>
+<td><p>Set the colormap for the window.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_size" title="arrayfire.graphics.Window.set_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_size</span></code></a>(w,&nbsp;h)</td>
-<td>Set the windo height and width.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.set_pos" title="arrayfire.graphics.Window.set_pos"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_pos</span></code></a>(x, y)</p></td>
+<td><p>Set the position of window on the screen.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_title" title="arrayfire.graphics.Window.set_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_title</span></code></a>(title)</td>
-<td>Set the title of the window</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.set_size" title="arrayfire.graphics.Window.set_size"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_size</span></code></a>(w, h)</p></td>
+<td><p>Set the windo height and width.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.set_visibility" title="arrayfire.graphics.Window.set_visibility"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_visibility</span></code></a>()</td>
-<td>A flag that shows or hides the window as requested.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.set_title" title="arrayfire.graphics.Window.set_title"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_title</span></code></a>(title)</p></td>
+<td><p>Set the title of the window</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.show" title="arrayfire.graphics.Window.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</td>
-<td>Force the window to display the contents.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.set_visibility" title="arrayfire.graphics.Window.set_visibility"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_visibility</span></code></a>()</p></td>
+<td><p>A flag that shows or hides the window as requested.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#arrayfire.graphics.Window.surface" title="arrayfire.graphics.Window.surface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">surface</span></code></a>(x_vals,&nbsp;y_vals,&nbsp;z_vals[,&nbsp;title])</td>
-<td>Renders the input array as a 3D surface plot.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.show" title="arrayfire.graphics.Window.show"><code class="xref py py-obj docutils literal notranslate"><span class="pre">show</span></code></a>()</p></td>
+<td><p>Force the window to display the contents.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#arrayfire.graphics.Window.vector_field" title="arrayfire.graphics.Window.vector_field"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vector_field</span></code></a>(xpoints,&nbsp;xdirs,&nbsp;ypoints,&nbsp;ydirs)</td>
-<td>Display a 2D or 3D Vector_Field.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.surface" title="arrayfire.graphics.Window.surface"><code class="xref py py-obj docutils literal notranslate"><span class="pre">surface</span></code></a>(x_vals, y_vals, z_vals[, title])</p></td>
+<td><p>Renders the input array as a 3D surface plot.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#arrayfire.graphics.Window.vector_field" title="arrayfire.graphics.Window.vector_field"><code class="xref py py-obj docutils literal notranslate"><span class="pre">vector_field</span></code></a>(xpoints, xdirs, ypoints, ydirs)</p></td>
+<td><p>Display a 2D or 3D Vector_Field.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.close">
-<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.close" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">close</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.close"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.close" title="Permalink to this definition">¶</a></dt>
 <dd><p>Close the window.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.grid">
-<code class="descname">grid</code><span class="sig-paren">(</span><em>rows</em>, <em>cols</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.grid" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">grid</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rows</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cols</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.grid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a grid for sub plotting within the window.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>rows: int.</strong></p>
-<blockquote>
-<div><p>Number of rows in the grid.</p>
-</div></blockquote>
-<p><strong>cols: int.</strong></p>
-<blockquote class="last">
-<div><p>Number of columns in the grid.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>rows: int.</strong></dt><dd><p>Number of rows in the grid.</p>
+</dd>
+<dt><strong>cols: int.</strong></dt><dd><p>Number of columns in the grid.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.hist">
-<code class="descname">hist</code><span class="sig-paren">(</span><em>X</em>, <em>min_val</em>, <em>max_val</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.hist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.hist" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">hist</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_val</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.hist"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.hist" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a histogram Plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: af.Array.</strong></p>
-<blockquote>
-<div><p>A 1 dimensional array containing the histogram.</p>
-</div></blockquote>
-<p><strong>min_val: scalar.</strong></p>
-<blockquote>
-<div><p>A scalar value specifying the lower bound of the histogram.</p>
-</div></blockquote>
-<p><strong>max_val: scalar.</strong></p>
-<blockquote>
-<div><p>A scalar value specifying the upper bound of the histogram.</p>
-</div></blockquote>
-<p><strong>title: str.</strong></p>
-<blockquote class="last">
-<div><p>Title used for the histogram.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X: af.Array.</strong></dt><dd><p>A 1 dimensional array containing the histogram.</p>
+</dd>
+<dt><strong>min_val: scalar.</strong></dt><dd><p>A scalar value specifying the lower bound of the histogram.</p>
+</dd>
+<dt><strong>max_val: scalar.</strong></dt><dd><p>A scalar value specifying the upper bound of the histogram.</p>
+</dd>
+<dt><strong>title: str.</strong></dt><dd><p>Title used for the histogram.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.image">
-<code class="descname">image</code><span class="sig-paren">(</span><em>img</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.image" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">image</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.image"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display an arrayfire array as an image.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>img: af.Array.</strong></p>
-<blockquote>
-<div><p>A 2 dimensional array for single channel image.
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>img: af.Array.</strong></dt><dd><p>A 2 dimensional array for single channel image.
 A 3 dimensional array for 3 channel image.</p>
-</div></blockquote>
-<p><strong>title: str.</strong></p>
-<blockquote class="last">
-<div><p>Title used for the image.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt><strong>title: str.</strong></dt><dd><p>Title used for the image.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.plot">
-<code class="descname">plot</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Z=None</em>, <em>line=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.plot" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">plot</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.plot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a 2D or 3D Plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: af.Array.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 1 dimensional array containing X co-ordinates.</li>
-<li>Not used if line is not None</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X: af.Array.</strong></dt><dd><ul class="simple">
+<li><p>A 1 dimensional array containing X co-ordinates.</p></li>
+<li><p>Not used if line is not None</p></li>
 </ul>
-</div></blockquote>
-<p><strong>Y: af.Array.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 1 dimensional array containing Y co-ordinates.</li>
-<li>Not used if line is not None</li>
+</dd>
+<dt><strong>Y: af.Array.</strong></dt><dd><ul class="simple">
+<li><p>A 1 dimensional array containing Y co-ordinates.</p></li>
+<li><p>Not used if line is not None</p></li>
 </ul>
-</div></blockquote>
-<p><strong>Z: optional: af.Array. default: None.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 1 dimensional array containing Z co-ordinates.</li>
-<li>Not used if line is not None</li>
+</dd>
+<dt><strong>Z: optional: af.Array. default: None.</strong></dt><dd><ul class="simple">
+<li><p>A 1 dimensional array containing Z co-ordinates.</p></li>
+<li><p>Not used if line is not None</p></li>
 </ul>
-</div></blockquote>
-<p><strong>line: optional: af.Array. default: None.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for plotting 2D lines.</li>
-<li>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</li>
+</dd>
+<dt><strong>line: optional: af.Array. default: None.</strong></dt><dd><ul class="simple">
+<li><p>A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for plotting 2D lines.</p></li>
+<li><p>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>title: str.</strong></p>
-<blockquote class="last">
-<div><p>Title used for the plot.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt><strong>title: str.</strong></dt><dd><p>Title used for the plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.plot2">
-<code class="descname">plot2</code><span class="sig-paren">(</span><em>line</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.plot2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.plot2" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">plot2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.plot2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.plot2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a 2D Plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>line: af.Array.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 2 dimensional array of size [n 2]. Each column denotes X, and Y co-ordinates for plotting 2D lines.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>line: af.Array.</strong></dt><dd><ul class="simple">
+<li><p>A 2 dimensional array of size [n 2]. Each column denotes X, and Y co-ordinates for plotting 2D lines.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>title: str.</strong></p>
-<blockquote class="last">
-<div><p>Title used for the plot.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt><strong>title: str.</strong></dt><dd><p>Title used for the plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.plot3">
-<code class="descname">plot3</code><span class="sig-paren">(</span><em>X=None</em>, <em>Y=None</em>, <em>Z=None</em>, <em>line=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.plot3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.plot3" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">plot3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Y</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">Z</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.plot3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.plot3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a 3D Plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>line: af.Array.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>line: af.Array.</strong></dt><dd><ul class="simple">
+<li><p>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>title: str.</strong></p>
-<blockquote class="last">
-<div><p>Title used for the plot.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt><strong>title: str.</strong></dt><dd><p>Title used for the plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.scatter">
-<code class="descname">scatter</code><span class="sig-paren">(</span><em>X</em>, <em>Y</em>, <em>Z=None</em>, <em>points=None</em>, <em>marker=&lt;MARKER.POINT: 1&gt;</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.scatter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.scatter" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">scatter</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">X</span></em>, <em class="sig-param"><span class="pre">Y</span></em>, <em class="sig-param"><span class="pre">Z=None</span></em>, <em class="sig-param"><span class="pre">points=None</span></em>, <em class="sig-param"><span class="pre">marker=&lt;MARKER.POINT:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">title=None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.scatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.scatter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders input arrays as 2D or 3D scatter plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>X: af.Array.</strong></p>
-<blockquote>
-<div><p>A 1 dimensional array containing X co-ordinates.</p>
-</div></blockquote>
-<p><strong>Y: af.Array.</strong></p>
-<blockquote>
-<div><p>A 1 dimensional array containing Y co-ordinates.</p>
-</div></blockquote>
-<p><strong>Z: optional: af.Array. default: None.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 1 dimensional array containing Z co-ordinates.</li>
-<li>Not used if line is not None</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>X: af.Array.</strong></dt><dd><p>A 1 dimensional array containing X co-ordinates.</p>
+</dd>
+<dt><strong>Y: af.Array.</strong></dt><dd><p>A 1 dimensional array containing Y co-ordinates.</p>
+</dd>
+<dt><strong>Z: optional: af.Array. default: None.</strong></dt><dd><ul class="simple">
+<li><p>A 1 dimensional array containing Z co-ordinates.</p></li>
+<li><p>Not used if line is not None</p></li>
 </ul>
-</div></blockquote>
-<p><strong>points: optional: af.Array. default: None.</strong></p>
-<blockquote>
-<div><ul class="simple">
-<li>A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for 2D scatter plot.</li>
-<li>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for 3D scatter plot.</li>
+</dd>
+<dt><strong>points: optional: af.Array. default: None.</strong></dt><dd><ul class="simple">
+<li><p>A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for 2D scatter plot.</p></li>
+<li><p>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for 3D scatter plot.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>marker: af.MARKER</strong></p>
-<blockquote>
-<div><p>Specifies how the points look</p>
-</div></blockquote>
-<p><strong>title: str.</strong></p>
-<blockquote class="last">
-<div><p>Title used for the plot.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt><strong>marker: af.MARKER</strong></dt><dd><p>Specifies how the points look</p>
+</dd>
+<dt><strong>title: str.</strong></dt><dd><p>Title used for the plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.scatter2">
-<code class="descname">scatter2</code><span class="sig-paren">(</span><em>points</em>, <em>marker=&lt;MARKER.POINT: 1&gt;</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.scatter2"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.scatter2" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">scatter2</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">points</span></em>, <em class="sig-param"><span class="pre">marker=&lt;MARKER.POINT:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">title=None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.scatter2"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.scatter2" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders the input array as a 2D Scatter plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>points: af.Array.</strong></p>
-<blockquote>
-<div><p>A 2 dimensional array containing (X,Y) co-ordinates.</p>
-</div></blockquote>
-<p><strong>marker: af.MARKER</strong></p>
-<blockquote>
-<div><p>Specifies how the points look</p>
-</div></blockquote>
-<p><strong>title: str.</strong></p>
-<blockquote class="last">
-<div><p>Title used for the plot.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>points: af.Array.</strong></dt><dd><p>A 2 dimensional array containing (X,Y) co-ordinates.</p>
+</dd>
+<dt><strong>marker: af.MARKER</strong></dt><dd><p>Specifies how the points look</p>
+</dd>
+<dt><strong>title: str.</strong></dt><dd><p>Title used for the plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.scatter3">
-<code class="descname">scatter3</code><span class="sig-paren">(</span><em>points</em>, <em>marker=&lt;MARKER.POINT: 1&gt;</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.scatter3"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.scatter3" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">scatter3</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="pre">points</span></em>, <em class="sig-param"><span class="pre">marker=&lt;MARKER.POINT:</span> <span class="pre">1&gt;</span></em>, <em class="sig-param"><span class="pre">title=None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.scatter3"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.scatter3" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders the input array as a 3D Scatter plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>points: af.Array.</strong></p>
-<blockquote>
-<div><p>A 2 dimensional array containing (X,Y,Z) co-ordinates.</p>
-</div></blockquote>
-<p><strong>marker: af.MARKER</strong></p>
-<blockquote>
-<div><p>Specifies how the points look</p>
-</div></blockquote>
-<p><strong>title: str.</strong></p>
-<blockquote class="last">
-<div><p>Title used for the plot.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>points: af.Array.</strong></dt><dd><p>A 2 dimensional array containing (X,Y,Z) co-ordinates.</p>
+</dd>
+<dt><strong>marker: af.MARKER</strong></dt><dd><p>Specifies how the points look</p>
+</dd>
+<dt><strong>title: str.</strong></dt><dd><p>Title used for the plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
-<dt id="arrayfire.graphics.Window.set_axes_limits">
-<code class="descname">set_axes_limits</code><span class="sig-paren">(</span><em>xmin</em>, <em>xmax</em>, <em>ymin</em>, <em>ymax</em>, <em>zmin=None</em>, <em>zmax=None</em>, <em>exact=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_axes_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_axes_limits" title="Permalink to this definition">¶</a></dt>
+<dl class="py method">
+<dt id="arrayfire.graphics.Window.set_axes_label_format">
+<code class="sig-name descname"><span class="pre">set_axes_label_format</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xformat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4.1%f'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">yformat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4.1%f'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zformat</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'4.1%f'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_axes_label_format"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_axes_label_format" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set axis limits.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xmin</strong> : af.Array.</p>
-<blockquote>
-<div><ul class="simple">
-<li>lower limit of the x axis.</li>
-</ul>
-</div></blockquote>
-<p><strong>xmax</strong> : af.Array.</p>
-<blockquote>
-<div><ul class="simple">
-<li>upper limit of the x axis.</li>
-</ul>
-</div></blockquote>
-<p><strong>ymin</strong> : af.Array.</p>
-<blockquote>
-<div><ul class="simple">
-<li>lower limit of the y axis.</li>
-</ul>
-</div></blockquote>
-<p><strong>ymax</strong> : af.Array.</p>
-<blockquote>
-<div><ul class="simple">
-<li>upper limit of the y axis.</li>
-</ul>
-</div></blockquote>
-<p><strong>zmin</strong> : optional: af.Array. default: None.</p>
-<blockquote>
-<div><ul class="simple">
-<li>lower limit of the z axis.</li>
-</ul>
-</div></blockquote>
-<p><strong>zmax</strong> : optional: af.Array. default: None.</p>
-<blockquote>
-<div><ul class="simple">
-<li>upper limit of the z axis.</li>
-</ul>
-</div></blockquote>
-<p><strong>title</strong> : str.</p>
-<blockquote class="last">
-<div><p>Title used for the plot.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>xformat</strong><span class="classifier">str.</span></dt><dd><dl class="simple">
+<dt>default: “4.1%f”.</dt><dd><p>is a printf-style format specifier for x-axis</p>
+</dd>
+</dl>
+</dd>
+<dt><strong>yformat</strong><span class="classifier">str.</span></dt><dd><dl class="simple">
+<dt>default: “4.1%f”.</dt><dd><p>is a printf-style format specifier for y-axis</p>
+</dd>
+</dl>
+</dd>
+<dt><strong>zformat</strong><span class="classifier">str.</span></dt><dd><dl class="simple">
+<dt>default: “4.1%f”.</dt><dd><p>is a printf-style format specifier for z-axis</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
+<dt id="arrayfire.graphics.Window.set_axes_limits">
+<code class="sig-name descname"><span class="pre">set_axes_limits</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xmin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ymin</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ymax</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zmin</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zmax</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">exact</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_axes_limits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_axes_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set axis limits.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>xmin</strong><span class="classifier">af.Array.</span></dt><dd><ul class="simple">
+<li><p>lower limit of the x axis.</p></li>
+</ul>
+</dd>
+<dt><strong>xmax</strong><span class="classifier">af.Array.</span></dt><dd><ul class="simple">
+<li><p>upper limit of the x axis.</p></li>
+</ul>
+</dd>
+<dt><strong>ymin</strong><span class="classifier">af.Array.</span></dt><dd><ul class="simple">
+<li><p>lower limit of the y axis.</p></li>
+</ul>
+</dd>
+<dt><strong>ymax</strong><span class="classifier">af.Array.</span></dt><dd><ul class="simple">
+<li><p>upper limit of the y axis.</p></li>
+</ul>
+</dd>
+<dt><strong>zmin</strong><span class="classifier">optional: af.Array. default: None.</span></dt><dd><ul class="simple">
+<li><p>lower limit of the z axis.</p></li>
+</ul>
+</dd>
+<dt><strong>zmax</strong><span class="classifier">optional: af.Array. default: None.</span></dt><dd><ul class="simple">
+<li><p>upper limit of the z axis.</p></li>
+</ul>
+</dd>
+<dt><strong>title</strong><span class="classifier">str.</span></dt><dd><p>Title used for the plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.set_colormap">
-<code class="descname">set_colormap</code><span class="sig-paren">(</span><em>cmap</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_colormap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_colormap" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">set_colormap</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmap</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_colormap"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_colormap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the colormap for the window.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>cmap</strong> : af.COLORMAP.</p>
-<blockquote class="last">
-<div><p>Set the colormap for the window.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>cmap</strong><span class="classifier">af.COLORMAP.</span></dt><dd><p>Set the colormap for the window.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.set_pos">
-<code class="descname">set_pos</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_pos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_pos" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">set_pos</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_pos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_pos" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the position of window on the screen.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x</strong> : int.</p>
-<blockquote>
-<div><p>Pixel offset from left.</p>
-</div></blockquote>
-<p><strong>y</strong> : int.</p>
-<blockquote class="last">
-<div><p>Pixel offset from top</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x</strong><span class="classifier">int.</span></dt><dd><p>Pixel offset from left.</p>
+</dd>
+<dt><strong>y</strong><span class="classifier">int.</span></dt><dd><p>Pixel offset from top</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.set_size">
-<code class="descname">set_size</code><span class="sig-paren">(</span><em>w</em>, <em>h</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_size"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_size" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">set_size</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">w</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">h</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_size"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the windo height and width.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>w</strong> : int</p>
-<blockquote>
-<div><p>Width if window.</p>
-</div></blockquote>
-<p><strong>h</strong> : int</p>
-<blockquote class="last">
-<div><p>Height of window.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>w</strong><span class="classifier">int</span></dt><dd><p>Width if window.</p>
+</dd>
+<dt><strong>h</strong><span class="classifier">int</span></dt><dd><p>Height of window.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.set_title">
-<code class="descname">set_title</code><span class="sig-paren">(</span><em>title</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_title"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_title" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">set_title</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_title"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_title" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set the title of the window</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>title</strong> : str.</p>
-<blockquote class="last">
-<div><p>Title used for the current window.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>title</strong><span class="classifier">str.</span></dt><dd><p>Title used for the current window.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.set_visibility">
-<code class="descname">set_visibility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_visibility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_visibility" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">set_visibility</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.set_visibility"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.set_visibility" title="Permalink to this definition">¶</a></dt>
 <dd><p>A flag that shows or hides the window as requested.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>is_visible: Flag specifying the visibility of the flag.</strong></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>is_visible: Flag specifying the visibility of the flag.</strong></dt><dd></dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.show">
-<code class="descname">show</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.show"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.show" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">show</span></code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.show"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.show" title="Permalink to this definition">¶</a></dt>
 <dd><p>Force the window to display the contents.</p>
 <p>Note: This is only needed when using the window as a grid.</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.surface">
-<code class="descname">surface</code><span class="sig-paren">(</span><em>x_vals</em>, <em>y_vals</em>, <em>z_vals</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.surface"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.surface" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">surface</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z_vals</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.surface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.surface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Renders the input array as a 3D surface plot.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>x_vals: af.Array.</strong></p>
-<blockquote>
-<div><p>A 1 dimensional array containing X co-ordinates.</p>
-</div></blockquote>
-<p><strong>y_vals: af.Array.</strong></p>
-<blockquote>
-<div><p>A 1 dimensional array containing Y co-ordinates.</p>
-</div></blockquote>
-<p><strong>z_vals: af.Array.</strong></p>
-<blockquote>
-<div><p>A 1 dimensional array containing Z co-ordinates.</p>
-</div></blockquote>
-<p><strong>title: str.</strong></p>
-<blockquote class="last">
-<div><p>Title used for the plot.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>x_vals: af.Array.</strong></dt><dd><p>A 1 dimensional array containing X co-ordinates.</p>
+</dd>
+<dt><strong>y_vals: af.Array.</strong></dt><dd><p>A 1 dimensional array containing Y co-ordinates.</p>
+</dd>
+<dt><strong>z_vals: af.Array.</strong></dt><dd><p>A 1 dimensional array containing Z co-ordinates.</p>
+</dd>
+<dt><strong>title: str.</strong></dt><dd><p>Title used for the plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="arrayfire.graphics.Window.vector_field">
-<code class="descname">vector_field</code><span class="sig-paren">(</span><em>xpoints</em>, <em>xdirs</em>, <em>ypoints</em>, <em>ydirs</em>, <em>zpoints=None</em>, <em>zdirs=None</em>, <em>points=None</em>, <em>dirs=None</em>, <em>title=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.vector_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#arrayfire.graphics.Window.vector_field" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">vector_field</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xpoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xdirs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ypoints</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ydirs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zpoints</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zdirs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">points</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dirs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/arrayfire/graphics.html#Window.vector_field"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#arrayfire.graphics.Window.vector_field" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a 2D or 3D Vector_Field.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xpoints</strong> : af.Array.</p>
-<blockquote>
-<div><ul class="simple">
-<li>A 1 dimensional array containing X co-ordinates.</li>
-<li>Not used if points is not None</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>xpoints</strong><span class="classifier">af.Array.</span></dt><dd><ul class="simple">
+<li><p>A 1 dimensional array containing X co-ordinates.</p></li>
+<li><p>Not used if points is not None</p></li>
 </ul>
-</div></blockquote>
-<p><strong>xdirs</strong> : af.Array.</p>
-<blockquote>
-<div><ul class="simple">
-<li>A 1 dimensional array specifying direction at current location.</li>
-<li>Not used if dirs is not None</li>
+</dd>
+<dt><strong>xdirs</strong><span class="classifier">af.Array.</span></dt><dd><ul class="simple">
+<li><p>A 1 dimensional array specifying direction at current location.</p></li>
+<li><p>Not used if dirs is not None</p></li>
 </ul>
-</div></blockquote>
-<p><strong>ypoints</strong> : af.Array.</p>
-<blockquote>
-<div><ul class="simple">
-<li>A 1 dimensional array containing Y co-ordinates.</li>
-<li>Not used if points is not None</li>
+</dd>
+<dt><strong>ypoints</strong><span class="classifier">af.Array.</span></dt><dd><ul class="simple">
+<li><p>A 1 dimensional array containing Y co-ordinates.</p></li>
+<li><p>Not used if points is not None</p></li>
 </ul>
-</div></blockquote>
-<p><strong>ydirs</strong> : af.Array.</p>
-<blockquote>
-<div><ul class="simple">
-<li>A 1 dimensional array specifying direction at current location.</li>
-<li>Not used if dirs is not None</li>
+</dd>
+<dt><strong>ydirs</strong><span class="classifier">af.Array.</span></dt><dd><ul class="simple">
+<li><p>A 1 dimensional array specifying direction at current location.</p></li>
+<li><p>Not used if dirs is not None</p></li>
 </ul>
-</div></blockquote>
-<p><strong>zpoints</strong> : optional: af.Array. default: None.</p>
-<blockquote>
-<div><ul class="simple">
-<li>A 1 dimensional array containing Z co-ordinates.</li>
-<li>Not used if points is not None</li>
+</dd>
+<dt><strong>zpoints</strong><span class="classifier">optional: af.Array. default: None.</span></dt><dd><ul class="simple">
+<li><p>A 1 dimensional array containing Z co-ordinates.</p></li>
+<li><p>Not used if points is not None</p></li>
 </ul>
-</div></blockquote>
-<p><strong>zdirs</strong> : optional: af.Array. default: none.</p>
-<blockquote>
-<div><ul class="simple">
-<li>A 1 dimensional array specifying direction at current location.</li>
-<li>Not used if dirs is not None</li>
+</dd>
+<dt><strong>zdirs</strong><span class="classifier">optional: af.Array. default: none.</span></dt><dd><ul class="simple">
+<li><p>A 1 dimensional array specifying direction at current location.</p></li>
+<li><p>Not used if dirs is not None</p></li>
 </ul>
-</div></blockquote>
-<p><strong>points</strong> : optional: af.Array. default: None.</p>
-<blockquote>
-<div><ul class="simple">
-<li>A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for plotting 2D lines.</li>
-<li>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</li>
+</dd>
+<dt><strong>points</strong><span class="classifier">optional: af.Array. default: None.</span></dt><dd><ul class="simple">
+<li><p>A 2 dimensional array of size [n 2]. Each column denotes X and Y co-ordinates for plotting 2D lines.</p></li>
+<li><p>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z co-ordinates for plotting 3D lines.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>dirs</strong> : optional: af.Array. default: None.</p>
-<blockquote>
-<div><ul class="simple">
-<li>A 2 dimensional array of size [n 2]. Each column denotes X and Y directions for plotting 2D lines.</li>
-<li>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z directions for plotting 3D lines.</li>
+</dd>
+<dt><strong>dirs</strong><span class="classifier">optional: af.Array. default: None.</span></dt><dd><ul class="simple">
+<li><p>A 2 dimensional array of size [n 2]. Each column denotes X and Y directions for plotting 2D lines.</p></li>
+<li><p>A 3 dimensional array of size [n 3]. Each column denotes X, Y, and Z directions for plotting 3D lines.</p></li>
 </ul>
-</div></blockquote>
-<p><strong>title</strong> : str.</p>
-<blockquote class="last">
-<div><p>Title used for the plot.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt><strong>title</strong><span class="classifier">str.</span></dt><dd><p>Title used for the plot.</p>
+</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -668,6 +547,7 @@ A 3 dimensional array for 3 channel image.</p>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -694,27 +574,33 @@ A 3 dimensional array for 3 channel image.</p>
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Pavan Yalamanchili.
+      &copy;2020, ArrayFire.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
       <a href="_sources/arrayfire.graphics.rst.txt"

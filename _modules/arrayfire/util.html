@@ -1,21 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>arrayfire.util &#8212; ArrayFire Python documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -30,6 +28,8 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <h1>Source code for arrayfire.util</h1><div class="highlight"><pre>
@@ -46,7 +46,7 @@
 <span class="sd">Utility functions to help with Array metadata.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">numbers</span>
 
 <div class="viewcode-block" id="dim4"><a class="viewcode-back" href="../../arrayfire.util.html#arrayfire.util.dim4">[docs]</a><span class="k">def</span> <span class="nf">dim4</span><span class="p">(</span><span class="n">d0</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d1</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d2</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">d3</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
@@ -140,7 +140,8 @@
             <span class="s1">&#39;l&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="p">,</span>
             <span class="s1">&#39;L&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">u64</span><span class="p">,</span>
             <span class="s1">&#39;F&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="p">,</span>
-            <span class="s1">&#39;D&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="p">}</span>
+            <span class="s1">&#39;D&#39;</span> <span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="p">,</span>
+            <span class="s1">&#39;hf&#39;</span><span class="p">:</span> <span class="n">Dtype</span><span class="o">.</span><span class="n">f16</span><span class="p">}</span>
 
 <span class="n">to_typecode</span> <span class="o">=</span> <span class="p">{</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span>
@@ -153,7 +154,8 @@
                <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;l&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">u64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;L&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span>
-               <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;D&#39;</span><span class="p">}</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">f16</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;hf&#39;</span><span class="p">}</span>
 
 <span class="n">to_c_type</span> <span class="o">=</span> <span class="p">{</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">c_float_t</span><span class="p">,</span>
              <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">c_double_t</span><span class="p">,</span>
@@ -166,7 +168,8 @@
              <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">c_longlong_t</span><span class="p">,</span>
              <span class="n">Dtype</span><span class="o">.</span><span class="n">u64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">c_ulonglong_t</span><span class="p">,</span>
              <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">c_float_t</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
-             <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">c_double_t</span> <span class="o">*</span> <span class="mi">2</span><span class="p">}</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">c_double_t</span> <span class="o">*</span> <span class="mi">2</span><span class="p">,</span>
+             <span class="n">Dtype</span><span class="o">.</span><span class="n">f16</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="n">c_ushort_t</span><span class="p">}</span>
 
 <span class="n">to_typename</span> <span class="o">=</span> <span class="p">{</span><span class="n">Dtype</span><span class="o">.</span><span class="n">f32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;float&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">f64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;double&#39;</span><span class="p">,</span>
@@ -179,10 +182,12 @@
                <span class="n">Dtype</span><span class="o">.</span><span class="n">s64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;long int&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">u64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;unsigned long int&#39;</span><span class="p">,</span>
                <span class="n">Dtype</span><span class="o">.</span><span class="n">c32</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;float complex&#39;</span><span class="p">,</span>
-               <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;double complex&#39;</span><span class="p">}</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">c64</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;double complex&#39;</span><span class="p">,</span>
+               <span class="n">Dtype</span><span class="o">.</span><span class="n">f16</span><span class="o">.</span><span class="n">value</span> <span class="p">:</span> <span class="s1">&#39;half&#39;</span><span class="p">}</span>
 </pre></div>
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -211,27 +216,33 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Pavan Yalamanchili.
+      &copy;2020, ArrayFire.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

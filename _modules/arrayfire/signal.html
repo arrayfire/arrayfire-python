@@ -1,21 +1,19 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>arrayfire.signal &#8212; ArrayFire Python documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" type="text/css" href="../../_static/graphviz.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/style.css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script async="async" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="stylesheet" href="../../_static/style.css" type="text/css" />
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
    
@@ -30,6 +28,8 @@
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <h1>Source code for arrayfire.signal</h1><div class="highlight"><pre>
@@ -46,9 +46,9 @@
 <span class="sd">Signal processing functions (fft, convolve, etc).</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">.library</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.array</span> <span class="k">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">.bcast</span> <span class="k">import</span> <span class="n">broadcast</span>
+<span class="kn">from</span> <span class="nn">.library</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.array</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">.bcast</span> <span class="kn">import</span> <span class="n">broadcast</span>
 
 <span class="nd">@broadcast</span>
 <span class="k">def</span> <span class="nf">_scale_pos_axis0</span><span class="p">(</span><span class="n">x_curr</span><span class="p">,</span> <span class="n">x_orig</span><span class="p">):</span>
@@ -62,7 +62,7 @@
     <span class="n">dy</span> <span class="o">=</span> <span class="n">y_orig</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">y0</span>
     <span class="k">return</span><span class="p">((</span><span class="n">y_curr</span> <span class="o">-</span> <span class="n">y0</span><span class="p">)</span> <span class="o">/</span> <span class="n">dy</span><span class="p">)</span>
 
-<div class="viewcode-block" id="approx1"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.approx1">[docs]</a><span class="k">def</span> <span class="nf">approx1</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">,</span> <span class="n">off_grid</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xp</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="approx1"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.approx1">[docs]</a><span class="k">def</span> <span class="nf">approx1</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">,</span> <span class="n">off_grid</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xp</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Interpolate along a single dimension.Interpolation is performed along axis 0</span>
 <span class="sd">    of the input array.</span>
@@ -86,6 +86,10 @@
 <span class="sd">    xp : af.Array</span>
 <span class="sd">         The x-coordinates of the input data points</span>
 
+<span class="sd">    output: None or af.Array</span>
+<span class="sd">        Optional preallocated output array. If it is a sub-array of an existing af_array,</span>
+<span class="sd">        only the corresponding portion of the af_array will be overwritten</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 
@@ -100,20 +104,86 @@
 <span class="sd">    where N is the length of the first dimension of `signal`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
 
-    <span class="k">if</span><span class="p">(</span><span class="n">xp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="n">pos0</span> <span class="o">=</span> <span class="n">_scale_pos_axis0</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xp</span><span class="p">)</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">xp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">pos0</span> <span class="o">=</span> <span class="n">_scale_pos_axis0</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pos0</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx1</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                           <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">pos0</span> <span class="o">=</span> <span class="n">x</span>
-
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx1</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
-                                       <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">xp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">pos0</span> <span class="o">=</span> <span class="n">_scale_pos_axis0</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pos0</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx1_v2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                              <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
+
+<div class="viewcode-block" id="approx1_uniform"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.approx1_uniform">[docs]</a><span class="k">def</span> <span class="nf">approx1_uniform</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">interp_dim</span><span class="p">,</span> <span class="n">idx_start</span><span class="p">,</span> <span class="n">idx_step</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">,</span> <span class="n">off_grid</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interpolation on one dimensional signals along specified dimension.</span>
+
+<span class="sd">    af_approx1_uniform() accepts the dimension to perform the interpolation along the input.</span>
+<span class="sd">    It also accepts start and step values which define the uniform range of corresponding indices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            Input signal array (signal = f(x))</span>
+
+<span class="sd">    x: af.Array</span>
+<span class="sd">       The x-coordinates of the interpolation points. The interpolation </span>
+<span class="sd">       function is queried at these set of points.</span>
+
+<span class="sd">    interp_dim: scalar</span>
+<span class="sd">        is the dimension to perform interpolation across.</span>
+
+<span class="sd">    idx_start: scalar</span>
+<span class="sd">        is the first index value along interp_dim.</span>
+
+<span class="sd">    idx_step: scalar</span>
+<span class="sd">        is the uniform spacing value between subsequent indices along interp_dim.</span>
+
+<span class="sd">    method: optional: af.INTERP. default: af.INTERP.LINEAR.</span>
+<span class="sd">            Interpolation method.</span>
+
+<span class="sd">    off_grid: optional: scalar. default: 0.0.</span>
+<span class="sd">            The value used for positions outside the range.</span>
+
+<span class="sd">    output: None or af.Array</span>
+<span class="sd">        Optional preallocated output array. If it is a sub-array of an existing af_array,</span>
+<span class="sd">        only the corresponding portion of the af_array will be overwritten</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            Values calculated at interpolation points.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx1_uniform</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                           <span class="n">c_dim_t</span><span class="p">(</span><span class="n">interp_dim</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_start</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_step</span><span class="p">),</span>
+                                           <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx1_uniform_v2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                           <span class="n">c_dim_t</span><span class="p">(</span><span class="n">interp_dim</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_start</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_step</span><span class="p">),</span>
+                                           <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
 <div class="viewcode-block" id="approx2"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.approx2">[docs]</a><span class="k">def</span> <span class="nf">approx2</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span>
-            <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">,</span> <span class="n">off_grid</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xp</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">yp</span> <span class="o">=</span> <span class="kc">None</span> 
-           <span class="p">):</span>
+            <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">,</span> <span class="n">off_grid</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">xp</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">yp</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Interpolate along a two dimension.Interpolation is performed along axes 0 and 1</span>
 <span class="sd">    of the input array.</span>
@@ -147,6 +217,10 @@
 <span class="sd">         The y-coordinates of the input data points. The convention followed is that</span>
 <span class="sd">         the y-coordinates vary along axis 1</span>
 
+<span class="sd">    output: None or af.Array</span>
+<span class="sd">        Optional preallocated output array. If it is a sub-array of an existing af_array,</span>
+<span class="sd">        only the corresponding portion of the af_array will be overwritten</span>
+
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 
@@ -162,21 +236,113 @@
 <span class="sd">    and N is the length of the second dimension of `signal`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
-    
-    <span class="k">if</span><span class="p">(</span><span class="n">xp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="n">pos0</span> <span class="o">=</span> <span class="n">_scale_pos_axis0</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xp</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">pos0</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
 
-    <span class="k">if</span><span class="p">(</span><span class="n">yp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="n">pos1</span> <span class="o">=</span> <span class="n">_scale_pos_axis1</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">pos1</span> <span class="o">=</span> <span class="n">y</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">xp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">pos0</span> <span class="o">=</span> <span class="n">_scale_pos_axis0</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pos0</span> <span class="o">=</span> <span class="n">x</span>
 
-    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
-                                       <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos1</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">yp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">pos1</span> <span class="o">=</span> <span class="n">_scale_pos_axis1</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pos1</span> <span class="o">=</span> <span class="n">y</span>
+
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                           <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos1</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">xp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">pos0</span> <span class="o">=</span> <span class="n">_scale_pos_axis0</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">xp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pos0</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="n">yp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="n">pos1</span> <span class="o">=</span> <span class="n">_scale_pos_axis1</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">yp</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pos1</span> <span class="o">=</span> <span class="n">y</span>
+
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx2_v2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                              <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">pos1</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+
     <span class="k">return</span> <span class="n">output</span></div>
+
+<div class="viewcode-block" id="approx2_uniform"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.approx2_uniform">[docs]</a><span class="k">def</span> <span class="nf">approx2_uniform</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">pos0</span><span class="p">,</span> <span class="n">interp_dim0</span><span class="p">,</span> <span class="n">idx_start0</span><span class="p">,</span> <span class="n">idx_step0</span><span class="p">,</span> <span class="n">pos1</span><span class="p">,</span> <span class="n">interp_dim1</span><span class="p">,</span> <span class="n">idx_start1</span><span class="p">,</span> <span class="n">idx_step1</span><span class="p">,</span>
+            <span class="n">method</span><span class="o">=</span><span class="n">INTERP</span><span class="o">.</span><span class="n">LINEAR</span><span class="p">,</span> <span class="n">off_grid</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Interpolate along two uniformly spaced dimensions of the input array.</span>
+<span class="sd">    af_approx2_uniform() accepts two dimensions to perform the interpolation along the input.</span>
+<span class="sd">    It also accepts start and step values which define the uniform range of corresponding indices.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            Input signal array (signal = f(x, y))</span>
+
+<span class="sd">    pos0 : af.Array</span>
+<span class="sd">        positions of the interpolation points along interp_dim0.</span>
+
+<span class="sd">    interp_dim0: scalar</span>
+<span class="sd">        is the first dimension to perform interpolation across.</span>
+
+<span class="sd">    idx_start0: scalar</span>
+<span class="sd">        is the first index value along interp_dim0.</span>
+
+<span class="sd">    idx_step0: scalar</span>
+<span class="sd">        is the uniform spacing value between subsequent indices along interp_dim0.</span>
+
+<span class="sd">    pos1 : af.Array</span>
+<span class="sd">        positions of the interpolation points along interp_dim1.</span>
+
+<span class="sd">    interp_dim1: scalar</span>
+<span class="sd">        is the second dimension to perform interpolation across.</span>
+
+<span class="sd">    idx_start1: scalar</span>
+<span class="sd">        is the first index value along interp_dim1.</span>
+
+<span class="sd">    idx_step1: scalar</span>
+<span class="sd">        is the uniform spacing value between subsequent indices along interp_dim1.</span>
+
+<span class="sd">    method: optional: af.INTERP. default: af.INTERP.LINEAR.</span>
+<span class="sd">            Interpolation method.</span>
+
+<span class="sd">    off_grid: optional: scalar. default: 0.0.</span>
+<span class="sd">            The value used for positions outside the range.</span>
+
+<span class="sd">    output: None or af.Array</span>
+<span class="sd">        Optional preallocated output array. If it is a sub-array of an existing af_array,</span>
+<span class="sd">        only the corresponding portion of the af_array will be overwritten</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">            Values calculated at interpolation points.</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    -----</span>
+<span class="sd">    This holds applicable when x_input/y_input isn&#39;t provided:</span>
+
+<span class="sd">    The initial measurements are assumed to have taken place at equal steps between [(0,0) - [M - 1, N - 1]]</span>
+<span class="sd">    where M is the length of the first dimension of `signal`,</span>
+<span class="sd">    and N is the length of the second dimension of `signal`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx2_uniform</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                           <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">interp_dim0</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_start0</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_step0</span><span class="p">),</span>
+                                           <span class="n">pos1</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">interp_dim1</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_start1</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_step1</span><span class="p">),</span>
+                                           <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_approx2_uniform_v2</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                           <span class="n">pos0</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">interp_dim0</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_start0</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_step0</span><span class="p">),</span>
+                                           <span class="n">pos1</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">c_dim_t</span><span class="p">(</span><span class="n">interp_dim1</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_start1</span><span class="p">),</span> <span class="n">c_double_t</span><span class="p">(</span><span class="n">idx_step1</span><span class="p">),</span>
+                                           <span class="n">method</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">c_float_t</span><span class="p">(</span><span class="n">off_grid</span><span class="p">)))</span>
+
+    <span class="k">return</span> <span class="n">output</span></div>
+
 
 <div class="viewcode-block" id="fft"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.fft">[docs]</a><span class="k">def</span> <span class="nf">fft</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">dim0</span> <span class="o">=</span> <span class="kc">None</span> <span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -1007,6 +1173,56 @@
                                          <span class="n">conv_mode</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">conv_domain</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
+<div class="viewcode-block" id="convolve2NN"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.convolve2NN">[docs]</a><span class="k">def</span> <span class="nf">convolve2NN</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">stride</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">padding</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">dilation</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This version of convolution is consistent with the machine learning</span>
+<span class="sd">    formulation that will spatially convolve a filter on 2-dimensions against a</span>
+<span class="sd">    signal. Multiple signals and filters can be batched against each other.</span>
+<span class="sd">    Furthermore, the signals and filters can be multi-dimensional however their</span>
+<span class="sd">    dimensions must match.</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        Signals with dimensions: d0 x d1 x d2 x Ns</span>
+<span class="sd">        Filters with dimensions: d0 x d1 x d2 x Nf</span>
+
+<span class="sd">        Resulting Convolution:   d0 x d1 x Nf x Ns</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    -----------</span>
+
+<span class="sd">    signal: af.Array</span>
+<span class="sd">            - A 2 dimensional signal or batch of 2 dimensional signals.</span>
+
+<span class="sd">    kernel: af.Array</span>
+<span class="sd">            - A 2 dimensional kernel or batch of 2 dimensional kernels.</span>
+
+<span class="sd">    stride: tuple of ints. default: (1, 1).</span>
+<span class="sd">            - Specifies how much to stride along each dimension</span>
+
+<span class="sd">    padding: tuple of ints. default: (0, 0).</span>
+<span class="sd">            - Specifies signal padding along each dimension</span>
+
+<span class="sd">    dilation: tuple of ints. default: (1, 1).</span>
+<span class="sd">            - Specifies how much to dilate kernel along each dimension before convolution</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    --------</span>
+
+<span class="sd">    output: af.Array</span>
+<span class="sd">          - Convolved 2D array.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">Array</span><span class="p">()</span>
+    <span class="n">stride_dim</span>   <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">stride</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>   <span class="n">stride</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">padding_dim</span>  <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">padding</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>  <span class="n">padding</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">dilation_dim</span> <span class="o">=</span> <span class="n">dim4</span><span class="p">(</span><span class="n">dilation</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dilation</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="n">safe_call</span><span class="p">(</span><span class="n">backend</span><span class="o">.</span><span class="n">get</span><span class="p">()</span><span class="o">.</span><span class="n">af_convolve2_nn</span><span class="p">(</span><span class="n">c_pointer</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">arr</span><span class="p">),</span> <span class="n">signal</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span> <span class="n">kernel</span><span class="o">.</span><span class="n">arr</span><span class="p">,</span>
+                                            <span class="mi">2</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">stride_dim</span><span class="p">),</span>
+                                            <span class="mi">2</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">padding_dim</span><span class="p">),</span>
+                                            <span class="mi">2</span><span class="p">,</span> <span class="n">c_pointer</span><span class="p">(</span><span class="n">dilation_dim</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
 <div class="viewcode-block" id="convolve2_separable"><a class="viewcode-back" href="../../arrayfire.signal.html#arrayfire.signal.convolve2_separable">[docs]</a><span class="k">def</span> <span class="nf">convolve2_separable</span><span class="p">(</span><span class="n">col_kernel</span><span class="p">,</span> <span class="n">row_kernel</span><span class="p">,</span> <span class="n">signal</span><span class="p">,</span> <span class="n">conv_mode</span> <span class="o">=</span> <span class="n">CONV_MODE</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Convolution: 2D separable convolution</span>
@@ -1454,6 +1670,7 @@
 </pre></div>
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
@@ -1482,27 +1699,33 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, Pavan Yalamanchili.
+      &copy;2020, ArrayFire.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.1</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.5.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 
