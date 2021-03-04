@@ -26,14 +26,14 @@ def calc_pi_device(samples):
 Choosing a particular backend can be done using `af.set_backend(name)`  where name is either "_cuda_", "_opencl_", or "_cpu_". The default device is chosen in the same order of preference.
 
 ## Getting started
-ArrayFire can be installed from a variety of sources. [Pre-built wheels](https://repo.arrayfire.com/python/wheels/3.8.0/) are available for a number of systems and toolkits. Wheels for some systems are available on PyPI. Unsupported systems will require separate installation of the ArrayFire C/C++ libraries and only the python wrapper will be installed in that case. 
+ArrayFire can be installed from a variety of sources. [Pre-built wheels](https://repo.arrayfire.com/python/wheels/3.8.0/) are available for a number of systems and toolkits. These will include a distribution of the ArrayFire libraries. Currently, only the python wrapper is available on PyPI. Wrapper-only installations will require a separate installation of the ArrayFire C/C++ libraries. 
 You can get the ArrayFire C/C++ library from the following sources:
 
 - [Download and install binaries](https://arrayfire.com/download)
 - [Build and install from source](https://github.com/arrayfire/arrayfire)
 
 
-**Install the last stable version:**  
+**Install the last stable version of python wrapper:**  
 ```
 pip install arrayfire
 ```
