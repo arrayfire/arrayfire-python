@@ -10,7 +10,7 @@ from arrayfire.array import _in_display_dims_limit  # TODO refactoring
 from ._dtypes import CShape, Dtype, c_dim_t, float32, supported_dtypes
 from ._utils import Device, PointerSource, to_str
 
-ShapeType = tuple[None | int, ...]
+ShapeType = tuple[int, ...]
 
 
 @dataclass
@@ -30,9 +30,10 @@ class Array:
     arr = ctypes.c_void_p(0)
 
     def __init__(
-            self, x: None | Array | py_array.array | list = None, dtype: None | Dtype = None,
-            pointer_source: PointerSource = PointerSource.host, shape: None | tuple[int] = None,
-            offset: None | ctypes._SimpleCData[int] = None, strides: None | tuple[int, ...] = None) -> None:
+            self, x: None | Array | py_array.array | int | ctypes.c_void_p | list = None, dtype: None | Dtype = None,
+            pointer_source: PointerSource = PointerSource.host, shape: None | ShapeType = None,
+            offset: None | ctypes._SimpleCData[int] = None, strides: None | ShapeType = None) -> None:
+        _no_initial_dtype = False  # HACK, FIXME
 
         if isinstance(dtype, str):
             dtype = _str_to_dtype(dtype)
@@ -69,7 +70,7 @@ class Array:
             _array_buffer = _ArrayBuffer(x if not isinstance(x, ctypes.c_void_p) else x.value)
 
             if not shape:
-                raise RuntimeError("Expected to receive the initial shape due to the x being a data pointer.")
+                raise TypeError("Expected to receive the initial shape due to the x being a data pointer.")
 
             if _no_initial_dtype:
                 raise TypeError("Expected to receive the initial dtype due to the x being a data pointer.")
@@ -206,7 +207,7 @@ def _metadata_string(dtype: Dtype, dims: None | ShapeType = None) -> str:
         f"Dims: {str(dims) if dims else ''}")
 
 
-def _get_cshape(shape: None | tuple[int], buffer_length: int) -> CShape:
+def _get_cshape(shape: None | ShapeType, buffer_length: int) -> CShape:
     if shape:
         return CShape(*shape)
 
