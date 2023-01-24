@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import ctypes
 from dataclasses import dataclass
 from typing import Type
@@ -31,6 +33,39 @@ complex128 = Dtype("D", ctypes.c_double*2, "double complext", 3)  # type: ignore
 bool = Dtype("b", ctypes.c_bool, "bool", 4)
 
 supported_dtypes = [
-    # int8,
     int16, int32, int64, uint8, uint16, uint32, uint64, float32, float64, complex64, complex128, bool
 ]
+
+
+class CShape(tuple):
+    def __new__(cls, *args: int) -> CShape:
+        cls.original_shape = len(args)
+        return tuple.__new__(cls, args)
+
+    def __init__(self, x1: int = 1, x2: int = 1, x3: int = 1, x4: int = 1) -> None:
+        self.x1 = x1
+        self.x2 = x2
+        self.x3 = x3
+        self.x4 = x4
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}{self.x1, self.x2, self.x3, self.x4}"
+
+    @property
+    def c_array(self):  # type: ignore[no-untyped-def]
+        c_shape = c_dim_t * 4  # ctypes.c_int | ctypes.c_longlong * 4
+        return c_shape(c_dim_t(self.x1), c_dim_t(self.x2), c_dim_t(self.x3), c_dim_t(self.x4))
+
+
+# @safe_call
+# def backend()
+#     ...
+
+# @backend(safe=True)
+# def af_get_type(arr) -> ...:
+#     dty = ctypes.c_int()
+#     safe_call(backend.get().af_get_type(ctypes.pointer(dty), self.arr)) # -> new dty
+#     return dty
+
+# def new_dtype():
+#     return af_get_type(self.arr)
