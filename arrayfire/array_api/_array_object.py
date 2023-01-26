@@ -3,14 +3,25 @@ from __future__ import annotations
 import array as py_array
 import ctypes
 from dataclasses import dataclass
+from typing import Any
 
 from arrayfire import backend, safe_call  # TODO refactoring
 from arrayfire.array import _in_display_dims_limit  # TODO refactoring
 
-from ._dtypes import CShape, Dtype, c_dim_t, float32, supported_dtypes
-from ._utils import Device, PointerSource, to_str
+from ._dtypes import CShape, Dtype
+from ._dtypes import bool as af_bool
+from ._dtypes import c_dim_t
+from ._dtypes import complex64 as af_complex64
+from ._dtypes import complex128 as af_complex128
+from ._dtypes import float32 as af_float32
+from ._dtypes import float64 as af_float64
+from ._dtypes import int64 as af_int64
+from ._dtypes import supported_dtypes
+from ._dtypes import uint64 as af_uint64
+from ._utils import PointerSource, is_number, to_str
 
 ShapeType = tuple[int, ...]
+_bcast_var = False  # HACK, TODO replace for actual bcast_var after refactoring
 
 
 @dataclass
@@ -40,7 +51,7 @@ class Array:
 
         if dtype is None:
             _no_initial_dtype = True
-            dtype = float32
+            dtype = af_float32
 
         if x is None:
             if not shape:  # shape is None or empty tuple
@@ -134,15 +145,47 @@ class Array:
         """
         Return -self
         """
-        # return 0 - self
-        raise NotImplementedError
+        return 0 - self
 
     def __add__(self, other: int | float | Array, /) -> Array:
+        # TODO discuss either we need to support complex and bool as other input type
         """
         Return self + other.
         """
-        # return _binary_func(self, other, backend.get().af_add)  # TODO
-        raise NotImplementedError
+        return _process_c_function(self, other, backend.get().af_add)
+
+    def __sub__(self, other: int | float | bool | complex | Array, /) -> Array:
+        """
+        Return self - other.
+        """
+        return _process_c_function(self, other, backend.get().af_sub)
+
+    def __mul__(self, other: int | float | bool | complex | Array, /) -> Array:
+        """
+        Return self * other.
+        """
+        return _process_c_function(self, other, backend.get().af_mul)
+
+    def __truediv__(self, other: int | float | bool | complex | Array, /) -> Array:
+        """
+        Return self / other.
+        """
+        return _process_c_function(self, other, backend.get().af_div)
+
+    def __floordiv__(self, other: int | float | bool | complex | Array, /) -> Array:
+        return NotImplemented
+
+    def __mod__(self, other: int | float | bool | complex | Array, /) -> Array:
+        """
+        Return self % other.
+        """
+        return _process_c_function(self, other, backend.get().af_mod)
+
+    def __pow__(self, other: int | float | bool | complex | Array, /) -> Array:
+        """
+        Return self ** other.
+        """
+        return _process_c_function(self, other, backend.get().af_pow)
 
     @property
     def dtype(self) -> Dtype:
@@ -151,7 +194,7 @@ class Array:
         return _c_api_value_to_dtype(out.value)
 
     @property
-    def device(self) -> Device:
+    def device(self) -> Any:
         raise NotImplementedError
 
     @property
@@ -232,41 +275,66 @@ def _str_to_dtype(value: int) -> Dtype:
 
     raise TypeError("There is no supported dtype that matches passed dtype typecode.")
 
-# TODO
-# def _binary_func(lhs: int | float | Array, rhs: int | float | Array, c_func: Any) -> Array:  # TODO replace Any
-#     out = Array()
-#     other = rhs
 
-#     if is_number(rhs):
-#         ldims = _fill_dim4_tuple(lhs.shape)
-#         rty = implicit_dtype(rhs, lhs.type())
-#         other = Array()
-#         other.arr = constant_array(rhs, ldims[0], ldims[1], ldims[2], ldims[3], rty.value)
-#     elif not isinstance(rhs, Array):
-#         raise TypeError("Invalid parameter to binary function")
+def _process_c_function(
+        target: Array, other: int | float | bool | complex | Array, c_function: Any) -> Array:
+    out = Array()
 
-#     safe_call(c_func(c_pointer(out.arr), lhs.arr, other.arr, _bcast_var.get()))
+    if isinstance(other, Array):
+        safe_call(c_function(ctypes.pointer(out.arr), target.arr, other.arr, _bcast_var))
+    elif is_number(other):
+        target_c_shape = CShape(*target.shape)
+        other_dtype = _implicit_dtype(other, target.dtype)
+        other_array = _constant_array(other, target_c_shape, other_dtype)
+        safe_call(c_function(ctypes.pointer(out.arr), target.arr, other_array.arr, _bcast_var))
+    else:
+        raise TypeError(f"{type(other)} is not supported and can not be passed to C binary function.")
 
-#     return out
+    return out
 
 
-# TODO replace candidate below
-# def dim4_to_tuple(shape: ShapeType, default: int=1) -> ShapeType:
-#     assert(isinstance(dims, tuple))
+def _implicit_dtype(value: int | float | bool | complex, array_dtype: Dtype) -> Dtype:
+    if isinstance(value, bool):
+        value_dtype = af_bool
+    if isinstance(value, int):
+        value_dtype = af_int64
+    elif isinstance(value, float):
+        value_dtype = af_float64
+    elif isinstance(value, complex):
+        value_dtype = af_complex128
+    else:
+        raise TypeError(f"{type(value)} is not supported and can not be converted to af.Dtype.")
 
-#     if (default is not None):
-#         assert(is_number(default))
+    if not (array_dtype == af_float32 or array_dtype == af_complex64):
+        return value_dtype
 
-#     out = [default]*4
+    if value_dtype == af_float64:
+        return af_float32
 
-#     for i, dim in enumerate(dims):
-#         out[i] = dim
+    if value_dtype == af_complex128:
+        return af_complex64
 
-#     return tuple(out)
+    return value_dtype
 
-# def _fill_dim4_tuple(shape: ShapeType) -> tuple[int, ...]:
-#     out = tuple([1 if value is None else value for value in shape])
-#     if len(out) == 4:
-#         return out
 
-#     return out + (1,)*(4-len(out))
+def _constant_array(value: int | float | bool | complex, shape: CShape, dtype: Dtype) -> Array:
+    out = Array()
+
+    if isinstance(value, complex):
+        if dtype != af_complex64 and dtype != af_complex128:
+            dtype = af_complex64
+
+        safe_call(backend.get().af_constant_complex(
+            ctypes.pointer(out.arr), ctypes.c_double(value.real), ctypes.c_double(value.imag), 4,
+            ctypes.pointer(shape.c_array), dtype))
+    elif dtype == af_int64:
+        safe_call(backend.get().af_constant_long(
+            ctypes.pointer(out.arr), ctypes.c_longlong(value.real), 4, ctypes.pointer(shape.c_array)))
+    elif dtype == af_uint64:
+        safe_call(backend.get().af_constant_ulong(
+            ctypes.pointer(out.arr), ctypes.c_ulonglong(value.real), 4, ctypes.pointer(shape.c_array)))
+    else:
+        safe_call(backend.get().af_constant(
+            ctypes.pointer(out.arr), ctypes.c_double(value), 4, ctypes.pointer(shape.c_array), dtype))
+
+    return out
