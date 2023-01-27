@@ -193,6 +193,51 @@ class Array:
         # TODO
         return NotImplemented
 
+    def __radd__(self, other: Array, /) -> Array:
+        # TODO discuss either we need to support complex and bool as other input type
+        """
+        Return other + self.
+        """
+        return _process_c_function(other, self, backend.get().af_add)
+
+    def __rsub__(self, other: Array, /) -> Array:
+        """
+        Return other - self.
+        """
+        return _process_c_function(other, self, backend.get().af_sub)
+
+    def __rmul__(self, other: Array, /) -> Array:
+        """
+        Return other * self.
+        """
+        return _process_c_function(other, self, backend.get().af_mul)
+
+    def __rtruediv__(self, other: Array, /) -> Array:
+        """
+        Return other / self.
+        """
+        return _process_c_function(other, self, backend.get().af_div)
+
+    def __rfloordiv__(self, other:  Array, /) -> Array:
+        # TODO
+        return NotImplemented
+
+    def __rmod__(self, other: Array, /) -> Array:
+        """
+        Return other / self.
+        """
+        return _process_c_function(other, self, backend.get().af_mod)
+
+    def __rpow__(self, other: Array, /) -> Array:
+        """
+        Return other ** self.
+        """
+        return _process_c_function(other, self, backend.get().af_pow)
+
+    def __rmatmul__(self, other: Array, /) -> Array:
+        # TODO
+        return NotImplemented
+
     def __getitem__(self, key: int | slice | tuple[int | slice] | Array, /) -> Array:
         # TODO: API Specification - key: int | slice | ellipsis | tuple[int | slice] | Array
         # TODO: refactor
