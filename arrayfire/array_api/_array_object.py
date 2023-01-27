@@ -5,8 +5,9 @@ import ctypes
 from dataclasses import dataclass
 from typing import Any
 
-from arrayfire import backend, safe_call  # TODO refactoring
-from arrayfire.array import _in_display_dims_limit  # TODO refactoring
+from arrayfire import backend, safe_call  # TODO refactor
+from arrayfire.algorithm import count  # TODO refactor
+from arrayfire.array import _get_indices, _in_display_dims_limit  # TODO refactor
 
 from ._dtypes import CShape, Dtype
 from ._dtypes import bool as af_bool
@@ -37,14 +38,14 @@ class Array:
     # arrayfire's __radd__() instead of numpy's __add__()
     __array_priority__ = 30
 
-    # Initialisation
-    arr = ctypes.c_void_p(0)
-
     def __init__(
             self, x: None | Array | py_array.array | int | ctypes.c_void_p | list = None, dtype: None | Dtype = None,
             pointer_source: PointerSource = PointerSource.host, shape: None | ShapeType = None,
             offset: None | ctypes._SimpleCData[int] = None, strides: None | ShapeType = None) -> None:
         _no_initial_dtype = False  # HACK, FIXME
+
+        # Initialise array object
+        self.arr = ctypes.c_void_p(0)
 
         if isinstance(dtype, str):
             dtype = _str_to_dtype(dtype)
@@ -127,7 +128,7 @@ class Array:
         if not _in_display_dims_limit(self.shape):
             return _metadata_string(self.dtype, self.shape)
 
-        return _metadata_string(self.dtype) + self._as_str()
+        return _metadata_string(self.dtype) + _array_as_str(self)
 
     def __repr__(self) -> str:  # FIXME
         return _metadata_string(self.dtype, self.shape)
@@ -173,6 +174,7 @@ class Array:
         return _process_c_function(self, other, backend.get().af_div)
 
     def __floordiv__(self, other: int | float | bool | complex | Array, /) -> Array:
+        # TODO
         return NotImplemented
 
     def __mod__(self, other: int | float | bool | complex | Array, /) -> Array:
@@ -186,6 +188,25 @@ class Array:
         Return self ** other.
         """
         return _process_c_function(self, other, backend.get().af_pow)
+
+    def __matmul__(self, other: Array, /) -> Array:
+        # TODO
+        return NotImplemented
+
+    def __getitem__(self, key: int | slice | tuple[int | slice] | Array, /) -> Array:
+        # TODO: API Specification - key: int | slice | ellipsis | tuple[int | slice] | Array
+        # TODO: refactor
+        out = Array()
+        ndims = self.ndim
+
+        if isinstance(key, Array) and key == af_bool.c_api_value:
+            ndims = 1
+            if count(key) == 0:
+                return out
+
+        safe_call(backend.get().af_index_gen(
+            ctypes.pointer(out.arr), self.arr, c_dim_t(ndims), _get_indices(key).pointer))
+        return out
 
     @property
     def dtype(self) -> Dtype:
@@ -234,13 +255,23 @@ class Array:
             ctypes.pointer(d0), ctypes.pointer(d1), ctypes.pointer(d2), ctypes.pointer(d3), self.arr))
         return (d0.value, d1.value, d2.value, d3.value)[:self.ndim]  # Skip passing None values
 
-    def _as_str(self) -> str:
-        arr_str = ctypes.c_char_p(0)
-        # FIXME add description to passed arguments
-        safe_call(backend.get().af_array_to_string(ctypes.pointer(arr_str), "", self.arr, 4, True))
-        py_str = to_str(arr_str)
-        safe_call(backend.get().af_free_host(arr_str))
-        return py_str
+    def scalar(self) -> int | float | bool | complex:
+        """
+        Return the first element of the array
+        """
+        # BUG seg fault on empty array
+        out = self.dtype.c_type()
+        safe_call(backend.get().af_get_scalar(ctypes.pointer(out), self.arr))
+        return out.value  # type: ignore[no-any-return]  # FIXME
+
+
+def _array_as_str(array: Array) -> str:
+    arr_str = ctypes.c_char_p(0)
+    # FIXME add description to passed arguments
+    safe_call(backend.get().af_array_to_string(ctypes.pointer(arr_str), "", array.arr, 4, True))
+    py_str = to_str(arr_str)
+    safe_call(backend.get().af_free_host(arr_str))
+    return py_str
 
 
 def _metadata_string(dtype: Dtype, dims: None | ShapeType = None) -> str:
@@ -283,9 +314,8 @@ def _process_c_function(
     if isinstance(other, Array):
         safe_call(c_function(ctypes.pointer(out.arr), target.arr, other.arr, _bcast_var))
     elif is_number(other):
-        target_c_shape = CShape(*target.shape)
         other_dtype = _implicit_dtype(other, target.dtype)
-        other_array = _constant_array(other, target_c_shape, other_dtype)
+        other_array = _constant_array(other, CShape(*target.shape), other_dtype)
         safe_call(c_function(ctypes.pointer(out.arr), target.arr, other_array.arr, _bcast_var))
     else:
         raise TypeError(f"{type(other)} is not supported and can not be passed to C binary function.")
@@ -326,7 +356,7 @@ def _constant_array(value: int | float | bool | complex, shape: CShape, dtype: D
 
         safe_call(backend.get().af_constant_complex(
             ctypes.pointer(out.arr), ctypes.c_double(value.real), ctypes.c_double(value.imag), 4,
-            ctypes.pointer(shape.c_array), dtype))
+            ctypes.pointer(shape.c_array), dtype.c_api_value))
     elif dtype == af_int64:
         safe_call(backend.get().af_constant_long(
             ctypes.pointer(out.arr), ctypes.c_longlong(value.real), 4, ctypes.pointer(shape.c_array)))
@@ -335,6 +365,6 @@ def _constant_array(value: int | float | bool | complex, shape: CShape, dtype: D
             ctypes.pointer(out.arr), ctypes.c_ulonglong(value.real), 4, ctypes.pointer(shape.c_array)))
     else:
         safe_call(backend.get().af_constant(
-            ctypes.pointer(out.arr), ctypes.c_double(value), 4, ctypes.pointer(shape.c_array), dtype))
+            ctypes.pointer(out.arr), ctypes.c_double(value), 4, ctypes.pointer(shape.c_array), dtype.c_api_value))
 
     return out
