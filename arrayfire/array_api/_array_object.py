@@ -87,7 +87,7 @@ class Array:
             if _no_initial_dtype:
                 raise TypeError("Expected to receive the initial dtype due to the x being a data pointer.")
 
-            _type_char = dtype.typecode
+            _type_char = dtype.typecode  # type: ignore[assignment]  # FIXME
 
         else:
             raise TypeError("Passed object x is an object of unsupported class.")
@@ -138,6 +138,8 @@ class Array:
     def __len__(self) -> int:
         return self.shape[0] if self.shape else 0  # type: ignore[return-value]
 
+    # Arithmetic Operators
+
     def __pos__(self) -> Array:
         """
         Return +self
@@ -148,7 +150,7 @@ class Array:
         """
         Return -self
         """
-        return 0 - self
+        return 0 - self  # type: ignore[no-any-return, operator]  # FIXME
 
     def __add__(self, other: int | float | Array, /) -> Array:
         # TODO discuss either we need to support complex and bool as other input type
@@ -191,9 +193,91 @@ class Array:
         """
         return _process_c_function(self, other, backend.get().af_pow)
 
+    # Array Operators
+
     def __matmul__(self, other: Array, /) -> Array:
         # TODO
         return NotImplemented
+
+    # Bitwise Operators
+
+    def __invert__(self) -> Array:
+        """
+        Return ~self.
+        """
+        out = Array()
+        safe_call(backend.get().af_bitnot(ctypes.pointer(out.arr), self.arr))
+        return out
+
+    def __and__(self, other: int | bool | Array, /) -> Array:
+        """
+        Return self & other.
+        """
+        return _process_c_function(self, other, backend.get().af_bitand)
+
+    def __or__(self, other: int | bool | Array, /) -> Array:
+        """
+        Return self | other.
+        """
+        return _process_c_function(self, other, backend.get().af_bitor)
+
+    def __xor__(self, other: int | bool | Array, /) -> Array:
+        """
+        Return self ^ other.
+        """
+        return _process_c_function(self, other, backend.get().af_bitxor)
+
+    def __lshift__(self, other: int | Array, /) -> Array:
+        """
+        Return self << other.
+        """
+        return _process_c_function(self, other, backend.get().af_bitshiftl)
+
+    def __rshift__(self, other: int | Array, /) -> Array:
+        """
+        Return self >> other.
+        """
+        return _process_c_function(self, other, backend.get().af_bitshiftr)
+
+    # Comparison Operators
+
+    def __lt__(self, other: int | float | Array, /) -> Array:
+        """
+        Return self < other.
+        """
+        return _process_c_function(self, other, backend.get().af_lt)
+
+    def __le__(self, other: int | float | Array, /) -> Array:
+        """
+        Return self <= other.
+        """
+        return _process_c_function(self, other, backend.get().af_le)
+
+    def __gt__(self, other: int | float | Array, /) -> Array:
+        """
+        Return self > other.
+        """
+        return _process_c_function(self, other, backend.get().af_gt)
+
+    def __ge__(self, other: int | float | Array, /) -> Array:
+        """
+        Return self >= other.
+        """
+        return _process_c_function(self, other, backend.get().af_ge)
+
+    def __eq__(self, other: int | float | bool | Array, /) -> Array:  # type: ignore[override]  # FIXME
+        """
+        Return self == other.
+        """
+        return _process_c_function(self, other, backend.get().af_eq)
+
+    def __ne__(self, other: int | float | bool | Array, /) -> Array:  # type: ignore[override]  # FIXME
+        """
+        Return self != other.
+        """
+        return _process_c_function(self, other, backend.get().af_neq)
+
+    # Reflected Arithmetic Operators
 
     def __radd__(self, other: Array, /) -> Array:
         # TODO discuss either we need to support complex and bool as other input type
@@ -236,9 +320,124 @@ class Array:
         """
         return _process_c_function(other, self, backend.get().af_pow)
 
+    # Reflected Array Operators
+
     def __rmatmul__(self, other: Array, /) -> Array:
         # TODO
         return NotImplemented
+
+    # Reflected Bitwise Operators
+
+    def __rand__(self, other: Array, /) -> Array:
+        """
+        Return other & self.
+        """
+        return _process_c_function(other, self, backend.get().af_bitand)
+
+    def __ror__(self, other: Array, /) -> Array:
+        """
+        Return other & self.
+        """
+        return _process_c_function(other, self, backend.get().af_bitor)
+
+    def __rxor__(self, other: Array, /) -> Array:
+        """
+        Return other ^ self.
+        """
+        return _process_c_function(other, self, backend.get().af_bitxor)
+
+    def __rlshift__(self, other: Array, /) -> Array:
+        """
+        Return other << self.
+        """
+        return _process_c_function(other, self, backend.get().af_bitshiftl)
+
+    def __rrshift__(self, other: Array, /) -> Array:
+        """
+        Return other >> self.
+        """
+        return _process_c_function(other, self, backend.get().af_bitshiftr)
+
+    # In-place Arithmetic Operators
+
+    def __iadd__(self, other: int | float | Array, /) -> Array:
+        # TODO discuss either we need to support complex and bool as other input type
+        """
+        Return self += other.
+        """
+        return _process_c_function(self, other, backend.get().af_add)
+
+    def __isub__(self, other: int | float | bool | complex | Array, /) -> Array:
+        """
+        Return self -= other.
+        """
+        return _process_c_function(self, other, backend.get().af_sub)
+
+    def __imul__(self, other: int | float | bool | complex | Array, /) -> Array:
+        """
+        Return self *= other.
+        """
+        return _process_c_function(self, other, backend.get().af_mul)
+
+    def __itruediv__(self, other: int | float | bool | complex | Array, /) -> Array:
+        """
+        Return self /= other.
+        """
+        return _process_c_function(self, other, backend.get().af_div)
+
+    def __ifloordiv__(self, other: int | float | bool | complex | Array, /) -> Array:
+        # TODO
+        return NotImplemented
+
+    def __imod__(self, other: int | float | bool | complex | Array, /) -> Array:
+        """
+        Return self %= other.
+        """
+        return _process_c_function(self, other, backend.get().af_mod)
+
+    def __ipow__(self, other: int | float | bool | complex | Array, /) -> Array:
+        """
+        Return self **= other.
+        """
+        return _process_c_function(self, other, backend.get().af_pow)
+
+    # In-place Array Operators
+
+    def __imatmul__(self, other: Array, /) -> Array:
+        # TODO
+        return NotImplemented
+
+    # In-place Bitwise Operators
+
+    def __iand__(self, other: int | bool | Array, /) -> Array:
+        """
+        Return self &= other.
+        """
+        return _process_c_function(self, other, backend.get().af_bitand)
+
+    def __ior__(self, other: int | bool | Array, /) -> Array:
+        """
+        Return self |= other.
+        """
+        return _process_c_function(self, other, backend.get().af_bitor)
+
+    def __ixor__(self, other: int | bool | Array, /) -> Array:
+        """
+        Return self ^= other.
+        """
+        return _process_c_function(self, other, backend.get().af_bitxor)
+
+    def __ilshift__(self, other: int | Array, /) -> Array:
+        """
+        Return self <<= other.
+        """
+        return _process_c_function(self, other, backend.get().af_bitshiftl)
+
+    def __irshift__(self, other: int | Array, /) -> Array:
+        """
+        Return self >>= other.
+        """
+        return _process_c_function(self, other, backend.get().af_bitshiftr)
 
     def __getitem__(self, key: int | slice | tuple[int | slice] | Array, /) -> Array:
         # TODO: API Specification - key: int | slice | ellipsis | tuple[int | slice] | Array
@@ -405,6 +604,7 @@ def _constant_array(value: int | float | bool | complex, shape: CShape, dtype: D
             ctypes.pointer(out.arr), ctypes.c_double(value.real), ctypes.c_double(value.imag), 4,
             ctypes.pointer(shape.c_array), dtype.c_api_value))
     elif dtype == af_int64:
+        # TODO discuss workaround for passing float to ctypes
         safe_call(backend.get().af_constant_long(
             ctypes.pointer(out.arr), ctypes.c_longlong(value.real), 4, ctypes.pointer(shape.c_array)))
     elif dtype == af_uint64:
