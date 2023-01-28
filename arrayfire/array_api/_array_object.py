@@ -124,19 +124,20 @@ class Array:
             ctypes.pointer(_cshape.c_array), ctypes.pointer(strides_cshape), dtype.c_api_value,
             pointer_source.value))
 
-    def __str__(self) -> str:  # FIXME
+    def __str__(self) -> str:
+        # TODO change the look of array str. E.g., like np.array
         if not _in_display_dims_limit(self.shape):
             return _metadata_string(self.dtype, self.shape)
 
         return _metadata_string(self.dtype) + _array_as_str(self)
 
-    def __repr__(self) -> str:  # FIXME
+    def __repr__(self) -> str:
         # return _metadata_string(self.dtype, self.shape)
         # TODO change the look of array representation. E.g., like np.array
         return _array_as_str(self)
 
     def __len__(self) -> int:
-        return self.shape[0] if self.shape else 0  # type: ignore[return-value]
+        return self.shape[0] if self.shape else 0
 
     # Arithmetic Operators
 
@@ -475,7 +476,7 @@ class Array:
         raise NotImplementedError
 
     @property
-    def size(self) -> None | int:
+    def size(self) -> int:
         # NOTE previously - elements()
         out = c_dim_t(0)
         safe_call(backend.get().af_get_elements(ctypes.pointer(out), self.arr))
@@ -483,9 +484,9 @@ class Array:
 
     @property
     def ndim(self) -> int:
-        nd = ctypes.c_uint(0)
-        safe_call(backend.get().af_get_numdims(ctypes.pointer(nd), self.arr))
-        return nd.value
+        out = ctypes.c_uint(0)
+        safe_call(backend.get().af_get_numdims(ctypes.pointer(out), self.arr))
+        return out.value
 
     @property
     def shape(self) -> ShapeType:
@@ -509,6 +510,62 @@ class Array:
         out = self.dtype.c_type()
         safe_call(backend.get().af_get_scalar(ctypes.pointer(out), self.arr))
         return out.value  # type: ignore[no-any-return]  # FIXME
+
+    def is_empty(self) -> bool:
+        """
+        Check if the array is empty i.e. it has no elements.
+        """
+        out = ctypes.c_bool()
+        safe_call(backend.get().af_is_empty(ctypes.pointer(out), self.arr))
+        return out.value
+
+    def to_list(self, row_major: bool = False) -> list:  # FIXME return typings
+        if self.is_empty():
+            return []
+
+        array = _reorder(self) if row_major else self
+        ctypes_array = _get_ctypes_array(array)
+
+        if array.ndim == 1:
+            return list(ctypes_array)
+
+        out = []
+        for i in range(array.size):
+            idx = i
+            sub_list = []
+            for j in range(array.ndim):
+                div = array.shape[j]
+                sub_list.append(idx % div)
+                idx //= div
+            out.append(ctypes_array[sub_list[::-1]])  # type: ignore[call-overload]  # FIXME
+        return out
+
+    def to_ctype_array(self, row_major: bool = False) -> ctypes.Array:
+        if self.is_empty():
+            raise RuntimeError("Can not convert an empty array to ctype.")
+
+        array = _reorder(self) if row_major else self
+        return _get_ctypes_array(array)
+
+
+def _get_ctypes_array(array: Array) -> ctypes.Array:
+    c_shape = array.dtype.c_type * array.size
+    ctypes_array = c_shape()
+    safe_call(backend.get().af_get_data_ptr(ctypes.pointer(ctypes_array), array.arr))
+    return ctypes_array
+
+
+def _reorder(array: Array) -> Array:
+    """
+    Returns a reordered array to help interoperate with row major formats.
+    """
+    if array.ndim == 1:
+        return array
+
+    out = Array()
+    c_shape = CShape(*(tuple(reversed(range(array.ndim))) + tuple(range(array.ndim, 4))))
+    safe_call(backend.get().af_reorder(ctypes.pointer(out.arr), array.arr, *c_shape))
+    return out
 
 
 def _array_as_str(array: Array) -> str:

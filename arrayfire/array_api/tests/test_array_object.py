@@ -3,6 +3,8 @@ import pytest
 from arrayfire.array_api import Array, float32, int16
 from arrayfire.array_api._dtypes import supported_dtypes
 
+# TODO change separated methods with setup and teardown to avoid code duplication
+
 
 def test_empty_array() -> None:
     array = Array()
@@ -105,7 +107,13 @@ def test_array_getitem() -> None:
     # TODO add more tests for different dtypes
 
 
-def test_array_sum() -> None:
+def test_array_to_list() -> None:
+    # TODO add test of to_ctypes_array
+    assert Array([1, 2, 3]).to_list() == [1, 2, 3]
+    assert Array().to_list() == []
+
+
+def test_array_add() -> None:
     array = Array([1, 2, 3])
     res = array + 1
     assert res[0].scalar() == 2
@@ -121,6 +129,11 @@ def test_array_sum() -> None:
     assert res[0].scalar() == 10
     assert res[1].scalar() == 11
     assert res[2].scalar() == 12
+
+
+def test_array_add_raises_type_error() -> None:
+    with pytest.raises(TypeError):
+        Array([1, 2, 3]) + "15"  # type: ignore[operator]
 
 
 def test_array_sub() -> None:
