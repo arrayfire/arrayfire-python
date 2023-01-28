@@ -159,35 +159,35 @@ class Array:
         """
         return _process_c_function(self, other, backend.get().af_add)
 
-    def __sub__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __sub__(self, other: int | float | Array, /) -> Array:
         """
         Return self - other.
         """
         return _process_c_function(self, other, backend.get().af_sub)
 
-    def __mul__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __mul__(self, other: int | float | Array, /) -> Array:
         """
         Return self * other.
         """
         return _process_c_function(self, other, backend.get().af_mul)
 
-    def __truediv__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __truediv__(self, other: int | float | Array, /) -> Array:
         """
         Return self / other.
         """
         return _process_c_function(self, other, backend.get().af_div)
 
-    def __floordiv__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __floordiv__(self, other: int | float | Array, /) -> Array:
         # TODO
         return NotImplemented
 
-    def __mod__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __mod__(self, other: int | float | Array, /) -> Array:
         """
         Return self % other.
         """
         return _process_c_function(self, other, backend.get().af_mod)
 
-    def __pow__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __pow__(self, other: int | float | Array, /) -> Array:
         """
         Return self ** other.
         """

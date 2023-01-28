@@ -111,3 +111,108 @@ def test_array_sum() -> None:
     assert res[0].scalar() == 2
     assert res[1].scalar() == 3
     assert res[2].scalar() == 4
+
+    res = array + 1.5
+    assert res[0].scalar() == 2.5
+    assert res[1].scalar() == 3.5
+    assert res[2].scalar() == 4.5
+
+    res = array + Array([9, 9, 9])
+    assert res[0].scalar() == 10
+    assert res[1].scalar() == 11
+    assert res[2].scalar() == 12
+
+
+def test_array_sub() -> None:
+    array = Array([1, 2, 3])
+    res = array - 1
+    assert res[0].scalar() == 0
+    assert res[1].scalar() == 1
+    assert res[2].scalar() == 2
+
+    res = array - 1.5
+    assert res[0].scalar() == -0.5
+    assert res[1].scalar() == 0.5
+    assert res[2].scalar() == 1.5
+
+    res = array - Array([9, 9, 9])
+    assert res[0].scalar() == -8
+    assert res[1].scalar() == -7
+    assert res[2].scalar() == -6
+
+
+def test_array_mul() -> None:
+    array = Array([1, 2, 3])
+    res = array * 2
+    assert res[0].scalar() == 2
+    assert res[1].scalar() == 4
+    assert res[2].scalar() == 6
+
+    res = array * 1.5
+    assert res[0].scalar() == 1.5
+    assert res[1].scalar() == 3
+    assert res[2].scalar() == 4.5
+
+    res = array * Array([9, 9, 9])
+    assert res[0].scalar() == 9
+    assert res[1].scalar() == 18
+    assert res[2].scalar() == 27
+
+
+def test_array_truediv() -> None:
+    array = Array([1, 2, 3])
+    res = array / 2
+    assert res[0].scalar() == 0.5
+    assert res[1].scalar() == 1
+    assert res[2].scalar() == 1.5
+
+    res = array / 1.5
+    assert round(res[0].scalar(), 5) == 0.66667  # type: ignore[arg-type]
+    assert round(res[1].scalar(), 5) == 1.33333  # type: ignore[arg-type]
+    assert res[2].scalar() == 2
+
+    res = array / Array([2, 2, 2])
+    assert res[0].scalar() == 0.5
+    assert res[1].scalar() == 1
+    assert res[2].scalar() == 1.5
+
+
+def test_array_floordiv() -> None:
+    # TODO add test after implementation of __floordiv__
+    pass
+
+
+def test_array_mod() -> None:
+    array = Array([1, 2, 3])
+    res = array % 2
+    assert res[0].scalar() == 1
+    assert res[1].scalar() == 0
+    assert res[2].scalar() == 1
+
+    res = array % 1.5
+    assert res[0].scalar() == 1.0
+    assert res[1].scalar() == 0.5
+    assert res[2].scalar() == 0.0
+
+    res = array % Array([9, 9, 9])
+    assert res[0].scalar() == 1.0
+    assert res[1].scalar() == 2.0
+    assert res[2].scalar() == 3.0
+
+
+def test_array_pow() -> None:
+    array = Array([1, 2, 3])
+    res = array ** 2
+    assert res[0].scalar() == 1
+    assert res[1].scalar() == 4
+    assert res[2].scalar() == 9
+
+    res = array ** 1.5
+    assert res[0].scalar() == 1
+    assert round(res[1].scalar(), 5) == 2.82843  # type: ignore[arg-type]
+    assert round(res[2].scalar(), 5) == 5.19615  # type: ignore[arg-type]
+
+    res = array ** Array([9, 9, 9])
+    assert res[0].scalar() == 1
+    assert res[1].scalar() == 512
+    assert res[2].scalar() == 19683
