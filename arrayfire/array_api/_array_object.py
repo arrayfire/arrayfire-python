@@ -131,7 +131,9 @@ class Array:
         return _metadata_string(self.dtype) + _array_as_str(self)
 
     def __repr__(self) -> str:  # FIXME
-        return _metadata_string(self.dtype, self.shape)
+        # return _metadata_string(self.dtype, self.shape)
+        # TODO change the look of array representation. E.g., like np.array
+        return _array_as_str(self)
 
     def __len__(self) -> int:
         return self.shape[0] if self.shape else 0  # type: ignore[return-value]
