@@ -105,9 +105,9 @@ def test_array_getitem() -> None:
     # TODO add more tests for different dtypes
 
 
-# def test_array_sum() -> None:  # BUG no element-wise adding
-#     array = Array([1, 2, 3])
-#     res = array + 1
-#     assert res.scalar() == 2
-#     assert res.scalar() == 3
-#     assert res.scalar() == 4
+def test_array_sum() -> None:
+    array = Array([1, 2, 3])
+    res = array + 1
+    assert res[0].scalar() == 2
+    assert res[1].scalar() == 3
+    assert res[2].scalar() == 4
