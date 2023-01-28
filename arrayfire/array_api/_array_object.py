@@ -502,11 +502,13 @@ class Array:
             ctypes.pointer(d0), ctypes.pointer(d1), ctypes.pointer(d2), ctypes.pointer(d3), self.arr))
         return (d0.value, d1.value, d2.value, d3.value)[:self.ndim]  # Skip passing None values
 
-    def scalar(self) -> int | float | bool | complex:
+    def scalar(self) -> None | int | float | bool | complex:
         """
         Return the first element of the array
         """
-        # BUG seg fault on empty array
+        if self.is_empty():
+            return None
+
         out = self.dtype.c_type()
         safe_call(backend.get().af_get_scalar(ctypes.pointer(out), self.arr))
         return out.value  # type: ignore[no-any-return]  # FIXME

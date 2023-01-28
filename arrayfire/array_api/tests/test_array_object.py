@@ -107,10 +107,24 @@ def test_array_getitem() -> None:
     # TODO add more tests for different dtypes
 
 
+def test_scalar() -> None:
+    array = Array([1, 2, 3])
+    assert array[1].scalar() == 2
+
+
+def test_scalar_is_empty() -> None:
+    array = Array()
+    assert array.scalar() is None
+
+
 def test_array_to_list() -> None:
-    # TODO add test of to_ctypes_array
-    assert Array([1, 2, 3]).to_list() == [1, 2, 3]
-    assert Array().to_list() == []
+    array = Array([1, 2, 3])
+    assert array.to_list() == [1, 2, 3]
+
+
+def test_array_to_list_is_empty() -> None:
+    array = Array()
+    assert array.to_list() == []
 
 
 def test_array_add() -> None:
