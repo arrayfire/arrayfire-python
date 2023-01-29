@@ -36,7 +36,7 @@ class Array:
     # Setting to such a high value should make sure that arrayfire has priority over
     # other classes, ensuring that e.g. numpy.float32(1)*arrayfire.randu(3) is handled by
     # arrayfire's __radd__() instead of numpy's __add__()
-    __array_priority__ = 30
+    __array_priority__ = 30  # TODO discuss its purpose
 
     def __init__(
             self, x: None | Array | py_array.array | int | ctypes.c_void_p | list = None,
@@ -286,25 +286,25 @@ class Array:
         """
         Return other + self.
         """
-        return _process_c_function(other, self, backend.get().af_add)
+        return _process_c_function(self, other, backend.get().af_add)
 
     def __rsub__(self, other: Array, /) -> Array:
         """
         Return other - self.
         """
-        return _process_c_function(other, self, backend.get().af_sub)
+        return _process_c_function(self, other, backend.get().af_sub)
 
     def __rmul__(self, other: Array, /) -> Array:
         """
         Return other * self.
         """
-        return _process_c_function(other, self, backend.get().af_mul)
+        return _process_c_function(self, other, backend.get().af_mul)
 
     def __rtruediv__(self, other: Array, /) -> Array:
         """
         Return other / self.
         """
-        return _process_c_function(other, self, backend.get().af_div)
+        return _process_c_function(self, other, backend.get().af_div)
 
     def __rfloordiv__(self, other:  Array, /) -> Array:
         # TODO
@@ -314,13 +314,13 @@ class Array:
         """
         Return other / self.
         """
-        return _process_c_function(other, self, backend.get().af_mod)
+        return _process_c_function(self, other, backend.get().af_mod)
 
     def __rpow__(self, other: Array, /) -> Array:
         """
         Return other ** self.
         """
-        return _process_c_function(other, self, backend.get().af_pow)
+        return _process_c_function(self, other, backend.get().af_pow)
 
     # Reflected Array Operators
 
@@ -334,31 +334,31 @@ class Array:
         """
         Return other & self.
         """
-        return _process_c_function(other, self, backend.get().af_bitand)
+        return _process_c_function(self, other, backend.get().af_bitand)
 
     def __ror__(self, other: Array, /) -> Array:
         """
         Return other & self.
         """
-        return _process_c_function(other, self, backend.get().af_bitor)
+        return _process_c_function(self, other, backend.get().af_bitor)
 
     def __rxor__(self, other: Array, /) -> Array:
         """
         Return other ^ self.
         """
-        return _process_c_function(other, self, backend.get().af_bitxor)
+        return _process_c_function(self, other, backend.get().af_bitxor)
 
     def __rlshift__(self, other: Array, /) -> Array:
         """
         Return other << self.
         """
-        return _process_c_function(other, self, backend.get().af_bitshiftl)
+        return _process_c_function(self, other, backend.get().af_bitshiftl)
 
     def __rrshift__(self, other: Array, /) -> Array:
         """
         Return other >> self.
         """
-        return _process_c_function(other, self, backend.get().af_bitshiftr)
+        return _process_c_function(self, other, backend.get().af_bitshiftr)
 
     # In-place Arithmetic Operators
 
@@ -617,6 +617,9 @@ def _process_c_function(
         target: Array, other: int | float | bool | complex | Array, c_function: Any) -> Array:
     out = Array()
 
+    # TODO discuss the difference between binary_func and binary_funcr
+    # because implementation looks like exectly the same.
+    # consider chaging to __iadd__ = __radd__ = __add__ interfce if no difference
     if isinstance(other, Array):
         safe_call(c_function(ctypes.pointer(out.arr), target.arr, other.arr, _bcast_var))
     elif is_number(other):

@@ -1,4 +1,5 @@
 import array as pyarray
+from typing import Any
 
 import pytest
 
@@ -7,6 +8,7 @@ from arrayfire.array_api._dtypes import supported_dtypes
 
 # TODO change separated methods with setup and teardown to avoid code duplication
 # TODO add tests for array arguments: device, offset, strides
+# TODO add tests for all supported dtypes on initialisation
 
 
 def test_create_empty_array() -> None:
@@ -166,119 +168,289 @@ def test_array_to_list_is_empty() -> None:
     assert array.to_list() == []
 
 
-def test_array_add() -> None:
-    array = Array([1, 2, 3])
-    res = array + 1
-    assert res[0].scalar() == 2
-    assert res[1].scalar() == 3
-    assert res[2].scalar() == 4
+class TestArithmeticOperators:
+    def setup_method(self, method: Any) -> None:
+        self.list = [1, 2, 3]
+        self.const_int = 2
+        self.const_float = 1.5
+        self.array = Array(self.list)
+        self.array_other = Array([9, 9, 9])
 
-    res = array + 1.5
-    assert res[0].scalar() == 2.5
-    assert res[1].scalar() == 3.5
-    assert res[2].scalar() == 4.5
+        self.tuple = (1, 2, 3)
+        self.const_str = "15"
 
-    res = array + Array([9, 9, 9])
-    assert res[0].scalar() == 10
-    assert res[1].scalar() == 11
-    assert res[2].scalar() == 12
+    def teardown_method(self, method: Any) -> None:
+        self.array = Array(self.list)
 
+    def test_add_int(self) -> None:
+        res = self.array + self.const_int
+        assert res[0].scalar() == 3
+        assert res[1].scalar() == 4
+        assert res[2].scalar() == 5
 
-def test_array_add_raises_type_error() -> None:
-    with pytest.raises(TypeError):
-        Array([1, 2, 3]) + "15"  # type: ignore[operator]
+    # Test __add__, __iadd__, __radd__
 
+    def test_add_float(self) -> None:
+        res = self.array + self.const_float
+        assert res[0].scalar() == 2.5
+        assert res[1].scalar() == 3.5
+        assert res[2].scalar() == 4.5
 
-def test_array_sub() -> None:
-    array = Array([1, 2, 3])
-    res = array - 1
-    assert res[0].scalar() == 0
-    assert res[1].scalar() == 1
-    assert res[2].scalar() == 2
+    def test_add_array(self) -> None:
+        res = self.array + self.array_other
+        assert res[0].scalar() == 10
+        assert res[1].scalar() == 11
+        assert res[2].scalar() == 12
 
-    res = array - 1.5
-    assert res[0].scalar() == -0.5
-    assert res[1].scalar() == 0.5
-    assert res[2].scalar() == 1.5
+    def test_add_inplace_and_reflected(self) -> None:
+        res = self.array + self.const_int
+        ires = self.array
+        ires += self.const_int
+        rres = self.const_int + self.array  # type: ignore[operator]
 
-    res = array - Array([9, 9, 9])
-    assert res[0].scalar() == -8
-    assert res[1].scalar() == -7
-    assert res[2].scalar() == -6
+        assert res[0].scalar() == ires[0].scalar() == rres[0].scalar() == 3
+        assert res[1].scalar() == ires[1].scalar() == rres[1].scalar() == 4
+        assert res[2].scalar() == ires[2].scalar() == rres[2].scalar() == 5
 
+        assert res.dtype == ires.dtype == rres.dtype
+        assert res.ndim == ires.ndim == rres.ndim
+        assert res.size == ires.size == ires.size
+        assert res.shape == ires.shape == rres.shape
+        assert len(res) == len(ires) == len(rres)
 
-def test_array_mul() -> None:
-    array = Array([1, 2, 3])
-    res = array * 2
-    assert res[0].scalar() == 2
-    assert res[1].scalar() == 4
-    assert res[2].scalar() == 6
+    def test_add_raises_type_error(self) -> None:
+        with pytest.raises(TypeError):
+            Array([1, 2, 3]) + self.const_str  # type: ignore[operator]
 
-    res = array * 1.5
-    assert res[0].scalar() == 1.5
-    assert res[1].scalar() == 3
-    assert res[2].scalar() == 4.5
+        with pytest.raises(TypeError):
+            Array([1, 2, 3]) + self.tuple  # type: ignore[operator]
 
-    res = array * Array([9, 9, 9])
-    assert res[0].scalar() == 9
-    assert res[1].scalar() == 18
-    assert res[2].scalar() == 27
+    # Test __sub__, __isub__, __rsub__
 
+    def test_sub_int(self) -> None:
+        res = self.array - self.const_int
+        assert res[0].scalar() == -1
+        assert res[1].scalar() == 0
+        assert res[2].scalar() == 1
 
-def test_array_truediv() -> None:
-    array = Array([1, 2, 3])
-    res = array / 2
-    assert res[0].scalar() == 0.5
-    assert res[1].scalar() == 1
-    assert res[2].scalar() == 1.5
+    def test_sub_float(self) -> None:
+        res = self.array - self.const_float
+        assert res[0].scalar() == -0.5
+        assert res[1].scalar() == 0.5
+        assert res[2].scalar() == 1.5
 
-    res = array / 1.5
-    assert round(res[0].scalar(), 5) == 0.66667  # type: ignore[arg-type]
-    assert round(res[1].scalar(), 5) == 1.33333  # type: ignore[arg-type]
-    assert res[2].scalar() == 2
+    def test_sub_arr(self) -> None:
+        res = self.array - self.array_other
+        assert res[0].scalar() == -8
+        assert res[1].scalar() == -7
+        assert res[2].scalar() == -6
 
-    res = array / Array([2, 2, 2])
-    assert res[0].scalar() == 0.5
-    assert res[1].scalar() == 1
-    assert res[2].scalar() == 1.5
+    def test_sub_inplace_and_reflected(self) -> None:
+        res = self.array - self.const_int
+        ires = self.array
+        ires -= self.const_int
+        rres = self.const_int - self.array  # type: ignore[operator]
 
+        assert res[0].scalar() == ires[0].scalar() == rres[0].scalar() == -1
+        assert res[1].scalar() == ires[1].scalar() == rres[1].scalar() == 0
+        assert res[2].scalar() == ires[2].scalar() == rres[2].scalar() == 1
 
-def test_array_floordiv() -> None:
-    # TODO add test after implementation of __floordiv__
-    pass
+        assert res.dtype == ires.dtype == rres.dtype
+        assert res.ndim == ires.ndim == rres.ndim
+        assert res.size == ires.size == ires.size
+        assert res.shape == ires.shape == rres.shape
+        assert len(res) == len(ires) == len(rres)
 
+    def test_sub_raises_type_error(self) -> None:
+        with pytest.raises(TypeError):
+            self.array - self.const_str  # type: ignore[operator]
 
-def test_array_mod() -> None:
-    array = Array([1, 2, 3])
-    res = array % 2
-    assert res[0].scalar() == 1
-    assert res[1].scalar() == 0
-    assert res[2].scalar() == 1
+        with pytest.raises(TypeError):
+            self.array - self.tuple  # type: ignore[operator]
 
-    res = array % 1.5
-    assert res[0].scalar() == 1.0
-    assert res[1].scalar() == 0.5
-    assert res[2].scalar() == 0.0
+    # Test __mul__, __imul__, __rmul__
 
-    res = array % Array([9, 9, 9])
-    assert res[0].scalar() == 1.0
-    assert res[1].scalar() == 2.0
-    assert res[2].scalar() == 3.0
+    def test_mul_int(self) -> None:
+        res = self.array * self.const_int
+        assert res[0].scalar() == 2
+        assert res[1].scalar() == 4
+        assert res[2].scalar() == 6
 
+    def test_mul_float(self) -> None:
+        res = self.array * self.const_float
+        assert res[0].scalar() == 1.5
+        assert res[1].scalar() == 3
+        assert res[2].scalar() == 4.5
 
-def test_array_pow() -> None:
-    array = Array([1, 2, 3])
-    res = array ** 2
-    assert res[0].scalar() == 1
-    assert res[1].scalar() == 4
-    assert res[2].scalar() == 9
+    def test_mul_array(self) -> None:
+        res = self.array * self.array_other
+        assert res[0].scalar() == 9
+        assert res[1].scalar() == 18
+        assert res[2].scalar() == 27
 
-    res = array ** 1.5
-    assert res[0].scalar() == 1
-    assert round(res[1].scalar(), 5) == 2.82843  # type: ignore[arg-type]
-    assert round(res[2].scalar(), 5) == 5.19615  # type: ignore[arg-type]
+    def test_mul_inplace_and_reflected(self) -> None:
+        res = self.array * self.const_int
+        ires = self.array
+        ires *= self.const_int
+        rres = self.const_int * self.array  # type: ignore[operator]
 
-    res = array ** Array([9, 9, 9])
-    assert res[0].scalar() == 1
-    assert res[1].scalar() == 512
-    assert res[2].scalar() == 19683
+        assert res[0].scalar() == ires[0].scalar() == rres[0].scalar() == 2
+        assert res[1].scalar() == ires[1].scalar() == rres[1].scalar() == 4
+        assert res[2].scalar() == ires[2].scalar() == rres[2].scalar() == 6
+
+        assert res.dtype == ires.dtype == rres.dtype
+        assert res.ndim == ires.ndim == rres.ndim
+        assert res.size == ires.size == ires.size
+        assert res.shape == ires.shape == rres.shape
+        assert len(res) == len(ires) == len(rres)
+
+    def test_mul_raises_type_error(self) -> None:
+        with pytest.raises(TypeError):
+            self.array * self.const_str  # type: ignore[operator]
+
+        with pytest.raises(TypeError):
+            self.array * self.tuple  # type: ignore[operator]
+
+    # Test __truediv__, __itruediv__, __rtruediv__
+
+    def test_truediv_int(self) -> None:
+        res = self.array / self.const_int
+        assert res[0].scalar() == 0.5
+        assert res[1].scalar() == 1
+        assert res[2].scalar() == 1.5
+
+    def test_truediv_float(self) -> None:
+        res = self.array / self.const_float
+        assert round(res[0].scalar(), 5) == 0.66667  # type: ignore[arg-type]
+        assert round(res[1].scalar(), 5) == 1.33333  # type: ignore[arg-type]
+        assert res[2].scalar() == 2
+
+    def test_truediv_array(self) -> None:
+        res = self.array / self.array_other
+        assert round(res[0].scalar(), 5) == 0.11111  # type: ignore[arg-type]
+        assert round(res[1].scalar(), 5) == 0.22222  # type: ignore[arg-type]
+        assert round(res[2].scalar(), 5) == 0.33333  # type: ignore[arg-type]
+
+    def test_truediv_inplace_and_reflected(self) -> None:
+        res = self.array / self.const_int
+        ires = self.array
+        ires /= self.const_int
+        rres = self.const_int / self.array  # type: ignore[operator]
+
+        assert res[0].scalar() == ires[0].scalar() == 0.5
+        assert res[1].scalar() == ires[1].scalar() == 1
+        assert res[2].scalar() == ires[2].scalar() == 1.5
+
+        assert rres[0].scalar() == 2
+        assert rres[1].scalar() == 1
+        assert round(rres[2].scalar(), 5) == 0.66667
+
+        assert res.dtype == ires.dtype == rres.dtype
+        assert res.ndim == ires.ndim == rres.ndim
+        assert res.size == ires.size == ires.size
+        assert res.shape == ires.shape == rres.shape
+        assert len(res) == len(ires) == len(rres)
+
+    def test_truediv_raises_type_error(self) -> None:
+        with pytest.raises(TypeError):
+            self.array / self.const_str  # type: ignore[operator]
+
+        with pytest.raises(TypeError):
+            self.array / self.tuple  # type: ignore[operator]
+
+    # TODO
+    # Test __floordiv__, __ifloordiv__, __rfloordiv__
+
+    # Test __mod__, __imod__, __rmod__
+
+    def test_mod_int(self) -> None:
+        res = self.array % self.const_int
+        assert res[0].scalar() == 1
+        assert res[1].scalar() == 0
+        assert res[2].scalar() == 1
+
+    def test_mod_float(self) -> None:
+        res = self.array % self.const_float
+        assert res[0].scalar() == 1.0
+        assert res[1].scalar() == 0.5
+        assert res[2].scalar() == 0.0
+
+    def test_mod_array(self) -> None:
+        res = self.array % self.array_other
+        assert res[0].scalar() == 1.0
+        assert res[1].scalar() == 2.0
+        assert res[2].scalar() == 3.0
+
+    def test_mod_inplace_and_reflected(self) -> None:
+        res = self.array % self.const_int
+        ires = self.array
+        ires %= self.const_int
+        rres = self.const_int % self.array  # type: ignore[operator]
+
+        assert res[0].scalar() == ires[0].scalar() == 1
+        assert res[1].scalar() == ires[1].scalar() == 0
+        assert res[2].scalar() == ires[2].scalar() == 1
+
+        assert rres[0].scalar() == 0
+        assert rres[1].scalar() == 0
+        assert rres[2].scalar() == 2
+
+        assert res.dtype == ires.dtype == rres.dtype
+        assert res.ndim == ires.ndim == rres.ndim
+        assert res.size == ires.size == ires.size
+        assert res.shape == ires.shape == rres.shape
+        assert len(res) == len(ires) == len(rres)
+
+    def test_mod_raises_type_error(self) -> None:
+        with pytest.raises(TypeError):
+            self.array % self.const_str  # type: ignore[operator]
+
+        with pytest.raises(TypeError):
+            self.array % self.tuple  # type: ignore[operator]
+
+    # Test __pow__, __ipow__, __rpow__
+
+    def test_pow_int(self) -> None:
+        res = self.array ** self.const_int
+        assert res[0].scalar() == 1
+        assert res[1].scalar() == 4
+        assert res[2].scalar() == 9
+
+    def test_pow_float(self) -> None:
+        res = self.array ** self.const_float
+        assert res[0].scalar() == 1
+        assert round(res[1].scalar(), 5) == 2.82843  # type: ignore[arg-type]
+        assert round(res[2].scalar(), 5) == 5.19615  # type: ignore[arg-type]
+
+    def test_pow_array(self) -> None:
+        res = self.array ** self.array_other
+        assert res[0].scalar() == 1
+        assert res[1].scalar() == 512
+        assert res[2].scalar() == 19683
+
+    def test_pow_inplace_and_reflected(self) -> None:
+        res = self.array ** self.const_int
+        ires = self.array
+        ires **= self.const_int
+        rres = self.const_int ** self.array  # type: ignore[operator]
+
+        assert res[0].scalar() == ires[0].scalar() == 1
+        assert res[1].scalar() == ires[1].scalar() == 4
+        assert res[2].scalar() == ires[2].scalar() == 9
+
+        assert rres[0].scalar() == 2
+        assert rres[1].scalar() == 4
+        assert rres[2].scalar() == 8
+
+        assert res.dtype == ires.dtype == rres.dtype
+        assert res.ndim == ires.ndim == rres.ndim
+        assert res.size == ires.size == ires.size
+        assert res.shape == ires.shape == rres.shape
+        assert len(res) == len(ires) == len(rres)
+
+    def test_pow_raises_type_error(self) -> None:
+        with pytest.raises(TypeError):
+            self.array % self.const_str  # type: ignore[operator]
+
+        with pytest.raises(TypeError):
+            self.array % self.tuple  # type: ignore[operator]
