@@ -1,12 +1,15 @@
+import array as pyarray
+
 import pytest
 
 from arrayfire.array_api import Array, float32, int16
 from arrayfire.array_api._dtypes import supported_dtypes
 
 # TODO change separated methods with setup and teardown to avoid code duplication
+# TODO add tests for array arguments: device, offset, strides
 
 
-def test_empty_array() -> None:
+def test_create_empty_array() -> None:
     array = Array()
 
     assert array.dtype == float32
@@ -16,7 +19,7 @@ def test_empty_array() -> None:
     assert len(array) == 0
 
 
-def test_empty_array_with_nonempty_dtype() -> None:
+def test_create_empty_array_with_nonempty_dtype() -> None:
     array = Array(dtype=int16)
 
     assert array.dtype == int16
@@ -26,7 +29,32 @@ def test_empty_array_with_nonempty_dtype() -> None:
     assert len(array) == 0
 
 
-def test_empty_array_with_nonempty_shape() -> None:
+def test_create_empty_array_with_str_dtype() -> None:
+    array = Array(dtype="short int")
+
+    assert array.dtype == int16
+    assert array.ndim == 0
+    assert array.size == 0
+    assert array.shape == ()
+    assert len(array) == 0
+
+
+def test_create_empty_array_with_literal_dtype() -> None:
+    array = Array(dtype="h")
+
+    assert array.dtype == int16
+    assert array.ndim == 0
+    assert array.size == 0
+    assert array.shape == ()
+    assert len(array) == 0
+
+
+def test_create_empty_array_with_not_matching_str_dtype() -> None:
+    with pytest.raises(TypeError):
+        Array(dtype="hello world")
+
+
+def test_create_empty_array_with_nonempty_shape() -> None:
     array = Array(shape=(2, 3))
 
     assert array.dtype == float32
@@ -36,7 +64,7 @@ def test_empty_array_with_nonempty_shape() -> None:
     assert len(array) == 2
 
 
-def test_array_from_1d_list() -> None:
+def test_create_array_from_1d_list() -> None:
     array = Array([1, 2, 3])
 
     assert array.dtype == float32
@@ -46,9 +74,20 @@ def test_array_from_1d_list() -> None:
     assert len(array) == 3
 
 
-def test_array_from_2d_list() -> None:
+def test_create_array_from_2d_list() -> None:
     with pytest.raises(TypeError):
         Array([[1, 2, 3], [1, 2, 3]])
+
+
+def test_create_array_from_pyarray() -> None:
+    py_array = pyarray.array("f", [1, 2, 3])
+    array = Array(py_array)
+
+    assert array.dtype == float32
+    assert array.ndim == 1
+    assert array.size == 3
+    assert array.shape == (3,)
+    assert len(array) == 3
 
 
 def test_array_from_list_with_unsupported_dtype() -> None:

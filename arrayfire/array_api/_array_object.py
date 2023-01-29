@@ -39,16 +39,17 @@ class Array:
     __array_priority__ = 30
 
     def __init__(
-            self, x: None | Array | py_array.array | int | ctypes.c_void_p | list = None, dtype: None | Dtype = None,
-            pointer_source: PointerSource = PointerSource.host, shape: None | ShapeType = None,
-            offset: None | ctypes._SimpleCData[int] = None, strides: None | ShapeType = None) -> None:
+            self, x: None | Array | py_array.array | int | ctypes.c_void_p | list = None,
+            dtype: None | Dtype | str = None, shape: None | ShapeType = None,
+            pointer_source: PointerSource = PointerSource.host, offset: None | ctypes._SimpleCData[int] = None,
+            strides: None | ShapeType = None) -> None:
         _no_initial_dtype = False  # HACK, FIXME
 
         # Initialise array object
         self.arr = ctypes.c_void_p(0)
 
         if isinstance(dtype, str):
-            dtype = _str_to_dtype(dtype)
+            dtype = _str_to_dtype(dtype)  # type: ignore[arg-type]
 
         if dtype is None:
             _no_initial_dtype = True
