@@ -1,6 +1,5 @@
 import ctypes
 import enum
-import numbers
 
 
 class PointerSource(enum.Enum):
@@ -14,7 +13,3 @@ class PointerSource(enum.Enum):
 
 def to_str(c_str: ctypes.c_char_p) -> str:
     return str(c_str.value.decode("utf-8"))  # type: ignore[union-attr]
-
-
-def is_number(number: int | float | bool | complex) -> bool:
-    return isinstance(number, numbers.Number)

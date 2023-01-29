@@ -19,7 +19,7 @@ from ._dtypes import float64 as af_float64
 from ._dtypes import int64 as af_int64
 from ._dtypes import supported_dtypes
 from ._dtypes import uint64 as af_uint64
-from ._utils import PointerSource, is_number, to_str
+from ._utils import PointerSource, to_str
 
 ShapeType = tuple[int, ...]
 _bcast_var = False  # HACK, TODO replace for actual bcast_var after refactoring
@@ -286,25 +286,25 @@ class Array:
         """
         Return other + self.
         """
-        return _process_c_function(self, other, backend.get().af_add)
+        return _process_c_function(other, self, backend.get().af_add)
 
     def __rsub__(self, other: Array, /) -> Array:
         """
         Return other - self.
         """
-        return _process_c_function(self, other, backend.get().af_sub)
+        return _process_c_function(other, self, backend.get().af_sub)
 
     def __rmul__(self, other: Array, /) -> Array:
         """
         Return other * self.
         """
-        return _process_c_function(self, other, backend.get().af_mul)
+        return _process_c_function(other, self, backend.get().af_mul)
 
     def __rtruediv__(self, other: Array, /) -> Array:
         """
         Return other / self.
         """
-        return _process_c_function(self, other, backend.get().af_div)
+        return _process_c_function(other, self, backend.get().af_div)
 
     def __rfloordiv__(self, other:  Array, /) -> Array:
         # TODO
@@ -314,13 +314,13 @@ class Array:
         """
         Return other / self.
         """
-        return _process_c_function(self, other, backend.get().af_mod)
+        return _process_c_function(other, self, backend.get().af_mod)
 
     def __rpow__(self, other: Array, /) -> Array:
         """
         Return other ** self.
         """
-        return _process_c_function(self, other, backend.get().af_pow)
+        return _process_c_function(other, self, backend.get().af_pow)
 
     # Reflected Array Operators
 
@@ -334,31 +334,31 @@ class Array:
         """
         Return other & self.
         """
-        return _process_c_function(self, other, backend.get().af_bitand)
+        return _process_c_function(other, self, backend.get().af_bitand)
 
     def __ror__(self, other: Array, /) -> Array:
         """
         Return other & self.
         """
-        return _process_c_function(self, other, backend.get().af_bitor)
+        return _process_c_function(other, self, backend.get().af_bitor)
 
     def __rxor__(self, other: Array, /) -> Array:
         """
         Return other ^ self.
         """
-        return _process_c_function(self, other, backend.get().af_bitxor)
+        return _process_c_function(other, self, backend.get().af_bitxor)
 
     def __rlshift__(self, other: Array, /) -> Array:
         """
         Return other << self.
         """
-        return _process_c_function(self, other, backend.get().af_bitshiftl)
+        return _process_c_function(other, self, backend.get().af_bitshiftl)
 
     def __rrshift__(self, other: Array, /) -> Array:
         """
         Return other >> self.
         """
-        return _process_c_function(self, other, backend.get().af_bitshiftr)
+        return _process_c_function(other, self, backend.get().af_bitshiftr)
 
     # In-place Arithmetic Operators
 
@@ -614,20 +614,32 @@ def _str_to_dtype(value: int) -> Dtype:
 
 
 def _process_c_function(
-        target: Array, other: int | float | bool | complex | Array, c_function: Any) -> Array:
+        lhs: int | float | bool | complex | Array, rhs: int | float | bool | complex | Array,
+        c_function: Any) -> Array:
     out = Array()
 
-    # TODO discuss the difference between binary_func and binary_funcr
-    # because implementation looks like exectly the same.
-    # consider chaging to __iadd__ = __radd__ = __add__ interfce if no difference
-    if isinstance(other, Array):
-        safe_call(c_function(ctypes.pointer(out.arr), target.arr, other.arr, _bcast_var))
-    elif is_number(other):
-        other_dtype = _implicit_dtype(other, target.dtype)
-        other_array = _constant_array(other, CShape(*target.shape), other_dtype)
-        safe_call(c_function(ctypes.pointer(out.arr), target.arr, other_array.arr, _bcast_var))
+    if isinstance(lhs, Array) and isinstance(rhs, Array):
+        lhs_array = lhs.arr
+        rhs_array = rhs.arr
+
+    elif isinstance(lhs, Array) and isinstance(rhs, int | float | bool | complex):
+        rhs_dtype = _implicit_dtype(rhs, lhs.dtype)
+        rhs_constant_array = _constant_array(rhs, CShape(*lhs.shape), rhs_dtype)
+
+        lhs_array = lhs.arr
+        rhs_array = rhs_constant_array.arr
+
+    elif isinstance(lhs, int | float | bool | complex) and isinstance(rhs, Array):
+        lhs_dtype = _implicit_dtype(lhs, rhs.dtype)
+        lhs_constant_array = _constant_array(lhs, CShape(*rhs.shape), lhs_dtype)
+
+        lhs_array = lhs_constant_array.arr
+        rhs_array = rhs.arr
+
     else:
-        raise TypeError(f"{type(other)} is not supported and can not be passed to C binary function.")
+        raise TypeError(f"{type(rhs)} is not supported and can not be passed to C binary function.")
+
+    safe_call(c_function(ctypes.pointer(out.arr), lhs_array, rhs_array, _bcast_var))
 
     return out
 

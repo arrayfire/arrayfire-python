@@ -179,9 +179,6 @@ class TestArithmeticOperators:
         self.tuple = (1, 2, 3)
         self.const_str = "15"
 
-    def teardown_method(self, method: Any) -> None:
-        self.array = Array(self.list)
-
     def test_add_int(self) -> None:
         res = self.array + self.const_int
         assert res[0].scalar() == 3
@@ -220,10 +217,10 @@ class TestArithmeticOperators:
 
     def test_add_raises_type_error(self) -> None:
         with pytest.raises(TypeError):
-            Array([1, 2, 3]) + self.const_str  # type: ignore[operator]
+            self.array + self.const_str  # type: ignore[operator]
 
         with pytest.raises(TypeError):
-            Array([1, 2, 3]) + self.tuple  # type: ignore[operator]
+            self.array + self.tuple  # type: ignore[operator]
 
     # Test __sub__, __isub__, __rsub__
 
@@ -251,9 +248,13 @@ class TestArithmeticOperators:
         ires -= self.const_int
         rres = self.const_int - self.array  # type: ignore[operator]
 
-        assert res[0].scalar() == ires[0].scalar() == rres[0].scalar() == -1
-        assert res[1].scalar() == ires[1].scalar() == rres[1].scalar() == 0
-        assert res[2].scalar() == ires[2].scalar() == rres[2].scalar() == 1
+        assert res[0].scalar() == ires[0].scalar() == -1
+        assert res[1].scalar() == ires[1].scalar() == 0
+        assert res[2].scalar() == ires[2].scalar() == 1
+
+        assert rres[0].scalar() == 1
+        assert rres[1].scalar() == 0
+        assert rres[2].scalar() == -1
 
         assert res.dtype == ires.dtype == rres.dtype
         assert res.ndim == ires.ndim == rres.ndim
