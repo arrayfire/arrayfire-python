@@ -3,8 +3,8 @@ from typing import Any
 
 import pytest
 
-from arrayfire.array_api import Array, float32, int16
-from arrayfire.array_api._dtypes import supported_dtypes
+from arrayfire.array_api.array_object import Array
+from arrayfire.array_api.dtypes import float32, int16, supported_dtypes
 
 # TODO change separated methods with setup and teardown to avoid code duplication
 # TODO add tests for array arguments: device, offset, strides

@@ -10,17 +10,17 @@ from arrayfire import backend, safe_call  # TODO refactor
 from arrayfire.algorithm import count  # TODO refactor
 from arrayfire.array import _get_indices, _in_display_dims_limit  # TODO refactor
 
-from ._dtypes import CShape, Dtype
-from ._dtypes import bool as af_bool
-from ._dtypes import c_dim_t
-from ._dtypes import complex64 as af_complex64
-from ._dtypes import complex128 as af_complex128
-from ._dtypes import float32 as af_float32
-from ._dtypes import float64 as af_float64
-from ._dtypes import int64 as af_int64
-from ._dtypes import supported_dtypes
-from ._dtypes import uint64 as af_uint64
-from ._utils import PointerSource, to_str
+from .dtypes import CShape, Dtype
+from .dtypes import bool as af_bool
+from .dtypes import c_dim_t
+from .dtypes import complex64 as af_complex64
+from .dtypes import complex128 as af_complex128
+from .dtypes import float32 as af_float32
+from .dtypes import float64 as af_float64
+from .dtypes import int64 as af_int64
+from .dtypes import supported_dtypes
+from .dtypes import uint64 as af_uint64
+from .utils import PointerSource, to_str
 
 ShapeType = tuple[int, ...]
 _bcast_var = False  # HACK, TODO replace for actual bcast_var after refactoring
