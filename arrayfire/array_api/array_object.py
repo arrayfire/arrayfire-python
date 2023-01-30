@@ -130,38 +130,124 @@ class Array:
 
     def __pos__(self) -> Array:
         """
-        Return +self
+        Evaluates +self_i for each element of an array instance.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the evaluated result for each element. The returned array must have the same data type
+            as self.
         """
         return self
 
     def __neg__(self) -> Array:
         """
-        Return -self
+        Evaluates +self_i for each element of an array instance.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the evaluated result for each element in self. The returned array must have a data type
+            determined by Type Promotion Rules.
+
         """
         return 0 - self  # type: ignore[no-any-return, operator]  # FIXME
 
     def __add__(self, other: int | float | Array, /) -> Array:
         # TODO discuss either we need to support complex and bool as other input type
         """
-        Return self + other.
+        Calculates the sum for each element of an array instance with the respective element of the array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance (augend array). Should have a numeric data type.
+        other: int | float | Array
+            Addend array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise sums. The returned array must have a data type determined
+            by Type Promotion Rules.
         """
         return _process_c_function(self, other, backend.get().af_add)
 
     def __sub__(self, other: int | float | Array, /) -> Array:
         """
-        Return self - other.
+        Calculates the difference for each element of an array instance with the respective element of the array other.
+
+        The result of self_i - other_i must be the same as self_i + (-other_i) and must be governed by the same
+        floating-point rules as addition (see array.__add__()).
+
+        Parameters
+        ----------
+        self : Array
+            Array instance (minuend array). Should have a numeric data type.
+        other: int | float | Array
+            Subtrahend array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise differences. The returned array must have a data type determined
+            by Type Promotion Rules.
         """
         return _process_c_function(self, other, backend.get().af_sub)
 
     def __mul__(self, other: int | float | Array, /) -> Array:
         """
-        Return self * other.
+        Calculates the product for each element of an array instance with the respective element of the array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise products. The returned array must have a data type determined
+            by Type Promotion Rules.
         """
         return _process_c_function(self, other, backend.get().af_mul)
 
     def __truediv__(self, other: int | float | Array, /) -> Array:
         """
-        Return self / other.
+        Evaluates self_i / other_i for each element of an array instance with the respective element of the
+        array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array should have a floating-point data type
+            determined by Type Promotion Rules.
+
+        Note
+        ----
+        - If one or both of self and other have integer data types, the result is implementation-dependent, as type
+        promotion between data type “kinds” (e.g., integer versus floating-point) is unspecified.
+        Specification-compliant libraries may choose to raise an error or return an array containing the element-wise
+        results. If an array is returned, the array must have a real-valued floating-point data type.
         """
         return _process_c_function(self, other, backend.get().af_div)
 
@@ -171,13 +257,57 @@ class Array:
 
     def __mod__(self, other: int | float | Array, /) -> Array:
         """
-        Return self % other.
+        Evaluates self_i % other_i for each element of an array instance with the respective element of the
+        array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a real-valued data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a real-valued data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. Each element-wise result must have the same sign as the
+            respective element other_i. The returned array must have a real-valued floating-point data type determined
+            by Type Promotion Rules.
+
+        Note
+        ----
+        - For input arrays which promote to an integer data type, the result of division by zero is unspecified and
+        thus implementation-defined.
         """
         return _process_c_function(self, other, backend.get().af_mod)
 
     def __pow__(self, other: int | float | Array, /) -> Array:
         """
-        Return self ** other.
+        Calculates an implementation-dependent approximation of exponentiation by raising each element (the base) of
+        an array instance to the power of other_i (the exponent), where other_i is the corresponding element of the
+        array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance whose elements correspond to the exponentiation base. Should have a numeric data type.
+        other: int | float | Array
+            Other array whose elements correspond to the exponentiation exponent. Must be compatible with self
+            (see Broadcasting). Should have a numeric data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have a data type determined
+            by Type Promotion Rules.
+
+        Note
+        ----
+        - If both self and other have integer data types, the result of __pow__ when other_i is negative
+        (i.e., less than zero) is unspecified and thus implementation-dependent.
+        If self has an integer data type and other has a floating-point data type, behavior is
+        implementation-dependent, as type promotion between data type “kinds” (e.g., integer versus floating-point)
+        is unspecified.
         """
         return _process_c_function(self, other, backend.get().af_pow)
 
@@ -191,7 +321,17 @@ class Array:
 
     def __invert__(self) -> Array:
         """
-        Return ~self.
+        Evaluates ~self_i for each element of an array instance.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have an integer or boolean data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have the same data type as self.
         """
         out = Array()
         safe_call(backend.get().af_bitnot(ctypes.pointer(out.arr), self.arr))
@@ -199,31 +339,101 @@ class Array:
 
     def __and__(self, other: int | bool | Array, /) -> Array:
         """
-        Return self & other.
+        Evaluates self_i & other_i for each element of an array instance with the respective element of the
+        array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have a data type determined
+            by Type Promotion Rules.
         """
         return _process_c_function(self, other, backend.get().af_bitand)
 
     def __or__(self, other: int | bool | Array, /) -> Array:
         """
-        Return self | other.
+        Evaluates self_i | other_i for each element of an array instance with the respective element of the
+        array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have a data type determined
+            by Type Promotion Rules.
         """
         return _process_c_function(self, other, backend.get().af_bitor)
 
     def __xor__(self, other: int | bool | Array, /) -> Array:
         """
-        Return self ^ other.
+        Evaluates self_i ^ other_i for each element of an array instance with the respective element of the
+        array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have a data type determined
+            by Type Promotion Rules.
         """
         return _process_c_function(self, other, backend.get().af_bitxor)
 
     def __lshift__(self, other: int | Array, /) -> Array:
         """
-        Return self << other.
+        Evaluates self_i << other_i for each element of an array instance with the respective element of the
+        array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
+            Each element must be greater than or equal to 0.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have the same data type as self.
         """
         return _process_c_function(self, other, backend.get().af_bitshiftl)
 
     def __rshift__(self, other: int | Array, /) -> Array:
         """
-        Return self >> other.
+        Evaluates self_i >> other_i for each element of an array instance with the respective element of the
+        array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
+            Each element must be greater than or equal to 0.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have the same data type as self.
         """
         return _process_c_function(self, other, backend.get().af_bitshiftr)
 
