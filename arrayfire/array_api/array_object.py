@@ -10,6 +10,7 @@ from arrayfire import backend, safe_call  # TODO refactor
 from arrayfire.algorithm import count  # TODO refactor
 from arrayfire.array import _get_indices, _in_display_dims_limit  # TODO refactor
 
+from .device import PointerSource
 from .dtypes import CShape, Dtype
 from .dtypes import bool as af_bool
 from .dtypes import c_dim_t
@@ -20,7 +21,6 @@ from .dtypes import float64 as af_float64
 from .dtypes import int64 as af_int64
 from .dtypes import supported_dtypes
 from .dtypes import uint64 as af_uint64
-from .utils import PointerSource, to_str
 
 ShapeType = tuple[int, ...]
 _bcast_var = False  # HACK, TODO replace for actual bcast_var after refactoring
@@ -632,7 +632,7 @@ def _array_as_str(array: Array) -> str:
     arr_str = ctypes.c_char_p(0)
     # FIXME add description to passed arguments
     safe_call(backend.get().af_array_to_string(ctypes.pointer(arr_str), "", array.arr, 4, True))
-    py_str = to_str(arr_str)
+    py_str = _to_str(arr_str)
     safe_call(backend.get().af_free_host(arr_str))
     return py_str
 
@@ -660,6 +660,10 @@ def _c_api_value_to_dtype(value: int) -> Dtype:
             return dtype
 
     raise TypeError("There is no supported dtype that matches passed dtype C API value.")
+
+
+def _to_str(c_str: ctypes.c_char_p) -> str:
+    return str(c_str.value.decode("utf-8"))  # type: ignore[union-attr]
 
 
 def _str_to_dtype(value: int) -> Dtype:
