@@ -334,7 +334,7 @@ class Array:
         ----------
         self : Array
             Array instance. Should have a numeric data type.
-        other: int | float | Array
+        other: int | bool | Array
             Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
 
         Returns
@@ -354,7 +354,7 @@ class Array:
         ----------
         self : Array
             Array instance. Should have a numeric data type.
-        other: int | float | Array
+        other: int | bool | Array
             Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
 
         Returns
@@ -374,7 +374,7 @@ class Array:
         ----------
         self : Array
             Array instance. Should have a numeric data type.
-        other: int | float | Array
+        other: int | bool | Array
             Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
 
         Returns
@@ -394,7 +394,7 @@ class Array:
         ----------
         self : Array
             Array instance. Should have a numeric data type.
-        other: int | float | Array
+        other: int | Array
             Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
             Each element must be greater than or equal to 0.
 
@@ -414,7 +414,7 @@ class Array:
         ----------
         self : Array
             Array instance. Should have a numeric data type.
-        other: int | float | Array
+        other: int | Array
             Other array. Must be compatible with self (see Broadcasting). Should have a numeric data type.
             Each element must be greater than or equal to 0.
 
@@ -429,44 +429,121 @@ class Array:
 
     def __lt__(self, other: int | float | Array, /) -> Array:
         """
-        Return self < other.
+        Computes the truth value of self_i < other_i for each element of an array instance with the respective
+        element of the array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a real-valued data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have a data type of bool.
         """
         return _process_c_function(self, other, backend.get().af_lt)
 
     def __le__(self, other: int | float | Array, /) -> Array:
         """
-        Return self <= other.
+        Computes the truth value of self_i <= other_i for each element of an array instance with the respective
+        element of the array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a real-valued data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have a data type of bool.
         """
         return _process_c_function(self, other, backend.get().af_le)
 
     def __gt__(self, other: int | float | Array, /) -> Array:
         """
-        Return self > other.
+        Computes the truth value of self_i > other_i for each element of an array instance with the respective
+        element of the array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a real-valued data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have a data type of bool.
         """
         return _process_c_function(self, other, backend.get().af_gt)
 
     def __ge__(self, other: int | float | Array, /) -> Array:
         """
-        Return self >= other.
+        Computes the truth value of self_i >= other_i for each element of an array instance with the respective
+        element of the array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | Array
+            Other array. Must be compatible with self (see Broadcasting). Should have a real-valued data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have a data type of bool.
         """
         return _process_c_function(self, other, backend.get().af_ge)
 
     def __eq__(self, other: int | float | bool | Array, /) -> Array:  # type: ignore[override]  # FIXME
         """
-        Return self == other.
+        Computes the truth value of self_i == other_i for each element of an array instance with the respective
+        element of the array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | bool | Array
+            Other array. Must be compatible with self (see Broadcasting). May have any data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have a data type of bool.
         """
         return _process_c_function(self, other, backend.get().af_eq)
 
     def __ne__(self, other: int | float | bool | Array, /) -> Array:  # type: ignore[override]  # FIXME
         """
-        Return self != other.
+        Computes the truth value of self_i != other_i for each element of an array instance with the respective
+        element of the array other.
+
+        Parameters
+        ----------
+        self : Array
+            Array instance. Should have a numeric data type.
+        other: int | float | bool | Array
+            Other array. Must be compatible with self (see Broadcasting). May have any data type.
+
+        Returns
+        -------
+        out : Array
+            An array containing the element-wise results. The returned array must have a data type of bool.
         """
         return _process_c_function(self, other, backend.get().af_neq)
 
     # Reflected Arithmetic Operators
 
     def __radd__(self, other: Array, /) -> Array:
-        # TODO discuss either we need to support complex and bool as other input type
         """
         Return other + self.
         """
@@ -656,8 +733,24 @@ class Array:
         return NotImplemented
 
     def __getitem__(self, key: int | slice | tuple[int | slice] | Array, /) -> Array:
-        # TODO: API Specification - key: int | slice | ellipsis | tuple[int | slice] | Array - consider using af.span
-        # TODO: refactor
+        """
+        Returns self[key].
+
+        Parameters
+        ----------
+        self : Array
+            Array instance.
+        key : int | slice | tuple[int | slice] | Array
+            Index key.
+
+        Returns
+        -------
+        out : Array
+            An array containing the accessed value(s). The returned array must have the same data type as self.
+        """
+        # TODO
+        # API Specification - key: int | slice | ellipsis | tuple[int | slice] | Array.
+        # consider using af.span to replace ellipsis during refactoring
         out = Array()
         ndims = self.ndim
 
@@ -706,6 +799,14 @@ class Array:
 
     @property
     def dtype(self) -> Dtype:
+        """
+        Data type of the array elements.
+
+        Returns
+        -------
+        out : Dtype
+            Array data type.
+        """
         out = ctypes.c_int()
         safe_call(backend.get().af_get_type(ctypes.pointer(out), self.arr))
         return _c_api_value_to_dtype(out.value)
@@ -724,14 +825,40 @@ class Array:
     def T(self) -> Array:
         """
         Transpose of the array.
+
+        Returns
+        -------
+        out : Array
+            Two-dimensional array whose first and last dimensions (axes) are permuted in reverse order relative to
+            original array. The returned array must have the same data type as the original array.
+
+        Note
+        ----
+        - The array instance must be two-dimensional. If the array instance is not two-dimensional, an error
+        should be raised.
         """
+        if self.ndim < 2:
+            raise TypeError(f"Array should be at least 2-dimensional. Got {self.ndim}-dimensional array")
+
+        # TODO add check if out.dtype == self.dtype
         out = Array()
-        # NOTE conj support is removed because it is never used
         safe_call(backend.get().af_transpose(ctypes.pointer(out.arr), self.arr, False))
         return out
 
     @property
     def size(self) -> int:
+        """
+        Number of elements in an array.
+
+        Returns
+        -------
+        out : int
+            Number of elements in an array
+
+        Note
+        ----
+        - This must equal the product of the array's dimensions.
+        """
         # NOTE previously - elements()
         out = c_dim_t(0)
         safe_call(backend.get().af_get_elements(ctypes.pointer(out), self.arr))
@@ -739,6 +866,12 @@ class Array:
 
     @property
     def ndim(self) -> int:
+        """
+        Number of array dimensions (axes).
+
+        out : int
+            Number of array dimensions (axes).
+        """
         out = ctypes.c_uint(0)
         safe_call(backend.get().af_get_numdims(ctypes.pointer(out), self.arr))
         return out.value
@@ -746,7 +879,12 @@ class Array:
     @property
     def shape(self) -> ShapeType:
         """
-        Return the shape of the array as a tuple.
+        Array dimensions.
+
+        Returns
+        -------
+        out : tuple[int, ...]
+            Array dimensions.
         """
         # TODO refactor
         d0 = c_dim_t(0)

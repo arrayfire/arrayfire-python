@@ -1,4 +1,5 @@
 import array as pyarray
+import math
 from typing import Any
 
 import pytest
@@ -62,7 +63,7 @@ def test_create_empty_array_with_nonempty_shape() -> None:
 
     assert array.dtype == float32
     assert array.ndim == 2
-    assert array.size == 6
+    assert array.size == math.prod(array.shape) == 6
     assert array.shape == (2, 3)
     assert len(array) == 2
 
@@ -72,7 +73,7 @@ def test_create_array_from_1d_list() -> None:
 
     assert array.dtype == float32
     assert array.ndim == 1
-    assert array.size == 3
+    assert array.size == math.prod(array.shape) == 3
     assert array.shape == (3,)
     assert len(array) == 3
 
@@ -88,7 +89,7 @@ def test_create_array_from_pyarray() -> None:
 
     assert array.dtype == float32
     assert array.ndim == 1
-    assert array.size == 3
+    assert array.size == math.prod(array.shape) == 3
     assert array.shape == (3,)
     assert len(array) == 3
 
@@ -107,7 +108,7 @@ def test_array_from_af_array() -> None:
 
     assert array1.dtype == array2.dtype == float32
     assert array1.ndim == array2.ndim == 1
-    assert array1.size == array2.size == 1
+    assert array1.size == array2.size == math.prod(array1.shape) == math.prod(array2.shape) == 1
     assert array1.shape == array2.shape == (1,)
     assert len(array1) == len(array2) == 1
 
