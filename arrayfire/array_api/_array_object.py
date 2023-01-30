@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import array as py_array
 import ctypes
+import enum
 from dataclasses import dataclass
 from typing import Any
 
@@ -124,21 +125,6 @@ class Array:
             ctypes.pointer(self.arr), ctypes.c_void_p(_array_buffer.address), offset, _cshape.original_shape,
             ctypes.pointer(_cshape.c_array), ctypes.pointer(strides_cshape), dtype.c_api_value,
             pointer_source.value))
-
-    def __str__(self) -> str:
-        # TODO change the look of array str. E.g., like np.array
-        if not _in_display_dims_limit(self.shape):
-            return _metadata_string(self.dtype, self.shape)
-
-        return _metadata_string(self.dtype) + _array_as_str(self)
-
-    def __repr__(self) -> str:
-        # return _metadata_string(self.dtype, self.shape)
-        # TODO change the look of array representation. E.g., like np.array
-        return _array_as_str(self)
-
-    def __len__(self) -> int:
-        return self.shape[0] if self.shape else 0
 
     # Arithmetic Operators
 
@@ -441,6 +427,36 @@ class Array:
         """
         return _process_c_function(self, other, backend.get().af_bitshiftr)
 
+    # Methods
+
+    def __abs__(self) -> Array:
+        # TODO
+        return NotImplemented
+
+    def __array_namespace__(self, *, api_version: None | str = None) -> Any:
+        # TODO
+        return NotImplemented
+
+    def __bool__(self) -> bool:
+        # TODO
+        return NotImplemented
+
+    def __complex__(self) -> complex:
+        # TODO
+        return NotImplemented
+
+    def __dlpack__(self, *, stream: None | int | Any = None):  # type: ignore[no-untyped-def]
+        # TODO implementation and expected return type -> PyCapsule
+        return NotImplemented
+
+    def __dlpack_device__(self) -> tuple[enum.Enum, int]:
+        # TODO
+        return NotImplemented
+
+    def __float__(self) -> float:
+        # TODO
+        return NotImplemented
+
     def __getitem__(self, key: int | slice | tuple[int | slice] | Array, /) -> Array:
         # TODO: API Specification - key: int | slice | ellipsis | tuple[int | slice] | Array
         # TODO: refactor
@@ -456,6 +472,40 @@ class Array:
             ctypes.pointer(out.arr), self.arr, c_dim_t(ndims), _get_indices(key).pointer))
         return out
 
+    def __index__(self) -> int:
+        # TODO
+        return NotImplemented
+
+    def __int__(self) -> int:
+        # TODO
+        return NotImplemented
+
+    def __len__(self) -> int:
+        return self.shape[0] if self.shape else 0
+
+    def __setitem__(
+            self, key: int | slice | tuple[int | slice, ...] | Array, value: int | float | bool | Array, /) -> None:
+        # TODO
+        return NotImplemented  # type: ignore[return-value]  # FIXME
+
+    def __str__(self) -> str:
+        # TODO change the look of array str. E.g., like np.array
+        if not _in_display_dims_limit(self.shape):
+            return _metadata_string(self.dtype, self.shape)
+
+        return _metadata_string(self.dtype) + _array_as_str(self)
+
+    def __repr__(self) -> str:
+        # return _metadata_string(self.dtype, self.shape)
+        # TODO change the look of array representation. E.g., like np.array
+        return _array_as_str(self)
+
+    def to_device(self, device: Any, /, *, stream: None | int | Any = None) -> Array:
+        # TODO implementation and change device type from Any to Device
+        return NotImplemented
+
+    # Attributes
+
     @property
     def dtype(self) -> Dtype:
         out = ctypes.c_int()
@@ -464,17 +514,23 @@ class Array:
 
     @property
     def device(self) -> Any:
-        raise NotImplementedError
+        # TODO
+        return NotImplemented
 
     @property
     def mT(self) -> Array:
         # TODO
-        raise NotImplementedError
+        return NotImplemented
 
     @property
     def T(self) -> Array:
-        # TODO
-        raise NotImplementedError
+        """
+        Transpose of the array.
+        """
+        out = Array()
+        # NOTE conj support is removed because it is never used
+        safe_call(backend.get().af_transpose(ctypes.pointer(out.arr), self.arr, False))
+        return out
 
     @property
     def size(self) -> int:
@@ -507,6 +563,7 @@ class Array:
         """
         Return the first element of the array
         """
+        # TODO change the logic of this method
         if self.is_empty():
             return None
 
