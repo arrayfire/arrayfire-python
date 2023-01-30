@@ -23,7 +23,10 @@ from .dtypes import supported_dtypes
 from .dtypes import uint64 as af_uint64
 
 ShapeType = tuple[int, ...]
-_bcast_var = False  # HACK, TODO replace for actual bcast_var after refactoring
+# HACK, TODO replace for actual bcast_var after refactoring ~ https://github.com/arrayfire/arrayfire/pull/2871
+_bcast_var = False
+
+# TODO use int | float in operators -> remove bool | complex support
 
 
 @dataclass
@@ -33,12 +36,6 @@ class _ArrayBuffer:
 
 
 class Array:
-    # Numpy checks this attribute to know which class handles binary builtin operations, such as __add__.
-    # Setting to such a high value should make sure that arrayfire has priority over
-    # other classes, ensuring that e.g. numpy.float32(1)*arrayfire.randu(3) is handled by
-    # arrayfire's __radd__() instead of numpy's __add__()
-    __array_priority__ = 30  # TODO discuss its purpose
-
     def __init__(
             self, x: None | Array | py_array.array | int | ctypes.c_void_p | list = None,
             dtype: None | Dtype | str = None, shape: None | ShapeType = None,
@@ -164,7 +161,6 @@ class Array:
         return 0 - self  # type: ignore[no-any-return, operator]  # FIXME
 
     def __add__(self, other: int | float | Array, /) -> Array:
-        # TODO discuss either we need to support complex and bool as other input type
         """
         Calculates the sum for each element of an array instance with the respective element of the array other.
 
@@ -300,21 +296,13 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
-
-        Note
-        ----
-        - If both self and other have integer data types, the result of __pow__ when other_i is negative
-        (i.e., less than zero) is unspecified and thus implementation-dependent.
-        If self has an integer data type and other has a floating-point data type, behavior is
-        implementation-dependent, as type promotion between data type “kinds” (e.g., integer versus floating-point)
-        is unspecified.
         """
         return _process_c_function(self, other, backend.get().af_pow)
 
     # Array Operators
 
     def __matmul__(self, other: Array, /) -> Array:
-        # TODO
+        # TODO get from blas - make vanilla version and not copy af.matmul as is
         return NotImplemented
 
     # Bitwise Operators
@@ -508,7 +496,7 @@ class Array:
 
     def __rmod__(self, other: Array, /) -> Array:
         """
-        Return other / self.
+        Return other % self.
         """
         return _process_c_function(other, self, backend.get().af_mod)
 
@@ -534,7 +522,7 @@ class Array:
 
     def __ror__(self, other: Array, /) -> Array:
         """
-        Return other & self.
+        Return other | self.
         """
         return _process_c_function(other, self, backend.get().af_bitor)
 
@@ -648,7 +636,7 @@ class Array:
         return NotImplemented
 
     def __bool__(self) -> bool:
-        # TODO
+        # TODO consider using scalar() and is_scalar()
         return NotImplemented
 
     def __complex__(self) -> complex:
@@ -668,7 +656,7 @@ class Array:
         return NotImplemented
 
     def __getitem__(self, key: int | slice | tuple[int | slice] | Array, /) -> Array:
-        # TODO: API Specification - key: int | slice | ellipsis | tuple[int | slice] | Array
+        # TODO: API Specification - key: int | slice | ellipsis | tuple[int | slice] | Array - consider using af.span
         # TODO: refactor
         out = Array()
         ndims = self.ndim

@@ -9,6 +9,7 @@ from arrayfire.array_api.dtypes import float32, int16, supported_dtypes
 # TODO change separated methods with setup and teardown to avoid code duplication
 # TODO add tests for array arguments: device, offset, strides
 # TODO add tests for all supported dtypes on initialisation
+# TODO check if e.g. abs(x1-x2) < 1e-6 ~ https://davidamos.dev/the-right-way-to-compare-floats-in-python/
 
 
 def test_create_empty_array() -> None:

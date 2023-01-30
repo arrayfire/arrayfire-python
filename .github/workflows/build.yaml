@@ -22,5 +22,8 @@ jobs:
       - name: Test with pytest
         run: pytest
 
+      - name: Install AF
+        run: apt install arrayfire
+
       - name: Test array_api
         run: python -m pytest arrayfire/array_api
