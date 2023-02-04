@@ -55,17 +55,3 @@ class CShape(tuple):
     def c_array(self):  # type: ignore[no-untyped-def]
         c_shape = c_dim_t * 4  # ctypes.c_int | ctypes.c_longlong * 4
         return c_shape(c_dim_t(self.x1), c_dim_t(self.x2), c_dim_t(self.x3), c_dim_t(self.x4))
-
-
-# @safe_call
-# def backend()
-#     ...
-
-# @backend(safe=True)
-# def af_get_type(arr) -> ...:
-#     dty = ctypes.c_int()
-#     safe_call(backend.get().af_get_type(ctypes.pointer(dty), self.arr)) # -> new dty
-#     return dty
-
-# def new_dtype():
-#     return af_get_type(self.arr)
