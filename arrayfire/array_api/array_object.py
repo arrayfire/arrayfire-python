@@ -6,9 +6,10 @@ import enum
 from dataclasses import dataclass
 from typing import Any
 
-from arrayfire import backend, safe_call  # TODO refactor
-from arrayfire.algorithm import count  # TODO refactor
-from arrayfire.array import _get_indices, _in_display_dims_limit  # TODO refactor
+# TODO replace imports from original lib with refactored ones
+from arrayfire import backend, safe_call
+from arrayfire.algorithm import count
+from arrayfire.array import _get_indices, _in_display_dims_limit
 
 from .device import PointerSource
 from .dtypes import CShape, Dtype
@@ -630,35 +631,35 @@ class Array:
         """
         return _process_c_function(self, other, backend.get().af_add)
 
-    def __isub__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __isub__(self, other: int | float | Array, /) -> Array:
         """
         Return self -= other.
         """
         return _process_c_function(self, other, backend.get().af_sub)
 
-    def __imul__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __imul__(self, other: int | float | Array, /) -> Array:
         """
         Return self *= other.
         """
         return _process_c_function(self, other, backend.get().af_mul)
 
-    def __itruediv__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __itruediv__(self, other: int | float | Array, /) -> Array:
         """
         Return self /= other.
         """
         return _process_c_function(self, other, backend.get().af_div)
 
-    def __ifloordiv__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __ifloordiv__(self, other: int | float | Array, /) -> Array:
         # TODO
         return NotImplemented
 
-    def __imod__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __imod__(self, other: int | float | Array, /) -> Array:
         """
         Return self %= other.
         """
         return _process_c_function(self, other, backend.get().af_mod)
 
-    def __ipow__(self, other: int | float | bool | complex | Array, /) -> Array:
+    def __ipow__(self, other: int | float | Array, /) -> Array:
         """
         Return self **= other.
         """
@@ -1078,10 +1079,12 @@ def _constant_array(value: int | float | bool | complex, shape: CShape, dtype: D
     elif dtype == af_int64:
         # TODO discuss workaround for passing float to ctypes
         safe_call(backend.get().af_constant_long(
-            ctypes.pointer(out.arr), ctypes.c_longlong(value.real), 4, ctypes.pointer(shape.c_array)))
+            ctypes.pointer(out.arr), ctypes.c_longlong(value.real),  # type: ignore[arg-type]
+            4, ctypes.pointer(shape.c_array)))
     elif dtype == af_uint64:
         safe_call(backend.get().af_constant_ulong(
-            ctypes.pointer(out.arr), ctypes.c_ulonglong(value.real), 4, ctypes.pointer(shape.c_array)))
+            ctypes.pointer(out.arr), ctypes.c_ulonglong(value.real),  # type: ignore[arg-type]
+            4, ctypes.pointer(shape.c_array)))
     else:
         safe_call(backend.get().af_constant(
             ctypes.pointer(out.arr), ctypes.c_double(value), 4, ctypes.pointer(shape.c_array), dtype.c_api_value))
