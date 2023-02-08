@@ -20,7 +20,7 @@ from .dtypes import complex128 as af_complex128
 from .dtypes import float32 as af_float32
 from .dtypes import float64 as af_float64
 from .dtypes import int64 as af_int64
-from .dtypes import supported_dtypes
+from .dtypes import supported_dtypes, to_str
 from .dtypes import uint64 as af_uint64
 
 ShapeType = Tuple[int, ...]
@@ -970,7 +970,7 @@ def _array_as_str(array: Array) -> str:
     arr_str = ctypes.c_char_p(0)
     # FIXME add description to passed arguments
     safe_call(backend.get().af_array_to_string(ctypes.pointer(arr_str), "", array.arr, 4, True))
-    py_str = _to_str(arr_str)
+    py_str = to_str(arr_str)
     safe_call(backend.get().af_free_host(arr_str))
     return py_str
 
@@ -998,10 +998,6 @@ def _c_api_value_to_dtype(value: int) -> Dtype:
             return dtype
 
     raise TypeError("There is no supported dtype that matches passed dtype C API value.")
-
-
-def _to_str(c_str: ctypes.c_char_p) -> str:
-    return str(c_str.value.decode("utf-8"))  # type: ignore[union-attr]
 
 
 def _str_to_dtype(value: int) -> Dtype:
@@ -1067,7 +1063,7 @@ def _implicit_dtype(value: Union[int, float], array_dtype: Dtype) -> Dtype:
     return value_dtype
 
 
-def _constant_array(value: Union[int, float], shape: CShape, dtype: Dtype) -> Array:
+def _constant_array(value: Union[int, float], cshape: CShape, dtype: Dtype) -> Array:
     out = Array()
 
     if isinstance(value, complex):
@@ -1076,18 +1072,16 @@ def _constant_array(value: Union[int, float], shape: CShape, dtype: Dtype) -> Ar
 
         safe_call(backend.get().af_constant_complex(
             ctypes.pointer(out.arr), ctypes.c_double(value.real), ctypes.c_double(value.imag), 4,
-            ctypes.pointer(shape.c_array), dtype.c_api_value))
+            ctypes.pointer(cshape.c_array), dtype.c_api_value))
     elif dtype == af_int64:
         # TODO discuss workaround for passing float to ctypes
         safe_call(backend.get().af_constant_long(
-            ctypes.pointer(out.arr), ctypes.c_longlong(value.real),  # type: ignore[arg-type]
-            4, ctypes.pointer(shape.c_array)))
+            ctypes.pointer(out.arr), af_int64.c_type(value.real), 4, ctypes.pointer(cshape.c_array)))
     elif dtype == af_uint64:
         safe_call(backend.get().af_constant_ulong(
-            ctypes.pointer(out.arr), ctypes.c_ulonglong(value.real),  # type: ignore[arg-type]
-            4, ctypes.pointer(shape.c_array)))
+            ctypes.pointer(out.arr), af_uint64.c_type(value.real), 4, ctypes.pointer(cshape.c_array)))
     else:
         safe_call(backend.get().af_constant(
-            ctypes.pointer(out.arr), ctypes.c_double(value), 4, ctypes.pointer(shape.c_array), dtype.c_api_value))
+            ctypes.pointer(out.arr), ctypes.c_double(value), 4, ctypes.pointer(cshape.c_array), dtype.c_api_value))
 
     return out

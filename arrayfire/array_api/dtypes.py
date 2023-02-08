@@ -55,3 +55,7 @@ class CShape(tuple):
     def c_array(self):  # type: ignore[no-untyped-def]
         c_shape = c_dim_t * 4  # ctypes.c_int | ctypes.c_longlong * 4
         return c_shape(c_dim_t(self.x1), c_dim_t(self.x2), c_dim_t(self.x3), c_dim_t(self.x4))
+
+
+def to_str(c_str: ctypes.c_char_p) -> str:
+    return str(c_str.value.decode("utf-8"))  # type: ignore[union-attr]
