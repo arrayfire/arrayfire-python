@@ -170,7 +170,7 @@ def test_array_to_list_is_empty() -> None:
     assert array.to_list() == []
 
 
-class TestArithmeticOperators:
+class TestClassArithmeticOperators:
     def setup_method(self, method: Any) -> None:
         self.list = [1, 2, 3]
         self.const_int = 2

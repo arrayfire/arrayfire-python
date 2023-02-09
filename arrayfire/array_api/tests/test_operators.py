@@ -13,3 +13,8 @@ class TestArithmeticOperators:
         res = operators.add(self.array1, self.array2)
         res_sum = self.array1 + self.array2
         assert res.to_list() == res_sum.to_list() == [5, 7, 9]
+
+    def test_sub(self) -> None:
+        res = operators.sub(self.array1, self.array2)
+        res_sum = self.array1 - self.array2
+        assert res.to_list() == res_sum.to_list() == [-3, -3, -3]

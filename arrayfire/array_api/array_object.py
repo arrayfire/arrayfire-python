@@ -11,6 +11,7 @@ from arrayfire import backend, safe_call
 from arrayfire.algorithm import count
 from arrayfire.array import _get_indices, _in_display_dims_limit
 
+from .backend import library
 from .device import PointerSource
 from .dtypes import CShape, Dtype
 from .dtypes import bool as af_bool
@@ -56,17 +57,17 @@ class Array:
 
         if x is None:
             if not shape:  # shape is None or empty tuple
-                safe_call(backend.get().af_create_handle(
-                    ctypes.pointer(self.arr), 0, ctypes.pointer(CShape().c_array), dtype.c_api_value))
+                library.af_create_handle(
+                    ctypes.pointer(self.arr), 0, ctypes.pointer(CShape().c_array), dtype.c_api_value)
                 return
 
             # NOTE: applies inplace changes for self.arr
-            safe_call(backend.get().af_create_handle(
-                ctypes.pointer(self.arr), len(shape), ctypes.pointer(CShape(*shape).c_array), dtype.c_api_value))
+            library.af_create_handle(
+                ctypes.pointer(self.arr), len(shape), ctypes.pointer(CShape(*shape).c_array), dtype.c_api_value)
             return
 
         if isinstance(x, Array):
-            safe_call(backend.get().af_retain_array(ctypes.pointer(self.arr), x.arr))
+            library.af_retain_array(ctypes.pointer(self.arr), x.arr)
             return
 
         if isinstance(x, py_array.array):
@@ -99,14 +100,14 @@ class Array:
 
         if not (offset or strides):
             if pointer_source == PointerSource.host:
-                safe_call(backend.get().af_create_array(
+                library.af_create_array(
                     ctypes.pointer(self.arr), ctypes.c_void_p(_array_buffer.address), _cshape.original_shape,
-                    ctypes.pointer(_cshape.c_array), dtype.c_api_value))
+                    ctypes.pointer(_cshape.c_array), dtype.c_api_value)
                 return
 
-            safe_call(backend.get().af_device_array(
+            library.af_device_array(
                 ctypes.pointer(self.arr), ctypes.c_void_p(_array_buffer.address), _cshape.original_shape,
-                ctypes.pointer(_cshape.c_array), dtype.c_api_value))
+                ctypes.pointer(_cshape.c_array), dtype.c_api_value)
             return
 
         if offset is None:
@@ -119,10 +120,10 @@ class Array:
             strides += (strides[-1], ) * (4 - len(strides))
         strides_cshape = CShape(*strides).c_array
 
-        safe_call(backend.get().af_create_strided_array(
+        library.af_create_strided_array(
             ctypes.pointer(self.arr), ctypes.c_void_p(_array_buffer.address), offset, _cshape.original_shape,
             ctypes.pointer(_cshape.c_array), ctypes.pointer(strides_cshape), dtype.c_api_value,
-            pointer_source.value))
+            pointer_source.value)
 
     # Arithmetic Operators
 
@@ -178,7 +179,7 @@ class Array:
             An array containing the element-wise sums. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, backend.get().af_add)
+        return _process_c_function(self, other, library.af_add)
 
     def __sub__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -200,7 +201,7 @@ class Array:
             An array containing the element-wise differences. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, backend.get().af_sub)
+        return _process_c_function(self, other, library.af_sub)
 
     def __mul__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -219,7 +220,7 @@ class Array:
             An array containing the element-wise products. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, backend.get().af_mul)
+        return _process_c_function(self, other, library.af_mul)
 
     def __truediv__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -246,7 +247,7 @@ class Array:
         Specification-compliant libraries may choose to raise an error or return an array containing the element-wise
         results. If an array is returned, the array must have a real-valued floating-point data type.
         """
-        return _process_c_function(self, other, backend.get().af_div)
+        return _process_c_function(self, other, library.af_div)
 
     def __floordiv__(self, other: Union[int, float, Array], /) -> Array:
         # TODO
@@ -276,7 +277,7 @@ class Array:
         - For input arrays which promote to an integer data type, the result of division by zero is unspecified and
         thus implementation-defined.
         """
-        return _process_c_function(self, other, backend.get().af_mod)
+        return _process_c_function(self, other, library.af_mod)
 
     def __pow__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -298,7 +299,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, backend.get().af_pow)
+        return _process_c_function(self, other, library.af_pow)
 
     # Array Operators
 
@@ -323,7 +324,7 @@ class Array:
             An array containing the element-wise results. The returned array must have the same data type as self.
         """
         out = Array()
-        safe_call(backend.get().af_bitnot(ctypes.pointer(out.arr), self.arr))
+        library.af_bitnot(ctypes.pointer(out.arr), self.arr)
         return out
 
     def __and__(self, other: Union[int, bool, Array], /) -> Array:
@@ -344,7 +345,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, backend.get().af_bitand)
+        return _process_c_function(self, other, library.af_bitand)
 
     def __or__(self, other: Union[int, bool, Array], /) -> Array:
         """
@@ -364,7 +365,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, backend.get().af_bitor)
+        return _process_c_function(self, other, library.af_bitor)
 
     def __xor__(self, other: Union[int, bool, Array], /) -> Array:
         """
@@ -384,7 +385,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, backend.get().af_bitxor)
+        return _process_c_function(self, other, library.af_bitxor)
 
     def __lshift__(self, other: Union[int, Array], /) -> Array:
         """
@@ -404,7 +405,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have the same data type as self.
         """
-        return _process_c_function(self, other, backend.get().af_bitshiftl)
+        return _process_c_function(self, other, library.af_bitshiftl)
 
     def __rshift__(self, other: Union[int, Array], /) -> Array:
         """
@@ -424,7 +425,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have the same data type as self.
         """
-        return _process_c_function(self, other, backend.get().af_bitshiftr)
+        return _process_c_function(self, other, library.af_bitshiftr)
 
     # Comparison Operators
 
@@ -445,7 +446,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, backend.get().af_lt)
+        return _process_c_function(self, other, library.af_lt)
 
     def __le__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -464,7 +465,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, backend.get().af_le)
+        return _process_c_function(self, other, library.af_le)
 
     def __gt__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -483,7 +484,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, backend.get().af_gt)
+        return _process_c_function(self, other, library.af_gt)
 
     def __ge__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -502,9 +503,9 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, backend.get().af_ge)
+        return _process_c_function(self, other, library.af_ge)
 
-    def __eq__(self, other: Union[int, float, bool, Array], /) -> Array:  # type: ignore[override]  # FIXME
+    def __eq__(self, other: Union[int, float, bool, Array], /) -> Array:
         """
         Computes the truth value of self_i == other_i for each element of an array instance with the respective
         element of the array other.
@@ -521,9 +522,9 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, backend.get().af_eq)
+        return _process_c_function(self, other, library.af_eq)
 
-    def __ne__(self, other: Union[int, float, bool, Array], /) -> Array:  # type: ignore[override]  # FIXME
+    def __ne__(self, other: Union[int, float, bool, Array], /) -> Array:
         """
         Computes the truth value of self_i != other_i for each element of an array instance with the respective
         element of the array other.
@@ -540,7 +541,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, backend.get().af_neq)
+        return _process_c_function(self, other, library.af_neq)
 
     # Reflected Arithmetic Operators
 
@@ -548,25 +549,25 @@ class Array:
         """
         Return other + self.
         """
-        return _process_c_function(other, self, backend.get().af_add)
+        return _process_c_function(other, self, library.af_add)
 
     def __rsub__(self, other: Array, /) -> Array:
         """
         Return other - self.
         """
-        return _process_c_function(other, self, backend.get().af_sub)
+        return _process_c_function(other, self, library.af_sub)
 
     def __rmul__(self, other: Array, /) -> Array:
         """
         Return other * self.
         """
-        return _process_c_function(other, self, backend.get().af_mul)
+        return _process_c_function(other, self, library.af_mul)
 
     def __rtruediv__(self, other: Array, /) -> Array:
         """
         Return other / self.
         """
-        return _process_c_function(other, self, backend.get().af_div)
+        return _process_c_function(other, self, library.af_div)
 
     def __rfloordiv__(self, other:  Array, /) -> Array:
         # TODO
@@ -576,13 +577,13 @@ class Array:
         """
         Return other % self.
         """
-        return _process_c_function(other, self, backend.get().af_mod)
+        return _process_c_function(other, self, library.af_mod)
 
     def __rpow__(self, other: Array, /) -> Array:
         """
         Return other ** self.
         """
-        return _process_c_function(other, self, backend.get().af_pow)
+        return _process_c_function(other, self, library.af_pow)
 
     # Reflected Array Operators
 
@@ -596,31 +597,31 @@ class Array:
         """
         Return other & self.
         """
-        return _process_c_function(other, self, backend.get().af_bitand)
+        return _process_c_function(other, self, library.af_bitand)
 
     def __ror__(self, other: Array, /) -> Array:
         """
         Return other | self.
         """
-        return _process_c_function(other, self, backend.get().af_bitor)
+        return _process_c_function(other, self, library.af_bitor)
 
     def __rxor__(self, other: Array, /) -> Array:
         """
         Return other ^ self.
         """
-        return _process_c_function(other, self, backend.get().af_bitxor)
+        return _process_c_function(other, self, library.af_bitxor)
 
     def __rlshift__(self, other: Array, /) -> Array:
         """
         Return other << self.
         """
-        return _process_c_function(other, self, backend.get().af_bitshiftl)
+        return _process_c_function(other, self, library.af_bitshiftl)
 
     def __rrshift__(self, other: Array, /) -> Array:
         """
         Return other >> self.
         """
-        return _process_c_function(other, self, backend.get().af_bitshiftr)
+        return _process_c_function(other, self, library.af_bitshiftr)
 
     # In-place Arithmetic Operators
 
@@ -629,25 +630,25 @@ class Array:
         """
         Return self += other.
         """
-        return _process_c_function(self, other, backend.get().af_add)
+        return _process_c_function(self, other, library.af_add)
 
     def __isub__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self -= other.
         """
-        return _process_c_function(self, other, backend.get().af_sub)
+        return _process_c_function(self, other, library.af_sub)
 
     def __imul__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self *= other.
         """
-        return _process_c_function(self, other, backend.get().af_mul)
+        return _process_c_function(self, other, library.af_mul)
 
     def __itruediv__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self /= other.
         """
-        return _process_c_function(self, other, backend.get().af_div)
+        return _process_c_function(self, other, library.af_div)
 
     def __ifloordiv__(self, other: Union[int, float, Array], /) -> Array:
         # TODO
@@ -657,13 +658,13 @@ class Array:
         """
         Return self %= other.
         """
-        return _process_c_function(self, other, backend.get().af_mod)
+        return _process_c_function(self, other, library.af_mod)
 
     def __ipow__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self **= other.
         """
-        return _process_c_function(self, other, backend.get().af_pow)
+        return _process_c_function(self, other, library.af_pow)
 
     # In-place Array Operators
 
@@ -677,31 +678,31 @@ class Array:
         """
         Return self &= other.
         """
-        return _process_c_function(self, other, backend.get().af_bitand)
+        return _process_c_function(self, other, library.af_bitand)
 
     def __ior__(self, other: Union[int, bool, Array], /) -> Array:
         """
         Return self |= other.
         """
-        return _process_c_function(self, other, backend.get().af_bitor)
+        return _process_c_function(self, other, library.af_bitor)
 
     def __ixor__(self, other: Union[int, bool, Array], /) -> Array:
         """
         Return self ^= other.
         """
-        return _process_c_function(self, other, backend.get().af_bitxor)
+        return _process_c_function(self, other, library.af_bitxor)
 
     def __ilshift__(self, other: Union[int, Array], /) -> Array:
         """
         Return self <<= other.
         """
-        return _process_c_function(self, other, backend.get().af_bitshiftl)
+        return _process_c_function(self, other, library.af_bitshiftl)
 
     def __irshift__(self, other: Union[int, Array], /) -> Array:
         """
         Return self >>= other.
         """
-        return _process_c_function(self, other, backend.get().af_bitshiftr)
+        return _process_c_function(self, other, library.af_bitshiftr)
 
     # Methods
 
@@ -1034,7 +1035,7 @@ def _process_c_function(
     else:
         raise TypeError(f"{type(rhs)} is not supported and can not be passed to C binary function.")
 
-    safe_call(c_function(ctypes.pointer(out.arr), lhs_array, rhs_array, _bcast_var))
+    c_function(ctypes.pointer(out.arr), lhs_array, rhs_array, _bcast_var)
 
     return out
 

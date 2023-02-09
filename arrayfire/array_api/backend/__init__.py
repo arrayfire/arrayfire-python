@@ -7,10 +7,6 @@ from .constants import ErrorCodes
 backend = ctypes.CDLL("/opt/arrayfire//lib/libafcpu.3.dylib")  # Mock
 
 
-Pointer = ctypes._Pointer
-AFArray = ctypes.c_void_p
-
-
 class safe_call:
     def __init__(self, c_function: Callable) -> None:
         self.c_function = c_function
