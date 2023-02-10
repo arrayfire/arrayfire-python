@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from typing import Any, List, Optional, Tuple, Union
 
 # TODO replace imports from original lib with refactored ones
-from arrayfire import backend, safe_call
 from arrayfire.algorithm import count
 from arrayfire.array import _get_indices, _in_display_dims_limit
 
@@ -761,8 +760,7 @@ class Array:
             if count(key) == 0:
                 return out
 
-        safe_call(backend.get().af_index_gen(
-            ctypes.pointer(out.arr), self.arr, c_dim_t(ndims), _get_indices(key).pointer))
+        library.af_index_gen(ctypes.pointer(out.arr), self.arr, c_dim_t(ndims), _get_indices(key).pointer)
         return out
 
     def __index__(self) -> int:
@@ -811,7 +809,7 @@ class Array:
             Array data type.
         """
         out = ctypes.c_int()
-        safe_call(backend.get().af_get_type(ctypes.pointer(out), self.arr))
+        library.af_get_type(ctypes.pointer(out), self.arr)
         return _c_api_value_to_dtype(out.value)
 
     @property
@@ -845,7 +843,7 @@ class Array:
 
         # TODO add check if out.dtype == self.dtype
         out = Array()
-        safe_call(backend.get().af_transpose(ctypes.pointer(out.arr), self.arr, False))
+        library.af_transpose(ctypes.pointer(out.arr), self.arr, False)
         return out
 
     @property
@@ -864,7 +862,7 @@ class Array:
         """
         # NOTE previously - elements()
         out = c_dim_t(0)
-        safe_call(backend.get().af_get_elements(ctypes.pointer(out), self.arr))
+        library.af_get_elements(ctypes.pointer(out), self.arr)
         return out.value
 
     @property
@@ -876,7 +874,7 @@ class Array:
             Number of array dimensions (axes).
         """
         out = ctypes.c_uint(0)
-        safe_call(backend.get().af_get_numdims(ctypes.pointer(out), self.arr))
+        library.af_get_numdims(ctypes.pointer(out), self.arr)
         return out.value
 
     @property
@@ -894,8 +892,7 @@ class Array:
         d1 = c_dim_t(0)
         d2 = c_dim_t(0)
         d3 = c_dim_t(0)
-        safe_call(backend.get().af_get_dims(
-            ctypes.pointer(d0), ctypes.pointer(d1), ctypes.pointer(d2), ctypes.pointer(d3), self.arr))
+        library.af_get_dims(ctypes.pointer(d0), ctypes.pointer(d1), ctypes.pointer(d2), ctypes.pointer(d3), self.arr)
         return (d0.value, d1.value, d2.value, d3.value)[:self.ndim]  # Skip passing None values
 
     def scalar(self) -> Union[None, int, float, bool, complex]:
@@ -907,7 +904,7 @@ class Array:
             return None
 
         out = self.dtype.c_type()
-        safe_call(backend.get().af_get_scalar(ctypes.pointer(out), self.arr))
+        library.af_get_scalar(ctypes.pointer(out), self.arr)
         return out.value  # type: ignore[no-any-return]  # FIXME
 
     def is_empty(self) -> bool:
@@ -915,7 +912,7 @@ class Array:
         Check if the array is empty i.e. it has no elements.
         """
         out = ctypes.c_bool()
-        safe_call(backend.get().af_is_empty(ctypes.pointer(out), self.arr))
+        library.af_is_empty(ctypes.pointer(out), self.arr)
         return out.value
 
     def to_list(self, row_major: bool = False) -> List[Union[None, int, float, bool, complex]]:
@@ -950,7 +947,7 @@ class Array:
 def _get_ctypes_array(array: Array) -> ctypes.Array:
     c_shape = array.dtype.c_type * array.size
     ctypes_array = c_shape()
-    safe_call(backend.get().af_get_data_ptr(ctypes.pointer(ctypes_array), array.arr))
+    library.af_get_data_ptr(ctypes.pointer(ctypes_array), array.arr)
     return ctypes_array
 
 
@@ -963,16 +960,16 @@ def _reorder(array: Array) -> Array:
 
     out = Array()
     c_shape = CShape(*(tuple(reversed(range(array.ndim))) + tuple(range(array.ndim, 4))))
-    safe_call(backend.get().af_reorder(ctypes.pointer(out.arr), array.arr, *c_shape))
+    library.af_reorder(ctypes.pointer(out.arr), array.arr, *c_shape)
     return out
 
 
 def _array_as_str(array: Array) -> str:
     arr_str = ctypes.c_char_p(0)
     # FIXME add description to passed arguments
-    safe_call(backend.get().af_array_to_string(ctypes.pointer(arr_str), "", array.arr, 4, True))
+    library.af_array_to_string(ctypes.pointer(arr_str), "", array.arr, 4, True)
     py_str = to_str(arr_str)
-    safe_call(backend.get().af_free_host(arr_str))
+    library.af_free_host(arr_str)
     return py_str
 
 
@@ -1071,18 +1068,18 @@ def _constant_array(value: Union[int, float], cshape: CShape, dtype: Dtype) -> A
         if dtype != af_complex64 and dtype != af_complex128:
             dtype = af_complex64
 
-        safe_call(backend.get().af_constant_complex(
+        library.af_constant_complex(
             ctypes.pointer(out.arr), ctypes.c_double(value.real), ctypes.c_double(value.imag), 4,
-            ctypes.pointer(cshape.c_array), dtype.c_api_value))
+            ctypes.pointer(cshape.c_array), dtype.c_api_value)
     elif dtype == af_int64:
         # TODO discuss workaround for passing float to ctypes
-        safe_call(backend.get().af_constant_long(
-            ctypes.pointer(out.arr), af_int64.c_type(value.real), 4, ctypes.pointer(cshape.c_array)))
+        library.af_constant_long(
+            ctypes.pointer(out.arr), af_int64.c_type(value.real), 4, ctypes.pointer(cshape.c_array))
     elif dtype == af_uint64:
-        safe_call(backend.get().af_constant_ulong(
-            ctypes.pointer(out.arr), af_uint64.c_type(value.real), 4, ctypes.pointer(cshape.c_array)))
+        library.af_constant_ulong(
+            ctypes.pointer(out.arr), af_uint64.c_type(value.real), 4, ctypes.pointer(cshape.c_array))
     else:
-        safe_call(backend.get().af_constant(
-            ctypes.pointer(out.arr), ctypes.c_double(value), 4, ctypes.pointer(cshape.c_array), dtype.c_api_value))
+        library.af_constant(
+            ctypes.pointer(out.arr), ctypes.c_double(value), 4, ctypes.pointer(cshape.c_array), dtype.c_api_value)
 
     return out

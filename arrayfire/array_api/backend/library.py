@@ -56,6 +56,136 @@ def af_create_strided_array(
     return backend.af_create_strided_array(arr, data, offset, ndims, dims, strides, ty, location)
 
 
+@safe_call
+def af_get_type(type_: ..., arr: AFArray, /) -> Any:  # FIXME type typing
+    """
+    source: https://arrayfire.org/docs/group__c__api__mat.htm#ga0dda6898e1c0d9a43efb56cd6a988c9b
+    """
+    return backend.af_get_type(type_, arr)
+
+
+@safe_call
+def af_get_elements(elems: ..., arr: AFArray, /) -> Any:  # FIXME elems typing
+    """
+    source: https://arrayfire.org/docs/group__c__api__mat.htm#ga6845bbe4385a60a606b88f8130252c1f
+    """
+    return backend.af_get_elements(elems, arr)
+
+
+@safe_call
+def af_get_numdims(result: ..., arr: AFArray, /) -> Any:  # FIXME typing
+    """
+    source: https://arrayfire.org/docs/group__c__api__mat.htm#gaefa019d932ff58c2a829ce87edddd2a8
+    """
+    return backend.af_get_numdims(result, arr)
+
+
+@safe_call
+def af_get_dims(d0: ..., d1: ..., d2: ..., d3: ..., arr: AFArray, /) -> Any:  # FIXME
+    """
+    source: https://arrayfire.org/docs/group__c__api__mat.htm#ga8b90da50a532837d9763e301b2267348
+    """
+    return backend.af_get_dims(d0, d1, d2, d3, arr)
+
+
+@safe_call
+def af_get_scalar(output_value: ..., arr: AFArray, /) -> Any:  # FIXME
+    """
+    source: https://arrayfire.org/docs/group__c__api__mat.htm#gaefe2e343a74a84bd43b588218ecc09a3
+    """
+    return backend.af_get_scalar(output_value, arr)
+
+
+@safe_call
+def af_is_empty(result: ..., arr: AFArray, /) -> Any:
+    """
+    source: https://arrayfire.org/docs/group__c__api__mat.htm#ga19c749e95314e1c77d816ad9952fb680
+    """
+    return backend.af_is_empty(result, arr)
+
+
+@safe_call
+def af_get_data_ptr(data: ..., arr: AFArray, /) -> Any:
+    """
+    source: https://arrayfire.org/docs/group__c__api__mat.htm#ga6040dc6f0eb127402fbf62c1165f0b9d
+    """
+    return backend.af_get_data_ptr(data, arr)
+
+
+# Arrayfire Functions
+
+
+@safe_call
+def af_index_gen(out: AFArrayPointer, in_: AFArray, ndims: int, indices: ..., /) -> Any:  # FIXME indices
+    """
+    source: https://arrayfire.org/docs/group__index__func__index.htm#ga14a7d149dba0ed0b977335a3df9d91e6
+    """
+    return backend.af_index_gen(out, in_, ndims, indices)
+
+
+@safe_call
+def af_transpose(out: AFArrayPointer, in_: AFArray, conjugate: bool, /) -> Any:
+    """
+    https://arrayfire.org/docs/group__blas__func__transpose.htm#ga716b2b9bf190c8f8d0970aef2b57d8e7
+    """
+    return backend.af_transpose(out, in_, conjugate)
+
+
+@safe_call
+def af_reorder(out: AFArrayPointer, in_: AFArray, x: ..., y: ..., z: ..., w: ..., /) -> Any:  # FIXME
+    """
+    source: https://arrayfire.org/docs/group__manip__func__reorder.htm#ga57383f4d00a3a86eab08dddd52c3ad3d
+    """
+    return backend.af_reorder(out, in_, x, y, z, w)
+
+
+@safe_call
+def af_array_to_string(output: ..., exp: ..., arr: AFArray, precision: int, transpose: bool, /) -> Any:  # FIXME
+    """
+    source: https://arrayfire.org/docs/group__print__func__tostring.htm#ga01f32ef2420b5d4592c6e4b4964b863b
+    """
+    return backend.af_array_to_string(output, exp, arr, precision, transpose)
+
+
+@safe_call
+def af_free_host(ptr: ...) -> Any:  # FIXME
+    """
+    source: https://arrayfire.org/docs/group__device__func__free__host.htm#ga3f1149a837a7ebbe8002d5d2244e3370
+    """
+    return backend.af_free_host(ptr)
+
+
+@safe_call
+def af_constant_complex(arr: AFArrayPointer, real: ..., imag: ..., ndims: int, dims: ..., type_: ..., /) -> Any:
+    """
+    source: https://arrayfire.org/docs/group__data__func__constant.htm#ga5a083b1f3cd8a72a41f151de3bdea1a2
+    """
+    return backend.af_constant_complex(arr, real, imag, ndims, dims, type_)
+
+
+@safe_call
+def af_constant_long(arr: AFArrayPointer, val: ..., ndims: ..., dims: ..., /) -> Any:
+    """
+    source: https://arrayfire.org/docs/group__data__func__constant.htm#ga10f1c9fad1ce9e9fefd885d5a1d1fd49
+    """
+    return backend.af_constant_long(arr, val, ndims, dims)
+
+
+@safe_call
+def af_constant_ulong(arr: AFArrayPointer, val: ..., ndims: ..., dims: ..., /) -> Any:
+    """
+    source: https://arrayfire.org/docs/group__data__func__constant.htm#ga67af670cc9314589f8134019f5e68809
+    """
+    return backend.af_constant_ulong(arr, val, ndims, dims)
+
+
+@safe_call
+def af_constant(arr: AFArrayPointer, val: ..., ndims: ..., dims: ..., type_: ..., /) -> Any:
+    """
+    source: https://arrayfire.org/docs/group__data__func__constant.htm#gafc51b6a98765dd24cd4139f3bde00670
+    """
+    return backend.af_constant(arr, val, ndims, dims, type_)
+
 # Arithmetic Operators
 
 
