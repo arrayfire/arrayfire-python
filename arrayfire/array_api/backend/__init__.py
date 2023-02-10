@@ -1,10 +1,11 @@
 import ctypes
+from dataclasses import dataclass
 from typing import Any, Callable
 
-from ..dtypes import c_dim_t, to_str
+from ..dtypes.helpers import c_dim_t, to_str
 from .constants import ErrorCodes
 
-backend = ctypes.CDLL("/opt/arrayfire//lib/libafcpu.3.dylib")  # Mock
+backend_api = ctypes.CDLL("/opt/arrayfire//lib/libafcpu.3.dylib")  # Mock
 
 
 class safe_call:
@@ -17,5 +18,20 @@ class safe_call:
             return
 
         err_str = ctypes.c_char_p(0)
-        backend.af_get_last_error(ctypes.pointer(err_str), ctypes.pointer(c_dim_t(0)))
+        backend_api.af_get_last_error(ctypes.pointer(err_str), ctypes.pointer(c_dim_t(0)))
         raise RuntimeError(to_str(err_str))
+
+
+def safe_call_func(c_err):
+    if c_err == ErrorCodes.none.value:
+        return
+
+    err_str = ctypes.c_char_p(0)
+    backend_api.af_get_last_error(ctypes.pointer(err_str), ctypes.pointer(c_dim_t(0)))
+    raise RuntimeError(to_str(err_str))
+
+
+@dataclass
+class ArrayBuffer:
+    address: int
+    length: int = 0

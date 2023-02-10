@@ -3,49 +3,31 @@ from __future__ import annotations
 import array as py_array
 import ctypes
 import enum
-from dataclasses import dataclass
 from typing import Any, List, Optional, Tuple, Union
 
 # TODO replace imports from original lib with refactored ones
 from arrayfire.algorithm import count
 from arrayfire.array import _get_indices, _in_display_dims_limit
 
-from .backend import library
+from .backend import ArrayBuffer, library
+from .backend.constant_array import create_constant_array
 from .device import PointerSource
-from .dtypes import CShape, Dtype
+from .dtypes import CType
 from .dtypes import bool as af_bool
-from .dtypes import c_dim_t
-from .dtypes import complex64 as af_complex64
-from .dtypes import complex128 as af_complex128
 from .dtypes import float32 as af_float32
-from .dtypes import float64 as af_float64
-from .dtypes import int64 as af_int64
-from .dtypes import supported_dtypes, to_str
-from .dtypes import uint64 as af_uint64
-
-ShapeType = Tuple[int, ...]
-# HACK, TODO replace for actual bcast_var after refactoring ~ https://github.com/arrayfire/arrayfire/pull/2871
-_bcast_var = False
+from .dtypes import supported_dtypes
+from .dtypes.helpers import CShape, Dtype, c_dim_t, to_str
 
 # TODO use int | float in operators -> remove bool | complex support
-
-
-@dataclass
-class _ArrayBuffer:
-    address: Optional[int] = None
-    length: int = 0
 
 
 class Array:
     def __init__(
             self, x: Union[None, Array, py_array.array, int, ctypes.c_void_p, List[Union[int, float]]] = None,
-            dtype: Union[None, Dtype, str] = None, shape: Optional[ShapeType] = None,
-            pointer_source: PointerSource = PointerSource.host, offset: Optional[ctypes._SimpleCData[int]] = None,
-            strides: Optional[ShapeType] = None) -> None:
+            dtype: Union[None, Dtype, str] = None, shape: Tuple[int, ...] = (),
+            pointer_source: PointerSource = PointerSource.host, offset: Optional[CType] = None,
+            strides: Optional[Tuple[int, ...]] = None) -> None:
         _no_initial_dtype = False  # HACK, FIXME
-
-        # Initialise array object
-        self.arr = ctypes.c_void_p(0)
 
         if isinstance(dtype, str):
             dtype = _str_to_dtype(dtype)  # type: ignore[arg-type]
@@ -56,30 +38,27 @@ class Array:
 
         if x is None:
             if not shape:  # shape is None or empty tuple
-                library.af_create_handle(
-                    ctypes.pointer(self.arr), 0, ctypes.pointer(CShape().c_array), dtype.c_api_value)
+                self.arr = library.create_handle((), dtype)
                 return
 
-            # NOTE: applies inplace changes for self.arr
-            library.af_create_handle(
-                ctypes.pointer(self.arr), len(shape), ctypes.pointer(CShape(*shape).c_array), dtype.c_api_value)
+            self.arr = library.create_handle(shape, dtype)
             return
 
         if isinstance(x, Array):
-            library.af_retain_array(ctypes.pointer(self.arr), x.arr)
+            self.arr = library.retain_array(x.arr)
             return
 
         if isinstance(x, py_array.array):
-            _type_char = x.typecode
-            _array_buffer = _ArrayBuffer(*x.buffer_info())
+            _type_char: str = x.typecode
+            _array_buffer = ArrayBuffer(*x.buffer_info())
 
         elif isinstance(x, list):
             _array = py_array.array("f", x)  # BUG [True, False] -> dtype: f32   # TODO add int and float
             _type_char = _array.typecode
-            _array_buffer = _ArrayBuffer(*_array.buffer_info())
+            _array_buffer = ArrayBuffer(*_array.buffer_info())
 
         elif isinstance(x, int) or isinstance(x, ctypes.c_void_p):  # TODO
-            _array_buffer = _ArrayBuffer(x if not isinstance(x, ctypes.c_void_p) else x.value)
+            _array_buffer = ArrayBuffer(x if not isinstance(x, ctypes.c_void_p) else x.value)
 
             if not shape:
                 raise TypeError("Expected to receive the initial shape due to the x being a data pointer.")
@@ -87,42 +66,29 @@ class Array:
             if _no_initial_dtype:
                 raise TypeError("Expected to receive the initial dtype due to the x being a data pointer.")
 
-            _type_char = dtype.typecode  # type: ignore[assignment]  # FIXME
+            _type_char = dtype.typecode
 
         else:
             raise TypeError("Passed object x is an object of unsupported class.")
 
-        _cshape = _get_cshape(shape, _array_buffer.length)
+        if not shape:
+            if _array_buffer.length != 0:
+                shape = (_array_buffer.length, )
+            else:
+                RuntimeError("Shape and buffer length are size invalid.")
 
         if not _no_initial_dtype and dtype.typecode != _type_char:
             raise TypeError("Can not create array of requested type from input data type")
 
         if not (offset or strides):
             if pointer_source == PointerSource.host:
-                library.af_create_array(
-                    ctypes.pointer(self.arr), ctypes.c_void_p(_array_buffer.address), _cshape.original_shape,
-                    ctypes.pointer(_cshape.c_array), dtype.c_api_value)
+                self.arr = library.create_array(shape, dtype, _array_buffer)
                 return
 
-            library.af_device_array(
-                ctypes.pointer(self.arr), ctypes.c_void_p(_array_buffer.address), _cshape.original_shape,
-                ctypes.pointer(_cshape.c_array), dtype.c_api_value)
+            self.arr = library.device_array(shape, dtype, _array_buffer)
             return
 
-        if offset is None:
-            offset = c_dim_t(0)
-
-        if strides is None:
-            strides = (1, _cshape[0], _cshape[0]*_cshape[1], _cshape[0]*_cshape[1]*_cshape[2])
-
-        if len(strides) < 4:
-            strides += (strides[-1], ) * (4 - len(strides))
-        strides_cshape = CShape(*strides).c_array
-
-        library.af_create_strided_array(
-            ctypes.pointer(self.arr), ctypes.c_void_p(_array_buffer.address), offset, _cshape.original_shape,
-            ctypes.pointer(_cshape.c_array), ctypes.pointer(strides_cshape), dtype.c_api_value,
-            pointer_source.value)
+        self.arr = library.create_strided_array(shape, dtype, _array_buffer, offset, strides, pointer_source)
 
     # Arithmetic Operators
 
@@ -159,7 +125,7 @@ class Array:
             determined by Type Promotion Rules.
 
         """
-        return 0 - self  # type: ignore[no-any-return, operator]  # FIXME
+        return _process_c_function(0, self, library.sub)
 
     def __add__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -178,7 +144,7 @@ class Array:
             An array containing the element-wise sums. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.af_add)
+        return _process_c_function(self, other, library.add)
 
     def __sub__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -200,7 +166,7 @@ class Array:
             An array containing the element-wise differences. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.af_sub)
+        return _process_c_function(self, other, library.sub)
 
     def __mul__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -219,7 +185,7 @@ class Array:
             An array containing the element-wise products. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.af_mul)
+        return _process_c_function(self, other, library.mul)
 
     def __truediv__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -246,7 +212,7 @@ class Array:
         Specification-compliant libraries may choose to raise an error or return an array containing the element-wise
         results. If an array is returned, the array must have a real-valued floating-point data type.
         """
-        return _process_c_function(self, other, library.af_div)
+        return _process_c_function(self, other, library.div)
 
     def __floordiv__(self, other: Union[int, float, Array], /) -> Array:
         # TODO
@@ -276,7 +242,7 @@ class Array:
         - For input arrays which promote to an integer data type, the result of division by zero is unspecified and
         thus implementation-defined.
         """
-        return _process_c_function(self, other, library.af_mod)
+        return _process_c_function(self, other, library.mod)
 
     def __pow__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -298,7 +264,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.af_pow)
+        return _process_c_function(self, other, library.pow)
 
     # Array Operators
 
@@ -322,8 +288,9 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have the same data type as self.
         """
+        # FIXME
         out = Array()
-        library.af_bitnot(ctypes.pointer(out.arr), self.arr)
+        out.arr = library.bitnot(self.arr)
         return out
 
     def __and__(self, other: Union[int, bool, Array], /) -> Array:
@@ -344,7 +311,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.af_bitand)
+        return _process_c_function(self, other, library.bitand)
 
     def __or__(self, other: Union[int, bool, Array], /) -> Array:
         """
@@ -364,7 +331,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.af_bitor)
+        return _process_c_function(self, other, library.bitor)
 
     def __xor__(self, other: Union[int, bool, Array], /) -> Array:
         """
@@ -384,7 +351,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.af_bitxor)
+        return _process_c_function(self, other, library.bitxor)
 
     def __lshift__(self, other: Union[int, Array], /) -> Array:
         """
@@ -404,7 +371,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have the same data type as self.
         """
-        return _process_c_function(self, other, library.af_bitshiftl)
+        return _process_c_function(self, other, library.bitshiftl)
 
     def __rshift__(self, other: Union[int, Array], /) -> Array:
         """
@@ -424,7 +391,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have the same data type as self.
         """
-        return _process_c_function(self, other, library.af_bitshiftr)
+        return _process_c_function(self, other, library.bitshiftr)
 
     # Comparison Operators
 
@@ -445,7 +412,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.af_lt)
+        return _process_c_function(self, other, library.lt)
 
     def __le__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -464,7 +431,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.af_le)
+        return _process_c_function(self, other, library.le)
 
     def __gt__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -483,7 +450,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.af_gt)
+        return _process_c_function(self, other, library.gt)
 
     def __ge__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -502,9 +469,9 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.af_ge)
+        return _process_c_function(self, other, library.ge)
 
-    def __eq__(self, other: Union[int, float, bool, Array], /) -> Array:
+    def __eq__(self, other: Union[int, float, bool, Array], /) -> Array:  # type: ignore[override]
         """
         Computes the truth value of self_i == other_i for each element of an array instance with the respective
         element of the array other.
@@ -521,9 +488,9 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.af_eq)
+        return _process_c_function(self, other, library.eq)
 
-    def __ne__(self, other: Union[int, float, bool, Array], /) -> Array:
+    def __ne__(self, other: Union[int, float, bool, Array], /) -> Array:  # type: ignore[override]
         """
         Computes the truth value of self_i != other_i for each element of an array instance with the respective
         element of the array other.
@@ -540,7 +507,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.af_neq)
+        return _process_c_function(self, other, library.neq)
 
     # Reflected Arithmetic Operators
 
@@ -548,25 +515,25 @@ class Array:
         """
         Return other + self.
         """
-        return _process_c_function(other, self, library.af_add)
+        return _process_c_function(other, self, library.add)
 
     def __rsub__(self, other: Array, /) -> Array:
         """
         Return other - self.
         """
-        return _process_c_function(other, self, library.af_sub)
+        return _process_c_function(other, self, library.sub)
 
     def __rmul__(self, other: Array, /) -> Array:
         """
         Return other * self.
         """
-        return _process_c_function(other, self, library.af_mul)
+        return _process_c_function(other, self, library.mul)
 
     def __rtruediv__(self, other: Array, /) -> Array:
         """
         Return other / self.
         """
-        return _process_c_function(other, self, library.af_div)
+        return _process_c_function(other, self, library.div)
 
     def __rfloordiv__(self, other:  Array, /) -> Array:
         # TODO
@@ -576,13 +543,13 @@ class Array:
         """
         Return other % self.
         """
-        return _process_c_function(other, self, library.af_mod)
+        return _process_c_function(other, self, library.mod)
 
     def __rpow__(self, other: Array, /) -> Array:
         """
         Return other ** self.
         """
-        return _process_c_function(other, self, library.af_pow)
+        return _process_c_function(other, self, library.pow)
 
     # Reflected Array Operators
 
@@ -596,31 +563,31 @@ class Array:
         """
         Return other & self.
         """
-        return _process_c_function(other, self, library.af_bitand)
+        return _process_c_function(other, self, library.bitand)
 
     def __ror__(self, other: Array, /) -> Array:
         """
         Return other | self.
         """
-        return _process_c_function(other, self, library.af_bitor)
+        return _process_c_function(other, self, library.bitor)
 
     def __rxor__(self, other: Array, /) -> Array:
         """
         Return other ^ self.
         """
-        return _process_c_function(other, self, library.af_bitxor)
+        return _process_c_function(other, self, library.bitxor)
 
     def __rlshift__(self, other: Array, /) -> Array:
         """
         Return other << self.
         """
-        return _process_c_function(other, self, library.af_bitshiftl)
+        return _process_c_function(other, self, library.bitshiftl)
 
     def __rrshift__(self, other: Array, /) -> Array:
         """
         Return other >> self.
         """
-        return _process_c_function(other, self, library.af_bitshiftr)
+        return _process_c_function(other, self, library.bitshiftr)
 
     # In-place Arithmetic Operators
 
@@ -629,25 +596,25 @@ class Array:
         """
         Return self += other.
         """
-        return _process_c_function(self, other, library.af_add)
+        return _process_c_function(self, other, library.add)
 
     def __isub__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self -= other.
         """
-        return _process_c_function(self, other, library.af_sub)
+        return _process_c_function(self, other, library.sub)
 
     def __imul__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self *= other.
         """
-        return _process_c_function(self, other, library.af_mul)
+        return _process_c_function(self, other, library.mul)
 
     def __itruediv__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self /= other.
         """
-        return _process_c_function(self, other, library.af_div)
+        return _process_c_function(self, other, library.div)
 
     def __ifloordiv__(self, other: Union[int, float, Array], /) -> Array:
         # TODO
@@ -657,13 +624,13 @@ class Array:
         """
         Return self %= other.
         """
-        return _process_c_function(self, other, library.af_mod)
+        return _process_c_function(self, other, library.mod)
 
     def __ipow__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self **= other.
         """
-        return _process_c_function(self, other, library.af_pow)
+        return _process_c_function(self, other, library.pow)
 
     # In-place Array Operators
 
@@ -677,31 +644,31 @@ class Array:
         """
         Return self &= other.
         """
-        return _process_c_function(self, other, library.af_bitand)
+        return _process_c_function(self, other, library.bitand)
 
     def __ior__(self, other: Union[int, bool, Array], /) -> Array:
         """
         Return self |= other.
         """
-        return _process_c_function(self, other, library.af_bitor)
+        return _process_c_function(self, other, library.bitor)
 
     def __ixor__(self, other: Union[int, bool, Array], /) -> Array:
         """
         Return self ^= other.
         """
-        return _process_c_function(self, other, library.af_bitxor)
+        return _process_c_function(self, other, library.bitxor)
 
     def __ilshift__(self, other: Union[int, Array], /) -> Array:
         """
         Return self <<= other.
         """
-        return _process_c_function(self, other, library.af_bitshiftl)
+        return _process_c_function(self, other, library.bitshiftl)
 
     def __irshift__(self, other: Union[int, Array], /) -> Array:
         """
         Return self >>= other.
         """
-        return _process_c_function(self, other, library.af_bitshiftr)
+        return _process_c_function(self, other, library.bitshiftr)
 
     # Methods
 
@@ -808,9 +775,8 @@ class Array:
         out : Dtype
             Array data type.
         """
-        out = ctypes.c_int()
-        library.af_get_type(ctypes.pointer(out), self.arr)
-        return _c_api_value_to_dtype(out.value)
+        ctype = library.get_ctype(self.arr)
+        return _c_api_value_to_dtype(ctype)
 
     @property
     def device(self) -> Any:
@@ -861,9 +827,7 @@ class Array:
         - This must equal the product of the array's dimensions.
         """
         # NOTE previously - elements()
-        out = c_dim_t(0)
-        library.af_get_elements(ctypes.pointer(out), self.arr)
-        return out.value
+        return library.get_elements(self.arr)
 
     @property
     def ndim(self) -> int:
@@ -873,12 +837,10 @@ class Array:
         out : int
             Number of array dimensions (axes).
         """
-        out = ctypes.c_uint(0)
-        library.af_get_numdims(ctypes.pointer(out), self.arr)
-        return out.value
+        return library.get_numdims(self.arr)
 
     @property
-    def shape(self) -> ShapeType:
+    def shape(self) -> Tuple[int, ...]:
         """
         Array dimensions.
 
@@ -973,21 +935,11 @@ def _array_as_str(array: Array) -> str:
     return py_str
 
 
-def _metadata_string(dtype: Dtype, dims: Optional[ShapeType] = None) -> str:
+def _metadata_string(dtype: Dtype, dims: Optional[Tuple[int, ...]] = None) -> str:
     return (
         "arrayfire.Array()\n"
         f"Type: {dtype.typename}\n"
         f"Dims: {str(dims) if dims else ''}")
-
-
-def _get_cshape(shape: Optional[ShapeType], buffer_length: int) -> CShape:
-    if shape:
-        return CShape(*shape)
-
-    if buffer_length != 0:
-        return CShape(buffer_length)
-
-    raise RuntimeError("Shape and buffer length are size invalid.")
 
 
 def _c_api_value_to_dtype(value: int) -> Dtype:
@@ -1006,9 +958,7 @@ def _str_to_dtype(value: int) -> Dtype:
     raise TypeError("There is no supported dtype that matches passed dtype typecode.")
 
 
-def _process_c_function(
-        lhs: Union[int, float, Array], rhs: Union[int, float, Array],
-        c_function: Any) -> Array:
+def _process_c_function(lhs: Union[int, float, Array], rhs: Union[int, float, Array], c_function: Any) -> Array:
     out = Array()
 
     if isinstance(lhs, Array) and isinstance(rhs, Array):
@@ -1016,70 +966,15 @@ def _process_c_function(
         rhs_array = rhs.arr
 
     elif isinstance(lhs, Array) and isinstance(rhs, (int, float)):
-        rhs_dtype = _implicit_dtype(rhs, lhs.dtype)
-        rhs_constant_array = _constant_array(rhs, CShape(*lhs.shape), rhs_dtype)
-
         lhs_array = lhs.arr
-        rhs_array = rhs_constant_array.arr
+        rhs_array = create_constant_array(rhs, lhs.shape, lhs.dtype)
 
     elif isinstance(lhs, (int, float)) and isinstance(rhs, Array):
-        lhs_dtype = _implicit_dtype(lhs, rhs.dtype)
-        lhs_constant_array = _constant_array(lhs, CShape(*rhs.shape), lhs_dtype)
-
-        lhs_array = lhs_constant_array.arr
+        lhs_array = create_constant_array(lhs, rhs.shape, rhs.dtype)
         rhs_array = rhs.arr
 
     else:
         raise TypeError(f"{type(rhs)} is not supported and can not be passed to C binary function.")
 
-    c_function(ctypes.pointer(out.arr), lhs_array, rhs_array, _bcast_var)
-
-    return out
-
-
-def _implicit_dtype(value: Union[int, float], array_dtype: Dtype) -> Dtype:
-    if isinstance(value, bool):
-        value_dtype = af_bool
-    if isinstance(value, int):
-        value_dtype = af_int64
-    elif isinstance(value, float):
-        value_dtype = af_float64
-    elif isinstance(value, complex):
-        value_dtype = af_complex128
-    else:
-        raise TypeError(f"{type(value)} is not supported and can not be converted to af.Dtype.")
-
-    if not (array_dtype == af_float32 or array_dtype == af_complex64):
-        return value_dtype
-
-    if value_dtype == af_float64:
-        return af_float32
-
-    if value_dtype == af_complex128:
-        return af_complex64
-
-    return value_dtype
-
-
-def _constant_array(value: Union[int, float], cshape: CShape, dtype: Dtype) -> Array:
-    out = Array()
-
-    if isinstance(value, complex):
-        if dtype != af_complex64 and dtype != af_complex128:
-            dtype = af_complex64
-
-        library.af_constant_complex(
-            ctypes.pointer(out.arr), ctypes.c_double(value.real), ctypes.c_double(value.imag), 4,
-            ctypes.pointer(cshape.c_array), dtype.c_api_value)
-    elif dtype == af_int64:
-        # TODO discuss workaround for passing float to ctypes
-        library.af_constant_long(
-            ctypes.pointer(out.arr), af_int64.c_type(value.real), 4, ctypes.pointer(cshape.c_array))
-    elif dtype == af_uint64:
-        library.af_constant_ulong(
-            ctypes.pointer(out.arr), af_uint64.c_type(value.real), 4, ctypes.pointer(cshape.c_array))
-    else:
-        library.af_constant(
-            ctypes.pointer(out.arr), ctypes.c_double(value), 4, ctypes.pointer(cshape.c_array), dtype.c_api_value)
-
+    out.arr = c_function(lhs_array, rhs_array)
     return out
