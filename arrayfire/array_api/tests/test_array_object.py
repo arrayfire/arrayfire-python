@@ -80,7 +80,7 @@ def test_create_array_from_1d_list() -> None:
 
 def test_create_array_from_2d_list() -> None:
     with pytest.raises(TypeError):
-        Array([[1, 2, 3], [1, 2, 3]])
+        Array([[1, 2, 3], [1, 2, 3]])  # type: ignore[list-item]
 
 
 def test_create_array_from_pyarray() -> None:
@@ -143,7 +143,6 @@ def test_array_from_unsupported_type() -> None:
 def test_array_getitem() -> None:
     array = Array([1, 2, 3, 4, 5])
 
-    # import ipdb; ipdb.set_trace()
     int_item = array[2]
     assert array.dtype == int_item.dtype
     assert int_item.scalar() == 3
@@ -176,7 +175,7 @@ class TestClassArithmeticOperators:
         self.list = [1, 2, 3]
         self.const_int = 2
         self.const_float = 1.5
-        self.array = Array(self.list)
+        self.array = Array(self.list)  # FIXME typing
         self.array_other = Array([9, 9, 9])
 
         self.tuple = (1, 2, 3)
