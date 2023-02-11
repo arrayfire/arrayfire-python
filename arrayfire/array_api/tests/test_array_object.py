@@ -143,6 +143,7 @@ def test_array_from_unsupported_type() -> None:
 def test_array_getitem() -> None:
     array = Array([1, 2, 3, 4, 5])
 
+    # import ipdb; ipdb.set_trace()
     int_item = array[2]
     assert array.dtype == int_item.dtype
     assert int_item.scalar() == 3

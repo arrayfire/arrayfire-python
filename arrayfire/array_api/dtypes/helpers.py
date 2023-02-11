@@ -6,7 +6,7 @@ from typing import Tuple, Union
 from ..config import is_arch_x86
 from . import Dtype
 from . import bool as af_bool
-from . import complex64, complex128, float32, float64, int64
+from . import complex64, complex128, float32, float64, int64, supported_dtypes
 
 c_dim_t = ctypes.c_int if is_arch_x86() else ctypes.c_longlong
 ShapeType = Tuple[int, ...]
@@ -58,3 +58,19 @@ def implicit_dtype(number: Union[int, float], array_dtype: Dtype) -> Dtype:
         return complex64
 
     return number_dtype
+
+
+def c_api_value_to_dtype(value: int) -> Dtype:
+    for dtype in supported_dtypes:
+        if value == dtype.c_api_value:
+            return dtype
+
+    raise TypeError("There is no supported dtype that matches passed dtype C API value.")
+
+
+def str_to_dtype(value: int) -> Dtype:
+    for dtype in supported_dtypes:
+        if value == dtype.typecode or value == dtype.typename:
+            return dtype
+
+    raise TypeError("There is no supported dtype that matches passed dtype typecode.")

@@ -7,7 +7,7 @@ from typing import Any, List, Optional, Tuple, Union
 
 # TODO replace imports from original lib with refactored ones
 from arrayfire.algorithm import count
-from arrayfire.array import _get_indices, _in_display_dims_limit
+from arrayfire.array import _in_display_dims_limit
 
 from . import backend
 from .backend import ArrayBuffer, library
@@ -16,8 +16,7 @@ from .device import PointerSource
 from .dtypes import CType
 from .dtypes import bool as af_bool
 from .dtypes import float32 as af_float32
-from .dtypes import supported_dtypes
-from .dtypes.helpers import CShape, Dtype, c_dim_t, to_str
+from .dtypes.helpers import Dtype, c_api_value_to_dtype, str_to_dtype
 
 # TODO use int | float in operators -> remove bool | complex support
 
@@ -31,7 +30,7 @@ class Array:
         _no_initial_dtype = False  # HACK, FIXME
 
         if isinstance(dtype, str):
-            dtype = _str_to_dtype(dtype)  # type: ignore[arg-type]
+            dtype = str_to_dtype(dtype)  # type: ignore[arg-type]
 
         if dtype is None:
             _no_initial_dtype = True
@@ -59,7 +58,7 @@ class Array:
             _array_buffer = ArrayBuffer(*_array.buffer_info())
 
         elif isinstance(x, int) or isinstance(x, ctypes.c_void_p):  # TODO
-            _array_buffer = ArrayBuffer(x if not isinstance(x, ctypes.c_void_p) else x.value)
+            _array_buffer = ArrayBuffer(x if not isinstance(x, ctypes.c_void_p) else x.value)  # type: ignore[arg-type]
 
             if not shape:
                 raise TypeError("Expected to receive the initial shape due to the x being a data pointer.")
@@ -89,7 +88,8 @@ class Array:
             self.arr = library.device_array(shape, dtype, _array_buffer)
             return
 
-        self.arr = library.create_strided_array(shape, dtype, _array_buffer, offset, strides, pointer_source)
+        self.arr = library.create_strided_array(
+            shape, dtype, _array_buffer, offset, strides, pointer_source)  # type: ignore[arg-type]
 
     # Arithmetic Operators
 
@@ -728,7 +728,8 @@ class Array:
             if count(key) == 0:
                 return out
 
-        library.af_index_gen(ctypes.pointer(out.arr), self.arr, c_dim_t(ndims), _get_indices(key).pointer)
+        # HACK known issue
+        out.arr = library.index_gen(self.arr, ndims, key)  # type: ignore[arg-type]
         return out
 
     def __index__(self) -> int:
@@ -753,12 +754,12 @@ class Array:
         if not _in_display_dims_limit(self.shape):
             return _metadata_string(self.dtype, self.shape)
 
-        return _metadata_string(self.dtype) + _array_as_str(self)
+        return _metadata_string(self.dtype) + library.array_as_str(self.arr)
 
     def __repr__(self) -> str:
         # return _metadata_string(self.dtype, self.shape)
         # TODO change the look of array representation. E.g., like np.array
-        return _array_as_str(self)
+        return library.array_as_str(self.arr)
 
     def to_device(self, device: Any, /, *, stream: Union[int, Any] = None) -> Array:
         # TODO implementation and change device type from Any to Device
@@ -776,8 +777,7 @@ class Array:
         out : Dtype
             Array data type.
         """
-        ctype = library.get_ctype(self.arr)
-        return _c_api_value_to_dtype(ctype)
+        return c_api_value_to_dtype(library.get_ctype(self.arr))
 
     @property
     def device(self) -> Any:
@@ -810,7 +810,7 @@ class Array:
 
         # TODO add check if out.dtype == self.dtype
         out = Array()
-        library.af_transpose(ctypes.pointer(out.arr), self.arr, False)
+        out.arr = library.transpose(self.arr, False)
         return out
 
     @property
@@ -850,13 +850,8 @@ class Array:
         out : tuple[int, ...]
             Array dimensions.
         """
-        # TODO refactor
-        d0 = c_dim_t(0)
-        d1 = c_dim_t(0)
-        d2 = c_dim_t(0)
-        d3 = c_dim_t(0)
-        library.af_get_dims(ctypes.pointer(d0), ctypes.pointer(d1), ctypes.pointer(d2), ctypes.pointer(d3), self.arr)
-        return (d0.value, d1.value, d2.value, d3.value)[:self.ndim]  # Skip passing None values
+        # NOTE skipping passing any None values
+        return library.get_dims(self.arr)[:self.ndim]
 
     def scalar(self) -> Union[None, int, float, bool, complex]:
         """
@@ -866,24 +861,20 @@ class Array:
         if self.is_empty():
             return None
 
-        out = self.dtype.c_type()
-        library.af_get_scalar(ctypes.pointer(out), self.arr)
-        return out.value  # type: ignore[no-any-return]  # FIXME
+        return library.get_scalar(self.arr, self.dtype)
 
     def is_empty(self) -> bool:
         """
         Check if the array is empty i.e. it has no elements.
         """
-        out = ctypes.c_bool()
-        library.af_is_empty(ctypes.pointer(out), self.arr)
-        return out.value
+        return library.is_empty(self.arr)
 
     def to_list(self, row_major: bool = False) -> List[Union[None, int, float, bool, complex]]:
         if self.is_empty():
             return []
 
         array = _reorder(self) if row_major else self
-        ctypes_array = _get_ctypes_array(array)
+        ctypes_array = library.get_data_ptr(array.arr, array.size, array.dtype)
 
         if array.ndim == 1:
             return list(ctypes_array)
@@ -904,14 +895,7 @@ class Array:
             raise RuntimeError("Can not convert an empty array to ctype.")
 
         array = _reorder(self) if row_major else self
-        return _get_ctypes_array(array)
-
-
-def _get_ctypes_array(array: Array) -> ctypes.Array:
-    c_shape = array.dtype.c_type * array.size
-    ctypes_array = c_shape()
-    library.af_get_data_ptr(ctypes.pointer(ctypes_array), array.arr)
-    return ctypes_array
+        return library.get_data_ptr(array.arr, array.size, array.dtype)
 
 
 def _reorder(array: Array) -> Array:
@@ -922,18 +906,8 @@ def _reorder(array: Array) -> Array:
         return array
 
     out = Array()
-    c_shape = CShape(*(tuple(reversed(range(array.ndim))) + tuple(range(array.ndim, 4))))
-    library.af_reorder(ctypes.pointer(out.arr), array.arr, *c_shape)
+    out.arr = library.reorder(array.arr, array.ndim)
     return out
-
-
-def _array_as_str(array: Array) -> str:
-    arr_str = ctypes.c_char_p(0)
-    # FIXME add description to passed arguments
-    library.af_array_to_string(ctypes.pointer(arr_str), "", array.arr, 4, True)
-    py_str = to_str(arr_str)
-    library.af_free_host(arr_str)
-    return py_str
 
 
 def _metadata_string(dtype: Dtype, dims: Optional[Tuple[int, ...]] = None) -> str:
@@ -941,22 +915,6 @@ def _metadata_string(dtype: Dtype, dims: Optional[Tuple[int, ...]] = None) -> st
         "arrayfire.Array()\n"
         f"Type: {dtype.typename}\n"
         f"Dims: {str(dims) if dims else ''}")
-
-
-def _c_api_value_to_dtype(value: int) -> Dtype:
-    for dtype in supported_dtypes:
-        if value == dtype.c_api_value:
-            return dtype
-
-    raise TypeError("There is no supported dtype that matches passed dtype C API value.")
-
-
-def _str_to_dtype(value: int) -> Dtype:
-    for dtype in supported_dtypes:
-        if value == dtype.typecode or value == dtype.typename:
-            return dtype
-
-    raise TypeError("There is no supported dtype that matches passed dtype typecode.")
 
 
 def _process_c_function(lhs: Union[int, float, Array], rhs: Union[int, float, Array], c_function: Any) -> Array:
