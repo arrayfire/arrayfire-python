@@ -1,7 +1,7 @@
 from typing import Callable
 
+from . import backend
 from .array_object import Array
-from .backend import library
 
 
 class return_copy:
@@ -17,9 +17,9 @@ class return_copy:
 
 @return_copy
 def add(x1: Array, x2: Array, /) -> Array:
-    return library.add(x1, x2)
+    return backend.add(x1, x2)
 
 
 @return_copy
 def sub(x1: Array, x2: Array, /) -> Array:
-    return library.sub(x1, x2)
+    return backend.sub(x1, x2)

@@ -9,6 +9,7 @@ from typing import Any, List, Optional, Tuple, Union
 from arrayfire.algorithm import count
 from arrayfire.array import _get_indices, _in_display_dims_limit
 
+from . import backend
 from .backend import ArrayBuffer, library
 from .backend.constant_array import create_constant_array
 from .device import PointerSource
@@ -125,7 +126,7 @@ class Array:
             determined by Type Promotion Rules.
 
         """
-        return _process_c_function(0, self, library.sub)
+        return _process_c_function(0, self, backend.sub)
 
     def __add__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -144,7 +145,7 @@ class Array:
             An array containing the element-wise sums. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.add)
+        return _process_c_function(self, other, backend.add)
 
     def __sub__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -166,7 +167,7 @@ class Array:
             An array containing the element-wise differences. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.sub)
+        return _process_c_function(self, other, backend.sub)
 
     def __mul__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -185,7 +186,7 @@ class Array:
             An array containing the element-wise products. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.mul)
+        return _process_c_function(self, other, backend.mul)
 
     def __truediv__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -212,7 +213,7 @@ class Array:
         Specification-compliant libraries may choose to raise an error or return an array containing the element-wise
         results. If an array is returned, the array must have a real-valued floating-point data type.
         """
-        return _process_c_function(self, other, library.div)
+        return _process_c_function(self, other, backend.div)
 
     def __floordiv__(self, other: Union[int, float, Array], /) -> Array:
         # TODO
@@ -242,7 +243,7 @@ class Array:
         - For input arrays which promote to an integer data type, the result of division by zero is unspecified and
         thus implementation-defined.
         """
-        return _process_c_function(self, other, library.mod)
+        return _process_c_function(self, other, backend.mod)
 
     def __pow__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -264,7 +265,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.pow)
+        return _process_c_function(self, other, backend.pow)
 
     # Array Operators
 
@@ -290,7 +291,7 @@ class Array:
         """
         # FIXME
         out = Array()
-        out.arr = library.bitnot(self.arr)
+        out.arr = backend.bitnot(self.arr)
         return out
 
     def __and__(self, other: Union[int, bool, Array], /) -> Array:
@@ -311,7 +312,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.bitand)
+        return _process_c_function(self, other, backend.bitand)
 
     def __or__(self, other: Union[int, bool, Array], /) -> Array:
         """
@@ -331,7 +332,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.bitor)
+        return _process_c_function(self, other, backend.bitor)
 
     def __xor__(self, other: Union[int, bool, Array], /) -> Array:
         """
@@ -351,7 +352,7 @@ class Array:
             An array containing the element-wise results. The returned array must have a data type determined
             by Type Promotion Rules.
         """
-        return _process_c_function(self, other, library.bitxor)
+        return _process_c_function(self, other, backend.bitxor)
 
     def __lshift__(self, other: Union[int, Array], /) -> Array:
         """
@@ -371,7 +372,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have the same data type as self.
         """
-        return _process_c_function(self, other, library.bitshiftl)
+        return _process_c_function(self, other, backend.bitshiftl)
 
     def __rshift__(self, other: Union[int, Array], /) -> Array:
         """
@@ -391,7 +392,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have the same data type as self.
         """
-        return _process_c_function(self, other, library.bitshiftr)
+        return _process_c_function(self, other, backend.bitshiftr)
 
     # Comparison Operators
 
@@ -412,7 +413,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.lt)
+        return _process_c_function(self, other, backend.lt)
 
     def __le__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -431,7 +432,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.le)
+        return _process_c_function(self, other, backend.le)
 
     def __gt__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -450,7 +451,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.gt)
+        return _process_c_function(self, other, backend.gt)
 
     def __ge__(self, other: Union[int, float, Array], /) -> Array:
         """
@@ -469,7 +470,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.ge)
+        return _process_c_function(self, other, backend.ge)
 
     def __eq__(self, other: Union[int, float, bool, Array], /) -> Array:  # type: ignore[override]
         """
@@ -488,7 +489,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.eq)
+        return _process_c_function(self, other, backend.eq)
 
     def __ne__(self, other: Union[int, float, bool, Array], /) -> Array:  # type: ignore[override]
         """
@@ -507,7 +508,7 @@ class Array:
         out : Array
             An array containing the element-wise results. The returned array must have a data type of bool.
         """
-        return _process_c_function(self, other, library.neq)
+        return _process_c_function(self, other, backend.neq)
 
     # Reflected Arithmetic Operators
 
@@ -515,25 +516,25 @@ class Array:
         """
         Return other + self.
         """
-        return _process_c_function(other, self, library.add)
+        return _process_c_function(other, self, backend.add)
 
     def __rsub__(self, other: Array, /) -> Array:
         """
         Return other - self.
         """
-        return _process_c_function(other, self, library.sub)
+        return _process_c_function(other, self, backend.sub)
 
     def __rmul__(self, other: Array, /) -> Array:
         """
         Return other * self.
         """
-        return _process_c_function(other, self, library.mul)
+        return _process_c_function(other, self, backend.mul)
 
     def __rtruediv__(self, other: Array, /) -> Array:
         """
         Return other / self.
         """
-        return _process_c_function(other, self, library.div)
+        return _process_c_function(other, self, backend.div)
 
     def __rfloordiv__(self, other:  Array, /) -> Array:
         # TODO
@@ -543,13 +544,13 @@ class Array:
         """
         Return other % self.
         """
-        return _process_c_function(other, self, library.mod)
+        return _process_c_function(other, self, backend.mod)
 
     def __rpow__(self, other: Array, /) -> Array:
         """
         Return other ** self.
         """
-        return _process_c_function(other, self, library.pow)
+        return _process_c_function(other, self, backend.pow)
 
     # Reflected Array Operators
 
@@ -563,31 +564,31 @@ class Array:
         """
         Return other & self.
         """
-        return _process_c_function(other, self, library.bitand)
+        return _process_c_function(other, self, backend.bitand)
 
     def __ror__(self, other: Array, /) -> Array:
         """
         Return other | self.
         """
-        return _process_c_function(other, self, library.bitor)
+        return _process_c_function(other, self, backend.bitor)
 
     def __rxor__(self, other: Array, /) -> Array:
         """
         Return other ^ self.
         """
-        return _process_c_function(other, self, library.bitxor)
+        return _process_c_function(other, self, backend.bitxor)
 
     def __rlshift__(self, other: Array, /) -> Array:
         """
         Return other << self.
         """
-        return _process_c_function(other, self, library.bitshiftl)
+        return _process_c_function(other, self, backend.bitshiftl)
 
     def __rrshift__(self, other: Array, /) -> Array:
         """
         Return other >> self.
         """
-        return _process_c_function(other, self, library.bitshiftr)
+        return _process_c_function(other, self, backend.bitshiftr)
 
     # In-place Arithmetic Operators
 
@@ -596,25 +597,25 @@ class Array:
         """
         Return self += other.
         """
-        return _process_c_function(self, other, library.add)
+        return _process_c_function(self, other, backend.add)
 
     def __isub__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self -= other.
         """
-        return _process_c_function(self, other, library.sub)
+        return _process_c_function(self, other, backend.sub)
 
     def __imul__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self *= other.
         """
-        return _process_c_function(self, other, library.mul)
+        return _process_c_function(self, other, backend.mul)
 
     def __itruediv__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self /= other.
         """
-        return _process_c_function(self, other, library.div)
+        return _process_c_function(self, other, backend.div)
 
     def __ifloordiv__(self, other: Union[int, float, Array], /) -> Array:
         # TODO
@@ -624,13 +625,13 @@ class Array:
         """
         Return self %= other.
         """
-        return _process_c_function(self, other, library.mod)
+        return _process_c_function(self, other, backend.mod)
 
     def __ipow__(self, other: Union[int, float, Array], /) -> Array:
         """
         Return self **= other.
         """
-        return _process_c_function(self, other, library.pow)
+        return _process_c_function(self, other, backend.pow)
 
     # In-place Array Operators
 
@@ -644,31 +645,31 @@ class Array:
         """
         Return self &= other.
         """
-        return _process_c_function(self, other, library.bitand)
+        return _process_c_function(self, other, backend.bitand)
 
     def __ior__(self, other: Union[int, bool, Array], /) -> Array:
         """
         Return self |= other.
         """
-        return _process_c_function(self, other, library.bitor)
+        return _process_c_function(self, other, backend.bitor)
 
     def __ixor__(self, other: Union[int, bool, Array], /) -> Array:
         """
         Return self ^= other.
         """
-        return _process_c_function(self, other, library.bitxor)
+        return _process_c_function(self, other, backend.bitxor)
 
     def __ilshift__(self, other: Union[int, Array], /) -> Array:
         """
         Return self <<= other.
         """
-        return _process_c_function(self, other, library.bitshiftl)
+        return _process_c_function(self, other, backend.bitshiftl)
 
     def __irshift__(self, other: Union[int, Array], /) -> Array:
         """
         Return self >>= other.
         """
-        return _process_c_function(self, other, library.bitshiftr)
+        return _process_c_function(self, other, backend.bitshiftr)
 
     # Methods
 
