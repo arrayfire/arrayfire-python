@@ -933,6 +933,7 @@ def _process_c_function(lhs: Union[int, float, Array], rhs: Union[int, float, Ar
         rhs_array = rhs.arr
 
     else:
+        # FIXME in reflected operators this exception shows wrong error message
         raise TypeError(f"{type(rhs)} is not supported and can not be passed to C binary function.")
 
     out.arr = c_function(lhs_array, rhs_array)

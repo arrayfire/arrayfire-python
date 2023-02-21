@@ -6,7 +6,18 @@ import pytest
 from arrayfire.array_api.array_object import Array
 from arrayfire.array_api.dtypes import bool as af_bool
 
-Operator = Callable[[Union[int, float, Array], Union[int, float, Array]], Array]
+Operator = Callable[..., Any]
+
+arithmetic_operators = [
+    [operator.add, operator.iadd],
+    [operator.sub, operator.isub],
+    [operator.mul, operator.imul],
+    [operator.truediv, operator.itruediv],
+    [operator.mod, operator.imod],
+    [operator.pow, operator.ipow]
+]
+
+comparison_operators = [operator.lt, operator.le, operator.gt, operator.ge, operator.eq, operator.ne]
 
 
 def _round(list_: List[Union[int, float]], symbols: int = 4) -> List[Union[int, float]]:
@@ -21,29 +32,9 @@ def pytest_generate_tests(metafunc: Any) -> None:
             # [4.2, 7.5, 5.41]  # FIXME too big difference between python pow and af backend
         ])
     if "arithmetic_operator" in metafunc.fixturenames:
-        metafunc.parametrize("arithmetic_operator", [
-            "add",  # __add__, __iadd__, __radd__
-            "sub",  # __sub__, __isub__, __rsub__
-            "mul",  # __mul__, __imul__, __rmul__
-            "truediv",  # __truediv__, __itruediv__, __rtruediv__
-            # "floordiv",  # __floordiv__, __ifloordiv__, __rfloordiv__  # TODO
-            "mod",  # __mod__, __imod__, __rmod__
-            "pow",  # __pow__, __ipow__, __rpow__,
-        ])
-    if "array_operator" in metafunc.fixturenames:
-        metafunc.parametrize("array_operator", [
-            operator.matmul,
-            operator.imatmul
-        ])
+        metafunc.parametrize("arithmetic_operator", arithmetic_operators)
     if "comparison_operator" in metafunc.fixturenames:
-        metafunc.parametrize("comparison_operator", [
-            operator.lt,
-            operator.le,
-            operator.gt,
-            operator.ge,
-            operator.eq,
-            operator.ne
-        ])
+        metafunc.parametrize("comparison_operator", comparison_operators)
     if "operand" in metafunc.fixturenames:
         metafunc.parametrize("operand", [
             2,
@@ -60,10 +51,10 @@ def pytest_generate_tests(metafunc: Any) -> None:
 
 
 def test_arithmetic_operators(
-        array_origin: List[Union[int, float]], arithmetic_operator: str,
+        array_origin: List[Union[int, float]], arithmetic_operator: List[Operator],
         operand: Union[int, float, List[Union[int, float]]]) -> None:
-    op = getattr(operator, arithmetic_operator)
-    iop = getattr(operator, "i" + arithmetic_operator)
+    op = arithmetic_operator[0]
+    iop = arithmetic_operator[1]
 
     if isinstance(operand, list):
         ref = [op(x, y) for x, y in zip(array_origin, operand)]
@@ -90,10 +81,20 @@ def test_arithmetic_operators(
 
 
 def test_arithmetic_operators_expected_to_raise_error(
-        array_origin: List[Union[int, float]], arithmetic_operator: str, false_operand: Any) -> None:
+        array_origin: List[Union[int, float]], arithmetic_operator: List[Operator], false_operand: Any) -> None:
     array = Array(array_origin)
-    op = getattr(operator, arithmetic_operator)
+
     with pytest.raises(TypeError):
+        op = arithmetic_operator[0]
+        op(array, false_operand)
+
+    # BUG string type false operand never raises an error
+    # with pytest.raises(TypeError):
+    #     op = arithmetic_operator[0]
+    #     op(false_operand, array)
+
+    with pytest.raises(TypeError):
+        op = arithmetic_operator[1]
         op(array, false_operand)
 
 
