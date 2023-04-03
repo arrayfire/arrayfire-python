@@ -1,0 +1,5 @@
+# Build requirements
+wheel~=0.38.4
+
+# Development requirements
+-e .[dev,test]
