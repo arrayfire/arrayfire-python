@@ -45,7 +45,8 @@ class Array:
             strides: Optional[ShapeType] = None) -> None:
         _no_initial_dtype = False  # HACK, FIXME
         warnings.warn(
-            "Initialisation with __init__ constructor is about to be deprecated and replaced with asarray() method.",
+            "Initialisation with __init__ constructor is not a part of array-api specification"
+            " and about to be replaced with asarray() method.",
             DeprecationWarning, stacklevel=2)
 
         # Initialise array object
