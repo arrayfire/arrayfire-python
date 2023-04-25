@@ -506,7 +506,6 @@ def _setup():
         AF_PATH = os.environ['AF_PATH']
     except KeyError:
         AF_PATH = None
-        pass
 
     AF_SEARCH_PATH = AF_PATH
 
@@ -514,7 +513,6 @@ def _setup():
         CUDA_PATH = os.environ['CUDA_PATH']
     except KeyError:
         CUDA_PATH= None
-        pass
 
     CUDA_FOUND = False
 
@@ -666,7 +664,6 @@ class _clibrary(object):
             VERBOSE_LOADS = os.environ['AF_VERBOSE_LOADS'] == '1'
         except KeyError:
             VERBOSE_LOADS = False
-            pass
 
         for libname in libnames:
             try:
@@ -679,7 +676,6 @@ class _clibrary(object):
                 if VERBOSE_LOADS:
                     traceback.print_exc()
                     print('Unable to load ' + full_libname)
-                pass
 
         c_dim4 = c_dim_t*4
         out = c_void_ptr_t(0)
@@ -720,7 +716,6 @@ class _clibrary(object):
                     if VERBOSE_LOADS:
                         traceback.print_exc()
                         print('Unable to load ' + full_libname)
-                    pass
 
         if (self.__name is None):
             raise RuntimeError("Could not load any ArrayFire libraries.\n" + more_info_str)
