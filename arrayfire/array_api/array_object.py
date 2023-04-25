@@ -778,7 +778,7 @@ class Array:
         return NotImplemented
 
     def __len__(self) -> int:
-        # NOTE a part of the array-api spec
+        # NOTE not a part of the array-api spec
         return self.shape[0] if self.shape else 0
 
     def __setitem__(
@@ -788,6 +788,7 @@ class Array:
         return NotImplemented  # type: ignore[return-value]  # FIXME
 
     def __str__(self) -> str:
+        # NOTE not a part of the array-api spec
         # TODO change the look of array str. E.g., like np.array
         if not _in_display_dims_limit(self.shape):
             return _metadata_string(self.dtype, self.shape)
@@ -795,6 +796,7 @@ class Array:
         return _metadata_string(self.dtype) + _array_as_str(self)
 
     def __repr__(self) -> str:
+        # NOTE not a part of the array-api spec
         # return _metadata_string(self.dtype, self.shape)
         # TODO change the look of array representation. E.g., like np.array
         return _array_as_str(self)
@@ -907,6 +909,7 @@ class Array:
         """
         Return the first element of the array
         """
+        # NOTE not a part of the array-api spec
         # TODO change the logic of this method
         if self.is_empty():
             return None
@@ -919,11 +922,13 @@ class Array:
         """
         Check if the array is empty i.e. it has no elements.
         """
+        # NOTE not a part of the array-api spec
         out = ctypes.c_bool()
         safe_call(backend.get().af_is_empty(ctypes.pointer(out), self.arr))
         return out.value
 
     def to_list(self, row_major: bool = False) -> List[Union[None, int, float, bool, complex]]:
+        # NOTE not a part of the array-api spec
         if self.is_empty():
             return []
 
@@ -945,6 +950,7 @@ class Array:
         return out
 
     def to_ctype_array(self, row_major: bool = False) -> ctypes.Array:
+        # NOTE not a part of the array-api spec
         if self.is_empty():
             raise RuntimeError("Can not convert an empty array to ctype.")
 
