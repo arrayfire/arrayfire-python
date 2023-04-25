@@ -3,6 +3,7 @@ from __future__ import annotations
 import array as py_array
 import ctypes
 import enum
+import warnings
 from dataclasses import dataclass
 from typing import Any, List, Optional, Tuple, Union
 
@@ -43,6 +44,9 @@ class Array:
             pointer_source: PointerSource = PointerSource.host, offset: Optional[ctypes._SimpleCData[int]] = None,
             strides: Optional[ShapeType] = None) -> None:
         _no_initial_dtype = False  # HACK, FIXME
+        warnings.warn(
+            "Initialisation with __init__ constructor is about to be deprecated and replaced with asarray() method.",
+            DeprecationWarning, stacklevel=2)
 
         # Initialise array object
         self.arr = ctypes.c_void_p(0)
@@ -773,6 +777,7 @@ class Array:
         return NotImplemented
 
     def __len__(self) -> int:
+        # NOTE a part of the array-api spec
         return self.shape[0] if self.shape else 0
 
     def __setitem__(
@@ -989,7 +994,7 @@ def _get_cshape(shape: Optional[ShapeType], buffer_length: int) -> CShape:
     if buffer_length != 0:
         return CShape(buffer_length)
 
-    raise RuntimeError("Shape and buffer length are size invalid.")
+    raise RuntimeError("Shape and buffer length have invalid size to process them into C shape.")
 
 
 def _c_api_value_to_dtype(value: int) -> Dtype:
